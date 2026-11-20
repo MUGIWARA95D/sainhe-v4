@@ -60,6 +60,12 @@ NEW_TICKER_MIN_ROWS = 30  # en mode update, un ticker avec moins de lignes en ba
                           # → fetch 2 ans d'un coup (sinon il n'aurait que 7 jours et
                           #   tous ses indicateurs resteraient N/D)
 
+UPDATE_WINDOW_DAYS = 400  # mode update : fenêtre re-téléchargée (INSERT OR REPLACE).
+                          # Même nombre de requêtes qu'avant, seulement plus de lignes.
+REBASE_MIN_GAP     = 0.02 # écart DB/Yahoo au-delà duquel on considère l'historique réajusté
+REBASE_MAX_SPREAD  = 0.01 # dispersion max des ratios sur les dates témoins (sinon : glitch)
+REBASE_PROBE_DATES = 5    # nb de dates communes les plus anciennes utilisées comme témoins
+
 BACKFILL_DAYS  = 30     # jours étendus en arrière par ticker et par run (backfill)
 TARGET_YEARS   = 7      # profondeur cible en années pour le mode backfill
 
@@ -88,7 +94,9 @@ def _periods_for_mode(mode: str) -> tuple[int, int]:
     """Retourne (period1, period2) en timestamps Unix pour update et full."""
     now = int(datetime.now(timezone.utc).timestamp())
     if mode == "update":
-        start = int((datetime.now(timezone.utc) - timedelta(days=7)).timestamp())
+        # Fenêtre longue (et non 7 j) : elle chevauche l'historique en base, ce qui
+        # permet à _rebase_if_needed() de détecter un split/spin-off réajusté par Yahoo.
+        start = int((datetime.now(timezone.utc) - timedelta(days=UPDATE_WINDOW_DAYS)).timestamp())
     else:
         start = int((datetime.now(timezone.utc) - timedelta(days=730)).timestamp())  # 2 ans
     return start, now
@@ -261,6 +269,62 @@ def fetch_one(ticker: str, period1: int, period2: int) -> tuple[list[tuple] | No
 #  INSERT
 # ============================================================
 
+def _rebase_if_needed(con: sqlite3.Connection, ticker: str, rows: list[tuple]) -> float | None:
+    """
+    Corrige les splits / spin-offs. Yahoo réajuste rétroactivement TOUT l'historique
+    (close = ajusté des splits), mais la base ne réécrit que la fenêtre téléchargée :
+    les lignes plus anciennes restaient à l'ancienne échelle. Cas réel : CTVA, spin-off
+    2026-10-01 (facteur 6,665) → ret_1y affiché −89 % au lieu de −18 %.
+
+    Méthode (sans dépendre des "events" Yahoo, incomplets pour les spin-offs) :
+      k = close_DB / close_Yahoo sur les REBASE_PROBE_DATES dates communes les plus
+      anciennes. Si tous les k concordent (dispersion < REBASE_MAX_SPREAD) et que
+      |k − 1| > REBASE_MIN_GAP, les lignes en base ANTÉRIEURES à la fenêtre sont
+      divisées par k (prix) et multipliées par k (volume). Celles de la fenêtre sont
+      ensuite remplacées par insert_prices. Idempotent : une fois corrigé, k ≈ 1.
+
+    Retourne k si une correction a été appliquée, sinon None.
+    """
+    if not rows:
+        return None
+    window_start = rows[0][1]
+    yahoo_close = {r[1]: r[5] for r in rows if r[5]}
+    db_rows = con.execute(
+        "SELECT date, close FROM prices WHERE ticker = ? AND date >= ? ORDER BY date ASC",
+        (ticker, window_start),
+    ).fetchall()
+    ratios = [
+        c_db / yahoo_close[d]
+        for d, c_db in db_rows
+        if c_db and d in yahoo_close and yahoo_close[d]
+    ][:REBASE_PROBE_DATES]
+    if len(ratios) < 3:
+        return None
+
+    k = statistics.median(ratios)
+    spread = (max(ratios) - min(ratios)) / k
+    if abs(k - 1) <= REBASE_MIN_GAP:
+        return None
+    if spread > REBASE_MAX_SPREAD:
+        log.warning("%s — écart DB/Yahoo incohérent (ratios %s) : pas de rebase, à vérifier",
+                    ticker, [round(r, 4) for r in ratios])
+        return None
+
+    n = con.execute(
+        """
+        UPDATE prices
+           SET open = open / ?, high = high / ?, low = low / ?,
+               close = close / ?, adj_close = adj_close / ?, volume = volume * ?
+         WHERE ticker = ? AND date < ?
+        """,
+        (k, k, k, k, k, k, ticker, window_start),
+    ).rowcount
+    con.commit()
+    log.warning("REBASE %s — historique réajusté par Yahoo (split/spin-off), facteur %.4f "
+                "appliqué à %d lignes antérieures au %s", ticker, k, n, window_start)
+    return k
+
+
 def insert_prices(con: sqlite3.Connection, rows: list[tuple]) -> int:
     """
     INSERT OR REPLACE : écrase les rows stales avec les EOD finaux.
@@ -345,6 +409,8 @@ def main(mode: str = "update", half: int = -1, tickers_filter: list[str] | None 
             total_skip += 1
             log.info("SKIP %s", ticker)
         else:
+            if mode != "backfill":
+                _rebase_if_needed(con, ticker, rows)   # AVANT insert : compare à l'ancien état
             n = insert_prices(con, rows)
             total_inserted += n
             total_ok       += 1
