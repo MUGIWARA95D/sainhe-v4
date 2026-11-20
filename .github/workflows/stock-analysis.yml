@@ -52,6 +52,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: dev
+          fetch-depth: 0     # historique complet : le pull --rebase avant push en a besoin
 
       - uses: actions/setup-python@v6
         with:
