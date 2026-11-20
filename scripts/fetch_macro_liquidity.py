@@ -98,6 +98,12 @@ ECB_SERIES = {
 
 # ── FRED ──────────────────────────────────────────────────────────────────────
 
+def _redact(msg) -> str:
+    """Masque la clé FRED dans un message d'erreur (les exceptions requests contiennent l'URL complète)."""
+    s = re.sub(r"(api_key=)[^&\s'\"]+", r"\1***", str(msg))
+    return s.replace(FRED_KEY, "***") if FRED_KEY else s
+
+
 def _fred_obs(series_id: str, n: int = 14, lookback_years: int = 4) -> list[dict]:
     """
     Returns last n observations [{date, value}] sorted newest first.
@@ -126,7 +132,7 @@ def _fred_obs(series_id: str, n: int = 14, lookback_years: int = 4) -> list[dict
                 continue
             if 400 <= r.status_code < 500 and r.status_code != 429:
                 # Erreur client (série inconnue, clé invalide) : inutile de réessayer
-                print(f"[fred] {series_id} HTTP {r.status_code} — {r.text[:160]}")
+                print(f"[fred] {series_id} HTTP {r.status_code} — {_redact(r.text[:160])}")
                 return []
             r.raise_for_status()
             raw = r.json().get("observations", [])
@@ -141,8 +147,8 @@ def _fred_obs(series_id: str, n: int = 14, lookback_years: int = 4) -> list[dict
             # (timeout, 5xx) abandonnait au 1er essai, sans log. Maintenant : retry + log.
             last_err = e
             if attempt < len(backoffs):
-                print(f"[fred] {series_id} {type(e).__name__}: {e} — retry in {backoffs[attempt]}s")
-    print(f"[fred] {series_id} error after retries: {last_err}")
+                print(f"[fred] {series_id} {type(e).__name__}: {_redact(e)} — retry in {backoffs[attempt]}s")
+    print(f"[fred] {series_id} error after retries: {type(last_err).__name__}: {_redact(last_err)}")
     return []
 
 
