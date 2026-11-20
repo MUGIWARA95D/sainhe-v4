@@ -26,8 +26,8 @@ def _peer_metric_set(cd: CompanyData, price: float | None, market_cap: float | N
     rev = cd.value("revenue", fy)
     ebitda = m.get("ebitda")
     fcf = m.get("fcf_adj")
-    nd = m.get("net_debt") or 0.0
-    ev = (market_cap + nd) if market_cap is not None else None
+    nd = m.get("net_debt")   # N/D propagé (avant : `or 0.0`)
+    ev = (market_cap + nd) if (market_cap is not None and nd is not None) else None
     roic = m.get("roic")
     spread = (roic - wacc_value) if (roic is not None and wacc_value is not None) else None
     return {

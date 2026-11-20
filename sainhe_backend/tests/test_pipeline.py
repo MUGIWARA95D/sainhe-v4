@@ -5,6 +5,9 @@
 from __future__ import annotations
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Tests hermétiques : pas d'appel réseau pour le taux sans risque (valeurs attendues
+# calculées à la main avec config.DEFAULT_RISK_FREE = 4,2 %).
+os.environ["SAINHE_RF_LIVE"] = "0"
 
 from edgar.xbrl_parser import parse_companyfacts
 from compute import metrics, valuation, dupont, buffett, scores

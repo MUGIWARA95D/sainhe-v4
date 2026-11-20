@@ -6,17 +6,22 @@ from __future__ import annotations
 import statistics
 import config
 from edgar.xbrl_parser import CompanyData
-from compute import metrics
+from compute import metrics, market_inputs
 from compute.adjustments import adjust
 
 
 # ------------------------------------------------------------------ WACC (.txt sous-module)
 def wacc(cd: CompanyData, price: float | None, beta: float | None = None,
          rf: float | None = None, erp: float | None = None) -> dict:
-    """Sources : Couche 2 (Kd, T, D) + Yahoo (E = shares × prix) + Macro SAINHE (Rf, ERP, β)."""
-    rf = config.DEFAULT_RISK_FREE if rf is None else rf
+    """Sources : Couche 2 (Kd, T, D) + Yahoo (E = shares × prix) + Macro SAINHE (Rf, ERP, β).
+    Rf live (US 10Y du dashboard) ; β ajusté Blume ; Kd N/D avec dette > 0 → WACC = Ke
+    (all-equity, PRUDENT : surestime le WACC) au lieu d'un coût de la dette à 0 %."""
+    rf_src = "argument"
+    if rf is None:
+        rf, rf_src = market_inputs.risk_free()
     erp = config.DEFAULT_ERP if erp is None else erp
-    beta = config.DEFAULT_BETA if beta is None else beta
+    beta_raw = beta
+    beta = config.DEFAULT_BETA if beta is None else market_inputs.blume_beta(beta)
 
     m = metrics.derive(cd)
     fy = m.get("fy")
@@ -31,12 +36,17 @@ def wacc(cd: CompanyData, price: float | None, beta: float | None = None,
     if e is None or (e + d) == 0:
         w = ke  # fallback all-equity, documenté dans l'output
         detail = "fallback all-equity (prix ou shares indisponible)"
+    elif kd is None and d > 0:
+        # Avant : (kd or 0.0) → dette gratuite → WACC artificiellement bas (KO 5,5 %).
+        w = ke
+        detail = "Kd N/D → all-equity (prudent : WACC surestimé)"
     else:
         v = e + d
         w = ke * (e / v) + (kd or 0.0) * (1 - t) * (d / v)
         detail = "complet"
     return {"wacc": w, "ke": ke, "kd": kd, "tax_rate": t, "E": e, "D": d,
-            "rf": rf, "erp": erp, "beta": beta, "mode": detail}
+            "rf": rf, "rf_source": rf_src, "erp": erp, "beta": beta, "beta_raw": beta_raw,
+            "mode": detail}
 
 
 # ------------------------------------------------------------------ EPV (Greenwald)
@@ -44,12 +54,17 @@ def epv(cd: CompanyData, wacc_value: float, fy: int | None = None) -> dict:
     """EPV = Adjusted EBIT × (1−T) / WACC → enterprise ; equity = EPV − Net Debt ; /shares."""
     adj = adjust(cd, fy)
     fy = adj["fy"]
-    t = metrics.derive(cd, fy).get("effective_tax_rate") or 0.0
+    t = metrics.derive(cd, fy).get("effective_tax_rate")
     ebit_adj = adj["ebit_adj"]
-    if ebit_adj is None or not wacc_value:
-        return {"epv_ev": None, "epv_equity": None, "epv_per_share": None}
+    if ebit_adj is None or not wacc_value or t is None:   # avant : impôt N/D → 0 %
+        return {"epv_ev": None, "epv_equity": None, "epv_per_share": None,
+                "note": "EBIT ajusté, WACC ou taux d'impôt N/D"}
     ev = ebit_adj * (1 - t) / wacc_value
-    nd = metrics.net_debt(cd, fy) or 0.0
+    nd = metrics.net_debt(cd, fy)
+    if nd is None:   # avant : `or 0.0` → dette nette inconnue traitée comme nulle
+        return {"epv_ev": ev, "epv_equity": None, "epv_per_share": None,
+                "note": "dette nette N/D pour l'exercice → EPV equity N/D",
+                "inputs": {"ebit_adj": ebit_adj, "tax": t, "wacc": wacc_value, "net_debt": None}}
     eq_val = ev - nd
     shares = cd.value("shares_diluted", fy) or cd.value("shares_outstanding", fy)
     return {"epv_ev": ev, "epv_equity": eq_val,
@@ -65,10 +80,10 @@ def reverse_dcf(cd: CompanyData, price: float, wacc_value: float) -> dict:
     fy = m.get("fy")
     fcf = m.get("fcf_adj")
     shares = cd.value("shares_diluted", fy) or cd.value("shares_outstanding", fy)
-    nd = m.get("net_debt") or 0.0
-    if None in (fcf, shares) or price is None or fcf <= 0:
+    nd = m.get("net_debt")   # avant : `or 0.0` → N/D traité comme nul
+    if None in (fcf, shares, nd) or price is None or fcf <= 0:
         return {"implied_g": None, "flag_unrealistic": False,
-                "note": "FCF ajusté ≤ 0 ou inputs manquants"}
+                "note": "FCF ajusté ≤ 0 ou inputs manquants (dont dette nette)"}
     ev = price * shares + nd
     g = (wacc_value * ev - fcf) / (ev + fcf)
     return {"implied_g": g, "flag_unrealistic": g > config.REVERSE_DCF_IMPLIED_G_FLAG,
@@ -81,7 +96,9 @@ def sgr(cd: CompanyData, fy: int | None = None) -> dict:
     100% XBRL, zéro hypothèse (.txt)."""
     m = metrics.derive(cd, fy)
     fy = m.get("fy")
-    years = cd.years("ar")
+    # Année précédente prise sur le chiffre d'affaires (avant : sur AR, absent chez LMT/GEV
+    # → SGR N/D alors que stocks et fournisseurs étaient publiés)
+    years = cd.years("revenue") or cd.years("ar")
     prev = max((y for y in years if y < fy), default=None) if fy else None
     if prev is None:
         return {"sgr": None, "rr": None, "note": "pas d'année précédente pour ΔNWC"}
@@ -112,7 +129,8 @@ def residual_earnings_static(cd: CompanyData, ke: float, g: float | None) -> dic
     shares = cd.value("shares_diluted", fy) or cd.value("shares_outstanding", fy)
     if None in (b0, ni_adj) or not ke:
         return {"re_value_per_share": None}
-    g = 0.0 if g is None else min(g, ke - 0.005)
+    g_sgr = g
+    g = 0.0 if g is None else min(g, terminal_g_cap(ke))
     g = max(g, 0.0)
     re = ni_adj - ke * b0
     pv = sum(re / (1 + ke) ** t for t in range(1, config.RE_HORIZON_YEARS + 1))
@@ -120,7 +138,17 @@ def residual_earnings_static(cd: CompanyData, ke: float, g: float | None) -> dic
     v0 = b0 + pv + cv
     return {"re_value_equity": v0,
             "re_value_per_share": (v0 / shares) if shares else None,
-            "inputs": {"B0": b0, "RE": re, "ke": ke, "g": g}}
+            "inputs": {"B0": b0, "RE": re, "ke": ke, "g": g, "g_sgr": g_sgr,
+                       "g_cap": terminal_g_cap(ke)}}
+
+
+def terminal_g_cap(ke: float) -> float:
+    """Croissance PERPÉTUELLE plafonnée à min(Rf, ke − TERMINAL_G_KE_GAP).
+    Avant : min(SGR, ke − 0,5 pt) → jusqu'à 9,5 % à perpétuité, CV multipliée par 200
+    (GEV SGR 146 % → RE +195 %, MSFT +251 %, NVDA +277 %). Une entreprise ne peut croître
+    durablement plus vite que l'économie nominale (≈ taux sans risque)."""
+    rf, _ = market_inputs.risk_free()
+    return max(0.0, min(rf, ke - config.TERMINAL_G_KE_GAP))
 
 
 # ------------------------------------------------------------------ Plage de confiance + sensibilité
@@ -164,7 +192,7 @@ def sensitivity_matrix(cd: CompanyData, ke: float, sgr_value: float | None) -> d
     qs = statistics.quantiles(margins_hist, n=10)  # déciles
     margin_axis = [qs[0], qs[1], statistics.median(margins_hist), qs[6], qs[8]]  # ~p10..p90
     base_g = sgr_value if (sgr_value and sgr_value > 0) else 0.02
-    g_axis = [min(base_g * f, ke - 0.005) for f in config.SENSITIVITY_G_FACTORS]
+    g_axis = [min(base_g * f, terminal_g_cap(ke)) for f in config.SENSITIVITY_G_FACTORS]
 
     rows = []
     for m_ in margin_axis:

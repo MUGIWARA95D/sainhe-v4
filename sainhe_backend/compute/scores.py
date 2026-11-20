@@ -85,7 +85,12 @@ def beneish_m(cd: CompanyData, fy: int | None = None) -> dict:
     m = (-4.84 + 0.92 * filled["DSRI"] + 0.528 * filled["GMI"] + 0.404 * filled["AQI"]
          + 0.892 * filled["SGI"] + 0.115 * filled["DEPI"] - 0.172 * filled["SGAI"]
          + 4.679 * filled["TATA"] - 0.327 * filled["LVGI"])
-    return {"m": m, "flag": m > config.BENEISH_MANIPULATION,
+    # Hypercroissance : SGI > seuil → M dépasse −1,78 par la seule croissance des ventes
+    # (NVDA FY2026). Le modèle (1999, entreprises matures) n'est pas conclusif → pas de flag.
+    hyper = sgi is not None and sgi > config.BENEISH_HYPERGROWTH_SGI
+    above = m > config.BENEISH_MANIPULATION
+    return {"m": m, "flag": above and not hyper,
+            "inconclusive_hypergrowth": above and hyper,
             "sub_ratios": {k: (round(v_, 4) if v_ is not None else "N/D")
                            for k, v_ in subs.items()},
             "missing_filled_neutral": [k for k, v_ in subs.items() if v_ is None]}
@@ -174,5 +179,10 @@ def all_flags(cd: CompanyData, edgar_meta: dict, market_cap: float | None) -> li
     add("beneish_manipulation", bool(b.get("flag")), "high",
         f"Beneish M = {b['m']:.2f} > −1.78 : profil statistique de manipulation des earnings"
         if b.get("m") is not None else "", {"m": b.get("m")})
+    add("beneish_inconclusive", bool(b.get("inconclusive_hypergrowth")), "info",
+        f"Beneish M = {b['m']:.2f} > −1.78 mais croissance des ventes "
+        f"×{b['sub_ratios'].get('SGI')} (> {config.BENEISH_HYPERGROWTH_SGI}) : modèle non concluant "
+        "en hypercroissance" if b.get("m") is not None else "",
+        {"m": b.get("m"), "SGI": (b.get("sub_ratios") or {}).get("SGI")})
 
     return flags

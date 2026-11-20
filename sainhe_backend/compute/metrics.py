@@ -20,14 +20,35 @@ def _div(a, b):
 
 
 # ------------------------------------------------------------------ Net Debt ASC 842
+def _debt_component(cd: CompanyData, name: str, fy: int | None):
+    """Composant de dette pour l'année fy.
+    - publié cette année → valeur ;
+    - jamais publié par la société (aucune année) → 0 (pas de dette de ce type déclarée,
+      ex. ISRG/GEV sans dette LT) ;
+    - publié d'autres années mais PAS cette année → None (N/D) : tag migré vers un tag
+      propre à la société (ex. DE `de:` non exposé par l'API SEC). Avant : traité comme 0
+      → dette nette sous-estimée sans avertissement.
+    """
+    if not cd.series.get(name):
+        return 0.0
+    return cd.value(name, fy)
+
+
 def net_debt(cd: CompanyData, fy: int | None = None):
     """Net Debt = LT Debt + ST Debt + FinanceLeaseLiability − Cash  (.txt NOTE ASC 842).
     OperatingLeaseLiability est EXCLU (obligation opérationnelle, pas dette financière).
+    Un composant manquant pour l'année (mais publié d'autres années) → N/D.
     """
-    lt, st, cash = cd.value("lt_debt", fy), cd.value("st_debt", fy), cd.value("cash", fy)
-    if lt is None and st is None:
+    if fy is None:
+        fy = (cd.years("revenue") or cd.years("net_income") or [None])[-1]
+    lt, st = _debt_component(cd, "lt_debt", fy), _debt_component(cd, "st_debt", fy)
+    cash = _debt_component(cd, "cash", fy)
+    if lt is None or st is None or cash is None:
         return None
-    return _nz(lt) + _nz(st) + _nz(cd.value("finance_lease_liab", fy)) - _nz(cash)
+    # Si la dette LT vient d'un tag incluant déjà les finance leases, ne pas les rajouter
+    lt_dp = cd.series.get("lt_debt", {}).get(fy)
+    fl = 0.0 if (lt_dp and "CapitalLease" in lt_dp.tag) else _nz(cd.value("finance_lease_liab", fy))
+    return lt + st + fl - cash
 
 
 # ------------------------------------------------------------------ Reformulation Penman
@@ -123,7 +144,9 @@ def derive(cd: CompanyData, fy: int | None = None) -> dict:
         "ocf_ni": _div(ocf, ni),
         "accruals": None if (ni is None or ocf is None) else ni - ocf,
         "accruals_pct_rev": _div(None if (ni is None or ocf is None) else ni - ocf, rev),
-        "roe": _div(ni, eq),
+        # Fonds propres ≤ 0 (rachats massifs : LMT, années de fonds propres négatifs) →
+        # ROE sans signification (ex. −231 %) → N/D
+        "roe": _div(ni, eq) if (eq is not None and eq > 0) else None,
         "reformulation": reformulate(cd, fy),
     }
     return out

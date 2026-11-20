@@ -120,6 +120,9 @@ ALTMAN_DISTRESS = 1.81
 ALTMAN_SAFE = 2.99
 # Beneish M
 BENEISH_MANIPULATION = -1.78
+# Hypercroissance : le modèle (calibré sur des entreprises matures) sur-réagit à SGI
+# (croissance des ventes). Au-delà, le flag "manipulation" est NON CONCLUANT (ex. NVDA).
+BENEISH_HYPERGROWTH_SGI = 1.5
 
 # Buffett
 LT_DEBT_PAYBACK_MAX_YEARS = 4
@@ -133,13 +136,25 @@ WACC_SENSITIVITY_BPS = 0.01
 FCF_CONFIDENCE_PCTL = (25, 75)
 FCF_MIN_YEARS_FOR_PCTL = 4
 RE_HORIZON_YEARS = 5
+TERMINAL_G_KE_GAP = 0.02     # croissance perpétuelle ≤ min(Rf, ke − 2 pts) (voir valuation.terminal_g_cap)
 SENSITIVITY_NOPAT_PCTL = (10, 25, 50, 75, 90)
 SENSITIVITY_G_FACTORS = (0.5, 0.75, 1.0, 1.25, 1.5)
 
-# Macro par défaut (override en prod via module Macro SAINHE)
+# Macro : Rf live = US 10Y du module Macro SAINHE (compute/market_inputs.py) ;
+# DEFAULT_RISK_FREE = repli si le site est injoignable.
+MACRO_JSON_URL = "https://sainhe.pages.dev/data/macro.json"
 DEFAULT_RISK_FREE = 0.042
 DEFAULT_ERP = 0.050
 DEFAULT_BETA = 1.0
+BLUME_WEIGHT = 0.67          # beta ajusté = 0,67·β_brut + 0,33
+
+# Opérations sur titres postérieures au dernier 10-K (splits / spin-offs, yfinance) :
+# ratio ≈ entier → actions ajustées ; sinon (spin-off) → valorisation N/D + flag.
+SPLIT_INTEGER_TOLERANCE = 0.01
+
+# CIK de repli quand la table SEC pointe vers une nouvelle entité sans historique 10-K
+# (ex. XOM → "ExxonMobil Holdings Corp" CIK 2115436, historique sous Exxon Mobil Corp 34088).
+CIK_FALLBACK = {"XOM": 34088}
 
 # ---------------------------------------------------------------- Score composite
 SCORE_WEIGHTS = {
