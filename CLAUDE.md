@@ -27,10 +27,19 @@ boxes/*.py             un module par bloc : render(con) -> {meta, data}
 render_html.py         Jinja2 -> HTML statique + couche JSON (output/data/*.json)
 schema.py              contrat de la couche JSON (unités + seuils)
 templates/             HTML/CSS/JS (Chart.js) ; stock-analysis.html derrière le flag STOCK_ANALYSIS_LIVE
-sainhe_backend/        Stock Analysis + Portfolio Sim (EDGAR, compute, portfolio, output, tests)
-.github/workflows/sainhe.yml     pipeline -> Cloudflare Pages (preview dev : flag true ; prod : flag false)
-.github/workflows/keepalive.yml  garde-fou quotidien (sur main) : réactive les workflows, alerte si données > 48 h
+sainhe_backend/        Stock Analysis + Portfolio Sim (edgar/, esef/, compute/, portfolio/, output/, tests/)
+  pipeline.py          --coverage : US 10-K + ADR 20-F (EDGAR) + Europe ESEF (filings.xbrl.org) → data/stock/
+  portfolio_runner.py  Portfolio Sim USD/EUR/CHF/HKD → data/stock/portfolio_report_{DEV}.json
+  quality_check.py     recoupement XBRL vs yfinance, régressions N/D, fraîcheur → data/stock/quality_report.json
+data/stock/            JSON versionnés (git = historique des analyses) ; publiés UNIQUEMENT en preview
+.github/workflows/sainhe.yml          pipeline -> Cloudflare Pages (preview dev : flag true ; prod : flag false)
+.github/workflows/stock-analysis.yml  hebdo (mardi 05:30 UTC, sur main) : tests → backend → qualité → commit dev → redéploiement → issue si anomalies
+.github/workflows/keepalive.yml       garde-fou quotidien (sur main) : réactive les workflows, alerte si données > 48 h
 ```
+
+`render_html.py` copie `data/stock` dans `output/data/stock` si `STOCK_ANALYSIS_LIVE=true` et **supprime**
+ce dossier sinon : les jobs CI rendent la preview puis la prod dans le même `output/` (sans ce nettoyage,
+les JSON de la preview partaient sur sainhe.com — fuite du 14 juin).
 
 Branches : `main` = branche par défaut (les `schedule` GitHub ne tournent que depuis main, avec le
 `sainhe.yml` de main, qui fait un checkout du code de `dev`) ; `dev` = branche de travail, un push déploie.
@@ -57,16 +66,29 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
 
 - **Spécification (source de vérité)** : `G:\Mon Drive\PROJET SAINHE\sainhe reprise\SAINHE_stock_analysis_plan.txt`
   — en cas de conflit avec ce fichier ou un prompt, le plan gagne.
-- **Backend intégré dans `sainhe_backend/`** (`edgar/`, `compute/`, `portfolio/`, `output/`, `tests/`).
-  Tests : `py tests/test_pipeline.py` (62 assertions, sur fixtures), depuis `sainhe_backend/`.
-  (`test_full.py`, 61 assertions Portfolio Sim, n'existe que dans le zip `sainhe reprise\sainhe_backend_v2.zip`.)
-  Sous Windows : `$env:PYTHONUTF8='1'` obligatoire (sorties ✓/≥).
-- **Page publique** : Stock Analysis est rendue en preview (dev) mais masquée en production (`STOCK_ANALYSIS_LIVE=false`).
-- **Reste à faire** (README du backend) : brancher Rf/ERP sur le module Macro, parsing XML des Forms 4,
-  validation sur tickers réels (Net Debt Apple = 10-K au million près), univers de pairs complet.
-- Tickers de validation : AAPL, MSFT, KO, JPM, XOM.
-- `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → DMA200, momentum, beta 1Y/3Y/5Y
-  restent `N/D` pendant des mois ; pas de 10-K avant 2027 → hors `EDGAR_TICKERS`.
+- **Backend dans `sainhe_backend/`**. Tests hermétiques (sans réseau, `SAINHE_RF_LIVE=0`) depuis `sainhe_backend/` :
+  `py tests/test_pipeline.py` (62) et `py tests/test_full.py` (61, Portfolio Sim). `$env:PYTHONUTF8='1'` sous Windows.
+  Lancer : `py pipeline.py --coverage`, `py portfolio_runner.py`, `py quality_check.py` (dans cet ordre).
+  Dépendances : `sainhe_backend/requirements.txt` (scipy inclus). Email SEC : `EDGAR_CONTACT_EMAIL` (`.env` / secret).
+- **Couverture** : 14 US (10-K) + ASML/TSM/RACE (20-F) + Hermès/Leonardo/Coats (ESEF) = 20 sociétés.
+  Non couverts : SAF.PA (pas indexé sur filings.xbrl.org), RHM.DE (Allemagne : Bundesanzeiger),
+  ROP/NESN/GEBN.SW (Suisse : pas d'ESEF), 6954.T (EDINET, clé API requise), 2222.SR, 600111.SS, KAP, GLD, BTC, ANT.
+- **Devises** : prix ramené à la devise des COMPTES et à l'action ordinaire (`pipeline._pricing_context` :
+  ASML/RACE EUR, TSM TWD + ADR ×5, COA.L pence→USD) ; devise dominante détectée par société (TSM : TWD
+  prime sur la traduction de convenance USD). Parités fixes (SAR 3,75) plutôt que cotations Yahoo bruitées.
+- **Règles N/D du moteur** : composante de dette publiée d'autres années mais pas cette année → N/D (pas 0) ;
+  Kd N/D → WACC all-equity ; impôt N/D → EPV N/D ; croissance perpétuelle ≤ min(Rf, ke − 2 pts) ;
+  opération sur titres non entière après le dernier exercice (spin-off) → valorisation N/D + flag.
+- **Fraîcheur** : `meta.stale_financials` si comptes > 15 mois (pas de TTM 10-Q à ce stade).
+- **Portfolio Sim** : portefeuille actuel rejoué sans reconstitution (titres non encore cotés exclus, poids
+  renormalisés, couverture publiée) ; stress tests 2008→2022 sur l'historique depuis 2007. Poids : équipondéré,
+  ou `data/portfolio_weights.json` {"TICKER": poids} s'il existe.
+- **Page publique** : Stock Analysis rendue en preview seulement (`STOCK_ANALYSIS_LIVE=false` en prod). Une
+  interface complète a existé (commits 46a4550, b355862 du 14 juin) puis a été retirée le 15 : base possible
+  pour la phase 1, à reprendre en gardant le flag.
+- **Reste à faire** : parsing XML des Forms 4, univers de pairs SIC, TTM via 10-Q, page front phase 1.
+- `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → exclu de Portfolio Sim (< 400 jours) ;
+  pas de 10-K avant 2027 → hors couverture Stock Analysis.
 
 ## Tickers
 
@@ -81,7 +103,7 @@ Yahoo limite les requêtes : passer par `curl_cffi` (`Session(impersonate="chrom
 | Monte Carlo, VaR/CVaR, stress tests | `forward-risk` |
 | Volatilité réalisée, drawdown, VaR historique | `historical-risk` |
 | EPV, RE, DCF inverse, WACC | `quantitative-valuation` |
-| Décomposition du risque local vs FX (USD/EUR/HKD) | `currencies-and-fx` |
+| Décomposition du risque local vs FX (USD/EUR/CHF/HKD) | `currencies-and-fx` |
 | Sharpe, Sortino, Calmar, alpha de Jensen, IR | `performance-metrics` |
 | Attribution par titre / secteur / géographie | `performance-attribution` |
 | Graphiques du dashboard | `dataviz` |

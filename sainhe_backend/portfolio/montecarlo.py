@@ -7,14 +7,14 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
+from portfolio._common import portfolio_returns
+
 TRADING_DAYS = 252
 
 
 def _portfolio_returns_series(prices: pd.DataFrame, weights: dict[str, float]) -> pd.Series:
-    cols = [t for t in weights if t in prices.columns]
-    w = np.array([weights[t] for t in cols])
-    w = w / w.sum()
-    return (prices[cols].pct_change().dropna() * w).sum(axis=1)
+    """Poids renormalisés sur les titres cotés chaque jour (portfolio/_common.py)."""
+    return portfolio_returns(prices, weights)[0]
 
 
 def _simulate_bootstrap(historical: np.ndarray, n_sims: int, horizon_days: int,

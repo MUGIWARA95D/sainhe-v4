@@ -166,17 +166,33 @@ def build_valuation_map(reports: list[dict]) -> dict:
         gap = None
         if isinstance(epv_ps, (int, float)) and isinstance(price, (int, float)) and price:
             gap = round((epv_ps - price) / price, 4)
+        meta = r.get("meta", {})
+        roic = r.get("bloc_D_trends", {}).get("roic_10y", {}) or {}
+        wacc_v = r.get("drill_down", {}).get("wacc_detail", {}).get("wacc")
+        n_above = (sum(1 for v in roic.values() if isinstance(v, (int, float)) and v > wacc_v)
+                   if isinstance(wacc_v, (int, float)) else None)
         rows.append({
             "ticker": r["ticker"], "prix": price, "epv_per_share": epv_ps,
             "re_per_share": a.get("RE_valuation", {}).get("re_value_per_share"),
             "ecart_pct": gap if gap is not None else "N/D",
+            # Discriminant principal (l'EPV suppose zéro croissance) : ce que le prix exige vs
+            # ce que l'entreprise autofinance, et la persistance du ROIC au-dessus du WACC.
+            "implied_growth": a.get("reverse_dcf", {}).get("implied_g", "N/D"),
+            "sgr": a.get("SGR", {}).get("sgr", "N/D"),
+            "roic_years_above_wacc": (f"{n_above}/{len(roic)}" if n_above is not None else "N/D"),
             "score": r["score_composite"]["value_0_100"],
             "n_flags": len(r["bloc_B_flags"]),
             "consensus_median": a.get("consensus", {}).get("target_median", "N/D"),
+            "currency": meta.get("reporting_currency", "N/D"),
+            "source": meta.get("source", "N/D"),
+            "fiscal_year_end": meta.get("fiscal_year_end", "N/D"),
+            "stale_financials": meta.get("stale_financials", False),
         })
-    return {"as_of": datetime.date.today().isoformat(), "rows": rows}
+    return {"as_of": datetime.date.today().isoformat(), "rows": rows,
+            "note": "prix et valeurs par action dans la devise des comptes (champ currency)"}
 
 
 def save(obj: dict, path: str):
-    with open(path, "w") as f:
-        json.dump(obj, f, indent=2, ensure_ascii=False)
+    # encoding explicite : sous Windows le défaut est cp1252 (casse €, ≤, ×…)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=2, ensure_ascii=False, default=str)

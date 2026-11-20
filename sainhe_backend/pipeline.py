@@ -12,7 +12,7 @@ JSON de sortie → output/data/stock/{TICKER}_report.json  (lu par le front)
                  output/data/stock/valuation_map.json
 """
 from __future__ import annotations
-import sys, os, logging, dataclasses
+import sys, os, logging, dataclasses, datetime
 
 sys.path.insert(0, os.path.dirname(__file__))
 
@@ -106,14 +106,82 @@ def _parse_with_fallback(client: EdgarClient, ticker: str, cik: int, forms):
     return cd, subs
 
 
-def run_ticker(client: EdgarClient, ticker: str) -> dict:
+def _fx_history(src: str, dst: str):
+    """Série journalière 'unités dst pour 1 src' (yfinance), ou None."""
+    if src == dst:
+        return None
+    try:
+        import yfinance as yf
+        for pair, inv in ((f"{src}{dst}=X", False), (f"{dst}{src}=X", True)):
+            h = yf.Ticker(pair, session=_yf_session()).history(period="11y")["Close"].dropna()
+            if len(h):
+                return (1 / h) if inv else h
+    except Exception as e:
+        log.warning("FX %s→%s indisponible (%s)", src, dst, e)
+    return None
+
+
+def _pricing_context(ticker: str, cd, info: dict | None) -> dict:
+    """Facteur prix de cotation → prix par action ORDINAIRE dans la devise des COMPTES.
+
+    Avant : le prix (USD pour ASML/TSM/RACE, pence pour COA.L) était comparé tel quel à des
+    valeurs par action en EUR/TWD → marges de sécurité fausses, et TSM ignorait 1 ADR = 5 actions.
+    factor_now s'applique au prix et aux objectifs analystes ; factors_by_year au prix
+    historique annuel (test du dollar retenu), au taux de change de chaque fin d'année.
+    """
+    listing = (info or {}).get("currency") or "USD"
+    reporting = cd.reporting_currency() or listing
+    ratio = config.ADR_RATIO.get(ticker, 1.0)
+    unit_scale = 0.01 if listing in ("GBp", "GBX") else 1.0       # pence → livres
+    base = "GBP" if listing in ("GBp", "GBX") else listing
+    ctx = {"listing_currency": listing, "reporting_currency": reporting, "adr_ratio": ratio,
+           "factor_now": unit_scale / ratio, "factors_by_year": {}, "fx_now": 1.0}
+    if base != reporting:
+        fx = _fx_history(base, reporting)
+        if fx is None:
+            ctx["factor_now"] = None          # pas de taux → valorisation N/D (pas de devinette)
+            return ctx
+        ctx["fx_now"] = float(fx.iloc[-1])
+        ctx["factor_now"] = unit_scale * ctx["fx_now"] / ratio
+        yearly = fx.groupby(fx.index.year).last()
+        ctx["factors_by_year"] = {int(y): unit_scale * float(v) / ratio for y, v in yearly.items()}
+    return ctx
+
+
+def _load_company(client: EdgarClient, esef, ticker: str):
+    """(CompanyData, submissions EDGAR ou {}, source) selon le régime de publication."""
+    if ticker in config.ESEF_ENTITIES:
+        lei = config.ESEF_ENTITIES[ticker]
+        cd = parse_companyfacts(ticker, lei, esef.companyfacts(lei, ticker), forms=("ESEF",))
+        if not cd.series.get("revenue"):
+            raise ValueError(f"aucun chiffre d'affaires ESEF exploitable pour {ticker} (LEI {lei})")
+        return cd, {}, "ESEF (filings.xbrl.org)"
     cik = client.ticker_to_cik(ticker)
     forms = ("20-F",) if ticker in config.ADR_TICKERS else ("10-K",)
     cd, subs = _parse_with_fallback(client, ticker, cik, forms)
+    return cd, subs, f"SEC EDGAR {forms[0]}"
+
+
+def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
+    cd, subs, source = _load_company(client, esef, ticker)
     meta = metadata_flags(subs)
     meta["_submissions_raw"] = subs
 
     price, info, price_history, splits = _yf_data(ticker)
+    pc = _pricing_context(ticker, cd, info)
+    if price is not None and pc["factor_now"] is not None and pc["factor_now"] != 1.0:
+        f = pc["factor_now"]
+        info = dict(info or {})
+        for k in ("currentPrice", "regularMarketPrice", "targetMeanPrice", "targetMedianPrice",
+                  "targetHighPrice", "targetLowPrice"):
+            if isinstance(info.get(k), (int, float)):
+                info[k] = info[k] * f
+        if price_history:
+            price_history = {y: p * pc["factors_by_year"].get(y, f) for y, p in price_history.items()}
+        log.info("%s : prix %s → comptes %s (×%.6f, ADR %g)", ticker, pc["listing_currency"],
+                 pc["reporting_currency"], f, pc["adr_ratio"])
+    listing_price = price
+    price = None if (price is None or pc["factor_now"] is None) else price * pc["factor_now"]
     ca = _corporate_action(cd, splits)
     valuation_price = price
     if ca and ca["integer"]:
@@ -141,6 +209,33 @@ def run_ticker(client: EdgarClient, ticker: str) -> dict:
                         f"dernier exercice publié ({ca['fy_end']}) : les comptes décrivent l'entreprise "
                         "d'avant l'opération → valorisation N/D jusqu'au prochain 10-K"),
             "details": ca})
+
+    # ---- Métadonnées : source, devises, fraîcheur des comptes, disclaimer
+    last = cd.latest("revenue") or cd.latest("net_income")
+    months = None
+    if last:
+        try:
+            fy_end = datetime.date.fromisoformat(last.end)
+            today = datetime.date.today()
+            months = (today.year - fy_end.year) * 12 + today.month - fy_end.month
+        except ValueError:
+            pass
+    report["meta"] = {
+        "source": source,
+        "listing_currency": pc["listing_currency"], "reporting_currency": pc["reporting_currency"],
+        "price_listing": listing_price, "price_in_reporting_currency": price,
+        "fx_listing_to_reporting": pc["fx_now"], "adr_ratio": pc["adr_ratio"],
+        "fiscal_year_end": last.end if last else None,
+        "months_since_fiscal_year_end": months,
+        # Plan : 10-K/rapport annuel uniquement → jusqu'à ~15 mois de décalage ; au-delà, signalé.
+        "stale_financials": bool(months is not None and months > config.STALE_FINANCIALS_MONTHS),
+        "disclaimer": config.DISCLAIMER,
+    }
+    if source.startswith("ESEF"):
+        report["bloc_G_smart_money"] = {"value": "N/D",
+                                        "note": "Forms 3/4/5 et 13F : obligations SEC, sans équivalent ESEF"}
+        report["drill_down"]["edgar_filings_index"] = (
+            f"https://filings.xbrl.org/api/entities/{config.ESEF_ENTITIES[ticker]}/filings")
     os.makedirs(OUT_DIR, exist_ok=True)
     path = os.path.join(OUT_DIR, f"{ticker}_report.json")
     report_builder.save(report, path)
@@ -148,18 +243,29 @@ def run_ticker(client: EdgarClient, ticker: str) -> dict:
     return report
 
 
-def main(tickers: list[str]):
+def main(tickers: list[str]) -> dict:
+    """Retourne {ok: [...], failed: {ticker: erreur}} — écrit aussi pipeline_status.json."""
     client = EdgarClient()
-    reports = []
+    esef = None
+    if any(t in config.ESEF_ENTITIES for t in tickers):
+        from esef.esef_client import EsefClient
+        esef = EsefClient()
+    reports, failed = [], {}
     for t in tickers:
         try:
-            reports.append(run_ticker(client, t))
+            reports.append(run_ticker(client, t, esef))
         except Exception as e:
             log.error("ECHEC %s : %s", t, e)
+            failed[t] = f"{type(e).__name__}: {e}"
     if reports:
         vmap = report_builder.build_valuation_map(reports)
+        vmap["disclaimer"] = config.DISCLAIMER
         report_builder.save(vmap, os.path.join(OUT_DIR, "valuation_map.json"))
         log.info("valuation_map.json : %d tickers", len(vmap["rows"]))
+    status = {"as_of": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+              "requested": tickers, "ok": [r["ticker"] for r in reports], "failed": failed}
+    report_builder.save(status, os.path.join(OUT_DIR, "pipeline_status.json"))
+    return status
 
 
 if __name__ == "__main__":
@@ -167,8 +273,11 @@ if __name__ == "__main__":
     if args == ["--portfolio"]:
         # 14 tickers US du portfolio SAINHE exploitables par EDGAR (10-K)
         args = config.EDGAR_TICKERS
+    elif args == ["--coverage"]:
+        # Tout ce qui a des comptes XBRL : US 10-K + ADR 20-F + Europe ESEF (job CI hebdo)
+        args = config.COVERAGE_TICKERS
     elif args == ["--portfolio-all"]:
-        # Les 31 tickers — ASML/TSM/RACE via 20-F, non-EDGAR sautés (log ECHEC)
+        # Les 31 tickers — non couverts sautés (log ECHEC)
         args = config.PORTFOLIO_TICKERS
     elif not args:
         args = config.EDGAR_TICKERS

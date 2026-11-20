@@ -55,14 +55,38 @@ EDGAR_TICKER_MAP_URL     = "https://www.sec.gov/files/company_tickers.json"
 
 # Chemins — relatifs au dossier sainhe_backend/
 CACHE_DB_PATH = os.path.join(os.path.dirname(__file__), "cache", "edgar_cache.sqlite")
-OUTPUT_DIR    = os.path.join(os.path.dirname(__file__), "..", "output", "data", "stock")
+# Source de vérité VERSIONNÉE (git = historique des analyses, plan §6 « versioning ») :
+# data/stock/ à la racine du dépôt. render_html.py la copie dans output/data/stock/
+# UNIQUEMENT pour la preview (STOCK_ANALYSIS_LIVE=true). Surcharge : SAINHE_STOCK_OUT.
+OUTPUT_DIR    = os.environ.get("SAINHE_STOCK_OUT") or os.path.join(
+    os.path.dirname(__file__), "..", "data", "stock")
 
 # TTL du cache EDGAR (jours). Les fondamentaux ne bougent qu'au dépôt d'un 10-K (annuel)
 # ou 10-Q (trimestriel) → inutile de re-fetcher la SEC plus de ~4×/an. 90 j couvre le
 # cycle trimestriel tout en évitant le matraquage de data.sec.gov.
-EDGAR_CACHE_DAYS_COMPANYFACTS = 90
-EDGAR_CACHE_DAYS_SUBMISSIONS  = 90
+# En CI le cache est conservé d'une semaine à l'autre (actions/cache) : SAINHE_EDGAR_CACHE_DAYS
+# (ex. 6) force un rafraîchissement hebdomadaire pour capter chaque nouveau 10-K/10-Q.
+_EDGAR_TTL = os.environ.get("SAINHE_EDGAR_CACHE_DAYS")
+EDGAR_CACHE_DAYS_COMPANYFACTS = float(_EDGAR_TTL) if _EDGAR_TTL else 90
+EDGAR_CACHE_DAYS_SUBMISSIONS  = float(_EDGAR_TTL) if _EDGAR_TTL else 90
 EDGAR_CACHE_DAYS_TICKER_MAP   = 30
+
+# ESEF (XBRL européen, filings.xbrl.org) : la LISTE des rapports est relue chaque semaine
+# (nouveau rapport annuel publié ?) ; chaque rapport, immuable, est caché sans expiration.
+ESEF_CACHE_DAYS_FILINGS = 6
+# Ticker SAINHE → LEI (GLEIF). Vérifié le 2026-11-20 sur filings.xbrl.org :
+#   RMS.PA Hermès 2020-2025 ✓ · LDO.MI Leonardo 2021-2024 ✓ (tagging partiel) · COA.L Coats 2021-2025 ✓
+# Non couverts : SAF.PA (aucun rapport indexé), RHM.DE (entité sans rapport : l'Allemagne
+# publie via le Bundesanzeiger), ROP/NESN/GEBN (la Suisse n'impose pas l'ESEF).
+ESEF_ENTITIES = {
+    "RMS.PA": "969500Y4IJGHJE2MTJ13",
+    "LDO.MI": "529900X4EEX1U9LN3U39",
+    "COA.L":  "2138003SPYWGAITNFY17",
+}
+
+# Ratio ADR : 1 titre coté = N actions ordinaires (les comptes XBRL sont par action ordinaire).
+# TSM : 1 ADR = 5 actions TSMC. ASML (NY registry shares) et RACE : 1 pour 1.
+ADR_RATIO = {"TSM": 5.0}
 
 # ════════════════════════════════════════════════════════════════
 #  PORTFOLIO SAINHE — 31 tickers exacts du dashboard (box_06_portfolio)
@@ -99,6 +123,15 @@ EDGAR_TICKERS = [
 
 # Déposants 20-F (IFRS) — couverture partielle via ifrs-full XBRL
 ADR_TICKERS = ["ASML", "TSM", "RACE"]
+
+# Couverture complète du job CI hebdomadaire : US 10-K + 20-F + ESEF
+COVERAGE_TICKERS = EDGAR_TICKERS + ADR_TICKERS + list(ESEF_ENTITIES)
+
+# Garde-fous du plan §7 (publié dans chaque JSON et sur la page)
+DISCLAIMER = ("Informational only, not investment advice. SAINHE publishes measurements and flags "
+              "computed from public filings; it does not recommend buying or selling any security.")
+# Comptes annuels plus vieux que ça → stale_financials = true (10-K/ESEF uniquement, pas de TTM)
+STALE_FINANCIALS_MONTHS = 15
 
 # Tickers de validation Phase 1 (.txt §8 / prompt)
 TEST_TICKERS = ["AAPL", "MSFT", "KO", "JPM", "XOM"]

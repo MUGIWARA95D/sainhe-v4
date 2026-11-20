@@ -39,11 +39,8 @@ def convert(amount: float | None, currency: str, fx: dict[str, float]) -> float 
         return None
     if currency == "USD":
         return amount
-    if currency == "EUR":
-        return amount * fx.get("USD_EUR", 1.0)
-    if currency == "HKD":
-        return amount * fx.get("USD_HKD", 1.0)
-    return amount
+    rate = fx.get(f"USD_{currency}")      # toute devise d'affichage de config.CURRENCIES (dont CHF)
+    return None if rate is None else amount * rate   # taux absent → N/D, pas de montant USD déguisé
 
 
 def fmt_pct(value: float | None, decimals: int = 2) -> str | None:

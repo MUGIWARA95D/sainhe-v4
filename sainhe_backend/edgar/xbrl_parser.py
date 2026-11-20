@@ -69,6 +69,8 @@ TAG_MAP: dict[str, list[str]] = {
     "total_liabilities": ["Liabilities"],
     "equity": ["StockholdersEquity",
                "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
+    # Capitaux propres totaux (avec minoritaires) : sert à dériver le passif total s'il manque
+    "_equity_total": ["StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
     "retained_earnings": ["RetainedEarningsAccumulatedDeficit"],
     # ---------------- CASH FLOW
     "ocf": ["NetCashProvidedByUsedInOperatingActivities",
@@ -104,7 +106,8 @@ IFRS_TAG_MAP: dict[str, list[str]] = {
     "ebit": ["ProfitLossFromOperatingActivities", "OperatingProfit"],
     "dep_amort": ["DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLoss"
                   "RecognisedInProfitOrLoss",
-                  "DepreciationAndAmortisationExpense"],
+                  "DepreciationAndAmortisationExpense",
+                  "AdjustmentsForDepreciationAndAmortisationExpense"],
     "interest_expense": ["FinanceCosts", "InterestExpense"],
     "tax_expense": ["IncomeTaxExpenseContinuingOperations", "IncomeTaxExpense"],
     "pretax_income": ["ProfitLossBeforeTax"],
@@ -122,20 +125,32 @@ IFRS_TAG_MAP: dict[str, list[str]] = {
     "ppe_net": ["PropertyPlantAndEquipment"],
     "goodwill": ["Goodwill"],
     "intangibles": ["IntangibleAssetsOtherThanGoodwill"],
-    "ap": ["TradeAndOtherCurrentPayables"],
+    "ap": ["TradeAndOtherCurrentPayables", "TradeAndOtherPayablesToTradeSuppliers"],
     "current_liabilities": ["CurrentLiabilities"],
-    "lt_debt": ["NoncurrentPortionOfLongtermBorrowings", "LongtermBorrowings",
-                "NoncurrentBorrowings"],
+    # Dette financière IFRS. Les dettes de loyers IFRS 16 (Current/NoncurrentLeaseLiabilities)
+    # restent HORS dette nette : IFRS 16 ne distingue pas location simple / financement,
+    # et le plan classe les loyers opérationnels en obligations opérationnelles (ASC 842).
+    "_debt_current": ["CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings"],
+    "_st_borrowings": ["ShorttermBorrowings"],
+    "_ltd_current": ["CurrentPortionOfLongtermBorrowings"],
+    "lt_debt": ["NoncurrentPortionOfNoncurrentBorrowings", "NoncurrentPortionOfLongtermBorrowings",
+                "LongtermBorrowings", "NoncurrentBorrowings"],
     "total_liabilities": ["Liabilities"],
     "equity": ["EquityAttributableToOwnersOfParent", "Equity"],
+    "_equity_total": ["Equity"],
     "retained_earnings": ["RetainedEarnings"],
     # ---------------- CASH FLOW
     "ocf": ["CashFlowsFromUsedInOperatingActivities"],
     "capex": ["PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities",
-              "AcquisitionOfPropertyPlantAndEquipment"],
-    "sbc": ["ExpenseFromShareBasedPaymentTransactionsWithEmployees", "ShareBasedCompensation"],
+              "AcquisitionOfPropertyPlantAndEquipment",
+              # ESEF (Hermès…) : capex corporels + incorporels sur une seule ligne
+              "PurchaseOfPropertyPlantAndEquipmentIntangibleAssetsOtherThanGoodwill"
+              "InvestmentPropertyAndOtherNoncurrentAssets"],
+    "sbc": ["ExpenseFromShareBasedPaymentTransactionsWithEmployees", "ShareBasedCompensation",
+            "AdjustmentsForSharebasedPayments"],
     "buybacks": ["RepurchaseOfTreasuryShares", "PaymentsForRepurchaseOfOrdinaryShares"],
-    "dividends_paid": ["DividendsPaidClassifiedAsFinancingActivities", "DividendsPaid"],
+    "dividends_paid": ["DividendsPaidClassifiedAsFinancingActivities", "DividendsPaid",
+                       "DividendsPaidToEquityHoldersOfParentClassifiedAsFinancingActivities"],
     # ---------------- ITEMS TRANSITOIRES
     "goodwill_impairment": ["ImpairmentLossRecognisedInProfitOrLossGoodwill"],
     "restructuring": ["RestructuringCosts"],
@@ -150,6 +165,7 @@ class DataPoint:
     accn: str              # accession number = filing source (traçabilité .txt Couche 4)
     form: str = "10-K"
     tag: str = ""          # tag XBRL source (ou "a+b" / "derived:..." si composé)
+    unit: str = ""         # unité XBRL (USD, EUR, TWD, EUR/shares, shares…)
 
 
 @dataclass
@@ -178,11 +194,42 @@ class CompanyData:
         s = self.series.get(name, {})
         return {y: s[y].value for y in sorted(s)[-n:]}
 
+    def reporting_currency(self) -> str | None:
+        """Devise des comptes (unité du chiffre d'affaires, à défaut du résultat net).
+        Ex. ASML/RACE → EUR, TSM → TWD, Coats → USD. Nécessaire pour comparer les valeurs
+        par action au prix de cotation (qui peut être dans une autre devise)."""
+        for name in ("revenue", "net_income", "total_assets"):
+            dp = self.latest(name)
+            if dp and dp.unit:
+                return dp.unit.split("/")[0]
+        return None
 
-def _extract_series(node: dict, forms: frozenset[str], tag: str = "") -> dict[int, "DataPoint"]:
+
+def _dominant_currency(namespaces: list[dict], forms: frozenset[str]) -> str:
+    """Devise des comptes de la société. Les 20-F/ESEF peuvent publier à la fois la devise
+    fonctionnelle (TSM : TWD) et une traduction de convenance en USD (année récente) :
+    la devise fonctionnelle (non-USD) prime alors, sinon on mélangerait les devises."""
+    counts: dict[str, int] = {}
+    for ns in namespaces:
+        for tag in ("Revenues", "Revenue", "RevenueFromContractWithCustomerExcludingAssessedTax",
+                    "RevenueFromContractsWithCustomers", "Assets", "NetIncomeLoss", "ProfitLoss"):
+            for u, items in ns.get(tag, {}).get("units", {}).items():
+                if len(u) == 3 and u.isalpha() and u.isupper():
+                    counts[u] = counts.get(u, 0) + sum(1 for x in items if x.get("form") in forms)
+    counts = {u: n for u, n in counts.items() if n}
+    if not counts:
+        return "USD"
+    non_usd = {u: n for u, n in counts.items() if u != "USD"}
+    if non_usd and not forms <= {"10-K", "10-Q"}:
+        return max(non_usd, key=non_usd.get)
+    return max(counts, key=counts.get)
+
+
+def _extract_series(node: dict, forms: frozenset[str], tag: str = "",
+                    currency: str = "USD") -> dict[int, "DataPoint"]:
     """Extrait une série annuelle depuis un node companyfacts {units:{...:[...]}}"""
     units = node.get("units", {})
-    unit_key = next((u for u in ("USD", "USD/shares", "shares", "pure") if u in units),
+    unit_key = next((u for u in (currency, f"{currency}/shares", "shares", "pure") if u in units),
                     next(iter(units), None))
     if not unit_key:
         return {}
@@ -208,7 +255,7 @@ def _extract_series(node: dict, forms: frozenset[str], tag: str = "") -> dict[in
             continue
         accn = item.get("accn", "")
         dp = DataPoint(value=float(val), fy=period_year, end=end,
-                       accn=accn, form=item.get("form", ""), tag=tag)
+                       accn=accn, form=item.get("form", ""), tag=tag, unit=unit_key)
         cur = per_tag.get(period_year)
         if cur is None or accn >= cur.accn:
             per_tag[period_year] = dp
@@ -237,6 +284,7 @@ def parse_companyfacts(
     ifrs = facts.get("ifrs-full", {})
 
     allowed = frozenset(forms)
+    currency = _dominant_currency([gaap, ifrs], allowed)
 
     for internal_name, candidates in TAG_MAP.items():
         merged: dict[int, DataPoint] = {}
@@ -244,22 +292,49 @@ def parse_companyfacts(
             node = gaap.get(tag) or dei.get(tag)
             if not node:
                 continue
-            for y, dp in _extract_series(node, allowed, tag).items():
+            for y, dp in _extract_series(node, allowed, tag, currency).items():
                 merged.setdefault(y, dp)
-        # Pour les déposants 20-F : compléter avec IFRS quand le tag GAAP est absent
-        if ifrs and "20-F" in allowed:
+        # Déposants IFRS (20-F à la SEC, ESEF en Europe) : compléter avec ifrs-full
+        if ifrs and allowed & {"20-F", "ESEF"}:
             for tag in IFRS_TAG_MAP.get(internal_name, []):
                 node = ifrs.get(tag)
                 if not node:
                     continue
-                for y, dp in _extract_series(node, allowed, tag).items():
+                for y, dp in _extract_series(node, allowed, tag, currency).items():
                     merged.setdefault(y, dp)
         if merged:
             cd.series[internal_name] = merged
     _compose_debt(cd)
     _compose_da(cd)
     _derive_ebit(cd)
+    _derive_shares_and_liabilities(cd)
     return cd
+
+
+def _derive_shares_and_liabilities(cd: "CompanyData") -> None:
+    """Pour les années où ils ne sont pas publiés (fréquent en ESEF) :
+    - actions diluées = résultat net part du groupe / BPA dilué (deux valeurs publiées) ;
+      ex. Hermès 2025 : 4,524 G€ / 43,07 € = 105,0 M actions ;
+    - passif total = actif total − capitaux propres totaux (y compris minoritaires).
+    Calculs à partir de valeurs publiées (tag 'derived:' tracé), pas d'interpolation."""
+    s = cd.series
+    ni, eps = s.get("net_income", {}), s.get("eps_diluted", {})
+    sh = s.setdefault("shares_diluted", {})
+    for y, e in eps.items():
+        if y not in sh and y in ni and e.value:
+            n = ni[y]
+            sh[y] = DataPoint(value=n.value / e.value, fy=y, end=n.end, accn=n.accn, form=n.form,
+                              tag="derived:net_income/eps_diluted", unit="shares")
+    if not sh:
+        s.pop("shares_diluted")
+    ta, eq_tot = s.get("total_assets", {}), s.pop("_equity_total", {})
+    tl = s.setdefault("total_liabilities", {})
+    for y, a in ta.items():
+        if y not in tl and y in eq_tot:
+            tl[y] = DataPoint(value=a.value - eq_tot[y].value, fy=y, end=a.end, accn=a.accn,
+                              form=a.form, tag="derived:assets-equity_total", unit=a.unit)
+    if not tl:
+        s.pop("total_liabilities")
 
 
 def _compose_da(cd: "CompanyData") -> None:

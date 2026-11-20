@@ -82,7 +82,7 @@
         const rvCls = rv != null && rv > 1.2 ? "rvol-hot" : "";
 
         /* Prix — 3 cas :
-             1. convertible + devise gérée (USD/EUR/HKD) → symbole d'affichage
+             1. convertible + devise gérée (config.CURRENCIES : USD/EUR/CHF/HKD) → symbole d'affichage
              2. convertible + devise inconnue (JPY/AUD/…) → valeur native + badge devise
              3. non-convertible (VIX, DXY, TNX, IRX)    → brut, sans symbole */
         let priceTxt;

@@ -1226,13 +1226,17 @@ a.news-hl:hover{color:var(--gold)}
   window.fxSymbol = function(){
     var c = window.SAINHE_CUR || 'USD';
     if(c === 'EUR') return '€ ';
+    if(c === 'CHF') return 'CHF ';
     if(c === 'HKD') return 'HK$ ';
     return '$ ';  /* USD — toujours affiché pour distinguer des indicateurs */
   };
 
+  /* Devises d'affichage : générées depuis config.CURRENCIES (source unique) */
+  window.SAINHE_CURRENCIES = {{ currencies|tojson }};
+
   /* Called by the header dropdown — updates state and re-renders price boxes */
   window._sainheSetCurrency = function(c){
-    if(['USD','EUR','HKD'].indexOf(c) < 0) return;
+    if(window.SAINHE_CURRENCIES.indexOf(c) < 0) return;
     window.SAINHE_CUR = c;
     localStorage.setItem('sainhe_currency', c);
     var btn = document.getElementById('dd-cur-btn');

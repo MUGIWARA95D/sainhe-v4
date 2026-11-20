@@ -42,8 +42,11 @@ def build_portfolio_report(
     stock_analysis_reports: dict[str, dict] | None = None,    # ticker → report JSON
     n_mc_sims: int = 10_000,
     portfolio_currency: str = "USD",
+    stress_prices: pd.DataFrame | None = None,     # historique long (≥ 2007) pour les stress tests
 ) -> dict:
-    """Assemble le JSON final 4 blocs + table croisée."""
+    """Assemble le JSON final 4 blocs + table croisée.
+    stress_prices : prix sur une fenêtre longue (mêmes colonnes, même devise) pour rejouer
+    2008/2013/2018/2020/2022 ; à défaut, `prices` (5 ans → la plupart des scénarios N/D)."""
     weights = _normalize_weights({t: w for t, w in weights.items() if t in prices.columns})
 
     # ---------------------------------------------------- BLOC 1 Performance
@@ -142,7 +145,8 @@ def build_portfolio_report(
                                               method="bootstrap"),
         "monte_carlo_t_student": mc_mod.run(prices, weights, n_sims=n_mc_sims,
                                               method="t_student_df5"),
-        "stress_tests_historical": stress_mod.run_all(prices, weights),
+        "stress_tests_historical": stress_mod.run_all(
+            stress_prices if stress_prices is not None else prices, weights),
     }
 
     # ---------------------------------------------------- CROISEMENT (différenciateur)
@@ -196,5 +200,6 @@ def save(obj: dict, path: str):
         if isinstance(o, pd.Timestamp):
             return o.strftime("%Y-%m-%d")
         return str(o)
-    with open(path, "w") as f:
-        json.dump(obj, f, indent=2, default=default, ensure_ascii=False)
+    # encoding explicite (défaut Windows = cp1252) ; sans indentation : rapport ≈ 3× plus léger
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(obj, f, default=default, ensure_ascii=False, separators=(",", ":"))

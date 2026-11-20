@@ -10,17 +10,16 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from portfolio._common import portfolio_returns
+
 TRADING_DAYS = 252
 
 
 def _portfolio_series(prices: pd.DataFrame, weights: dict[str, float]) -> pd.Series:
     """Série de prix synthétique du portefeuille (rebal quotidienne implicite).
-    prices : DataFrame index=date, columns=tickers ; weights : dict normalisé."""
-    cols = [t for t in weights if t in prices.columns]
-    w = np.array([weights[t] for t in cols])
-    w = w / w.sum()
-    rets = prices[cols].pct_change().dropna()
-    port_rets = (rets * w).sum(axis=1)
+    prices : DataFrame index=date, columns=tickers ; weights : dict normalisé.
+    Titres pas encore cotés : poids renormalisés (portfolio/_common.py), pas de dropna global."""
+    port_rets, _ = portfolio_returns(prices, weights)
     return (1 + port_rets).cumprod() * 100.0
 
 

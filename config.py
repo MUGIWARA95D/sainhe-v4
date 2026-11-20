@@ -279,31 +279,33 @@ SENTIMENT_HISTORY_RETENTION_DAYS = 365  # 1 an suffit pour l'analyse de rotation
 #  7. TAUX DE CHANGE — fetch_fx.py (Frankfurter/yfinance)
 #  Clé  : "USD_XXX"  — taux de conversion USD → XXX
 #  Val  : ticker yfinance (fallback)
-#  Note : CURRENCIES = ["USD","EUR","HKD"] → devises d'affichage
+#  Note : CURRENCIES = ["USD","EUR","CHF","HKD"] → devises d'affichage
 #         Autres paires servent uniquement à convertir les prix natifs
-#         des tickers du portefeuille (JPY, CHF, GBP, CNY, ILS, SAR).
+#         des tickers du portefeuille (JPY, GBP, CNY, SAR…).
 # ============================================================
 FX_SOURCES = {
-    # ── Devises d'affichage (USD/EUR/HKD) ────────────────────────────────────────────
+    # ── Devises d'affichage (USD/EUR/CHF/HKD) ────────────────────────────────────────
     "USD_EUR": "USDEUR=X",
+    "USD_CHF": "USDCHF=X",   # affichage CHF + ^SSMI (SMI), ROP/GEBN/NESN.SW
     "USD_HKD": "USDHKD=X",
     # ── Indices globaux ──────────────────────────────────────────────────────────────
     "USD_JPY": "USDJPY=X",   # ^N225 (Nikkei), 6954.T (Fanuc)
     "USD_GBP": "USDGBP=X",   # ^FTSE (FTSE 100), COA.L
-    "USD_CHF": "USDCHF=X",   # ^SSMI (SMI), ROG/GEBN/NESN.SW
     "USD_CNY": "USDCNY=X",   # 000001.SS (Shanghai), 600111.SS
     "USD_INR": "USDINR=X",   # ^NSEI (Nifty 50)
     "USD_CAD": "USDCAD=X",   # ^GSPTSE (TSX)
     "USD_AUD": "USDAUD=X",   # ^AXJO (ASX 200)
     # ── Devises portefeuille exotiques ────────────────────────────────────────────────
-    # USD_ILS supprimé — KAP.IL (Elbit Systems) désactivé
+    # USD_ILS supprimé (ancienne ligne Elbit Systems). NB : KAP.IL est Kazatomprom, pas Elbit.
     "USD_SAR": "USDSAR=X",   # 2222.SR (Saudi Aramco)
 }
 
 # ============================================================
 #  8. DEVISES
 # ============================================================
-CURRENCIES       = ["USD", "EUR", "HKD"]
+# CHF ajouté le 2026-11-20 (projet suisse : FINMA, UNIL). Une seule source de vérité : le
+# menu, la liste blanche JS (_head.html) et le taux de repli (render_html) en dérivent.
+CURRENCIES       = ["USD", "EUR", "CHF", "HKD"]
 DEFAULT_CURRENCY = "USD"
 # Règle : tout stocké en USD — conversion à l'affichage uniquement
 

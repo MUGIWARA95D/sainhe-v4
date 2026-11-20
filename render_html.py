@@ -13,6 +13,7 @@ Run:
 
 import json
 import os
+import shutil
 import sqlite3
 import importlib
 import logging
@@ -32,6 +33,7 @@ from config import (
     SITE_NAME,
     SITE_SLOGAN,
     COLORS,
+    WATCHLIST,
 )
 import schema
 
@@ -86,10 +88,11 @@ def _get_fx_rates(con: sqlite3.Connection) -> dict:
         if pair not in seen:
             seen[pair] = rate          # garde la valeur la plus récente par paire
 
-    # Base toujours présente (USD = 1.0, EUR/HKD avec fallback si DB vide)
+    # Base toujours présente (USD = 1.0, devises d'affichage avec repli si DB vide)
     result: dict[str, float] = {
         "USD": 1.0,
         "EUR": round(seen.get("USD_EUR", 0.9200), 6),
+        "CHF": round(seen.get("USD_CHF", 0.8400), 6),
         "HKD": round(seen.get("USD_HKD", 7.8200), 6),
     }
     # Toutes les autres paires stockées (JPY, CHF, GBP, CNY, ILS, SAR…)
@@ -351,6 +354,67 @@ def write_data_layer(boxes_by_id: dict, ts_render: str) -> list[dict]:
 
 
 # ============================================================
+#  STOCK ANALYSIS / PORTFOLIO SIM DATA (sainhe_backend → output)
+# ============================================================
+# Source de vérité versionnée : data/stock/*.json, régénérés chaque semaine par
+# .github/workflows/stock-analysis.yml (sainhe_backend/pipeline.py + portfolio_runner.py).
+# Publiés UNIQUEMENT en preview (STOCK_ANALYSIS_LIVE=true). En production, le dossier
+# output/data/stock est SUPPRIMÉ avant le rendu : les jobs CI rendent la preview puis la
+# prod dans le même output/ — sans ce nettoyage, les JSON de la preview partaient sur
+# sainhe.com (cause probable de la fuite du 14 juin, annulée le 15).
+STOCK_DATA_SRC = Path(__file__).parent / "data" / "stock"
+
+
+def load_stock_valuation_map() -> dict | None:
+    """data/stock/valuation_map.json enrichi (nom, secteur, beta/rf/erp), ou None."""
+    vmap_path = STOCK_DATA_SRC / "valuation_map.json"
+    if not vmap_path.exists():
+        log.info("Stock: valuation_map.json absent (%s) — page Stock en placeholder", vmap_path)
+        return None
+    try:
+        vmap = json.loads(vmap_path.read_text(encoding="utf-8"))
+    except Exception as e:  # JSON corrompu : on le dit, la page reste en placeholder
+        log.warning("Stock: lecture valuation_map.json échouée (%s)", e)
+        return None
+    for row in vmap.get("rows", []):
+        tk = row.get("ticker")
+        if not tk:
+            continue
+        meta = WATCHLIST.get(tk, {})
+        row.setdefault("name", meta.get("nom", tk))
+        row.setdefault("sector", meta.get("secteur", "—"))
+        rp = STOCK_DATA_SRC / f"{tk}_report.json"
+        if rp.exists():
+            try:
+                wd = json.loads(rp.read_text(encoding="utf-8")).get("drill_down", {}).get("wacc_detail", {})
+            except Exception:
+                continue
+            for k in ("beta", "rf", "erp"):
+                v = wd.get(k)
+                row[k] = v if isinstance(v, (int, float)) else None
+    return vmap
+
+
+def publish_stock_data(live: bool) -> int:
+    """live → copie data/stock/*.json dans output/data/stock ; sinon supprime ce dossier."""
+    dest = OUTPUT_DIR / "data" / "stock"
+    if not live:
+        if dest.exists():
+            shutil.rmtree(dest)
+            log.info("Stock: output/data/stock supprimé (production, STOCK_ANALYSIS_LIVE=false)")
+        return 0
+    if not STOCK_DATA_SRC.exists():
+        return 0
+    dest.mkdir(parents=True, exist_ok=True)
+    n = 0
+    for src in STOCK_DATA_SRC.glob("*.json"):
+        shutil.copyfile(src, dest / src.name)
+        n += 1
+    log.info("Stock: %d fichiers JSON publiés → %s (preview)", n, dest)
+    return n
+
+
+# ============================================================
 #  RENDER
 # ============================================================
 
@@ -391,6 +455,8 @@ def render(currency: str = DEFAULT_CURRENCY):
     # Feature flags
     stock_analysis_live = os.getenv("STOCK_ANALYSIS_LIVE", "false").strip().lower() == "true"
     log.info("STOCK_ANALYSIS_LIVE = %s", stock_analysis_live)
+    publish_stock_data(stock_analysis_live)
+    stock_vmap = load_stock_valuation_map() if stock_analysis_live else None
 
     # Shared base context (EN-only build)
     base_ctx = {
@@ -403,6 +469,7 @@ def render(currency: str = DEFAULT_CURRENCY):
         "ts_render"          : ts_render,
         "fx_rates_js"        : fx_rates,
         "stock_analysis_live": stock_analysis_live,
+        "stock_vmap"         : stock_vmap,
     }
 
     # ── Dashboard (index 0) — special: needs box data ────────
