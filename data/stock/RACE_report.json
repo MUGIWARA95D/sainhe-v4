@@ -1,0 +1,868 @@
+{
+  "ticker": "RACE",
+  "cik": 1648416,
+  "as_of": "2026-11-20",
+  "fiscal_year": 2025,
+  "bloc_A_verdict": {
+    "prix": 359.279475,
+    "EPV": {
+      "epv_ev": 18332827515.294064,
+      "epv_equity": 19800538515.294064,
+      "epv_per_share": 111.096947,
+      "inputs": {
+        "ebit_adj": 2109716000.0,
+        "tax": 0.224904,
+        "wacc": 0.089197,
+        "net_debt": -1467711000.0
+      }
+    },
+    "EPV_confidence_range": {
+      "low": 35.474903,
+      "high": 81.187839,
+      "fcf_p25": 595233500.0,
+      "fcf_p75": 1362251000.0
+    },
+    "EPV_wacc_sensitivity": {
+      "minus_100bps": 124.085053,
+      "central": 111.096947,
+      "plus_100bps": 100.727489
+    },
+    "RE_valuation": {
+      "re_value_equity": 17903281500.498898,
+      "re_value_per_share": 100.451809,
+      "inputs": {
+        "B0": 3906893000.0,
+        "RE": 1248435865.079,
+        "ke": 0.089197,
+        "g": 0.0,
+        "g_sgr": -0.019111,
+        "g_cap": 0.05052
+      }
+    },
+    "consensus": {
+      "available": true,
+      "target_mean": 418.127408,
+      "target_median": 417.489516,
+      "target_high": 465.000007,
+      "target_low": 371.653985,
+      "n_analysts": 12,
+      "warning_few_analysts": false,
+      "dispersion": 0.223248
+    },
+    "reverse_dcf": {
+      "implied_g": 0.057684,
+      "flag_unrealistic": false,
+      "inputs": {
+        "ev": 62565795627.08078,
+        "fcf_adj": 1864096000.0,
+        "wacc": 0.089197
+      }
+    },
+    "SGR": {
+      "sgr": -0.019111,
+      "rr": -0.028507,
+      "roic": 0.670402
+    },
+    "flag_growth_unfinanceable": true
+  },
+  "bloc_B_flags": [],
+  "bloc_C_dupont": {
+    "available": true,
+    "fy": 2025,
+    "RNOA": 0.668252,
+    "FLEV": -0.375672,
+    "NBC": -0.113132,
+    "SPREAD": 0.781384,
+    "leverage_gain": -0.293544,
+    "ROE_dupont": 0.374708,
+    "ROE_direct": 0.408744,
+    "coherence_gap": -0.034,
+    "net_cash_position": true
+  },
+  "bloc_D_trends": {
+    "roic_10y": {
+      "2016": -3.1573,
+      "2017": 4.264,
+      "2018": 1.4588,
+      "2019": 1.2553,
+      "2020": 1.5462,
+      "2021": 0.9976,
+      "2022": 0.813,
+      "2023": 0.6546,
+      "2024": 0.8511,
+      "2025": 0.6704
+    },
+    "rnoa_10y": {
+      "2016": -3.276,
+      "2017": 4.0995,
+      "2018": 1.4455,
+      "2019": 1.2426,
+      "2020": 1.5316,
+      "2021": 0.9913,
+      "2022": 0.8066,
+      "2023": 0.6513,
+      "2024": 0.8467,
+      "2025": 0.6683
+    },
+    "gross_margin_10y": {
+      "2016": 0.4913,
+      "2017": 0.5169,
+      "2018": 0.5255,
+      "2019": 0.5207,
+      "2020": 0.5126,
+      "2021": 0.5128,
+      "2022": 0.4801,
+      "2023": 0.4982,
+      "2024": 0.5013,
+      "2025": 0.5168
+    },
+    "fcf_adj_10y": {
+      "2016": 829652000.0,
+      "2017": 473895000.0,
+      "2018": 633247000.0,
+      "2019": 953939000.0,
+      "2020": 481193000.0,
+      "2021": 930410000.0,
+      "2022": 1055615000.0,
+      "2023": 1334875000.0,
+      "2024": 1444379000.0,
+      "2025": 1864096000.0
+    },
+    "roe_10y": {
+      "2016": 1.227,
+      "2017": 0.6876,
+      "2018": 0.5818,
+      "2019": 0.4697,
+      "2020": 0.3405,
+      "2021": 0.3766,
+      "2022": 0.3597,
+      "2023": 0.409,
+      "2024": 0.4306,
+      "2025": 0.4087
+    },
+    "owner_earnings_10y": {
+      "2016": 757582000.0,
+      "2017": 402193000.0,
+      "2018": 645293000.0,
+      "2019": 954147000.0,
+      "2020": 411574000.0,
+      "2021": 826737000.0,
+      "2022": 857115000.0,
+      "2023": 1054332000.0,
+      "2024": 1259879000.0,
+      "2025": 1687369000.0
+    },
+    "revenue_10y": {
+      "2016": 3105084000.0,
+      "2017": 3416890000.0,
+      "2018": 3420321000.0,
+      "2019": 3766615000.0,
+      "2020": 3459790000.0,
+      "2021": 4270894000.0,
+      "2022": 5095254000.0,
+      "2023": 5970146000.0,
+      "2024": 6676668000.0,
+      "2025": 7145768000.0
+    }
+  },
+  "bloc_E_health": {
+    "net_debt_ebitda": -0.529544,
+    "interest_coverage": 9.848086,
+    "lt_debt_payback": {
+      "years": "N/D",
+      "passes": "N/D",
+      "label": "source secondaire"
+    },
+    "current_ratio": "N/D",
+    "quick_ratio": "N/D",
+    "de_ratio": "N/D",
+    "ccc": {
+      "dso": "N/D",
+      "dio": 117.746416,
+      "dpo": 88.925867,
+      "ccc": "N/D"
+    },
+    "ocf_ni": 1.471149,
+    "accruals_pct_rev": -0.105291,
+    "retained_earnings_test": {
+      "ratio": 5.054014,
+      "retained_5y": 4423724000.0,
+      "delta_mcap": 22357563590.57096,
+      "passes": true,
+      "window": [
+        2020,
+        2025
+      ]
+    }
+  },
+  "bloc_F_peers": {
+    "note": "rempli par peer_batch.build_peer_blocks() sur l'univers complet"
+  },
+  "bloc_G_smart_money": {
+    "n_insider_filings_6m": 0,
+    "recent": [],
+    "note": "détail buy/sell = Phase 6 (parsing Form 4 XML)"
+  },
+  "bloc_H_sensitivity": {
+    "margin_axis": [
+      0.1379,
+      0.1685,
+      0.1979,
+      0.2237,
+      0.2359
+    ],
+    "g_axis": [
+      0.01,
+      0.015,
+      0.02,
+      0.025,
+      0.03
+    ],
+    "matrix": [
+      [
+        65.56,
+        67.72,
+        70.19,
+        73.05,
+        76.39
+      ],
+      [
+        80.59,
+        83.49,
+        86.82,
+        90.66,
+        95.14
+      ],
+      [
+        94.95,
+        98.56,
+        102.7,
+        107.48,
+        113.07
+      ],
+      [
+        107.59,
+        111.82,
+        116.68,
+        122.28,
+        128.84
+      ],
+      [
+        113.6,
+        118.14,
+        123.33,
+        129.34,
+        136.35
+      ]
+    ]
+  },
+  "bloc_I_macro": {
+    "leading_indicator": {
+      "indicator": "PMI Manufacturing",
+      "value": "N/D",
+      "label": "contexte macro — indicateur avancé, pas une prédiction"
+    },
+    "geographic_exposure": {
+      "us_pct": "N/D",
+      "non_us_pct": "N/D",
+      "source": "yfinance country (HQ)",
+      "country": "Italy",
+      "note": "HQ Italy ; ventilation US/non-US indisponible en v1"
+    }
+  },
+  "drill_down": {
+    "wacc_detail": {
+      "wacc": 0.089197,
+      "ke": 0.089197,
+      "kd": "N/D",
+      "tax_rate": 0.224904,
+      "E": 64033506627.08078,
+      "D": 0,
+      "rf": 0.05052,
+      "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "erp": 0.05,
+      "beta": 0.77354,
+      "beta_raw": 0.662,
+      "mode": "complet"
+    },
+    "adjustments": {
+      "fy": 2025,
+      "ni_brut": 1596919000.0,
+      "ni_adj": 1596919000.0,
+      "ebit_brut": 2109716000.0,
+      "ebit_adj": 2109716000.0,
+      "adjustments": [],
+      "gap_pct": 0.0,
+      "gap_flag": false
+    },
+    "reformulation": {
+      "OA": 8160641000.0,
+      "FA": 1467711000.0,
+      "OO": 5713610000.0,
+      "FO": 0.0,
+      "NOA": 2447031000.0,
+      "NFO": -1467711000.0,
+      "equity_check": 7849000.0
+    },
+    "three_statement_10y": {
+      "revenue": {
+        "2016": 3105084000.0,
+        "2017": 3416890000.0,
+        "2018": 3420321000.0,
+        "2019": 3766615000.0,
+        "2020": 3459790000.0,
+        "2021": 4270894000.0,
+        "2022": 5095254000.0,
+        "2023": 5970146000.0,
+        "2024": 6676668000.0,
+        "2025": 7145768000.0
+      },
+      "cogs": {
+        "2016": 1579690000.0,
+        "2017": 1650860000.0,
+        "2018": 1622905000.0,
+        "2019": 1805310000.0,
+        "2020": 1686324000.0,
+        "2021": 2080613000.0,
+        "2022": 2648953000.0,
+        "2023": 2995877000.0,
+        "2024": 3329483000.0,
+        "2025": 3452971000.0
+      },
+      "ebit": {
+        "2016": 595082000.0,
+        "2017": 775416000.0,
+        "2018": 826507000.0,
+        "2019": 917446000.0,
+        "2020": 716127000.0,
+        "2021": 1075488000.0,
+        "2022": 1227382000.0,
+        "2023": 1617369000.0,
+        "2024": 1887751000.0,
+        "2025": 2109716000.0
+      },
+      "dep_amort": {
+        "2016": 247717000.0,
+        "2017": 260606000.0,
+        "2018": 288748000.0,
+        "2019": 351946000.0,
+        "2020": 426637000.0,
+        "2021": 455989000.0,
+        "2022": 546225000.0,
+        "2023": 662305000.0,
+        "2024": 666777000.0,
+        "2025": 661937000.0
+      },
+      "interest_expense": {
+        "2016": 46634000.0,
+        "2017": 50023000.0,
+        "2018": 43854000.0,
+        "2019": 66579000.0,
+        "2020": 59195000.0,
+        "2021": 76256000.0,
+        "2022": 133474000.0,
+        "2023": 147334000.0,
+        "2024": 145895000.0,
+        "2025": 214226000.0
+      },
+      "tax_expense": {
+        "2016": 167635000.0,
+        "2017": 208760000.0,
+        "2018": 16317000.0,
+        "2019": 176656000.0,
+        "2020": 58155000.0,
+        "2021": 209095000.0,
+        "2022": 238472000.0,
+        "2023": 344897000.0,
+        "2024": 363043000.0,
+        "2025": 464119000.0
+      },
+      "pretax_income": {
+        "2016": 567353000.0,
+        "2017": 746156000.0,
+        "2018": 802944000.0,
+        "2019": 875364000.0,
+        "2020": 667035000.0,
+        "2021": 1042231000.0,
+        "2022": 1177766000.0,
+        "2023": 1602354000.0,
+        "2024": 1888956000.0,
+        "2025": 2063635000.0
+      },
+      "net_income": {
+        "2016": 398762000.0,
+        "2017": 535393000.0,
+        "2018": 784678000.0,
+        "2019": 695818000.0,
+        "2020": 607817000.0,
+        "2021": 830767000.0,
+        "2022": 932614000.0,
+        "2023": 1252048000.0,
+        "2024": 1521877000.0,
+        "2025": 1596919000.0
+      },
+      "eps_diluted": {
+        "2016": 2.11,
+        "2017": 2.82,
+        "2018": 4.14,
+        "2019": 3.71,
+        "2020": 3.28,
+        "2021": 4.5,
+        "2022": 5.09,
+        "2023": 6.9,
+        "2024": 8.46,
+        "2025": 8.96
+      },
+      "shares_outstanding": {
+        "2017": 188953874.0,
+        "2018": 187920656.0,
+        "2019": 185283323.0,
+        "2020": 184747890.0,
+        "2023": 243750962.0,
+        "2024": 242377204.0
+      },
+      "cash": {
+        "2016": 457784000.0,
+        "2017": 647706000.0,
+        "2018": 793664000.0,
+        "2019": 897946000.0,
+        "2020": 1362406000.0,
+        "2021": 1344146000.0,
+        "2022": 1388901000.0,
+        "2023": 1121981000.0,
+        "2024": 1742214000.0,
+        "2025": 1467711000.0
+      },
+      "inventory": {
+        "2016": 323998000.0,
+        "2017": 393765000.0,
+        "2018": 391064000.0,
+        "2019": 420051000.0,
+        "2020": 460617000.0,
+        "2021": 540575000.0,
+        "2022": 674662000.0,
+        "2023": 948514000.0,
+        "2024": 1088194000.0,
+        "2025": 1113904000.0
+      },
+      "current_assets": {
+        "2016": 1887453000.0,
+        "2017": 2081077000.0,
+        "2018": 2477326000.0,
+        "2019": 2641201000.0,
+        "2020": 3075883000.0,
+        "2021": 3363719000.0,
+        "2022": 3952512000.0,
+        "2023": 3986007000.0,
+        "2024": 5019903000.0,
+        "2025": 4824373000.0
+      },
+      "total_assets": {
+        "2016": 3849604000.0,
+        "2017": 4141104000.0,
+        "2018": 4851733000.0,
+        "2019": 5446372000.0,
+        "2020": 6262047000.0,
+        "2021": 6863505000.0,
+        "2022": 7765823000.0,
+        "2023": 8051312000.0,
+        "2024": 9497146000.0,
+        "2025": 9628352000.0
+      },
+      "ppe_net": {
+        "2016": 669283000.0,
+        "2017": 710260000.0,
+        "2018": 850550000.0,
+        "2019": 1069652000.0,
+        "2020": 1226630000.0,
+        "2021": 1353165000.0,
+        "2022": 1457825000.0,
+        "2023": 1575200000.0,
+        "2024": 1828784000.0,
+        "2025": 2057891000.0
+      },
+      "goodwill": {
+        "2016": 785182000.0,
+        "2017": 785182000.0,
+        "2018": 785182000.0,
+        "2019": 785182000.0,
+        "2020": 785182000.0,
+        "2021": 785182000.0,
+        "2022": 785182000.0,
+        "2023": 785182000.0,
+        "2024": 785182000.0,
+        "2025": 785182000.0
+      },
+      "intangibles": {
+        "2016": 354394000.0,
+        "2017": 440456000.0,
+        "2018": 645797000.0,
+        "2019": 837938000.0,
+        "2020": 979290000.0,
+        "2021": 1138173000.0,
+        "2022": 1307388000.0,
+        "2023": 1419699000.0,
+        "2024": 1545664000.0,
+        "2025": 1638457000.0
+      },
+      "ap": {
+        "2016": 614888000.0,
+        "2017": 607505000.0,
+        "2018": 653751000.0,
+        "2019": 711539000.0,
+        "2020": 713807000.0,
+        "2021": 797832000.0,
+        "2022": 902968000.0,
+        "2023": 930560000.0,
+        "2024": 945657000.0,
+        "2025": 841256000.0
+      },
+      "equity": {
+        "2016": 324995000.0,
+        "2017": 778678000.0,
+        "2018": 1348722000.0,
+        "2019": 1481290000.0,
+        "2020": 1785186000.0,
+        "2021": 2205898000.0,
+        "2022": 2592857000.0,
+        "2023": 3060888000.0,
+        "2024": 3533946000.0,
+        "2025": 3906893000.0
+      },
+      "ocf": {
+        "2016": 1005299000.0,
+        "2017": 662799000.0,
+        "2018": 934041000.0,
+        "2019": 1306093000.0,
+        "2020": 838211000.0,
+        "2021": 1282726000.0,
+        "2022": 1403340000.0,
+        "2023": 1716637000.0,
+        "2024": 1926656000.0,
+        "2025": 2349306000.0
+      },
+      "capex": {
+        "2016": 175647000.0,
+        "2017": 188904000.0,
+        "2018": 300794000.0,
+        "2019": 352154000.0,
+        "2020": 357018000.0,
+        "2021": 352316000.0,
+        "2022": 347725000.0,
+        "2023": 381762000.0,
+        "2024": 482277000.0,
+        "2025": 485210000.0
+      },
+      "dividends_paid": {
+        "2016": 86905000.0,
+        "2017": 119985000.0,
+        "2018": 133939000.0,
+        "2019": 193328000.0,
+        "2020": 208765000.0,
+        "2021": 160272000.0,
+        "2022": 249522000.0,
+        "2023": 328631000.0,
+        "2024": 439918000.0,
+        "2025": 532158000.0
+      },
+      "shares_diluted": {
+        "2016": 188986729.85782,
+        "2017": 189855673.758865,
+        "2018": 189535748.792271,
+        "2019": 187552021.563342,
+        "2020": 185310060.97561,
+        "2021": 184614888.888889,
+        "2022": 183224754.420432,
+        "2023": 181456231.884058,
+        "2024": 179890898.345154,
+        "2025": 178227566.964286
+      },
+      "total_liabilities": {
+        "2016": 3519799000.0,
+        "2017": 3357168000.0,
+        "2018": 3497894000.0,
+        "2019": 3959084000.0,
+        "2020": 4472843000.0,
+        "2021": 4652089000.0,
+        "2022": 5163336000.0,
+        "2023": 4980690000.0,
+        "2024": 5953908000.0,
+        "2025": 5713610000.0
+      }
+    },
+    "source_map_per_tag": {
+      "revenue": {
+        "value": 7145768000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "Revenue",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "cogs": {
+        "value": 3452971000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "CostOfSales",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "ebit": {
+        "value": 2109716000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "ProfitLossFromOperatingActivities",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "dep_amort": {
+        "value": 661937000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "AdjustmentsForDepreciationAndAmortisationExpense",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "interest_expense": {
+        "value": 214226000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "FinanceCosts",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "tax_expense": {
+        "value": 464119000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "IncomeTaxExpenseContinuingOperations",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "pretax_income": {
+        "value": 2063635000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "ProfitLossBeforeTax",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "net_income": {
+        "value": 1596919000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "eps_diluted": {
+        "value": 8.96,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "DilutedEarningsLossPerShare",
+        "unit": "EUR/shares",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "shares_outstanding": {
+        "value": 242377204.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "0001648416-25-000027",
+        "filing_form": "20-F",
+        "xbrl_tag": "NumberOfSharesOutstanding",
+        "unit": "shares",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841625000027/"
+      },
+      "cash": {
+        "value": 1467711000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "CashAndCashEquivalents",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "inventory": {
+        "value": 1113904000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "Inventories",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "current_assets": {
+        "value": 4824373000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "CurrentAssets",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "total_assets": {
+        "value": 9628352000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "Assets",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "ppe_net": {
+        "value": 2057891000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "PropertyPlantAndEquipment",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "goodwill": {
+        "value": 785182000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "Goodwill",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "intangibles": {
+        "value": 1638457000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "IntangibleAssetsOtherThanGoodwill",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "ap": {
+        "value": 841256000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "TradeAndOtherPayablesToTradeSuppliers",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "equity": {
+        "value": 3906893000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "EquityAttributableToOwnersOfParent",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "ocf": {
+        "value": 2349306000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "CashFlowsFromUsedInOperatingActivities",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "capex": {
+        "value": 485210000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "dividends_paid": {
+        "value": 532158000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "DividendsPaid",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "shares_diluted": {
+        "value": 178227566.964286,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "derived:net_income/eps_diluted",
+        "unit": "shares",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "total_liabilities": {
+        "value": 5713610000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "derived:assets-equity_total",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      }
+    },
+    "edgar_filings_index": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001648416&type=10-K&dateb=&owner=include&count=40"
+  },
+  "score_composite": {
+    "value_0_100": 47.8,
+    "pillars": {
+      "valuation": 0,
+      "balance_sheet_health": 85,
+      "earnings_quality": 70,
+      "smart_money": 50,
+      "momentum": 50
+    },
+    "weights": {
+      "valuation": 0.3,
+      "balance_sheet_health": 0.25,
+      "earnings_quality": 0.2,
+      "smart_money": 0.15,
+      "momentum": 0.1
+    },
+    "note": "pondérations modifiables par l'utilisateur (.txt Couche 4)"
+  },
+  "meta": {
+    "source": "SEC EDGAR 20-F",
+    "listing_currency": "USD",
+    "reporting_currency": "EUR",
+    "price_listing": 393.99,
+    "price_in_reporting_currency": 359.27947465002535,
+    "fx_listing_to_reporting": 0.911899983882904,
+    "adr_ratio": 1.0,
+    "fiscal_year_end": "2025-12-31",
+    "months_since_fiscal_year_end": 11,
+    "stale_financials": false,
+    "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  }
+}

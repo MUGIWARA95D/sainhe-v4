@@ -1,0 +1,509 @@
+{
+  "ticker": "LDO.MI",
+  "cik": "529900X4EEX1U9LN3U39",
+  "as_of": "2026-11-20",
+  "fiscal_year": 2024,
+  "bloc_A_verdict": {
+    "prix": 47.83,
+    "EPV": {
+      "epv_ev": "N/D",
+      "epv_equity": "N/D",
+      "epv_per_share": "N/D",
+      "note": "EBIT ajusté, WACC ou taux d'impôt N/D"
+    },
+    "EPV_confidence_range": {
+      "low": "N/D",
+      "high": "N/D",
+      "fallback": "moins de 4 ans de FCF → plage = EPV central (growth 0%)"
+    },
+    "EPV_wacc_sensitivity": {
+      "minus_100bps": "N/D",
+      "central": "N/D",
+      "plus_100bps": "N/D"
+    },
+    "RE_valuation": {
+      "re_value_equity": 13472744036.679985,
+      "re_value_per_share": 23.395407,
+      "inputs": {
+        "B0": 8990000000.0,
+        "RE": 357348665.0,
+        "ke": 0.079716,
+        "g": 0.0,
+        "g_sgr": "N/D",
+        "g_cap": 0.05052
+      }
+    },
+    "consensus": {
+      "available": true,
+      "target_mean": 67.17368,
+      "target_median": 69.0,
+      "target_high": 77.0,
+      "target_low": 55.0,
+      "n_analysts": 19,
+      "warning_few_analysts": false,
+      "dispersion": 0.327509
+    },
+    "reverse_dcf": {
+      "implied_g": "N/D",
+      "flag_unrealistic": false,
+      "note": "FCF ajusté ≤ 0 ou inputs manquants (dont dette nette)"
+    },
+    "SGR": {
+      "sgr": "N/D",
+      "rr": "N/D",
+      "note": "inputs manquants"
+    },
+    "flag_growth_unfinanceable": false
+  },
+  "bloc_B_flags": [],
+  "bloc_C_dupont": {
+    "available": false
+  },
+  "bloc_D_trends": {
+    "roic_10y": {},
+    "rnoa_10y": {},
+    "gross_margin_10y": {},
+    "fcf_adj_10y": {},
+    "roe_10y": {
+      "2020": 0.0458,
+      "2021": 0.0912,
+      "2022": 0.1291,
+      "2023": 0.0844,
+      "2024": 0.1195
+    },
+    "owner_earnings_10y": {},
+    "revenue_10y": {
+      "2020": 13410000000.0,
+      "2021": 14135000000.0,
+      "2022": 14713000000.0,
+      "2023": 15291000000.0,
+      "2024": 17763000000.0
+    }
+  },
+  "bloc_E_health": {
+    "net_debt_ebitda": "N/D",
+    "interest_coverage": "N/D",
+    "lt_debt_payback": {
+      "years": 2.209497,
+      "passes": true,
+      "label": "source secondaire"
+    },
+    "current_ratio": 0.959713,
+    "quick_ratio": 0.610415,
+    "de_ratio": 0.522803,
+    "ccc": {
+      "dso": "N/D",
+      "dio": "N/D",
+      "dpo": "N/D",
+      "ccc": "N/D"
+    },
+    "ocf_ni": "N/D",
+    "accruals_pct_rev": "N/D",
+    "retained_earnings_test": {
+      "ratio": "N/D",
+      "note": "moins de 6 ans de données"
+    }
+  },
+  "bloc_F_peers": {
+    "note": "rempli par peer_batch.build_peer_blocks() sur l'univers complet"
+  },
+  "bloc_G_smart_money": {
+    "value": "N/D",
+    "note": "Forms 3/4/5 et 13F : obligations SEC, sans équivalent ESEF"
+  },
+  "bloc_H_sensitivity": {
+    "matrix": "N/D",
+    "note": "données insuffisantes"
+  },
+  "bloc_I_macro": {
+    "leading_indicator": {
+      "indicator": "PMI Manufacturing",
+      "value": "N/D",
+      "label": "contexte macro — indicateur avancé, pas une prédiction"
+    },
+    "geographic_exposure": {
+      "us_pct": "N/D",
+      "non_us_pct": "N/D",
+      "source": "yfinance country (HQ)",
+      "country": "Italy",
+      "note": "HQ Italy ; ventilation US/non-US indisponible en v1"
+    }
+  },
+  "drill_down": {
+    "wacc_detail": {
+      "wacc": 0.080161,
+      "ke": 0.079716,
+      "kd": 0.082766,
+      "tax_rate": 0.0,
+      "E": 27543924932.975872,
+      "D": 4700000000.0,
+      "rf": 0.05052,
+      "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "erp": 0.05,
+      "beta": 0.58393,
+      "beta_raw": 0.379,
+      "mode": "complet"
+    },
+    "adjustments": {
+      "fy": 2024,
+      "ni_brut": 1074000000.0,
+      "ni_adj": 1074000000.0,
+      "ebit_brut": "N/D",
+      "ebit_adj": "N/D",
+      "adjustments": [],
+      "gap_pct": 0.0,
+      "gap_flag": false
+    },
+    "reformulation": {
+      "OA": 31117000000.0,
+      "FA": 2556000000.0,
+      "OO": 18773000000.0,
+      "FO": 4700000000.0,
+      "NOA": 12344000000.0,
+      "NFO": 2144000000.0,
+      "equity_check": 1210000000.0
+    },
+    "three_statement_10y": {
+      "revenue": {
+        "2020": 13410000000.0,
+        "2021": 14135000000.0,
+        "2022": 14713000000.0,
+        "2023": 15291000000.0,
+        "2024": 17763000000.0
+      },
+      "interest_expense": {
+        "2020": 414000000.0,
+        "2021": 309000000.0,
+        "2022": 380000000.0,
+        "2023": 421000000.0,
+        "2024": 389000000.0
+      },
+      "tax_expense": {
+        "2020": 12000000.0,
+        "2021": 166000000.0,
+        "2022": 51000000.0,
+        "2023": 129000000.0,
+        "2024": 289000000.0
+      },
+      "net_income": {
+        "2020": 241000000.0,
+        "2021": 586000000.0,
+        "2022": 927000000.0,
+        "2023": 658000000.0,
+        "2024": 1074000000.0
+      },
+      "eps_diluted": {
+        "2021": 1.019,
+        "2022": 1.611,
+        "2023": 1.144,
+        "2024": 1.865
+      },
+      "cash": {
+        "2019": 1962000000.0,
+        "2020": 2213000000.0,
+        "2021": 2479000000.0,
+        "2022": 1511000000.0,
+        "2023": 2407000000.0,
+        "2024": 2556000000.0
+      },
+      "inventory": {
+        "2020": 5882000000.0,
+        "2021": 5486000000.0,
+        "2022": 5338000000.0,
+        "2023": 5693000000.0,
+        "2024": 6520000000.0
+      },
+      "current_assets": {
+        "2020": 15118000000.0,
+        "2021": 15552000000.0,
+        "2022": 14602000000.0,
+        "2023": 16398000000.0,
+        "2024": 17914000000.0
+      },
+      "total_assets": {
+        "2020": 27073000000.0,
+        "2021": 28379000000.0,
+        "2022": 28582000000.0,
+        "2023": 30693000000.0,
+        "2024": 33673000000.0
+      },
+      "ppe_net": {
+        "2020": 2015000000.0,
+        "2021": 2122000000.0,
+        "2022": 2368000000.0,
+        "2023": 2548000000.0,
+        "2024": 2834000000.0
+      },
+      "ap": {
+        "2020": 3619000000.0,
+        "2021": 3372000000.0,
+        "2022": 3054000000.0,
+        "2023": 3268000000.0,
+        "2024": 3763000000.0
+      },
+      "current_liabilities": {
+        "2020": 15894000000.0,
+        "2021": 15596000000.0,
+        "2022": 15166000000.0,
+        "2023": 16959000000.0,
+        "2024": 18666000000.0
+      },
+      "lt_debt": {
+        "2020": 3880000000.0,
+        "2021": 4112000000.0,
+        "2022": 3531000000.0,
+        "2023": 2885000000.0,
+        "2024": 2373000000.0
+      },
+      "total_liabilities": {
+        "2020": 21795000000.0,
+        "2021": 21924000000.0,
+        "2022": 20883000000.0,
+        "2023": 22132000000.0,
+        "2024": 23473000000.0
+      },
+      "equity": {
+        "2019": 5334000000.0,
+        "2020": 5267000000.0,
+        "2021": 6428000000.0,
+        "2022": 7183000000.0,
+        "2023": 7800000000.0,
+        "2024": 8990000000.0
+      },
+      "dividends_paid": {
+        "2020": 81000000.0,
+        "2021": 0.0,
+        "2022": 80000000.0,
+        "2023": 83000000.0,
+        "2024": 177000000.0
+      },
+      "st_debt": {
+        "2020": 1824000000.0,
+        "2021": 1558000000.0,
+        "2022": 1082000000.0,
+        "2023": 2044000000.0,
+        "2024": 2327000000.0
+      },
+      "shares_diluted": {
+        "2021": 575073601.570167,
+        "2022": 575418994.413408,
+        "2023": 575174825.174825,
+        "2024": 575871313.672922
+      }
+    },
+    "source_map_per_tag": {
+      "revenue": {
+        "value": 17763000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "Revenue",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "interest_expense": {
+        "value": 389000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "FinanceCosts",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "tax_expense": {
+        "value": 289000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "IncomeTaxExpenseContinuingOperations",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "net_income": {
+        "value": 1074000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "eps_diluted": {
+        "value": 1.865,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "BasicEarningsLossPerShare",
+        "unit": "EUR/shares",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "cash": {
+        "value": 2556000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "CashAndCashEquivalents",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "inventory": {
+        "value": 6520000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "Inventories",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "current_assets": {
+        "value": 17914000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "CurrentAssets",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "total_assets": {
+        "value": 33673000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "Assets",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "ppe_net": {
+        "value": 2834000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "PropertyPlantAndEquipment",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "ap": {
+        "value": 3763000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "TradeAndOtherPayablesToTradeSuppliers",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "current_liabilities": {
+        "value": 18666000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "CurrentLiabilities",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "lt_debt": {
+        "value": 2373000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "LongtermBorrowings",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "total_liabilities": {
+        "value": 23473000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "Liabilities",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "equity": {
+        "value": 8990000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "EquityAttributableToOwnersOfParent",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "dividends_paid": {
+        "value": 177000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "DividendsPaidClassifiedAsFinancingActivities",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "st_debt": {
+        "value": 2327000000.0,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+        "unit": "EUR",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      },
+      "shares_diluted": {
+        "value": 575871313.672922,
+        "fiscal_year": 2024,
+        "end_date": "2024-12-31",
+        "accession": "ESEF|2025-09-24 21:50:40.097749|/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+        "filing_form": "ESEF",
+        "xbrl_tag": "derived:net_income/eps_diluted",
+        "unit": "shares",
+        "edgar_filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html"
+      }
+    },
+    "edgar_filings_index": "https://filings.xbrl.org/api/entities/529900X4EEX1U9LN3U39/filings"
+  },
+  "score_composite": {
+    "value_0_100": 50.0,
+    "pillars": {
+      "valuation": 50,
+      "balance_sheet_health": 50,
+      "earnings_quality": 50,
+      "smart_money": 50,
+      "momentum": 50
+    },
+    "weights": {
+      "valuation": 0.3,
+      "balance_sheet_health": 0.25,
+      "earnings_quality": 0.2,
+      "smart_money": 0.15,
+      "momentum": 0.1
+    },
+    "note": "pondérations modifiables par l'utilisateur (.txt Couche 4)"
+  },
+  "meta": {
+    "source": "ESEF (filings.xbrl.org)",
+    "listing_currency": "EUR",
+    "reporting_currency": "EUR",
+    "price_listing": 47.83,
+    "price_in_reporting_currency": 47.83,
+    "fx_listing_to_reporting": 1.0,
+    "adr_ratio": 1.0,
+    "fiscal_year_end": "2024-12-31",
+    "months_since_fiscal_year_end": 23,
+    "stale_financials": true,
+    "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  }
+}

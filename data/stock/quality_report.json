@@ -1,0 +1,413 @@
+{
+  "tickers": {
+    "AAPL": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "ASML": {
+      "source": "SEC EDGAR 20-F",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "CAT": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "COA.L": {
+      "source": "ESEF (filings.xbrl.org)",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "WACC"
+      ],
+      "missing_fields": [
+        "SGR",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "CTVA": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "WACC",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "croissance implicite"
+      ],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "DE": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "RE/action",
+        "WACC"
+      ],
+      "missing_fields": [
+        "EPV/action",
+        "SGR",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "ECL": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "GEV": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "ISRG": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "KO": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "LDO.MI": {
+      "source": "ESEF (filings.xbrl.org)",
+      "filled_fields": [
+        "RE/action",
+        "WACC"
+      ],
+      "missing_fields": [
+        "EPV/action",
+        "SGR",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": [
+        {
+          "type": "stale_financials",
+          "fiscal_year_end": "2024-12-31",
+          "months": 23
+        }
+      ]
+    },
+    "LMT": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "MSFT": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "NVDA": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "RACE": {
+      "source": "SEC EDGAR 20-F",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "RMS.PA": {
+      "source": "ESEF (filings.xbrl.org)",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "WACC",
+        "croissance implicite"
+      ],
+      "missing_fields": [
+        "SGR",
+        "dette nette/EBITDA"
+      ],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "TSLA": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "TSM": {
+      "source": "SEC EDGAR 20-F",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "WACC",
+        "croissance implicite"
+      ],
+      "missing_fields": [
+        "SGR",
+        "dette nette/EBITDA"
+      ],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": [
+        {
+          "type": "stale_financials",
+          "fiscal_year_end": "2024-12-31",
+          "months": 23
+        }
+      ]
+    },
+    "XOM": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    },
+    "ZTS": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [
+        "revenue",
+        "net_income",
+        "total_assets",
+        "cash"
+      ],
+      "issues": []
+    }
+  },
+  "pipeline_failures": {},
+  "summary": {
+    "n_tickers": 20,
+    "n_cross_checks": 80,
+    "n_issues": 0,
+    "n_cross_source_gaps": 0,
+    "n_nd_regressions": 0,
+    "n_stale": 2,
+    "n_pipeline_failures": 0,
+    "note": "n_issues compte les anomalies à corriger (écarts de sources, régressions N/D, échecs) ; la fraîcheur est informative (dépend de la date de publication)."
+  }
+}
