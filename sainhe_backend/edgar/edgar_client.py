@@ -49,6 +49,12 @@ class EdgarClient:
             log.info("CACHE hit %s", key)
             return json.loads(row[1])
         # 3. réseau
+        if not config.EDGAR_USER_AGENT:
+            raise RuntimeError(
+                "EDGAR_CONTACT_EMAIL manquant : la SEC exige un email de contact dans le "
+                "User-Agent. Ajoute la ligne EDGAR_CONTACT_EMAIL=ton@email dans le fichier "
+                ".env à la racine du dépôt (ou le secret GitHub du même nom pour la CI)."
+            )
         self._throttle()
         log.info("FETCH %s", url)
         resp = self._session.get(url, timeout=30)

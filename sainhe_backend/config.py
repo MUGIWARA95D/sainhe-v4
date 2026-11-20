@@ -5,8 +5,10 @@ AUCUNE valeur magique ailleurs dans le code.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  CE QUE TU DOIS CONFIGURER AVANT D'UTILISER LES VRAIES DONNÉES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- 1. EDGAR_USER_AGENT : mets TON email (obligatoire — la SEC bloque sans ça)
-    → EDGAR_USER_AGENT = "SAINHE research TON_EMAIL@domaine.com"
+ 1. EDGAR_CONTACT_EMAIL : ton email de contact (obligatoire — la SEC bloque sans ça).
+    NE PAS l'écrire ici (dépôt public). Le mettre dans le fichier .env à la racine
+    du dépôt (gitignoré) :  EDGAR_CONTACT_EMAIL=ton@email
+    ou, pour la CI, dans le secret GitHub du même nom.
 
  2. Installer les dépendances :
     pip install pandas numpy scipy requests yfinance
@@ -22,10 +24,30 @@ AUCUNE valeur magique ailleurs dans le code.
 """
 
 import os
+from pathlib import Path
+
+
+def _load_dotenv() -> None:
+    """Charge le .env de la racine du dépôt (même mécanisme que scripts/fetch_macro_liquidity.py)."""
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    if env_path.exists():
+        with open(env_path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ.setdefault(k.strip(), v.strip())
+
+
+_load_dotenv()
 
 # ---------------------------------------------------------------- EDGAR (.txt Couche 1)
-# ⚠️  OBLIGATOIRE : la SEC exige un User-Agent avec email valide
-EDGAR_USER_AGENT = "SAINHE research hugo24.waldmeyer@gmail.com"
+# ⚠️  OBLIGATOIRE : la SEC exige un User-Agent avec email valide.
+# L'adresse vient de l'environnement (.env local ou secret GitHub), jamais du code :
+# le dépôt est public. Vide → edgar_client refuse tout appel réseau avec un message clair
+# (les tests sur fixtures n'en ont pas besoin).
+EDGAR_CONTACT_EMAIL = os.environ.get("EDGAR_CONTACT_EMAIL", "").strip()
+EDGAR_USER_AGENT = f"SAINHE research {EDGAR_CONTACT_EMAIL}" if EDGAR_CONTACT_EMAIL else ""
 EDGAR_RATE_LIMIT_PER_SEC = 10
 EDGAR_BASE_SUBMISSIONS   = "https://data.sec.gov/submissions/CIK{cik:0>10}.json"
 EDGAR_BASE_COMPANYFACTS  = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:0>10}.json"

@@ -14,7 +14,8 @@ Outil d'**analyse**, jamais de conseil : on mesure et on signale, on ne recomman
 4. **Traçabilité** : chaque chiffre porte sa source (tag XBRL, date du filing, URL). Donnée absente →
    `"N/D"`, jamais d'interpolation ni d'imputation silencieuse.
 5. **Aucune valeur magique** : tous les seuils (1.81, 2.99, −1.78, 15 %, 20 %, 50 %, 100 bps…) vivent dans `config.py`.
-6. **EDGAR** : en-tête `User-Agent` obligatoire (`config.EDGAR_USER_AGENT`), 10 requêtes/s maximum.
+6. **EDGAR** : en-tête `User-Agent` obligatoire, 10 requêtes/s maximum. L'email de contact vient de
+   `EDGAR_CONTACT_EMAIL` (`.env` local ou secret GitHub) — **jamais écrit dans le code** : le dépôt est public.
 7. Disclaimer « Informational only, not investment advice » sur toute page d'analyse.
 
 ## Architecture
@@ -57,7 +58,8 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
 - **Spécification (source de vérité)** : `G:\Mon Drive\PROJET SAINHE\sainhe reprise\SAINHE_stock_analysis_plan.txt`
   — en cas de conflit avec ce fichier ou un prompt, le plan gagne.
 - **Backend intégré dans `sainhe_backend/`** (`edgar/`, `compute/`, `portfolio/`, `output/`, `tests/`).
-  Tests : `py tests/test_pipeline.py` (62) et `py tests/test_full.py` (61), sur fixtures, depuis `sainhe_backend/`.
+  Tests : `py tests/test_pipeline.py` (62 assertions, sur fixtures), depuis `sainhe_backend/`.
+  (`test_full.py`, 61 assertions Portfolio Sim, n'existe que dans le zip `sainhe reprise\sainhe_backend_v2.zip`.)
   Sous Windows : `$env:PYTHONUTF8='1'` obligatoire (sorties ✓/≥).
 - **Page publique** : Stock Analysis est rendue en preview (dev) mais masquée en production (`STOCK_ANALYSIS_LIVE=false`).
 - **Reste à faire** (README du backend) : brancher Rf/ERP sur le module Macro, parsing XML des Forms 4,
