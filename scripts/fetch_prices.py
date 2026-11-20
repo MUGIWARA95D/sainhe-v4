@@ -56,6 +56,10 @@ SLEEP_MAX      = 30.0   # pause max entre tickers
 SLEEP_429      = 90.0   # attente sur rate-limit
 MAX_RETRIES    = 2
 
+NEW_TICKER_MIN_ROWS = 30  # en mode update, un ticker avec moins de lignes en base est "neuf"
+                          # → fetch 2 ans d'un coup (sinon il n'aurait que 7 jours et
+                          #   tous ses indicateurs resteraient N/D)
+
 BACKFILL_DAYS  = 30     # jours étendus en arrière par ticker et par run (backfill)
 TARGET_YEARS   = 7      # profondeur cible en années pour le mode backfill
 
@@ -326,6 +330,14 @@ def main(mode: str = "update", half: int = -1, tickers_filter: list[str] | None 
             period1, period2 = window
         else:
             period1, period2 = global_period1, global_period2
+            if mode == "update":
+                n_local = con.execute(
+                    "SELECT COUNT(*) FROM prices WHERE ticker=?", (ticker,)
+                ).fetchone()[0]
+                if n_local < NEW_TICKER_MIN_ROWS:
+                    period1, period2 = _periods_for_mode("full")
+                    log.info("NEW  %s — %d lignes en base (< %d) → fetch 2 ans",
+                             ticker, n_local, NEW_TICKER_MIN_ROWS)
 
         rows, detected_currency = fetch_one(ticker, period1, period2)
 

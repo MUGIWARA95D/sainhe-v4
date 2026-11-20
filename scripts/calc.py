@@ -628,7 +628,12 @@ def main():
         # l'intraday partiel via l'heuristique volume. Un cutoff "< today UTC"
         # casserait les tickers EU/Asia dont l'EOD finalisé est légitimement
         # daté aujourd'hui UTC (marché fermé avant le fetch matin).
-        if len(df) < 22:   # minimum 1M de données
+        # Minimum 2 jours (cours + variation du jour). Chaque indicateur vérifie
+        # sa propre fenêtre (DMA 50/200, momentum, RVOL 20j, MFI, OBV) et renvoie
+        # None si l'historique est trop court → un titre récemment introduit
+        # (ex. ANT, IPO 2026-11-19) affiche son cours, le reste en N/D.
+        # Ancien seuil : 22 jours → titre invisible pendant 1 mois.
+        if len(df) < 2:
             log.debug("%s — données insuffisantes (%d jours)", ticker, len(df))
             skipped += 1
             continue

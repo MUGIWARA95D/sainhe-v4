@@ -156,6 +156,27 @@ WATCHLIST = {
 }
 
 # ============================================================
+#  4b. TICKERS RETIRÉS — désactivés en base (ticker_info.actif = 0) par db_init.py
+#  db_init fait INSERT OR IGNORE : sans cette liste, un ticker retiré de config.py
+#  reste actif et s'affiche avec ses dernières données (périmées).
+#  Liste explicite (pas "tout ce qui n'est plus dans config") : SpaceX et Gazprom
+#  restent volontairement actifs en base pour s'afficher "—".
+#  Pour réactiver un ticker : le retirer d'ici ET le remettre dans config.
+# ============================================================
+RETIRED_TICKERS = {
+    # 2026-11-20 — plus aucune cotation yfinance depuis ≥ 1 mois
+    "ROG.SW"  : "Roche renommé par Yahoo → ROP.SW",
+    "IRBO"    : "ETF fermé → BOTZ",
+    "DFND"    : "ETF fermé → SHLD",
+    "MOOS.DE" : "ETF retiré de Xetra → ISAG.L",
+    "3063.HK" : "ETF retiré",
+    "CHIX"    : "Global X China Financials, liquidé",
+    "CHIM"    : "Global X China Materials, liquidé",
+    "CHIS"    : "Global X China Consumer Staples, liquidé",
+    "CHII"    : "Global X China Industrials, liquidé",
+}
+
+# ============================================================
 #  5. CONSTANTES DE CALCUL
 #  Source : sheet "colonnes à fetch.calculer" — v6.xlsx
 # ============================================================

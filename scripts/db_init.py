@@ -14,6 +14,7 @@ from config import (
     SECTOR_TICKERS,
     INDICES,
     WATCHLIST,
+    RETIRED_TICKERS,
 )
 
 DDL = """
@@ -305,6 +306,13 @@ def init_db():
         """,
         seed_rows,
     )
+    if RETIRED_TICKERS:
+        cur.executemany(
+            "UPDATE ticker_info SET actif = 0 WHERE ticker = ? AND actif != 0",
+            [(t,) for t in RETIRED_TICKERS],
+        )
+        print(f"[db_init] {cur.rowcount if cur.rowcount >= 0 else '?'} tickers retirés désactivés "
+              f"({len(RETIRED_TICKERS)} dans RETIRED_TICKERS)")
     watchlist_devises = [
         (info["devise"], ticker)
         for ticker, info in WATCHLIST.items()
