@@ -58,10 +58,13 @@ PORTFOLIO_TICKERS = [
     # ✓ US filers (10-K) — Stock Analysis complet
     "NVDA", "AAPL", "MSFT", "ISRG", "ZTS", "XOM", "LMT", "TSLA",
     "GEV", "DE", "CTVA", "ECL", "KO", "CAT",
+    # US filer récent : IPO 2026-11-19, seulement un S-1 (pas encore de 10-K) →
+    # hors EDGAR_TICKERS tant que le premier 10-K n'est pas déposé
+    "ANT",
     # ~ ADR déposant 20-F à la SEC (couverture partielle)
     "ASML", "TSM", "RACE",
     # ✗ Pas de données EDGAR (étranger pur / ETF / crypto) — sautés par le pipeline
-    "6954.T", "ROG.SW", "2222.SR", "SAF.PA", "RHM.DE", "LDO.MI",
+    "6954.T", "ROP.SW", "2222.SR", "SAF.PA", "RHM.DE", "LDO.MI",
     "RMS.PA", "GEBN.SW", "NESN.SW", "COA.L", "600111.SS",
     "GLD", "KAP.L", "BTC-USD",
 ]

@@ -25,21 +25,24 @@ TEMPLATE_DIR = BASE_DIR / "templates"
 # ============================================================
 SECTOR_TICKERS = {
     "Tech & Semis"         : {"MONDE": "IXN",     "USA": "XLK",   "EU": "EXV3.DE", "ASIE": "3191.HK"},
-    "Robotics & MedTech"   : {"MONDE": "IRBO",    "USA": "ROBT",  "EU": "2B76.DE", "ASIE": "2807.HK"},
+    # 2026-11-20 : IRBO (fermé) → BOTZ ; DFND (fermé) → SHLD ; MOOS.DE (retiré) → ISAG.L ;
+    # CHIX/CHIM/CHIS/CHII (Global X China, liquidés) et 3063.HK (retiré) → None :
+    # aucun ETF sectoriel Asie équivalent vérifié sur yfinance, mieux vaut "—" qu'un faux comparable.
+    "Robotics & MedTech"   : {"MONDE": "BOTZ",    "USA": "ROBT",  "EU": "2B76.DE", "ASIE": "2807.HK"},
     "Healthcare & Pharma"  : {"MONDE": "IXJ",     "USA": "XLV",   "EU": "EXV4.DE", "ASIE": "2820.HK"},
-    "Finance & Transac."   : {"MONDE": "IXG",     "USA": "XLF",   "EU": "EXV1.DE", "ASIE": "CHIX"},
-    "Strategic Materials"  : {"MONDE": "MXI",     "USA": "IYM",   "EU": "EXV6.DE", "ASIE": "CHIM"},
+    "Finance & Transac."   : {"MONDE": "IXG",     "USA": "XLF",   "EU": "EXV1.DE", "ASIE": None},
+    "Strategic Materials"  : {"MONDE": "MXI",     "USA": "IYM",   "EU": "EXV6.DE", "ASIE": None},
     "Energy"               : {"MONDE": "IXC",     "USA": "XLE",   "EU": "EXH1.DE", "ASIE": "2809.HK"},
-    "Defense & Aerospace"  : {"MONDE": "DFND",    "USA": "PPA",   "EU": "EDFS.DE", "ASIE": "PPA"},
+    "Defense & Aerospace"  : {"MONDE": "SHLD",    "USA": "PPA",   "EU": "EDFS.DE", "ASIE": "PPA"},
     "EV & Clean Energy"    : {"MONDE": "ICLN",    "USA": "CNRG",  "EU": "SXR2.DE", "ASIE": "2845.HK"},
     "Space"                : {"MONDE": "UFO",     "USA": "ROKT",  "EU": "JEDI.DE", "ASIE": "UFO"},
     "Luxury"               : {"MONDE": "RXI",     "USA": "XLY",   "EU": "GLUX.DE", "ASIE": "2806.HK"},
-    "Agriculture"          : {"MONDE": "VEGI",    "USA": "FTXG",  "EU": "MOOS.DE", "ASIE": "MOO"},
-    "Infra & Water"        : {"MONDE": "IGF",     "USA": "PHO",   "EU": "EXV8.DE", "ASIE": "CHII"},
-    "Consumer Staples"     : {"MONDE": "KXI",     "USA": "XLP",   "EU": "EXH3.DE", "ASIE": "CHIS"},
+    "Agriculture"          : {"MONDE": "VEGI",    "USA": "FTXG",  "EU": "ISAG.L",  "ASIE": "MOO"},
+    "Infra & Water"        : {"MONDE": "IGF",     "USA": "PHO",   "EU": "EXV8.DE", "ASIE": None},
+    "Consumer Staples"     : {"MONDE": "KXI",     "USA": "XLP",   "EU": "EXH3.DE", "ASIE": None},
     "Digital Assets"       : {"MONDE": "IBIT",    "USA": "IBIT",  "EU": "IBIT",    "ASIE": "IBIT"},
-    "Industrials"          : {"MONDE": "EXI",     "USA": "XLI",   "EU": None,      "ASIE": "3063.HK"},
-    "Chemicals"            : {"MONDE": None,      "USA": "XLB",   "EU": "EXV7.DE", "ASIE": "CHIM"},
+    "Industrials"          : {"MONDE": "EXI",     "USA": "XLI",   "EU": None,      "ASIE": None},
+    "Chemicals"            : {"MONDE": None,      "USA": "XLB",   "EU": "EXV7.DE", "ASIE": None},
 }
 
 # Benchmark mondial par secteur — utilisé pour R-Perf
@@ -89,13 +92,14 @@ WATCHLIST = {
     "MSFT"      : {"nom": "Microsoft",          "secteur": "Tech & Semis"},
     "ASML"      : {"nom": "ASML Holding",       "secteur": "Tech & Semis"},          # NASDAQ → USD
     "TSM"       : {"nom": "Taiwan Semi (TSMC)", "secteur": "Tech & Semis"},           # NYSE ADR → USD
+    "ANT"       : {"nom": "Anthropic",          "secteur": "Tech & Semis"},           # Nasdaq, IPO 2026-11-19 → historique court
 
     # ── Robotics & MedTech ──────────────────────────────────────────────────────
     "6954.T"    : {"nom": "Fanuc",              "secteur": "Robotics & MedTech",  "devise": "JPY"},
     "ISRG"      : {"nom": "Intuitive Surgical", "secteur": "Robotics & MedTech"},
 
     # ── Healthcare & Pharma ──────────────────────────────────────────────────────
-    "ROG.SW"    : {"nom": "Roche",              "secteur": "Healthcare & Pharma", "devise": "CHF"},
+    "ROP.SW"    : {"nom": "Roche",              "secteur": "Healthcare & Pharma", "devise": "CHF"},  # ex ROG.SW (renommé par Yahoo)
     "ZTS"       : {"nom": "Zoetis",             "secteur": "Healthcare & Pharma"},
 
     # ── Energy ────────────────────────────────────────────────────────────────
