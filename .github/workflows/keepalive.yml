@@ -1,0 +1,96 @@
+name: SAINHE — Keepalive & Freshness
+
+# Garde-fou quotidien :
+#  1. Réactive tous les workflows du dépôt. GitHub met en pause les workflows
+#     planifiés après 60 jours sans commit ; l'appel "enable" remet ce compteur
+#     à zéro (c'est ce qui a figé le site du 14 août au 20 novembre 2026).
+#  2. Vérifie que les données publiées ont moins de MAX_AGE_HOURS heures.
+#     Si elles sont trop vieilles : ouvre une issue (GitHub vous notifie par
+#     email) et le job échoue. Dès que les données redeviennent fraîches,
+#     l'issue est fermée automatiquement.
+#
+# Doit vivre sur la branche par défaut (main) : GitHub n'exécute les
+# déclencheurs "schedule" que depuis celle-ci.
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # tous les jours 06:17 UTC (07:17/08:17 Paris)
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  issues: write
+  contents: read
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    name: Keepalive + freshness check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      SITE: https://sainhe.pages.dev
+      MAX_AGE_HOURS: "48"
+      ISSUE_TITLE: "[auto] Données SAINHE périmées"
+
+    steps:
+      - name: Réactiver tous les workflows (remet le compteur de 60 jours à zéro)
+        run: |
+          set -euo pipefail
+          gh api "repos/$REPO/actions/workflows" --paginate \
+            -q '.workflows[] | "\(.id)\t\(.state)\t\(.name)"' |
+          while IFS=$'\t' read -r id state name; do
+            gh api -X PUT "repos/$REPO/actions/workflows/$id/enable" > /dev/null
+            echo "enable OK  [$state -> active]  $name"
+          done
+
+      - name: Vérifier la fraîcheur des données publiées
+        id: fresh
+        run: |
+          set -euo pipefail
+          generated=$(curl -fsSL --retry 3 "$SITE/data/index.json" | jq -r '.generated')
+          gen_ts=$(date -u -d "$generated" +%s)
+          now_ts=$(date -u +%s)
+          age_h=$(( (now_ts - gen_ts) / 3600 ))
+          echo "generated=$generated  age=${age_h}h  max=${MAX_AGE_HOURS}h"
+          echo "generated=$generated" >> "$GITHUB_OUTPUT"
+          echo "age_h=$age_h" >> "$GITHUB_OUTPUT"
+          if [ "$age_h" -gt "$MAX_AGE_HOURS" ]; then
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "stale=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Données fraîches — fermer l'alerte éventuelle
+        if: steps.fresh.outputs.stale == 'false'
+        run: |
+          set -euo pipefail
+          for n in $(gh issue list -R "$REPO" --state open --search "\"$ISSUE_TITLE\" in:title" --json number -q '.[].number'); do
+            gh issue close "$n" -R "$REPO" \
+              --comment "Données de nouveau fraîches (générées ${{ steps.fresh.outputs.generated }}). Fermeture automatique."
+          done
+
+      - name: Données périmées — ouvrir une alerte et échouer
+        if: steps.fresh.outputs.stale == 'true'
+        run: |
+          set -euo pipefail
+          open=$(gh issue list -R "$REPO" --state open --search "\"$ISSUE_TITLE\" in:title" --json number -q 'length')
+          body="Les données de $SITE ont **${{ steps.fresh.outputs.age_h }} h** (générées ${{ steps.fresh.outputs.generated }}, seuil ${MAX_AGE_HOURS} h).
+
+          À vérifier :
+          - onglet Actions : le workflow **SAINHE — Data Pipeline** échoue-t-il ?
+          - secrets expirés : CF_API_TOKEN, GDRIVE_SA_KEY, FRED_API_KEY
+          - relance manuelle du pipeline complet :
+            \`gh api repos/$REPO/dispatches -f event_type=pipeline\`"
+          if [ "$open" -eq 0 ]; then
+            gh issue create -R "$REPO" --title "$ISSUE_TITLE" --body "$body"
+          else
+            echo "Alerte déjà ouverte, pas de doublon."
+          fi
+          echo "::error::Données périmées : ${{ steps.fresh.outputs.age_h }} h (> ${MAX_AGE_HOURS} h)"
+          exit 1
