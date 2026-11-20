@@ -42,7 +42,10 @@
 
 <main id="main">
 
-  {% if not stock_analysis_live %}
+  {% if stock_analysis_live and stock_vmap %}
+  {% include "partials/stock/_sa_style.html" %}
+  {% include "partials/stock/_sa_sections.html" %}
+  {% else %}
   <div class="sec-band sec-choc">
     <div class="shell-placeholder" style="padding:4rem 1rem;text-align:center">
       <p style="font-family:var(--serif);font-size:1.1rem;color:rgba(245,232,208,.55);margin-bottom:.6rem">Coming soon</p>
@@ -207,6 +210,7 @@ if(_TB) _TB.addEventListener("click",function(){setTheme(_H.dataset.theme==="dar
 })();
 </script>
 
+{% if stock_analysis_live and stock_vmap %}{% include "partials/stock/_sa_js.html" %}{% endif %}
 {% include "partials/_swipe_nav.html" %}
 </body>
 </html>

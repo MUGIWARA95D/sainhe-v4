@@ -177,6 +177,48 @@ RETIRED_TICKERS = {
 }
 
 # ============================================================
+#  4c. CONCURRENT DIRECT — bouton ⇄ du Portfolio Lab (page Stock Analysis)
+#  Table ÉDITORIALE (rédigée une fois, hors pipeline : règle « zéro LLM » respectée),
+#  À VALIDER par le propriétaire. Critère : plus grand concurrent COTÉ sur le même
+#  marché principal. None = pas de concurrent coté pertinent.
+#  Format : ticker → (ticker concurrent yfinance, nom, marché commun — en anglais :
+#  affiché tel quel sur le site, qui est en anglais)
+# ============================================================
+COMPETITORS = {
+    "NVDA"     : ("AMD",       "AMD",                 "GPUs and AI accelerators"),
+    "AAPL"     : ("005930.KS", "Samsung Electronics", "smartphones"),
+    "MSFT"     : ("GOOGL",     "Alphabet",            "cloud and productivity software"),
+    "ASML"     : ("AMAT",      "Applied Materials",   "chip-making equipment (no listed rival in EUV lithography)"),
+    "TSM"      : ("005930.KS", "Samsung Electronics", "advanced chip foundry"),
+    "6954.T"   : ("6506.T",    "Yaskawa Electric",    "industrial robots and CNC controls"),
+    "ISRG"     : ("MDT",       "Medtronic",           "surgical robotics"),
+    "ROP.SW"   : ("NOVN.SW",   "Novartis",            "pharmaceuticals (oncology, immunology)"),
+    "ZTS"      : ("ELAN",      "Elanco",              "animal health"),
+    "2222.SR"  : ("SHEL",      "Shell",               "integrated oil and gas"),
+    "XOM"      : ("CVX",       "Chevron",             "US integrated oil major"),
+    "LMT"      : ("RTX",       "RTX",                 "defence: aircraft, missiles"),
+    "SAF.PA"   : ("RR.L",      "Rolls-Royce",         "aircraft engines"),
+    "RHM.DE"   : ("BA.L",      "BAE Systems",         "land defence and munitions"),
+    "LDO.MI"   : ("HO.PA",     "Thales",              "defence electronics"),
+    "TSLA"     : ("1211.HK",   "BYD",                 "electric vehicles"),
+    "GEV"      : ("ENR.DE",    "Siemens Energy",      "gas turbines and power grids"),
+    "RACE"     : ("P911.DE",   "Porsche AG",          "luxury sports cars"),
+    "RMS.PA"   : ("MC.PA",     "LVMH",                "luxury leather goods"),
+    "DE"       : ("CNH",       "CNH Industrial",      "farm machinery"),
+    "CTVA"     : ("BAYN.DE",   "Bayer",               "seeds and crop protection"),
+    "GEBN.SW"  : ("5938.T",    "Lixil (Grohe)",       "bathroom and sanitary fittings"),
+    "ECL"      : ("VIE.PA",    "Veolia",              "water treatment (partial overlap)"),
+    "NESN.SW"  : ("BN.PA",     "Danone",              "nutrition, dairy, bottled water"),
+    "KO"       : ("PEP",       "PepsiCo",             "soft drinks"),
+    "COA.L"    : None,                                 # fil industriel : concurrents non cotés
+    "CAT"      : ("6301.T",    "Komatsu",             "construction and mining machinery"),
+    "600111.SS": ("MP",        "MP Materials",        "rare earths"),
+    "GLD"      : ("IAU",       "iShares Gold Trust",  "same gold exposure, lower fees"),
+    "KAP.L"    : ("CCJ",       "Cameco",              "uranium mining"),
+    "BTC-USD"  : ("ETH-USD",   "Ethereum",            "second-largest crypto asset"),
+}
+
+# ============================================================
 #  5. CONSTANTES DE CALCUL
 #  Source : sheet "colonnes à fetch.calculer" — v6.xlsx
 # ============================================================

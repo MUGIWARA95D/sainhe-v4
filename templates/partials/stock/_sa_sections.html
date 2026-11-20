@@ -1,0 +1,234 @@
+{#- Stock Analysis — phase 1. Rendered only when STOCK_ANALYSIS_LIVE=true (preview).
+    Data: valuation map embedded below; reports, quality and lab data fetched from
+    /data/stock/ (published to the preview only, see render_html.publish_stock_data). -#}
+<script type="application/json" id="sa-vmap">{{ stock_vmap | tojson }}</script>
+
+<div class="sa">
+
+  <!-- ═══ STATEMENT BAR ═══════════════════════════════════════ -->
+  <div class="statement-bar">
+    <span class="sb-label">Read the filings ·</span>
+    <span class="sb-body">What today's price requires you to believe, what the accounts have already proven, and how an allocation would have lived through five crises.</span>
+  </div>
+
+  <!-- ─── 01 · QUALITY × PRICE MAP ───────────────────────────── -->
+  <div class="sec-band sec-choc" id="sa-sec-map">
+    <div class="bib-wrap">
+      <button class="box-info-btn" aria-label="About this section">i</button>
+      <div class="box-info-pop">
+        <p class="bip-desc">Each company sits where its price meets its record. Horizontal: the perpetual free-cash-flow growth the market price implies (reverse DCF). Vertical: the share of years in which return on invested capital beat the cost of capital. Nothing here is a forecast.</p>
+        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+      </div>
+    </div>
+    <div class="section-lbl" id="nav-sa-map">
+      <span class="section-num">01</span><h2>Quality × Price</h2><em>What the market expects vs what the company has proven</em>
+    </div>
+
+    <div class="card" id="sa-map-card">
+      <div class="card-h">
+        <span class="card-t">Expectations map</span>
+        <span class="badge badge-gold" id="sa-asof">as of —</span>
+      </div>
+      <div class="sa-filters" role="group" aria-label="Map filters">
+        <span class="sa-kicker">Accounts</span>
+        <button class="sa-chip on" data-src="all" aria-pressed="true">All</button>
+        <button class="sa-chip" data-src="10-K" aria-pressed="false">US 10-K</button>
+        <button class="sa-chip" data-src="20-F" aria-pressed="false">Foreign 20-F</button>
+        <button class="sa-chip" data-src="ESEF" aria-pressed="false">Europe ESEF</button>
+        <span class="sa-sep" aria-hidden="true"></span>
+        <label class="sa-check"><input type="checkbox" id="sa-hide-stale"> Hide accounts older than 15 months</label>
+      </div>
+      <div class="sa-map-wrap"><canvas id="sa-map" role="img" aria-label="Scatter plot of implied growth against the share of years with ROIC above WACC. The table below lists the same data."></canvas></div>
+      <div class="sa-legend" aria-hidden="true">
+        <span><i class="sa-lg-c" style="background:var(--s1)"></i>US 10-K</span>
+        <span><i class="sa-lg-t" style="border-bottom-color:var(--s2)"></i>Foreign 20-F</span>
+        <span><i class="sa-lg-d" style="background:var(--s3)"></i>Europe ESEF</span>
+        <span><i class="sa-lg-h"></i>Hollow = accounts older than 15 months</span>
+        <span>Dashed line = risk-free rate · click a point to open the company file</span>
+      </div>
+      <div class="sa-unplaced" id="sa-unplaced"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">
+        <span class="card-t">Coverage table</span>
+        <span class="badge badge-green" id="sa-quality-badge">quality check —</span>
+      </div>
+      <div class="sa-tbl-wrap">
+        <table class="sa-tbl" id="sa-tbl">
+          <thead><tr>
+            <th data-k="ticker" class="l" scope="col">Company</th>
+            <th data-k="sector" class="l" scope="col">Sector</th>
+            <th data-k="implied_growth" scope="col" title="Perpetual FCF growth that today's price implies">Implied growth</th>
+            <th data-k="sgr" scope="col" title="Growth the company can finance itself: ROIC × reinvestment rate">Sustainable growth</th>
+            <th data-k="roic_share" scope="col" title="Years with ROIC above WACC">ROIC &gt; WACC</th>
+            <th data-k="ecart_pct" scope="col" title="No-growth value (EPV) per share relative to the price">EPV vs price</th>
+            <th data-k="n_flags" scope="col">Flags</th>
+            <th data-k="source" class="l" scope="col">Accounts</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 02 · COMPANY FILE ───────────────────────────────────── -->
+  <div class="sec-band sec-creme" id="sa-sec-file">
+    <div class="bib-wrap">
+      <button class="box-info-btn" aria-label="About this section">i</button>
+      <div class="box-info-pop">
+        <p class="bip-desc">Move the growth and discount-rate sliders to see what the price requires. Every underlined number opens its source: formula, inputs, XBRL tag and the filing it comes from.</p>
+        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+      </div>
+    </div>
+    <div class="section-lbl" id="nav-sa-file">
+      <span class="section-num">02</span><h2>Company file</h2><em>What you have to believe — and where every number comes from</em>
+    </div>
+
+    <div class="card">
+      <div class="sa-pick" id="sa-pick" role="group" aria-label="Choose a company"></div>
+      <div class="sa-body" id="sa-head"><div class="sa-loading">Choose a company</div></div>
+    </div>
+
+    <div class="sa-grid2">
+      <div class="card" id="sa-sim-card">
+        <div class="card-h">
+          <span class="card-t">What you have to believe</span>
+          <span class="badge badge-gold">reverse DCF · your inputs</span>
+        </div>
+        <div class="sa-body" id="sa-sim"><div class="sa-loading">Loading…</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h">
+          <span class="card-t">The record</span>
+          <span class="badge badge-gold">click any figure</span>
+        </div>
+        <div class="sa-body" id="sa-facts"><div class="sa-loading">Loading…</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:22px">
+      <div class="card-h">
+        <span class="card-t">Ten years of accounts</span>
+        <span class="badge badge-gold" id="sa-trend-cur">—</span>
+      </div>
+      <div class="sa-body"><div class="sa-trends" id="sa-trends"></div></div>
+    </div>
+  </div>
+
+  <!-- ─── 03 · ALLOCATION LAB ─────────────────────────────────── -->
+  <div class="sec-band sec-choc" id="sa-sec-lab">
+    <div class="bib-wrap">
+      <button class="box-info-btn" aria-label="About this section">i</button>
+      <div class="box-info-pop">
+        <p class="bip-desc">Re-weight the SAINHE watchlist, swap any holding for its closest listed rival and change the currency you measure in. Everything is recomputed in your browser from five years of daily prices. History, not a forecast.</p>
+        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+      </div>
+    </div>
+    <div class="section-lbl" id="nav-sa-lab">
+      <span class="section-num">03</span><h2>Allocation Lab</h2><em>Move the weights, swap a rival, change the currency lens</em>
+    </div>
+
+    <div class="card" id="sa-lab-card">
+      <div class="sa-lab-bar" role="group" aria-label="Allocation presets and currency">
+        <span class="sa-kicker">Start from</span>
+        <button class="sa-chip on" data-preset="equal">Equal weight</button>
+        <button class="sa-chip" data-preset="invvol">Inverse volatility</button>
+        <button class="sa-chip" data-preset="hrp">Risk clusters (HRP)</button>
+        <button class="sa-chip" data-preset="mine" id="sa-preset-mine" hidden>My saved mix</button>
+        <span class="sa-sep" aria-hidden="true"></span>
+        <span class="sa-kicker">Measured in</span>
+        <span class="sa-seg" id="sa-lens" role="group" aria-label="Currency lens"></span>
+        <span class="sa-sep" aria-hidden="true"></span>
+        <button class="sa-btn" id="sa-lab-save">Save my mix</button>
+        <button class="sa-btn" id="sa-lab-share">Copy link</button>
+      </div>
+      <div id="sa-lab"><div class="sa-loading">Loading five years of prices…</div></div>
+    </div>
+  </div>
+
+  <!-- ─── 04 · CRISIS REPLAY ──────────────────────────────────── -->
+  <div class="sec-band sec-creme" id="sa-sec-crisis">
+    <div class="bib-wrap">
+      <button class="box-info-btn" aria-label="About this section">i</button>
+      <div class="box-info-pop">
+        <p class="bip-desc">The allocation you built in the Lab, replayed through five historical stress windows, in the currency you chose. Holdings that were not listed yet are left out and the remaining weights are rescaled — the coverage is shown for every crisis.</p>
+        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+      </div>
+    </div>
+    <div class="section-lbl" id="nav-sa-crisis">
+      <span class="section-num">04</span><h2>Crisis replay</h2><em>Your allocation through 2008, 2013, 2018, 2020 and 2022</em>
+    </div>
+
+    <div class="card">
+      <div class="sa-filters" id="sa-crisis-pick" role="group" aria-label="Choose a crisis"></div>
+      <div class="sa-crisis-c"><canvas id="sa-crisis" role="img" aria-label="Value of 100 invested at the start of the crisis window, for your allocation, equal weight and MSCI ACWI. The table below gives the figures."></canvas></div>
+      <div class="sa-tbl-wrap">
+        <table class="sa-tbl" id="sa-crisis-tbl">
+          <thead><tr>
+            <th class="l" scope="col">Crisis</th>
+            <th scope="col">Window</th>
+            <th scope="col">Your allocation</th>
+            <th scope="col">Worst drawdown</th>
+            <th scope="col">Equal weight</th>
+            <th scope="col">ACWI</th>
+            <th class="l" scope="col">Coverage</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 05 · METHOD & LIMITS ────────────────────────────────── -->
+  <div class="sec-band sec-choc" id="sa-sec-method">
+    <div class="section-lbl" id="nav-sa-method">
+      <span class="section-num">05</span><h2>Method &amp; limits</h2><em>How it is computed, and what it cannot tell you</em>
+    </div>
+    <div class="card">
+      <div class="sa-body">
+        <div class="sa-method">
+          <div>
+            <h3>Where the numbers come from</h3>
+            <ul>
+              <li>US companies: annual 10-K, foreign issuers: 20-F, both read directly from SEC EDGAR XBRL.</li>
+              <li>European companies: ESEF annual reports from filings.xbrl.org.</li>
+              <li>Prices and FX: daily closes, free sources. Values are shown in the currency of the accounts.</li>
+              <li>Every week the pipeline cross-checks XBRL figures against a second source and publishes the gaps.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>What is computed</h3>
+            <ul>
+              <li><strong>Implied growth</strong>: the perpetual growth g that solves EV = FCF × (1+g) / (WACC − g). FCF is adjusted for stock-based pay.</li>
+              <li><strong>EPV</strong>: value with zero growth, EBIT × (1 − t) / WACC − net debt.</li>
+              <li><strong>Sustainable growth</strong>: ROIC × reinvestment rate, from the accounts only.</li>
+              <li><strong>Lab</strong>: daily returns rebalanced to target weights; VaR and CVaR are historical (95 %, one day).</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Limits</h3>
+            <ul>
+              <li>Missing data stays <span class="sa-nd">N/D</span>: nothing is imputed.</li>
+              <li>A perpetuity formula is very sensitive near WACC = g; read the slope, not one point.</li>
+              <li>Past crises do not repeat in the same way. Holdings not listed at the time are excluded.</li>
+              <li>Rivals are an editorial pairing for one common market, not a full peer group.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sa-disc"><strong>Informational only, not investment advice.</strong> SAINHE publishes measurements and flags computed from public filings and market prices. It does not recommend buying or selling any security, and nothing on this page is a price target or a forecast.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Source drawer (feature: every number → its filing) -->
+<div id="sa-drawer-scrim"></div>
+<aside id="sa-drawer" role="dialog" aria-modal="true" aria-labelledby="sa-dr-title" aria-hidden="true">
+  <div class="sa-dr-h">
+    <div><div class="sa-kicker" id="sa-dr-kicker">Source</div><div class="sa-dr-t" id="sa-dr-title">—</div></div>
+    <button class="sa-dr-x" id="sa-dr-close" aria-label="Close">✕</button>
+  </div>
+  <div class="sa-dr-b" id="sa-dr-body"></div>
+</aside>

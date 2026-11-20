@@ -21,3 +21,6 @@ sainhe.egg-info/
 
 # Sorties des tests du backend (régénérées à chaque exécution)
 sainhe_backend/tests/out/
+
+# Copie locale de la base à la racine (la vraie vit sur Google Drive) : ne jamais committer
+/sainhe.db

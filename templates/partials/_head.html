@@ -1248,6 +1248,8 @@ a.news-hl:hover{color:var(--gold)}
     if(lbl) lbl.textContent = c;
     if(window._sainheRenderIndices)   window._sainheRenderIndices();
     if(window._sainheRenderPortfolio) window._sainheRenderPortfolio();
+    /* Stock Analysis (Allocation Lab, crisis replay) listens to this event */
+    try{ document.dispatchEvent(new CustomEvent('sainhe:currency', {detail: c})); }catch(e){}
   };
 
   /* On load: restore header button label if a non-USD currency was saved */

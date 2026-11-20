@@ -27,6 +27,7 @@ boxes/*.py             un module par bloc : render(con) -> {meta, data}
 render_html.py         Jinja2 -> HTML statique + couche JSON (output/data/*.json)
 schema.py              contrat de la couche JSON (unités + seuils)
 templates/             HTML/CSS/JS (Chart.js) ; stock-analysis.html derrière le flag STOCK_ANALYSIS_LIVE
+  partials/stock/      page Stock Analysis phase 1 (_sa_style, _sa_sections, _sa_js) — preview seulement
 sainhe_backend/        Stock Analysis + Portfolio Sim (edgar/, esef/, compute/, portfolio/, output/, tests/)
   pipeline.py          --coverage : US 10-K + ADR 20-F (EDGAR) + Europe ESEF (filings.xbrl.org) → data/stock/
   portfolio_runner.py  Portfolio Sim USD/EUR/CHF/HKD → data/stock/portfolio_report_{DEV}.json
@@ -83,10 +84,19 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
 - **Portfolio Sim** : portefeuille actuel rejoué sans reconstitution (titres non encore cotés exclus, poids
   renormalisés, couverture publiée) ; stress tests 2008→2022 sur l'historique depuis 2007. Poids : équipondéré,
   ou `data/portfolio_weights.json` {"TICKER": poids} s'il existe.
-- **Page publique** : Stock Analysis rendue en preview seulement (`STOCK_ANALYSIS_LIVE=false` en prod). Une
-  interface complète a existé (commits 46a4550, b355862 du 14 juin) puis a été retirée le 15 : base possible
-  pour la phase 1, à reprendre en gardant le flag.
-- **Reste à faire** : parsing XML des Forms 4, univers de pairs SIC, TTM via 10-Q, page front phase 1.
+- **Page publique (phase 1, 20 nov.)** : `templates/stock-analysis.html` inclut `partials/stock/_sa_*.html`
+  UNIQUEMENT si `STOCK_ANALYSIS_LIVE=true` et valuation map présente (sinon « Coming soon »). 5 modules :
+  carte Qualité × Prix (croissance implicite × années ROIC > WACC), simulateur « ce qu'il faut croire »
+  (DCF inverse sur les curseurs de l'utilisateur, jamais une estimation SAINHE), tiroir des sources (formule,
+  entrées, tag XBRL, lien du dépôt), Portfolio Lab (poids, ⇄ concurrent, objectif de devise synchronisé avec
+  l'en-tête via l'événement `sainhe:currency`, lien partageable `#lab=`), rejeu des 5 crises. Tout est
+  calculé dans le navigateur depuis `data/stock/*_report.json` et `lab_data.json` (écrit par
+  `portfolio_runner.export_lab_data` : rendements journaliers en 1e-5, change « USD pour 1 unité »).
+  Parité vérifiée avec le backend (vol 5 ans, max drawdown). Palette des graphiques validée (dataviz).
+  Le site est en anglais : les libellés `COMPETITORS` (config.py racine) le sont aussi.
+  L'ancienne interface du 14 juin (46a4550, b355862) n'a PAS été reprise.
+- **Reste à faire** : parsing XML des Forms 4, univers de pairs SIC, TTM via 10-Q, matrice de sensibilité
+  `bloc_H` dégénérée (axe g écrasé par le plafond de croissance terminale), statut FINMA avant mise en ligne.
 - `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → exclu de Portfolio Sim (< 400 jours) ;
   pas de 10-K avant 2027 → hors couverture Stock Analysis.
 

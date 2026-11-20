@@ -46,12 +46,99 @@ def _session():
         return None
 
 
-def load_watchlist() -> dict:
+def _root_config_value(name: str):
     tree = ast.parse((ROOT / "config.py").read_text(encoding="utf-8"))
     for n in tree.body:
-        if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == "WATCHLIST":
+        if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == name:
             return ast.literal_eval(n.value)
-    raise RuntimeError("WATCHLIST introuvable dans config.py")
+    raise RuntimeError(f"{name} introuvable dans config.py")
+
+
+def load_watchlist() -> dict:
+    return _root_config_value("WATCHLIST")
+
+
+def load_competitors() -> dict:
+    """ticker → (concurrent, nom, marché) ; table éditoriale de config.py (bouton ⇄ du Lab)."""
+    try:
+        return {t: v for t, v in _root_config_value("COMPETITORS").items() if v}
+    except RuntimeError:
+        return {}
+
+
+def _enc(series: pd.Series) -> list:
+    """Rendements → entiers en 1e-5 (≈ 6 octets/valeur au lieu de 20), None si absent."""
+    return [None if v != v else int(round(v * 1e5)) for v in series.tolist()]
+
+
+def export_lab_data(closes: dict, infos: dict, wl: dict, comps: dict, holdings: list[str],
+                    weights: dict, sess) -> Path:
+    """data/stock/lab_data.json — tout ce dont le Portfolio Lab et le Rejeu de crises ont
+    besoin pour recalculer DANS LE NAVIGATEUR (site statique, aucun serveur) :
+      - rendements journaliers en DEVISE LOCALE (titres, concurrents, SPY/ACWI), 5 ans ;
+      - niveaux de change « USD pour 1 unité » de chaque devise → conversion dans n'importe
+        quelle devise d'affichage : r_ref = (1+r_loc)·(fx_nat,t/fx_nat,t-1)·(fx_ref,t-1/fx_ref,t) − 1 ;
+      - fenêtres de crise (stress.SCENARIOS) avec les mêmes données ;
+      - préréglages : poids par défaut et HRP (portfolio_report_USD.json).
+    """
+    from portfolio.stress import SCENARIOS
+    names = list(dict.fromkeys(holdings + [c[0] for c in comps.values()] + BENCHMARKS))
+    names = [t for t in names if t in closes and len(closes[t])]
+    nat = {}
+    for t in names:
+        c = (infos.get(t) or {}).get("currency") or (wl.get(t) or {}).get("devise", "USD")
+        nat[t] = "GBP" if c in ("GBp", "GBX") else c
+    days = closes["SPY"].index
+    px = pd.DataFrame({t: closes[t] for t in names}).reindex(days).ffill(limit=3)
+    rets = px.pct_change(fill_method=None)
+    currencies = sorted(set(nat.values()) | set(CURRENCIES))
+    fx = {}
+    for c in currencies:
+        if c == "USD":
+            continue
+        s = fx_series(c, "USD", sess)
+        if s is not None:
+            fx[c] = s.reindex(days).ffill().bfill()
+
+    def block(idx) -> dict:
+        return {"dates": [d.strftime("%Y-%m-%d") for d in idx],
+                "r": {t: _enc(rets.loc[idx, t]) for t in names},
+                "fx_usd": {c: [round(float(v), 6) for v in s.loc[idx].tolist()] for c, s in fx.items()}}
+
+    cutoff = days[-1] - pd.DateOffset(years=MAIN_YEARS, days=15)
+    main_idx = days[days >= cutoff]
+    crises = {}
+    for name, (start, end) in SCENARIOS.items():
+        idx = days[(days >= pd.Timestamp(start) - pd.Timedelta(days=7)) & (days <= pd.Timestamp(end))]
+        if len(idx) > 2:
+            crises[name] = {"start": start, "end": end, **block(idx)}
+    hrp = {}
+    rp = ROOT / "data" / "stock" / "portfolio_report_USD.json"
+    if rp.exists():
+        rep = json.loads(rp.read_text(encoding="utf-8"))
+        for row in rep.get("bloc_3_correlation_hrp", {}).get("weights_comparison_hrp", []):
+            hrp[row["ticker"]] = row.get("hrp_suggested")
+    out = {
+        "as_of": str(days[-1].date()),
+        "unit": "rendements en 1e-5 (entiers), devise locale ; fx_usd = USD pour 1 unité",
+        "holdings": [{"t": t, "name": wl[t].get("nom", t), "sector": wl[t].get("secteur", "N/D"),
+                      "cur": nat.get(t, "USD")} for t in holdings if t in names],
+        "competitors": {t: {"t": c[0], "name": c[1], "market": c[2], "cur": nat.get(c[0])}
+                        for t, c in comps.items() if c[0] in names},
+        # watchlist absente du Labo (historique trop court ou cotation morte) : affichée
+        "excluded": [{"t": t, "name": wl[t].get("nom", t)} for t in wl if t not in holdings],
+        "benchmarks": BENCHMARKS,
+        "currencies_display": CURRENCIES,
+        "presets": {"default": weights, "hrp": hrp},
+        "main": block(main_idx),
+        "crises": crises,
+        "disclaimer": config.DISCLAIMER,
+    }
+    path = ROOT / "data" / "stock" / "lab_data.json"
+    path.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    log.info("OK lab_data.json (%d séries, %d crises, %.0f Ko)", len(names), len(crises),
+             path.stat().st_size / 1024)
+    return path
 
 
 def load_weights(tickers: list[str]) -> tuple[dict, str]:
@@ -147,7 +234,9 @@ def fx_series(cur: str, ref: str, sess) -> pd.Series | None:
 def main(currencies: list[str], n_sims: int) -> dict:
     sess = _session()
     wl = load_watchlist()
-    closes, infos = fetch(list(wl) + BENCHMARKS, sess)
+    comps = load_competitors()
+    comp_tickers = [c[0] for c in comps.values() if c[0] not in wl]
+    closes, infos = fetch(list(dict.fromkeys(list(wl) + BENCHMARKS + comp_tickers)), sess)
     native = {}
     for t in wl:
         c = (infos.get(t) or {}).get("currency") or wl[t].get("devise", "USD")
@@ -243,6 +332,11 @@ def main(currencies: list[str], n_sims: int) -> dict:
         size = out.stat().st_size
         log.info("OK %s → %s (%d holdings, %.0f Ko)", ref, out.name, len(w_ref), size / 1024)
         status["currencies"][ref] = {"holdings": len(w_ref), "kb": round(size / 1024)}
+    # Données du Portfolio Lab / Rejeu de crises (calcul côté navigateur) — après les
+    # rapports, pour reprendre les poids HRP de portfolio_report_USD.json
+    lab = export_lab_data(closes, infos, wl, comps, tickers,
+                          {t: w / sum(weights.values()) for t, w in weights.items()}, sess)
+    status["lab_data_kb"] = round(lab.stat().st_size / 1024)
     return status
 
 
