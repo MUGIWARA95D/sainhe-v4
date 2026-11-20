@@ -80,19 +80,28 @@ def load_fx_series(con: sqlite3.Connection, devise: str) -> pd.Series | None:
     return s
 
 
-def usd_adjust(close: pd.Series, fx: pd.Series | None) -> pd.Series:
+def usd_adjust(close: pd.Series, fx: pd.Series | None, devise: str = "USD") -> pd.Series:
     """
     Convertit une série de prix natifs en USD.
     fx = Series de taux USD_DEVISE (1 USD = fx[date] unités de devise).
     donc prix_USD = prix_natif / fx[date].
     Utilise ffill pour les jours sans cotation FX (week-ends, fériés).
-    Si fx est None ou toutes les valeurs manquantes → retourne close inchangé.
+
+    devise == "USD" → close inchangé.
+    Devise étrangère sans taux FX (None ou tout NaN) → série NaN, donc returns/score
+    en N/D. Avant : on renvoyait les prix en devise native comme s'ils étaient en USD,
+    ce qui faussait en silence le classement inter-régions (règle : N/D, jamais
+    d'interpolation). Les dates antérieures au premier taux FX restent NaN aussi.
     """
-    if fx is None:
+    if not devise or devise == "USD":
         return close
+    if fx is None:
+        log.warning("Pas de taux FX USD_%s → returns en N/D", devise)
+        return close * np.nan
     fx_aligned = fx.reindex(close.index, method="ffill")
     if fx_aligned.isna().all():
-        return close   # pas de données FX → fallback devise native
+        log.warning("Taux FX USD_%s sans recouvrement avec les prix → returns en N/D", devise)
+        return close * np.nan
     return close / fx_aligned
 
 
@@ -646,7 +655,7 @@ def main():
         devise  = devise_map.get(ticker, "USD")
         fx      = load_fx_series(con, devise)
         df_usd  = df.copy()
-        df_usd["close"] = usd_adjust(df["close"], fx)
+        df_usd["close"] = usd_adjust(df["close"], fx, devise)
 
         # ── Calculs ──────────────────────────────────────
         dma50, dma200, above_dma200 = calc_dma(df)           # prix natifs

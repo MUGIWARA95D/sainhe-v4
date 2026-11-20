@@ -25,6 +25,17 @@ from pathlib import Path
 
 import requests
 import yfinance as yf
+from curl_cffi import requests as cffi
+
+# Session navigateur (même approche que fetch_prices.py) : sans elle, Yahoo renvoie
+# souvent "Too Many Requests" (YFRateLimitError) — constaté 2026-11-20.
+_YF_SESSION = cffi.Session(impersonate="chrome")
+
+# Devises à parité fixe officielle : on stocke la parité, pas la cotation Yahoo.
+# USDSAR=X sur Yahoo oscille entre 3,61 et 3,79 (137 jours à > 0,02 du peg sur 2 ans,
+# constaté 2026-11-20) → fausse volatilité FX injectée dans les returns USD de 2222.SR.
+# SAR : parité SAMA 3,75 depuis 1986 (valeur réglementaire, pas une interpolation).
+FX_PEGS = {"USD_SAR": 3.75}
 
 import db
 from config import FX_SOURCES
@@ -98,6 +109,7 @@ def _fetch_yfinance() -> dict[str, float]:
                 auto_adjust=True,
                 progress=False,
                 group_by="ticker",
+                session=_YF_SESSION,
             )
             if raw.empty:
                 time.sleep(SLEEP_RETRY)
@@ -220,8 +232,48 @@ def backfill_fx_daily(con: sqlite3.Connection, years: int = 2):
                 )
                 inserted += 1
 
+    # Parités fixes : une ligne par jour ouvré Frankfurter, REPLACE pour écraser les
+    # anciens snapshots Yahoo bruités. Sans ça, USD_SAR n'avait que les snapshots
+    # quotidiens → 2222.SR sans return 1Y.
+    for pair, peg in FX_PEGS.items():
+        for date_str in daily_rates:
+            con.execute(
+                "INSERT OR REPLACE INTO fx_daily (pair, date, rate) VALUES (?, ?, ?)",
+                (pair, date_str, peg),
+            )
+        con.execute("UPDATE fx_daily SET rate = ? WHERE pair = ?", (peg, pair))
+        inserted += len(daily_rates)
+        log.info("Parité fixe %s = %s sur %d jours", pair, peg, len(daily_rates))
+
+    # Autres devises que Frankfurter ne couvre pas → historique yfinance.
+    returned = {t for rm in daily_rates.values() for t in rm}
+    for pair, yf_ticker in FX_SOURCES.items():
+        if pair.split("_")[1] in returned or pair in FX_PEGS:
+            continue
+        try:
+            hist = yf.Ticker(yf_ticker, session=_YF_SESSION).history(
+                period=f"{years}y", interval="1d")["Close"].dropna()
+        except Exception as e:
+            log.warning("Backfill yfinance %s (%s) échec : %s", pair, yf_ticker, e)
+            continue
+        for ts_idx, rate in hist.items():
+            con.execute(
+                "INSERT OR IGNORE INTO fx_daily (pair, date, rate) VALUES (?, ?, ?)",
+                (pair, ts_idx.strftime("%Y-%m-%d"), float(rate)),
+            )
+        inserted += len(hist)
+        log.info("Backfill yfinance %s : %d jours", pair, len(hist))
+
     con.commit()
     log.info("Backfill terminé — %d lignes insérées dans fx_daily.", inserted)
+
+
+FX_MIN_DAILY_ROWS = 400   # ≈ 1,5 an de jours ouvrés : en dessous, return 1Y en USD impossible
+
+
+def _pairs_needing_backfill(con: sqlite3.Connection) -> list[str]:
+    counts = dict(con.execute("SELECT pair, COUNT(*) FROM fx_daily GROUP BY pair").fetchall())
+    return [p for p in FX_SOURCES if counts.get(p, 0) < FX_MIN_DAILY_ROWS]
 
 
 # ============================================================
@@ -236,7 +288,16 @@ def main(backfill: bool = False, backfill_years: int = 2):
         con.close()
         return
 
+    # Auto-backfill : une paire ajoutée (ou jamais backfillée) récupère son historique
+    # sans intervention manuelle. INSERT OR IGNORE → sans effet sur les paires complètes.
+    short = _pairs_needing_backfill(con)
+    if short:
+        log.info("Historique FX court (< %d jours) : %s → backfill", FX_MIN_DAILY_ROWS, ", ".join(short))
+        backfill_fx_daily(con, years=backfill_years)
+
     rates = fetch_rates()
+    if rates:
+        rates.update(FX_PEGS)   # parité officielle prioritaire sur la cotation du jour
 
     if not rates:
         log.error("Aucun taux récupéré.")

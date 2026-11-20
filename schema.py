@@ -131,7 +131,7 @@ PORTFOLIO_UNITS = {
 SOURCES = {
     "macro":     "FRED, ECB SDW, MoF Japan, ChinaBond CCDC, stooq, multpl.com, yfinance",
     "indices":   "Yahoo Finance (curl_cffi)",
-    "news":      "RSS: Bloomberg, AP, MarketWatch, SCMP, FT",
+    "news":      "RSS: Bloomberg, CNBC, MarketWatch, SCMP, FT",
     "sectors":   "Yahoo Finance (curl_cffi)",
     "sentiment": "Rotation — 16 sectors × 4 regions, alpha vs MONDE benchmark + DMA/MFI/OBV independent signals",
     "portfolio": "Yahoo Finance (curl_cffi)",

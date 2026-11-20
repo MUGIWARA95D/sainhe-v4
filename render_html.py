@@ -114,7 +114,7 @@ def _box_timestamps(con: sqlite3.Connection) -> dict:
             from datetime import datetime as _dt
             try:
                 d = _dt.strptime(raw[:19].replace("T", " "), "%Y-%m-%d %H:%M:%S")
-                return f"{MONTH_ABBR[d.month-1]} {d.day:02d}; {d:%H:%M}"
+                return f"{MONTH_ABBR[d.month-1]} {d.day:02d}; {d:%H:%M} UTC"   # horodatages DB = UTC
             except Exception:
                 try:
                     d = _dt.strptime(raw[:10], "%Y-%m-%d")

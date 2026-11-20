@@ -258,7 +258,8 @@ SECTOR_PE_BAND = 0.25
 # ============================================================
 RSS_SOURCES = {
     1: {"url": "https://feeds.bloomberg.com/markets/news.rss",           "region": "GLOBAL", "lang": "EN"},
-    2: {"url": "https://apnews.com/hub/financial-markets?format=rss",    "region": "USA",    "lang": "EN"},
+    # 2026-11-20 : AP News (apnews.com/hub/financial-markets?format=rss) répond 403 → CNBC Markets
+    2: {"url": "https://www.cnbc.com/id/10000664/device/rss/rss.html",  "region": "USA",    "lang": "EN"},
     3: {"url": "https://feeds.marketwatch.com/marketwatch/topstories",   "region": "USA",    "lang": "EN"},
     4: {"url": "https://www.scmp.com/rss/91/feed",                       "region": "ASIE",   "lang": "EN"},
     6: {"url": "https://www.ft.com/rss/home/international",              "region": "EU",     "lang": "EN"},

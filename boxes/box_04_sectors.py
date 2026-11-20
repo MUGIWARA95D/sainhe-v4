@@ -6,6 +6,8 @@ import json
 import sqlite3
 from collections import defaultdict
 
+from config import SECTOR_TICKERS
+
 # ════════════════════════════════════════════════════════════
 # ── 1. META
 # ════════════════════════════════════════════════════════════
@@ -74,12 +76,15 @@ def _fetch_etf_snapshots(con: sqlite3.Connection) -> dict[tuple, dict]:
     Lit snapshot + ticker_info pour tous les ETFs sectoriels.
     Retourne un dict {(secteur, region): données}.
     Modifie les colonnes SELECT pour ajouter des indicateurs.
+
+    Le couple (secteur, region) vient de SECTOR_TICKERS (config), PAS de
+    ticker_info : ticker est la clé primaire de ticker_info, donc un ETF utilisé
+    dans plusieurs cases (IBIT ×4, PPA, UFO, MOO…) n'y a qu'une seule ligne et
+    n'apparaissait que dans la première case. Même logique que box_05_sentiment.
     """
     rows = con.execute(
         """
         SELECT
-            ti.secteur,
-            ti.region,
             ti.ticker,
             s.close,
             s.chg_pct,
@@ -98,14 +103,16 @@ def _fetch_etf_snapshots(con: sqlite3.Connection) -> dict[tuple, dict]:
     ).fetchall()
 
     cols = [
-        "secteur", "region", "ticker", "close", "chg_pct",
+        "ticker", "close", "chg_pct",
         "ret_1m", "ret_3m", "ret_6m", "ret_1y",
         "score", "above_dma200", "sparkline_json",
     ]
+    by_ticker = {r[0]: dict(zip(cols, r)) for r in rows}
     result = {}
-    for r in rows:
-        d = dict(zip(cols, r))
-        result[(d["secteur"], d["region"])] = d
+    for secteur, regions in SECTOR_TICKERS.items():
+        for region, ticker in regions.items():
+            if ticker and ticker in by_ticker:
+                result[(secteur, region)] = {**by_ticker[ticker], "secteur": secteur, "region": region}
     return result
 
 

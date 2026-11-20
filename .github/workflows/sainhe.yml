@@ -73,9 +73,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -186,11 +186,11 @@ jobs:
       (github.event_name == 'repository_dispatch' && github.event.action == 'news')
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: dev
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -267,11 +267,11 @@ jobs:
       (github.event_name == 'repository_dispatch' && github.event.action == 'fx')
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: dev
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -336,11 +336,11 @@ jobs:
       (github.event_name == 'repository_dispatch' && github.event.action == 'pipeline')
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: dev
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip

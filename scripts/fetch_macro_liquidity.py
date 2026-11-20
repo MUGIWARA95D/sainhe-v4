@@ -12,6 +12,7 @@ Requires: FRED_API_KEY in environment (free at fred.stlouisfed.org/docs/api/api_
 """
 
 import os
+import re
 import sys
 import time
 import datetime as dt
@@ -46,11 +47,18 @@ _load_dotenv()
 FRED_KEY  = os.environ.get("FRED_API_KEY", "")
 FRED_BASE = "https://api.stlouisfed.org/fred/series/observations"
 
-# ECB: try new REST API first, fall back to legacy SDW
+# ECB Data Portal. L'ancien hôte sdw-wsrest.ecb.europa.eu a été supprimé (DNS mort,
+# vérifié 2026-11-20) : le garder ne faisait qu'ajouter une erreur à chaque run.
 ECB_ENDPOINTS = [
-    "https://data-api.ecb.europa.eu/service/data",   # new (2024+), different DNS
-    "https://sdw-wsrest.ecb.europa.eu/service/data",  # legacy fallback
+    "https://data-api.ecb.europa.eu/service/data",
 ]
+# Bilan Eurosystème hebdomadaire (millions EUR). L'ancienne clé
+# W.U2.C.A.U20.EUR.E.1.Z5.0000.Z01.E renvoie HTTP 400 depuis 2026.
+ECB_TOTAL_ASSETS_KEY = "W.U2.C.T000000.Z5.Z01"
+
+# Bank of Japan Time-Series API (sans clé) — M2 encours moyens, 100 millions JPY, mensuel
+BOJ_API = "https://www.stat-search.boj.or.jp/api/v1/getDataCode"
+BOJ_M2_DB, BOJ_M2_CODE = "MD02", "MAM1NAM2M2MO"
 
 HEADERS = {
     "User-Agent": (
@@ -68,7 +76,8 @@ FRED_SERIES = {
     "RRPONTSYD"      : "Overnight Reverse Repo (B USD, daily)",
     "WTREGEN"        : "Treasury General Account (B USD, weekly)",
     "M2SL"           : "US M2 Money Stock (B USD, monthly)",
-    "MYAGM2CNM189N"  : "China M2 Money Stock (B CNY, monthly)",
+    "ECBASSETSW"     : "ECB/Eurosystem Total Assets (M EUR, weekly) — fallback ECB",
+    # MYAGM2CNM189N (China M2) : série arrêtée en 2019-08 → retirée.
     "BAMLH0A0HYM2"    : "US HY OAS — ICE BofA (%, daily)",
     "BAMLHE00EHYIOAS" : "EU HY OAS — ICE BofA Euro (%, daily)",     # BAMLHE00EHY2EY discontinued
     "IRLTLT01JPM156N": "JGB 10Y Yield (%, monthly)",
@@ -78,7 +87,7 @@ FRED_SERIES = {
 # ECB SDW series → description
 ECB_SERIES = {
     # ILM dataset — Internal Liquidity Management (weekly balance sheet)
-    ("ILM", "W.U2.C.A.U20.EUR.E.1.Z5.0000.Z01.E"): "ECB Total Assets (B EUR, weekly)",
+    ("ILM", ECB_TOTAL_ASSETS_KEY): "Eurosystem Total Assets (M EUR, weekly)",
     # YC dataset — yield curve (daily)
     ("YC",  "B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y")  : "Euro AAA 10Y Yield (daily)",
     ("YC",  "B.U2.EUR.4F.G_N_A.SV_C_YM.SR_2Y")   : "Euro AAA 2Y Yield (daily)",
@@ -106,7 +115,8 @@ def _fred_obs(series_id: str, n: int = 14, lookback_years: int = 4) -> list[dict
         "file_type"        : "json",
         "observation_start": obs_start,
     }
-    backoffs = [5, 15, 30]   # seconds; 3 retries on 429
+    backoffs = [5, 15, 30]   # seconds; 3 retries on 429 AND on transient errors
+    last_err = None
     for attempt, wait in enumerate([0] + backoffs):
         if wait: time.sleep(wait)
         try:
@@ -114,6 +124,10 @@ def _fred_obs(series_id: str, n: int = 14, lookback_years: int = 4) -> list[dict
             if r.status_code == 429 and attempt < len(backoffs):
                 print(f"[fred] {series_id} 429 rate-limited, retry in {backoffs[attempt]}s ({attempt+1}/{len(backoffs)})")
                 continue
+            if 400 <= r.status_code < 500 and r.status_code != 429:
+                # Erreur client (série inconnue, clé invalide) : inutile de réessayer
+                print(f"[fred] {series_id} HTTP {r.status_code} — {r.text[:160]}")
+                return []
             r.raise_for_status()
             raw = r.json().get("observations", [])
             clean = [
@@ -123,9 +137,13 @@ def _fred_obs(series_id: str, n: int = 14, lookback_years: int = 4) -> list[dict
             ]
             return sorted(clean, key=lambda x: x["date"], reverse=True)[:n]
         except Exception as e:
-            if attempt == len(backoffs):
-                print(f"[fred] {series_id} error after retries: {e}")
-        return []
+            # Avant : le `return []` était DANS la boucle → toute erreur passagère
+            # (timeout, 5xx) abandonnait au 1er essai, sans log. Maintenant : retry + log.
+            last_err = e
+            if attempt < len(backoffs):
+                print(f"[fred] {series_id} {type(e).__name__}: {e} — retry in {backoffs[attempt]}s")
+    print(f"[fred] {series_id} error after retries: {last_err}")
+    return []
 
 
 def _yoy(series: list[dict]) -> float | None:
@@ -186,6 +204,42 @@ def _ecb_obs(dataset: str, series_key: str, n: int = 14) -> list[dict]:
             continue  # try next endpoint
 
     return []  # all endpoints failed
+
+
+def _iso_week_to_date(period: str) -> str:
+    """'2026-W46' (format ECB hebdo) → '2026-11-13' (vendredi de la semaine). Sinon inchangé."""
+    try:
+        y, w = period.split("-W")
+        return dt.date.fromisocalendar(int(y), int(w), 5).isoformat()
+    except (ValueError, AttributeError):
+        return period
+
+
+# ── Bank of Japan ─────────────────────────────────────────────────────────────
+
+def _boj_obs(db: str, code: str, n: int = 14) -> list[dict]:
+    """
+    Dernières n observations mensuelles d'une série BoJ, triées plus récente d'abord.
+    Format date "YYYY-MM". [] si erreur (loggée).
+    """
+    start = (dt.date.today() - dt.timedelta(days=(n + 3) * 31)).strftime("%Y%m")
+    try:
+        r = requests.get(
+            BOJ_API,
+            params={"format": "json", "lang": "en", "db": db, "code": code, "startDate": start},
+            headers=HEADERS, timeout=TIMEOUT,
+        )
+        r.raise_for_status()
+        res = r.json()["RESULTSET"][0]["VALUES"]
+        pairs = [
+            {"date": f"{str(d)[:4]}-{str(d)[4:6]}", "value": float(v)}
+            for d, v in zip(res["SURVEY_DATES"], res["VALUES"])
+            if v is not None
+        ]
+        return sorted(pairs, key=lambda x: x["date"], reverse=True)[:n]
+    except Exception as e:
+        print(f"[boj] {db}/{code} error: {e}")
+        return []
 
 
 # ── Yield Curve Signal ────────────────────────────────────────────────────────
@@ -292,20 +346,25 @@ def _chinabond_yield(maturity_years: int) -> dict | None:
         r.raise_for_status()
         soup = BeautifulSoup(r.text, "html.parser")
 
-        # Try to find table rows with date + yield
+        # Format CCDC (constaté 2026-11-20) : une ligne par jour, plus récente d'abord :
+        #   [nom de la courbe | date | 3M | 6M | 1Y | 3Y | 5Y | 7Y | 10Y | 30Y]
+        # seule la colonne de la maturité demandée est remplie. L'ancien parseur lisait
+        # cells[0] comme date et cells[1] comme taux → jamais de nombre → toujours None.
         for row in soup.find_all("tr"):
-            cells = row.find_all("td")
-            if len(cells) >= 2:
-                date_text = cells[0].get_text(strip=True)
-                val_text  = cells[1].get_text(strip=True)
+            texts = [c.get_text(strip=True) for c in row.find_all("td")]
+            if not texts or "Government" not in texts[0]:
+                continue
+            date_idx = next((i for i, t in enumerate(texts)
+                             if re.fullmatch(r"\d{4}[-/]\d{2}[-/]\d{2}", t)), None)
+            if date_idx is None:
+                continue
+            for t in texts[date_idx + 1:]:
                 try:
-                    val = float(val_text)
-                    if not (0 < val < 20):      # sanity check: yield must be 0–20%
-                        continue
-                    date_text = date_text.replace("/", "-")
-                    return {"date": date_text[:10], "value": val}
+                    val = float(t)
                 except ValueError:
                     continue
+                if 0 < val < 20:                # sanity check: yield must be 0–20%
+                    return {"date": texts[date_idx].replace("/", "-"), "value": val}
     except Exception as e:
         print(f"[chinabond] {maturity_years}Y CGB error: {e}")
 
@@ -514,19 +573,16 @@ def run():
         row["us_m2_yoy"]  = _yoy(m2_obs)
         row["us_m2_date"] = m2_obs[0]["date"]
 
-    # China M2 lags up to 18 months on FRED — use 6-year lookback
-    cn_m2_obs = _fred_obs("MYAGM2CNM189N", n=14, lookback_years=6)
-    if len(cn_m2_obs) >= 13:
-        row["china_m2_yoy"]  = _yoy(cn_m2_obs)
-        row["china_m2_date"] = cn_m2_obs[0]["date"]
-        print(f"[fred] China M2 YoY = {row['china_m2_yoy']}% (as of {row['china_m2_date']})")
+    # China M2 — aucune source gratuite active : FRED MYAGM2CNM189N est arrêtée depuis
+    # 2019-08 (vérifié 2026-11-20), la PBoC n'expose pas d'API. Reste N/D (jamais interpolé).
+    print("[m2] China M2 : pas de source gratuite active (FRED arrêtée en 2019) → N/D")
 
-    # Japan M2 — FRED MYAGM2JPM189N (billions JPY, monthly, ~2-month lag)
-    jp_m2_obs = _fred_obs("MYAGM2JPM189N", n=14, lookback_years=3)
+    # Japan M2 — Bank of Japan API (FRED MYAGM2JPM189N arrêtée en 2017-02)
+    jp_m2_obs = _boj_obs(BOJ_M2_DB, BOJ_M2_CODE, n=14)
     if len(jp_m2_obs) >= 13:
         row["japan_m2_yoy"]  = _yoy(jp_m2_obs)
         row["japan_m2_date"] = jp_m2_obs[0]["date"]
-        print(f"[fred] Japan M2 YoY = {row['japan_m2_yoy']}% (as of {row['japan_m2_date']})")
+        print(f"[boj] Japan M2 YoY = {row['japan_m2_yoy']}% (as of {row['japan_m2_date']})")
 
     # HY OAS: FRED returns decimal (3.12 = 312 bps) — multiply by 100
     hy_us_obs = _fred_obs("BAMLH0A0HYM2", n=2)
@@ -592,17 +648,19 @@ def run():
     # ── 3. ECB SDW — balance sheet + EU M3 (fails on restricted networks) ────
     print("[macro_liq] Fetching ECB SDW...")
 
-    ecb_assets_obs = _ecb_obs("ILM", "W.U2.C.A.U20.EUR.E.1.Z5.0000.Z01.E", n=5)
+    ecb_assets_obs = _ecb_obs("ILM", ECB_TOTAL_ASSETS_KEY, n=5)
     if ecb_assets_obs:
         # ECB ILM returns values in millions EUR — divide by 1,000,000 for trillions
         row["ecb_assets_t"]      = round(ecb_assets_obs[0]["value"] / 1_000_000, 3)
         row["ecb_assets_wk_pct"] = _wkchg(ecb_assets_obs)
-        row["ecb_assets_date"]   = ecb_assets_obs[0]["date"]
-    # FRED fallback for ECB total assets (ECBASSETS = billions EUR, NOT millions)
+        row["ecb_assets_date"]   = _iso_week_to_date(ecb_assets_obs[0]["date"])
+        print(f"[ecb] Eurosystem assets = {row['ecb_assets_t']}T EUR (as of {row['ecb_assets_date']})")
+    # FRED fallback — ECBASSETSW (hebdo, MILLIONS EUR). Avant : ECBASSETS, mensuelle,
+    # arrêtée en 2020, et divisée par 1 000 comme si c'était des milliards (×1000 d'erreur).
     if row.get("ecb_assets_t") is None:
-        ecb_fred = _fred_obs("ECBASSETS", n=5)
+        ecb_fred = _fred_obs("ECBASSETSW", n=5)
         if ecb_fred:
-            row["ecb_assets_t"]      = round(ecb_fred[0]["value"] / 1_000, 3)  # billions → trillions
+            row["ecb_assets_t"]      = round(ecb_fred[0]["value"] / 1_000_000, 3)  # millions → trillions
             row["ecb_assets_wk_pct"] = _wkchg(ecb_fred)
             row["ecb_assets_date"]   = ecb_fred[0]["date"]
             print(f"[fred] ECB assets fallback = {row['ecb_assets_t']}T (as of {row['ecb_assets_date']})")
@@ -659,7 +717,11 @@ def run():
     print("[macro_liq] Fetching CGB yields (ChinaBond CCDC → FRED fallback)...")
 
     cgb10 = _chinabond_yield(10)
+    # 2Y : CCDC ne publie plus cette maturité dans l'historique (3M/6M/1Y/3Y/5Y/7Y/10Y/30Y,
+    # constaté 2026-11-20). On ne la remplace PAS par 1Y/3Y : le spread est libellé 10Y−2Y.
     cgb2  = _chinabond_yield(2)
+    if not cgb2:
+        print("[chinabond] 2Y non publié par CCDC → spread 10Y−2Y = N/D")
     if cgb10:
         row["cgb_10y"]  = round(cgb10["value"], 3)
         row["cgb_date"] = cgb10["date"]
