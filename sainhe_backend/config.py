@@ -139,6 +139,16 @@ YAHOO_STATEMENTS_TICKERS = {
 }
 # Champs indispensables à la valorisation : s'ils manquent à l'ESEF pour le dernier exercice (ou si
 # l'ESEF est périmé), la société passe sur la source secondaire (pipeline.secondary_reason).
+# Éléments XBRL PROPRES à une société (hors us-gaap) : l'API companyfacts de la SEC ne les
+# expose jamais ; on les lit dans l'instance XBRL des derniers rapports annuels (edgar/instance.py).
+# Deere : dette LT publiée sous de:LongTermDebtAndFinanceLeasesNoncurrent depuis l'exercice 2022.
+CUSTOM_XBRL_TAGS = {"DE": {"lt_debt": ["LongTermDebtAndFinanceLeasesNoncurrent"]}}
+CUSTOM_XBRL_FILINGS = 4          # nombre de rapports annuels lus (historique ROIC)
+# DCF inverse : FCF du dernier exercice ≤ 0 → médiane des FCF_YEARS derniers exercices si elle est
+# positive (base signalée « median_5y »), sinon N/D. Évite qu'une année d'investissement massif ou
+# de BFR rende la croissance implicite N/D pour une société durablement génératrice de cash.
+REVERSE_DCF_MEDIAN_FCF_YEARS = 5
+
 SECONDARY_CRITICAL_FIELDS = ("revenue", "ebit", "ocf", "capex", "pretax_income", "equity", "cash")
 # Hors périmètre (pas de comptes de société) — affiché tel quel sur la page
 OUT_OF_SCOPE = {"GLD": "gold ETF: no company accounts", "BTC-USD": "crypto-asset: no company accounts",

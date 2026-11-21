@@ -94,6 +94,10 @@ _subs = {"filings": {"recent": {"form": ["6-K", "20-F"], "accessionNumber": ["a"
                                 "reportDate": ["2026-09-30", "2025-12-31"], "isXBRL": [0, 1]}}}
 check_true("instance : dépôt annuel plus récent détecté", (_inst.newer_annual_filing(_subs, ("20-F",), 2024) or {}).get("accn") == "0001628280-26-025362")
 check_true("instance : rien si companyfacts est à jour", _inst.newer_annual_filing(_subs, ("20-F",), 2025) is None)
+_cx = _xml.replace('<ifrs-full:Revenue', '<de:LongTermDebtAndFinanceLeasesNoncurrent xmlns:de="http://www.deere.com/20251102" contextRef="I25" unitRef="TWD">42000</de:LongTermDebtAndFinanceLeasesNoncurrent><ifrs-full:Revenue')
+_cf = _inst.custom_facts(_cx, {"LongTermDebtAndFinanceLeasesNoncurrent"})
+check("instance : élément propre à la société lu (Deere)", _cf["LongTermDebtAndFinanceLeasesNoncurrent"]["2025-12-31"][0], 42000.0)
+check_true("instance : éléments standards ignorés par custom_facts", "Revenue" not in _cf)
 
 print("\nSource secondaire Yahoo (relevés simulés, sans réseau)")
 import pandas as _pd
@@ -259,6 +263,9 @@ check_true("valuation map : compte ROIC > WACC cohérent avec la série",
            row["roic_years_above_wacc"].endswith("/" + str(len([v for v in row["roic_by_year"].values()
                                                                   if isinstance(v, float)]))))
 
-report_builder.save(rep, os.path.join(os.path.dirname(__file__), "TESTCO_report_sample.json"))
+# Échantillon écrit dans tests/out/ (ignoré par git) : un fichier suivi modifié par les tests
+# bloquait le « git pull --rebase » du job hebdomadaire (run 44952654312).
+os.makedirs(os.path.join(os.path.dirname(__file__), "out"), exist_ok=True)
+report_builder.save(rep, os.path.join(os.path.dirname(__file__), "out", "TESTCO_report_sample.json"))
 print(f"\n{'='*60}\nRÉSULTAT : {PASS} ✓ / {FAIL} ✗")
 sys.exit(1 if FAIL else 0)

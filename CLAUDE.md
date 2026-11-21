@@ -68,7 +68,7 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
 - **Spécification (source de vérité)** : `G:\Mon Drive\PROJET SAINHE\sainhe reprise\SAINHE_stock_analysis_plan.txt`
   — en cas de conflit avec ce fichier ou un prompt, le plan gagne.
 - **Backend dans `sainhe_backend/`**. Tests hermétiques (sans réseau, `SAINHE_RF_LIVE=0`) depuis `sainhe_backend/` :
-  `py tests/test_pipeline.py` (102) et `py tests/test_full.py` (61, Portfolio Sim). `$env:PYTHONUTF8='1'` sous Windows.
+  `py tests/test_pipeline.py` (104) et `py tests/test_full.py` (61, Portfolio Sim). `$env:PYTHONUTF8='1'` sous Windows.
   Lancer : `py pipeline.py --coverage`, `py portfolio_runner.py`, `py quality_check.py` (dans cet ordre).
   Dépendances : `sainhe_backend/requirements.txt` (scipy inclus). Email SEC : `EDGAR_CONTACT_EMAIL` (`.env` / secret).
 - **Couverture (21 nov.) : 29 sociétés.** Primaire : 14 US (10-K) + ASML/TSM/RACE (20-F) + Hermès (ESEF).
@@ -79,6 +79,9 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   companyfacts SEC en retard sur un dépôt (TSM 20-F 2025) → instance XBRL du dépôt lue (`edgar/instance.py`).
   Rf sans champ macro.json : FRED OCDE (CHF) ; devise ancrée au dollar (SAR) → US 10Y signalé.
   Impôt effectif hors [0 %, 60 %] → médiane des exercices normaux, sinon N/D (`metrics.effective_tax`).
+  Éléments XBRL propres à une société (jamais dans companyfacts) : `config.CUSTOM_XBRL_TAGS`, lus dans les
+  instances des 4 derniers rapports (Deere : dette LT). DCF inverse : FCF du dernier exercice ≤ 0 → médiane
+  5 ans si positive (flag `fcf_basis_median`). Les tests n'écrivent plus dans un fichier suivi (tests/out/).
 - **Devises** : prix ramené à la devise des COMPTES et à l'action ordinaire (`pipeline._pricing_context` :
   ASML/RACE EUR, TSM TWD + ADR ×5, COA.L pence→USD) ; devise dominante détectée par société (TSM : TWD
   prime sur la traduction de convenance USD). Parités fixes (SAR 3,75) plutôt que cotations Yahoo bruitées.

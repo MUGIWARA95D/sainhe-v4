@@ -33,7 +33,8 @@
         "fcf_adj": 90290000000.0,
         "market_cap": 3077242420000.0,
         "net_debt": -2137000000.0,
-        "fiscal_year": 2026
+        "fiscal_year": 2026,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -83,7 +84,8 @@
         "fcf_adj": 122267000000.0,
         "market_cap": 5042588023360.0,
         "net_debt": 24845000000.0,
-        "fiscal_year": 2026
+        "fiscal_year": 2026,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -133,7 +135,8 @@
         "fcf_adj": 54582000000.0,
         "market_cap": 3611127560000.0,
         "net_debt": 30045000000.0,
-        "fiscal_year": 2026
+        "fiscal_year": 2026,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -183,7 +186,8 @@
         "fcf_adj": 1702500000.0,
         "market_cap": 144735435000.0,
         "net_debt": -5934900000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -233,7 +237,8 @@
         "fcf_adj": 2200000000.0,
         "market_cap": 35111786850.0,
         "net_debt": 6737000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 51.2,
@@ -278,7 +283,8 @@
         "fcf_adj": 23612000000.0,
         "market_cap": 688768889552.2388,
         "net_debt": 32856000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 47.8,
@@ -323,7 +329,8 @@
         "fcf_adj": 6604000000.0,
         "market_cap": 132044250000.0,
         "net_debt": 17579000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 41.5,
@@ -364,7 +371,8 @@
         "fcf_adj": 3395000000.0,
         "market_cap": 1220052960000.0,
         "net_debt": -35683000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -411,7 +419,8 @@
         "fcf_adj": 3710000000.0,
         "market_cap": 193015080000.0,
         "net_debt": null,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -433,15 +442,18 @@
       "epv_per_share": "N/D",
       "re_per_share": 193.530758,
       "ecart_pct": "N/D",
-      "implied_growth": "N/D",
+      "implied_growth": 0.053158,
       "sgr": "N/D",
-      "roic_years_above_wacc": "1/2",
+      "roic_years_above_wacc": "4/5",
       "roic_by_year": {
         "2020": 0.0657,
-        "2021": 0.1154
+        "2021": 0.1154,
+        "2022": 0.1203,
+        "2023": 0.1428,
+        "2024": 0.0966
       },
       "roic_nm_years": [],
-      "wacc": 0.102418,
+      "wacc": 0.082348,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -449,11 +461,12 @@
       "sgr_nm_reason": null,
       "sgr_rr": "N/D",
       "rdcf": {
-        "ev": null,
-        "fcf_adj": null,
+        "ev": 214597225000.0,
+        "fcf_adj": 5948000000.0,
         "market_cap": 165533225000.0,
         "net_debt": null,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 54.0,
@@ -493,7 +506,8 @@
         "fcf_adj": null,
         "market_cap": null,
         "net_debt": null,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -551,7 +565,8 @@
         "fcf_adj": 1767700000.0,
         "market_cap": 84048440000.0,
         "net_debt": 7590100000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -601,7 +616,8 @@
         "fcf_adj": 5017000000.0,
         "market_cap": 418317870000.0,
         "net_debt": 31620000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 36.2,
@@ -646,7 +662,8 @@
         "fcf_adj": 8918000000.0,
         "market_cap": 241085535000.0,
         "net_debt": 26230000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 41.5,
@@ -691,7 +708,8 @@
         "fcf_adj": 10882600000.0,
         "market_cap": 448901881413.30365,
         "net_debt": -8508600000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -737,7 +755,8 @@
         "fcf_adj": 1001319000000.0,
         "market_cap": 54585794651671.164,
         "net_debt": -2591096200000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -791,7 +810,8 @@
         "fcf_adj": 1864096000.0,
         "market_cap": 63765483534.74463,
         "net_debt": -1467711000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -838,7 +858,8 @@
         "fcf_adj": 4081000000.0,
         "market_cap": 128724448572.09193,
         "net_debt": -12205000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 39.0,
@@ -877,7 +898,8 @@
         "fcf_adj": 734000000.0,
         "market_cap": 27587004760.0,
         "net_debt": 643000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 53.0,
@@ -916,7 +938,8 @@
         "fcf_adj": 192600000.0,
         "market_cap": 1676137513.414979,
         "net_debt": 814700000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -964,7 +987,8 @@
         "fcf_adj": 12216000000.0,
         "market_cap": 318630400000.0,
         "net_debt": 16160000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 77.8,
@@ -1003,7 +1027,8 @@
         "fcf_adj": 10859000000.0,
         "market_cap": 220376800000.0,
         "net_debt": -5930000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 74.0,
@@ -1042,7 +1067,8 @@
         "fcf_adj": 702000000.0,
         "market_cap": 19056650000.0,
         "net_debt": 712000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 47.8,
@@ -1081,7 +1107,8 @@
         "fcf_adj": 229715000000.0,
         "market_cap": 4709619456220.0,
         "net_debt": -753871000000.0,
-        "fiscal_year": 2026
+        "fiscal_year": 2026,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -1125,7 +1152,8 @@
         "fcf_adj": 320354000000.0,
         "market_cap": 6405035360000.0,
         "net_debt": 7343000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -1147,7 +1175,7 @@
       "epv_per_share": 14.100263,
       "re_per_share": 10.603212,
       "ecart_pct": -0.5581,
-      "implied_growth": "N/D",
+      "implied_growth": 0.056926,
       "sgr": 0.102769,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -1165,15 +1193,21 @@
       "sgr_nm_reason": "N/D",
       "sgr_rr": 0.81256,
       "rdcf": {
-        "ev": null,
-        "fcf_adj": null,
+        "ev": 116043701464.1,
+        "fcf_adj": 561662295.295,
         "market_cap": 115365491996.88,
         "net_debt": 678209467.22,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "median_5y"
       },
-      "flags": [],
+      "flags": [
+        {
+          "id": "fcf_basis_median",
+          "severity": "info"
+        }
+      ],
       "score": 38.8,
-      "n_flags": 0,
+      "n_flags": 1,
       "consensus_median": 56.0,
       "currency": "CNY",
       "source": "Yahoo Finance statements (secondary) — China: no public XBRL feed",
@@ -1208,7 +1242,8 @@
         "fcf_adj": 579929000000.0,
         "market_cap": 3314444473971.0938,
         "net_debt": -256040000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [
         {
@@ -1250,7 +1285,8 @@
         "fcf_adj": 3812000000.0,
         "market_cap": 122314379272.2,
         "net_debt": -2362000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 43.8,
@@ -1289,7 +1325,8 @@
         "fcf_adj": 1415000000.0,
         "market_cap": 32354044000.0,
         "net_debt": -715000000.0,
-        "fiscal_year": 2025
+        "fiscal_year": 2025,
+        "fcf_basis": "last_year"
       },
       "flags": [],
       "score": 47.8,

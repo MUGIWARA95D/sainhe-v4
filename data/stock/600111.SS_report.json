@@ -50,9 +50,20 @@
       "dispersion": 0.660483
     },
     "reverse_dcf": {
-      "implied_g": "N/D",
+      "implied_g": 0.056926,
       "flag_unrealistic": false,
-      "note": "FCF ajusté ≤ 0 ou inputs manquants (dont dette nette)"
+      "inputs": {
+        "ev": 116043701464.1,
+        "fcf_adj": 561662295.295,
+        "wacc": 0.062042,
+        "fcf_basis": "median_5y",
+        "fcf_years": [
+          2022,
+          2023,
+          2024,
+          2025
+        ]
+      }
     },
     "SGR": {
       "sgr": 0.102769,
@@ -64,7 +75,22 @@
     },
     "flag_growth_unfinanceable": false
   },
-  "bloc_B_flags": [],
+  "bloc_B_flags": [
+    {
+      "id": "fcf_basis_median",
+      "severity": "info",
+      "message": "FCF du dernier exercice ≤ 0 : DCF inverse calculé sur la médiane des derniers exercices",
+      "details": {
+        "years": [
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "fcf": 561662295.295
+      }
+    }
+  ],
   "bloc_C_dupont": {
     "available": true,
     "fy": 2025,

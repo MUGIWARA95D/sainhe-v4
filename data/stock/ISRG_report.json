@@ -55,7 +55,11 @@
       "inputs": {
         "ev": 138800535000.0,
         "fcf_adj": 1702500000.0,
-        "wacc": 0.113826
+        "wacc": 0.113826,
+        "fcf_basis": "last_year",
+        "fcf_years": [
+          2025
+        ]
       }
     },
     "SGR": {

@@ -20,7 +20,7 @@ import config
 from edgar.edgar_client import EdgarClient
 from edgar import instance
 from secondary import yahoo_statements
-from edgar.xbrl_parser import parse_companyfacts
+from edgar.xbrl_parser import parse_companyfacts, DataPoint
 from edgar.metadata_flags import metadata_flags
 from output import report_builder
 
@@ -116,6 +116,37 @@ def _with_newer_instance(client: EdgarClient, ticker: str, cik: int, facts: dict
         return cd, facts
 
 
+def _add_custom_tags(client: EdgarClient, ticker: str, cik: int, cd, subs: dict, forms) -> None:
+    """Complète les séries avec les éléments XBRL propres à la société (config.CUSTOM_XBRL_TAGS),
+    lus dans les instances des derniers rapports annuels. Une valeur us-gaap publiée prime toujours."""
+    spec = config.CUSTOM_XBRL_TAGS.get(ticker)
+    if not spec:
+        return
+    names = {n for tags in spec.values() for n in tags}
+    for f in instance.annual_filings(subs, forms, config.CUSTOM_XBRL_FILINGS):
+        try:
+            nodash = f["accn"].replace("-", "")
+            idx = client._get_json(f"https://www.sec.gov/Archives/edgar/data/{cik}/{nodash}/index.json",
+                                   f"index:{f['accn']}", max_age_days=365)
+            url = instance.instance_url(idx, cik, f["accn"])
+            if not url:
+                continue
+            found = instance.custom_facts(client.get_text(url, f"instance:{f['accn']}", max_age_days=365), names)
+        except Exception as e:
+            log.warning("%s : instance %s illisible (%s)", ticker, f["accn"], e)
+            continue
+        for internal, tags in spec.items():
+            series = cd.series.setdefault(internal, {})
+            for tag in tags:
+                for end, (val, unit) in found.get(tag, {}).items():
+                    y = int(end[:4])
+                    if y not in series:          # le tag standard publié prime
+                        series[y] = DataPoint(value=val, fy=y, end=end, accn=f["accn"], form=f["form"],
+                                              tag=f"{ticker.lower()}:{tag}", unit=unit or "USD")
+    log.info("%s : éléments propres lus (%s) → %s %s", ticker, ", ".join(sorted(names)),
+             ", ".join(spec), {k: sorted(cd.series.get(k, {}))[-4:] for k in spec})
+
+
 def secondary_reason(cd) -> str | None:
     """Raison de passer une société ESEF sur la source secondaire, ou None."""
     fy = (cd.years("revenue") or [None])[-1]
@@ -138,6 +169,7 @@ def _parse_with_fallback(client: EdgarClient, ticker: str, cik: int, forms):
     facts = client.companyfacts(cik)
     subs = client.submissions(cik)
     cd, facts = _with_newer_instance(client, ticker, cik, facts, subs, forms)
+    _add_custom_tags(client, ticker, cik, cd, subs, forms)
     fb = config.CIK_FALLBACK.get(ticker)
     if fb and fb != cik and not (cd.series.get("revenue") and cd.series.get("ebit")):
         log.warning("%s : CIK %s sans historique %s → CIK historique %s", ticker, cik, forms, fb)

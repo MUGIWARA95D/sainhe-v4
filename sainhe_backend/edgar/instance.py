@@ -81,6 +81,50 @@ def parse_instance(xml_text: str | bytes, accn: str, form: str) -> dict:
     return out
 
 
+def custom_facts(xml_text: str | bytes, local_names: set[str]) -> dict[str, dict[str, tuple[float, str]]]:
+    """Éléments propres à la société (hors us-gaap/ifrs) par nom local, sans dimension :
+    {nom: {date_fin: (valeur, unité)}} — pour CUSTOM_XBRL_TAGS (ex. Deere)."""
+    root = _fromstring(xml_text)
+    ctx = {}
+    for c in root.iter(XBRLI + "context"):
+        ent = c.find(XBRLI + "entity")
+        if (ent is not None and ent.find(XBRLI + "segment") is not None) or c.find(XBRLI + "scenario") is not None:
+            continue
+        p = c.find(XBRLI + "period")
+        inst = p.find(XBRLI + "instant") if p is not None else None
+        end = p.find(XBRLI + "endDate") if p is not None else None
+        node = inst if inst is not None else end
+        if node is not None:
+            ctx[c.get("id")] = (node.text or "").strip()[:10]
+    units = {u.get("id"): _measure(u) for u in root.iter(XBRLI + "unit")}
+    out: dict = {}
+    for el in root:
+        if not el.tag.startswith("{"):
+            continue
+        ns, name = el.tag[1:].split("}", 1)
+        if name not in local_names or _taxonomy(ns) or el.get("contextRef") not in ctx:
+            continue
+        try:
+            val = float((el.text or "").strip())
+        except ValueError:
+            continue
+        out.setdefault(name, {})[ctx[el.get("contextRef")]] = (val, units.get(el.get("unitRef")) or "")
+    return out
+
+
+def annual_filings(subs: dict, forms: tuple[str, ...], n: int) -> list[dict]:
+    """n derniers rapports annuels XBRL (accession, exercice, forme), du plus récent au plus ancien."""
+    r = (subs or {}).get("filings", {}).get("recent", {})
+    out = []
+    for form, accn, rep, isx in zip(r.get("form", []), r.get("accessionNumber", []),
+                                    r.get("reportDate", []), r.get("isXBRL", [])):
+        if form in forms and isx and rep:
+            out.append({"accn": accn, "report_date": rep, "form": form})
+            if len(out) >= n:
+                break
+    return out
+
+
 def merge_facts(facts_json: dict, extra: dict) -> dict:
     """Ajoute les faits d'une instance au JSON companyfacts (le parseur garde l'accession la plus récente)."""
     facts = facts_json.setdefault("facts", {})

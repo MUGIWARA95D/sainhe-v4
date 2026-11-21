@@ -83,13 +83,23 @@ def reverse_dcf(cd: CompanyData, price: float, wacc_value: float) -> dict:
     fcf = m.get("fcf_adj")
     shares = cd.value("shares_diluted", fy) or cd.value("shares_outstanding", fy)
     nd = m.get("net_debt")   # avant : `or 0.0` → N/D traité comme nul
+    basis, years = "last_year", [fy]
+    if fcf is not None and fcf <= 0:
+        # dernier exercice négatif : médiane des derniers exercices (publiés) si elle est positive
+        ys = cd.years("ocf")[-config.REVERSE_DCF_MEDIAN_FCF_YEARS:]
+        hist = [(y, metrics.derive(cd, y).get("fcf_adj")) for y in ys]
+        vals = sorted(v for _, v in hist if v is not None)
+        med = (vals[len(vals) // 2] if len(vals) % 2 else (vals[len(vals) // 2 - 1] + vals[len(vals) // 2]) / 2) \
+            if len(vals) >= 3 else None
+        if med is not None and med > 0:
+            fcf, basis, years = med, "median_5y", [y for y, v in hist if v is not None]
     if None in (fcf, shares, nd) or price is None or fcf <= 0:
         return {"implied_g": None, "flag_unrealistic": False,
-                "note": "FCF ajusté ≤ 0 ou inputs manquants (dont dette nette)"}
+                "note": "FCF ajusté ≤ 0 (y compris en médiane) ou inputs manquants (dont dette nette)"}
     ev = price * shares + nd
     g = (wacc_value * ev - fcf) / (ev + fcf)
     return {"implied_g": g, "flag_unrealistic": g > config.REVERSE_DCF_IMPLIED_G_FLAG,
-            "inputs": {"ev": ev, "fcf_adj": fcf, "wacc": wacc_value}}
+            "inputs": {"ev": ev, "fcf_adj": fcf, "wacc": wacc_value, "fcf_basis": basis, "fcf_years": years}}
 
 
 # ------------------------------------------------------------------ SGR

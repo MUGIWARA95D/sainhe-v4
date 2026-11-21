@@ -111,6 +111,10 @@ def build_report(cd: CompanyData, price: float | None, yf_info: dict | None,
                       "message": f"SGR non significatif ({sgr_.get('nm_reason')}) : taux de réinvestissement "
                                  f"{sgr_.get('rr', 0):.0%}",
                       "details": {"reason": sgr_.get("nm_reason"), "rr": sgr_.get("rr"), "sgr": sgr_v}})
+    if (rdcf.get("inputs") or {}).get("fcf_basis") == "median_5y":
+        flags.append({"id": "fcf_basis_median", "severity": "info",
+                      "message": "FCF du dernier exercice ≤ 0 : DCF inverse calculé sur la médiane des derniers exercices",
+                      "details": {"years": rdcf["inputs"].get("fcf_years"), "fcf": rdcf["inputs"].get("fcf_adj")}})
     tax_info = metrics.effective_tax(cd, fy)
     if tax_info["source"] != "year":
         flags.append({"id": "tax_rate_abnormal", "severity": "info",
@@ -236,7 +240,7 @@ def build_valuation_map(reports: list[dict]) -> dict:
             "sgr_rr": num(sg.get("rr")) if num(sg.get("rr")) is not None else "N/D",
             "rdcf": {"ev": num(rdi.get("ev")), "fcf_adj": num(rdi.get("fcf_adj")),
                      "market_cap": num(wd.get("E")), "net_debt": num(epi.get("net_debt")),
-                     "fiscal_year": r.get("fiscal_year")},
+                     "fiscal_year": r.get("fiscal_year"), "fcf_basis": rdi.get("fcf_basis", "last_year")},
             "flags": [{"id": f.get("id"), "severity": f.get("severity")} for f in r.get("bloc_B_flags", [])],
             "score": r["score_composite"]["value_0_100"],
             "n_flags": len(r["bloc_B_flags"]),

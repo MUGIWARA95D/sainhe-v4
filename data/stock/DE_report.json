@@ -44,9 +44,17 @@
       "dispersion": 0.451263
     },
     "reverse_dcf": {
-      "implied_g": "N/D",
+      "implied_g": 0.053158,
       "flag_unrealistic": false,
-      "note": "FCF ajusté ≤ 0 ou inputs manquants (dont dette nette)"
+      "inputs": {
+        "ev": 214597225000.0,
+        "fcf_adj": 5948000000.0,
+        "wacc": 0.082348,
+        "fcf_basis": "last_year",
+        "fcf_years": [
+          2025
+        ]
+      }
     },
     "SGR": {
       "sgr": "N/D",
@@ -62,11 +70,17 @@
   "bloc_D_trends": {
     "roic_10y": {
       "2020": 0.0657,
-      "2021": 0.1154
+      "2021": 0.1154,
+      "2022": 0.1203,
+      "2023": 0.1428,
+      "2024": 0.0966
     },
     "invested_capital_share_10y": {
       "2020": 0.629197,
-      "2021": 0.645338
+      "2021": 0.645338,
+      "2022": 0.685061,
+      "2023": 0.679653,
+      "2024": 0.673444
     },
     "rnoa_10y": {
       "2016": 0.069,
@@ -75,9 +89,9 @@
       "2019": 0.0924,
       "2020": 0.0657,
       "2021": 0.1154,
-      "2022": 0.2628,
-      "2023": 0.3113,
-      "2024": 0.2388
+      "2022": 0.12,
+      "2023": 0.1424,
+      "2024": 0.0964
     },
     "gross_margin_10y": {
       "2016": 0.315084,
@@ -136,13 +150,13 @@
     "net_debt_ebitda": "N/D",
     "interest_coverage": "N/D",
     "lt_debt_payback": {
-      "years": "N/D",
-      "passes": "N/D",
+      "years": 8.662025,
+      "passes": false,
       "label": "source secondaire"
     },
     "current_ratio": "N/D",
     "quick_ratio": "N/D",
-    "de_ratio": 0.531638,
+    "de_ratio": 2.209634,
     "ccc": {
       "dso": "N/D",
       "dio": "N/D",
@@ -154,7 +168,7 @@
     "retained_earnings_test": {
       "ratio": 1.638054,
       "retained_5y": 28282000000.0,
-      "delta_mcap": 46327443417.3584,
+      "delta_mcap": 46327448248.291016,
       "passes": true,
       "window": [
         2020,
@@ -264,12 +278,12 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.102418,
+      "wacc": 0.082348,
       "ke": 0.095603,
-      "kd": 0.229777,
+      "kd": 0.055284,
       "tax_rate": 0.201215,
       "E": 165533225000.0,
-      "D": 13908000000.0,
+      "D": 57452000000.0,
       "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
@@ -293,21 +307,21 @@
     "reformulation": {
       "OA": 97720000000.0,
       "FA": 8276000000.0,
-      "OO": 66081000000.0,
-      "FO": 13908000000.0,
-      "NOA": 31639000000.0,
-      "NFO": 5632000000.0,
+      "OO": 22537000000.0,
+      "FO": 57452000000.0,
+      "NOA": 75183000000.0,
+      "NFO": 49176000000.0,
       "equity_check": 57000000.0
     },
     "net_debt_detail": {
       "fy": 2025,
-      "lt_debt": "N/D",
+      "lt_debt": 43544000000.0,
       "st_debt": 13796000000.0,
-      "finance_leases": 112000000.0,
+      "finance_leases": 0.0,
       "cash": 8276000000.0,
       "st_investments": "N/D",
       "st_investments_deducted": false,
-      "net_debt": "N/D"
+      "net_debt": 49064000000.0
     },
     "tax_detail": {
       "rate": 0.201215,
@@ -571,16 +585,16 @@
         "2025": 892000000.0
       },
       "lt_debt": {
-        "2012": 22453100000.0,
-        "2013": 21577700000.0,
-        "2014": 24380700000.0,
-        "2015": 23832800000.0,
         "2016": 23703000000.0,
         "2017": 25891300000.0,
         "2018": 27237000000.0,
         "2019": 30249000000.0,
         "2020": 32734000000.0,
-        "2021": 32888000000.0
+        "2021": 32888000000.0,
+        "2022": 33596000000.0,
+        "2023": 38477000000.0,
+        "2024": 43229000000.0,
+        "2025": 43544000000.0
       },
       "total_liabilities": {
         "2016": 51373700000.0,
@@ -939,14 +953,14 @@
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/"
       },
       "lt_debt": {
-        "value": 32888000000.0,
-        "fiscal_year": 2021,
-        "end_date": "2021-10-31",
-        "accession": "0001558370-21-016864",
+        "value": 43544000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-11-02",
+        "accession": "0001104659-25-122321",
         "filing_form": "10-K",
-        "xbrl_tag": "LongTermDebtNoncurrent",
+        "xbrl_tag": "de:LongTermDebtAndFinanceLeasesNoncurrent",
         "unit": "USD",
-        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000155837021016864/"
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/"
       },
       "total_liabilities": {
         "value": 79989000000.0,

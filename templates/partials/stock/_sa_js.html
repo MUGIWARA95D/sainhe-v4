@@ -594,7 +594,7 @@ function drillHTML(row, rep){
     kv('= market capitalisation', big(mc, cur)) +
     kv('+ net debt', big(nd, cur), ndSub) +
     kv('= enterprise value (EV)', big(ev, cur)) +
-    kv('Free cash flow, FY ' + (fy || 'N/D'), big(fcf, cur), 'operating cash flow ' + esc(big(fv('ocf'))) + ' − capex ' + esc(big(fv('capex'))) +
+    kv(rdi.fcf_basis === 'median_5y' ? 'Free cash flow, median of FY ' + esc((rdi.fcf_years || []).join(', ')) : 'Free cash flow, FY ' + (fy || 'N/D'), big(fcf, cur), (rdi.fcf_basis === 'median_5y' ? 'Last year\'s free cash flow was negative: the reverse DCF uses the median of the last years, from the same filings. Last year: ' : '') + 'operating cash flow ' + esc(big(fv('ocf'))) + ' − capex ' + esc(big(fv('capex'))) +
       ' − stock-based pay ' + (fv('sbc') === null ? '<span class="sa-nd">N/D</span> (not filed: nothing deducted)' : esc(big(fv('sbc')))) + (sm.ocf ? ' · ' + tagLine(sm.ocf) : '')) +
     kv('Discount rate (WACC)', pct(w, 2)) + '</dl>' +
     '<pre class="sa-formula">g = (WACC × EV − FCF) / (EV + FCF)\n  = (' + pct(w, 2) + ' × ' + big(ev) + ' − ' + big(fcf) + ') / (' + big(ev) + ' + ' + big(fcf) + ')\n  = ' + pct(g, 2) + '</pre>' +
@@ -649,6 +649,7 @@ const FLAG_EN = {
   transitory_items: ['Transitory items', () => 'One-off items were adjusted out of EBIT and net income.'],
   invested_capital_near_zero: ['Invested capital close to zero', d => 'Invested capital = ' + pct(d.invested_capital_share_of_assets, 0) + ' of total assets: ROIC (' + pct(d.roic, 0) + ') and sustainable growth (' + pct(d.sgr, 0) + ') are not meaningful.'],
   sgr_not_meaningful: ['Sustainable growth not meaningful', d => esc(NM_TXT[d.reason] || '') + ' Net reinvestment rate ' + pct(d.rr, 0) + '.'],
+  fcf_basis_median: ['Free cash flow negative last year', d => 'The reverse DCF uses the median free cash flow of fiscal years ' + esc((d.years || []).join(', ')) + ' (' + esc(big(d.fcf)) + ') instead of last year\'s negative figure.'],
   tax_rate_abnormal: ['Tax rate out of the normal range', d => 'This year\'s effective rate is ' + pct(d.raw) + ': ' +
     (d.source === 'median' ? 'the median of the normal years ' + esc((d.years || []).join(', ')) + ' (' + pct(d.rate) + ') is used instead.' : 'fewer than two normal earlier years (' + esc(String((d.years || []).length)) + '), so the tax rate is N/D.')],
   rf_currency_proxy: ['Risk-free rate proxy', d => d.reason === 'usd_peg' ? esc(d.currency) + ' is pegged to the US dollar: the US 10-year (' + pct(d.rf, 2) + ') is used.'

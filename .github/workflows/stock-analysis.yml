@@ -103,7 +103,7 @@ jobs:
             echo "Aucun changement dans data/stock"
           else
             git commit -m "data(stock): analyses hebdomadaires $(date -u +%F)"
-            git pull --rebase origin dev
+            git pull --rebase --autostash origin dev
             git push origin HEAD:dev
           fi
 

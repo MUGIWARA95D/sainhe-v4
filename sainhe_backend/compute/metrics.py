@@ -83,7 +83,8 @@ def net_debt_detail(cd: CompanyData, fy: int | None = None) -> dict:
     sti = cd.value("st_investments", fy)
     # Si la dette LT vient d'un tag incluant déjà les finance leases, ne pas les rajouter
     lt_dp = cd.series.get("lt_debt", {}).get(fy)
-    fl = 0.0 if (lt_dp and "CapitalLease" in lt_dp.tag) else _nz(cd.value("finance_lease_liab", fy))
+    fl = 0.0 if (lt_dp and ("CapitalLease" in lt_dp.tag or "FinanceLease" in lt_dp.tag)) \
+        else _nz(cd.value("finance_lease_liab", fy))
     nd = None if (lt is None or st is None or cash is None) else lt + st + fl - cash - (sti or 0.0)
     return {"fy": fy, "lt_debt": lt, "st_debt": st, "finance_leases": fl, "cash": cash,
             "st_investments": sti, "st_investments_deducted": sti is not None, "net_debt": nd}

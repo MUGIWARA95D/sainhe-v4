@@ -55,7 +55,11 @@
       "inputs": {
         "ev": 116519448572.09193,
         "fcf_adj": 4081000000.0,
-        "wacc": 0.089211
+        "wacc": 0.089211,
+        "fcf_basis": "last_year",
+        "fcf_years": [
+          2025
+        ]
       }
     },
     "SGR": {
@@ -165,9 +169,9 @@
     "ocf_ni": 1.187887,
     "accruals_pct_rev": -0.053118,
     "retained_earnings_test": {
-      "ratio": 12.058254,
+      "ratio": 12.058253,
       "retained_5y": 11021000000.0,
-      "delta_mcap": 132894017866.70644,
+      "delta_mcap": 132894005068.26717,
       "passes": true,
       "window": [
         2020,

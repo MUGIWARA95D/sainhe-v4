@@ -23,11 +23,10 @@
         "RE/action",
         "SGR",
         "WACC",
+        "croissance implicite",
         "dette nette/EBITDA"
       ],
-      "missing_fields": [
-        "croissance implicite"
-      ],
+      "missing_fields": [],
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
@@ -382,12 +381,12 @@
       "source": "SEC EDGAR 10-K",
       "filled_fields": [
         "RE/action",
-        "WACC"
+        "WACC",
+        "croissance implicite"
       ],
       "missing_fields": [
         "EPV/action",
         "SGR",
-        "croissance implicite",
         "dette nette/EBITDA"
       ],
       "cross_checked": [
