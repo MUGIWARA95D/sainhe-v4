@@ -1,41 +1,41 @@
 {
   "ticker": "COA.L",
   "cik": "2138003SPYWGAITNFY17",
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 0.951665,
+    "prix": 0.951702,
     "EPV": {
-      "epv_ev": 2058166696.087791,
-      "epv_equity": 1243966696.087791,
-      "epv_per_share": 0.706198,
+      "epv_ev": 2080701355.363584,
+      "epv_equity": 1266501355.363584,
+      "epv_per_share": 0.718991,
       "inputs": {
         "ebit_adj": 241400000.0,
         "tax": 0.321925,
-        "wacc": 0.079531,
+        "wacc": 0.078669,
         "net_debt": 814200000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 0.706198,
-      "high": 0.706198,
+      "low": 0.718991,
+      "high": 0.718991,
       "fallback": "moins de 4 ans de FCF → plage = EPV central (growth 0%)"
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 0.874241,
-      "central": 0.706198,
-      "plus_100bps": 0.575693
+      "minus_100bps": 0.891005,
+      "central": 0.718991,
+      "plus_100bps": 0.585775
     },
     "RE_valuation": {
-      "re_value_equity": 956601382.168728,
-      "re_value_per_share": 0.543061,
+      "re_value_equity": 969153911.763879,
+      "re_value_per_share": 0.550187,
       "inputs": {
         "B0": 722500000.0,
-        "RE": 25304252.5,
-        "ke": 0.108091,
+        "RE": 26315752.5,
+        "ke": 0.106691,
         "g": 0.0,
         "g_sgr": "N/D",
-        "g_cap": 0.05052
+        "g_cap": 0.04912
       }
     },
     "consensus": {
@@ -58,7 +58,7 @@
       "rr": "N/D",
       "note": "inputs manquants"
     },
-    "flag_growth_unfinanceable": false
+    "flag_growth_unfinanceable": "N/D"
   },
   "bloc_B_flags": [
     {
@@ -66,13 +66,13 @@
       "severity": "high",
       "message": "Altman Z = 1.55 < 1.81 : zone de détresse financière",
       "details": {
-        "z": 1.549697,
+        "z": 1.549719,
         "zone": "distress",
         "components": {
           "WC/TA": 0.103568,
           "RE/TA": -0.000348,
           "EBIT/TA": 0.093324,
-          "MVE/TL": 0.919357,
+          "MVE/TL": 0.919394,
           "Sales/TA": 0.56632
         }
       }
@@ -99,6 +99,14 @@
       "2023": 0.1492,
       "2024": 0.1804,
       "2025": 0.1065
+    },
+    "invested_capital_share_10y": {
+      "2020": -0.009157,
+      "2021": 0.438989,
+      "2022": 0.526366,
+      "2023": 0.465438,
+      "2024": 0.493698,
+      "2025": 0.594077
     },
     "rnoa_10y": {
       "2020": 0.0303,
@@ -183,47 +191,47 @@
       0.1152
     ],
     "g_axis": [
-      0.01,
-      0.015,
-      0.02,
-      0.025,
-      0.03
+      0.0,
+      0.0123,
+      0.0246,
+      0.0368,
+      0.0491
     ],
     "matrix": [
       [
-        0.29,
+        0.3,
         0.29,
         0.28,
-        0.28,
-        0.27
+        0.27,
+        0.24
       ],
       [
         0.45,
         0.45,
-        0.45,
-        0.45,
-        0.45
+        0.46,
+        0.46,
+        0.47
       ],
       [
-        0.66,
+        0.65,
         0.67,
-        0.68,
-        0.69,
-        0.7
+        0.7,
+        0.74,
+        0.79
       ],
       [
-        0.78,
+        0.77,
         0.8,
-        0.81,
-        0.83,
-        0.85
+        0.84,
+        0.89,
+        0.97
       ],
       [
-        0.92,
+        0.9,
         0.94,
-        0.96,
-        0.98,
-        1.01
+        1.0,
+        1.07,
+        1.18
       ]
     ]
   },
@@ -243,14 +251,16 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.079531,
-      "ke": 0.108091,
+      "wacc": 0.078669,
+      "ke": 0.106691,
       "kd": 0.049799,
       "tax_rate": 0.321925,
-      "E": 1676356371.389337,
+      "E": 1676422213.357596,
       "D": 1046200000.0,
-      "rf": 0.05052,
+      "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf_currency": "USD",
+      "rf_proxy": false,
       "erp": 0.05,
       "beta": 1.15142,
       "beta_raw": 1.226,
@@ -274,6 +284,16 @@
       "NOA": 1577500000.0,
       "NFO": 814200000.0,
       "equity_check": 40800000.0
+    },
+    "net_debt_detail": {
+      "fy": 2025,
+      "lt_debt": 1046200000.0,
+      "st_debt": 0.0,
+      "finance_leases": 0.0,
+      "cash": 232000000.0,
+      "st_investments": "N/D",
+      "st_investments_deducted": false,
+      "net_debt": 814200000.0
     },
     "three_statement_10y": {
       "revenue": {
@@ -747,9 +767,9 @@
     "edgar_filings_index": "https://filings.xbrl.org/api/entities/2138003SPYWGAITNFY17/filings"
   },
   "score_composite": {
-    "value_0_100": 39.0,
+    "value_0_100": 39.3,
     "pillars": {
-      "valuation": 0,
+      "valuation": 1.09575,
       "balance_sheet_health": 50,
       "earnings_quality": 70,
       "smart_money": 50,
@@ -769,8 +789,8 @@
     "listing_currency": "GBp",
     "reporting_currency": "USD",
     "price_listing": 72.75,
-    "price_in_reporting_currency": 0.9516645938158036,
-    "fx_listing_to_reporting": 1.3081300258636475,
+    "price_in_reporting_currency": 0.9517019721865655,
+    "fx_listing_to_reporting": 1.3081814050674438,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,

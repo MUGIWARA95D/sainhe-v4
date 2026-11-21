@@ -1,7 +1,7 @@
 {
   "ticker": "LDO.MI",
   "cik": "529900X4EEX1U9LN3U39",
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "fiscal_year": 2024,
   "bloc_A_verdict": {
     "prix": 47.83,
@@ -22,15 +22,15 @@
       "plus_100bps": "N/D"
     },
     "RE_valuation": {
-      "re_value_equity": 13472744036.679985,
-      "re_value_per_share": 23.395407,
+      "re_value_equity": 16882412581.641556,
+      "re_value_per_share": 29.316294,
       "inputs": {
         "B0": 8990000000.0,
-        "RE": 357348665.0,
-        "ke": 0.079716,
+        "RE": 502087665.0,
+        "ke": 0.063617,
         "g": 0.0,
         "g_sgr": "N/D",
-        "g_cap": 0.05052
+        "g_cap": 0.03442
       }
     },
     "consensus": {
@@ -53,7 +53,7 @@
       "rr": "N/D",
       "note": "inputs manquants"
     },
-    "flag_growth_unfinanceable": false
+    "flag_growth_unfinanceable": "N/D"
   },
   "bloc_B_flags": [],
   "bloc_C_dupont": {
@@ -61,6 +61,7 @@
   },
   "bloc_D_trends": {
     "roic_10y": {},
+    "invested_capital_share_10y": {},
     "rnoa_10y": {},
     "gross_margin_10y": {},
     "fcf_adj_10y": {},
@@ -131,14 +132,16 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.080161,
-      "ke": 0.079716,
+      "wacc": 0.066408,
+      "ke": 0.063617,
       "kd": 0.082766,
       "tax_rate": 0.0,
       "E": 27543924932.975872,
       "D": 4700000000.0,
-      "rf": 0.05052,
-      "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf": 0.03442,
+      "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf_currency": "EUR",
+      "rf_proxy": false,
       "erp": 0.05,
       "beta": 0.58393,
       "beta_raw": 0.379,
@@ -162,6 +165,16 @@
       "NOA": 12344000000.0,
       "NFO": 2144000000.0,
       "equity_check": 1210000000.0
+    },
+    "net_debt_detail": {
+      "fy": 2024,
+      "lt_debt": 2373000000.0,
+      "st_debt": 2327000000.0,
+      "finance_leases": 0.0,
+      "cash": 2556000000.0,
+      "st_investments": "N/D",
+      "st_investments_deducted": false,
+      "net_debt": 2144000000.0
     },
     "three_statement_10y": {
       "revenue": {

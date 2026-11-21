@@ -172,11 +172,36 @@ RE_HORIZON_YEARS = 5
 TERMINAL_G_KE_GAP = 0.02     # croissance perpétuelle ≤ min(Rf, ke − 2 pts) (voir valuation.terminal_g_cap)
 SENSITIVITY_NOPAT_PCTL = (10, 25, 50, 75, 90)
 SENSITIVITY_G_FACTORS = (0.5, 0.75, 1.0, 1.25, 1.5)
+SENSITIVITY_G_SHARES_OF_CAP = (0.0, 0.25, 0.5, 0.75, 1.0)   # axe g de bloc_H : fractions du plafond terminal
 
-# Macro : Rf live = US 10Y du module Macro SAINHE (compute/market_inputs.py) ;
+# Macro : Rf live = taux souverain 10 ans DE LA DEVISE DES COMPTES, publié par le module Macro
+# SAINHE (compute/market_inputs.py). Avant le 21 nov. 2026 : US 10Y pour toutes les sociétés
+# → WACC des sociétés en EUR / TWD gonflé (flux en EUR actualisés à un taux en USD).
+# Devise sans taux publié (TWD : aucune source gratuite de rendement de marché, l'OpenAPI TPEx
+# ne donne que les coupons d'émission) → substitut US 10Y SIGNALÉ (flag rf_currency_proxy).
 # DEFAULT_RISK_FREE = repli si le site est injoignable.
 MACRO_JSON_URL = "https://sainhe.pages.dev/data/macro.json"
+RF_FIELD_BY_CURRENCY = {"USD": "us_10y", "EUR": "bund_10y", "GBP": "uk_10y",
+                        "JPY": "jgb_10y", "CNY": "cgb_10y"}
 DEFAULT_RISK_FREE = 0.042
+
+# Valeurs NON SIGNIFICATIVES (« n/m ») — SGR = ROIC × taux de réinvestissement net, avec
+# réinvestissement = (CapEx − D&A + ΔBFR) / NOPAT. La formule cesse de mesurer une croissance :
+#  - réinvestissement < SGR_NM_RR_MIN (0) : CapEx sous les amortissements et/ou BFR libéré
+#    → la croissance n'est pas financée par le réinvestissement (AAPL, ASML, RACE) ;
+#  - réinvestissement > SGR_NM_RR_MAX (1) : on réinvestit plus que le résultat d'exploitation
+#    après impôt → croissance financée de l'extérieur, pas « soutenable » par définition ;
+#  - capital investi (fonds propres + dette nette) < IC_NM_MIN_SHARE_OF_ASSETS (10 %) de l'actif
+#    total, ou ≤ 0 : le dénominateur du ROIC est quasi nul (trésorerie nette, avances clients)
+#    → ROIC et SGR sont des artefacts (GEV : 4 % de l'actif, ROIC 90 %, SGR 146 %).
+# La valeur calculée reste publiée (traçabilité) ; c'est son statut qui passe à « n/m ».
+SGR_NM_RR_MIN = 0.0
+SGR_NM_RR_MAX = 1.0
+IC_NM_MIN_SHARE_OF_ASSETS = 0.10
+
+# Contrôle qualité : écart toléré entre le chiffre XBRL et la seconde source (arrondis,
+# reclassements mineurs) — quality_check.py
+CROSS_CHECK_TOL = 0.03
 DEFAULT_ERP = 0.050
 DEFAULT_BETA = 1.0
 BLUME_WEIGHT = 0.67          # beta ajusté = 0,67·β_brut + 0,33

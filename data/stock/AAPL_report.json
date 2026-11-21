@@ -1,42 +1,42 @@
 {
   "ticker": "AAPL",
   "cik": 320193,
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
-    "prix": 344.53,
+    "prix": 342.56,
     "EPV": {
-      "epv_ev": 1267619492284.2874,
-      "epv_equity": 1222357492284.2874,
-      "epv_per_share": 83.038864,
+      "epv_ev": 1285000894998.234,
+      "epv_equity": 1260155894998.234,
+      "epv_per_share": 85.606637,
       "inputs": {
         "ebit_adj": 158063000000.0,
         "tax": 0.169948,
-        "wacc": 0.103501,
-        "net_debt": 45262000000.0
+        "wacc": 0.102101,
+        "net_debt": 24845000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 38.910948,
-      "high": 66.856857,
+      "low": 40.114174,
+      "high": 68.924241,
       "fcf_p25": 57292750000.0,
       "fcf_p75": 98440500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 92.248734,
-      "central": 83.038864,
-      "plus_100bps": 75.451858
+      "minus_100bps": 95.084707,
+      "central": 85.606637,
+      "plus_100bps": 77.819548
     },
     "RE_valuation": {
-      "re_value_equity": 1277034632348.3237,
-      "re_value_per_share": 86.753267,
+      "re_value_equity": 1294545134008.8047,
+      "re_value_per_share": 87.942814,
       "inputs": {
         "B0": 112093000000.0,
-        "RE": 120573206360.5,
-        "ke": 0.103501,
+        "RE": 120730136560.5,
+        "ke": 0.102101,
         "g": 0.0,
-        "g_sgr": -0.024855,
-        "g_cap": 0.05052
+        "g_sgr": "N/D",
+        "g_cap": 0.04912
       }
     },
     "consensus": {
@@ -50,22 +50,36 @@
       "dispersion": 0.50632
     },
     "reverse_dcf": {
-      "implied_g": 0.077749,
+      "implied_g": 0.076136,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 5116849026180.0,
+        "ev": 5067433023360.0,
         "fcf_adj": 122267000000.0,
-        "wacc": 0.103501
+        "wacc": 0.102101
       }
     },
     "SGR": {
-      "sgr": -0.024855,
+      "sgr": -0.02856,
       "rr": -0.029809,
-      "roic": 0.833787
+      "roic": 0.958102,
+      "status": "n/m",
+      "nm_reason": "negative_net_reinvestment",
+      "invested_capital_share_of_assets": 0.338496
     },
-    "flag_growth_unfinanceable": true
+    "flag_growth_unfinanceable": "N/D"
   },
-  "bloc_B_flags": [],
+  "bloc_B_flags": [
+    {
+      "id": "sgr_not_meaningful",
+      "severity": "info",
+      "message": "SGR non significatif (negative_net_reinvestment) : taux de réinvestissement -3%",
+      "details": {
+        "reason": "negative_net_reinvestment",
+        "rr": -0.029809,
+        "sgr": -0.02856
+      }
+    }
+  ],
   "bloc_C_dupont": {
     "available": true,
     "fy": 2026,
@@ -82,15 +96,27 @@
   "bloc_D_trends": {
     "roic_10y": {
       "2017": 0.2017,
-      "2018": 0.2958,
-      "2019": 0.359,
-      "2020": 0.404,
-      "2021": 0.6145,
-      "2022": 0.6761,
-      "2023": 0.6755,
-      "2024": 0.6952,
-      "2025": 0.8155,
-      "2026": 0.8338
+      "2018": 0.3727,
+      "2019": 0.5485,
+      "2020": 0.6483,
+      "2021": 0.7495,
+      "2022": 0.8112,
+      "2023": 0.8649,
+      "2024": 0.9419,
+      "2025": 0.9441,
+      "2026": 0.9581
+    },
+    "invested_capital_share_10y": {
+      "2017": 0.611315,
+      "2018": 0.424715,
+      "2019": 0.289434,
+      "2020": 0.270134,
+      "2021": 0.359024,
+      "2022": 0.349755,
+      "2023": 0.31965,
+      "2024": 0.272081,
+      "2025": 0.33104,
+      "2026": 0.338496
     },
     "rnoa_10y": {
       "2017": 0.2017,
@@ -166,7 +192,7 @@
     }
   },
   "bloc_E_health": {
-    "net_debt_ebitda": 0.26394,
+    "net_debt_ebitda": 0.144881,
     "interest_coverage": "N/D",
     "lt_debt_payback": {
       "years": 0.516043,
@@ -185,9 +211,9 @@
     "ocf_ni": 1.097764,
     "accruals_pct_rev": -0.026986,
     "retained_earnings_test": {
-      "ratio": 4.68685,
+      "ratio": 4.623129,
       "retained_5y": 458477000000.0,
-      "delta_mcap": 2148812712709.2432,
+      "delta_mcap": 2119598446217.392,
       "passes": true,
       "window": [
         2021,
@@ -293,47 +319,47 @@
       0.2736
     ],
     "g_axis": [
-      0.01,
-      0.015,
-      0.02,
-      0.025,
-      0.03
+      0.0,
+      0.0123,
+      0.0246,
+      0.0368,
+      0.0491
     ],
     "matrix": [
       [
-        67.63,
-        70.0,
-        72.64,
-        75.62,
-        79.01
+        64.47,
+        69.74,
+        76.67,
+        86.22,
+        100.2
       ],
       [
-        69.05,
-        71.47,
-        74.17,
-        77.23,
-        80.69
+        65.81,
+        71.2,
+        78.3,
+        88.08,
+        102.38
       ],
       [
-        82.51,
-        85.45,
-        88.75,
-        92.47,
-        96.7
+        78.53,
+        85.1,
+        93.76,
+        105.67,
+        123.1
       ],
       [
-        86.06,
-        89.15,
-        92.6,
-        96.5,
-        100.92
+        81.89,
+        88.77,
+        97.84,
+        110.31,
+        128.57
       ],
       [
-        91.63,
-        94.94,
-        98.64,
-        102.81,
-        107.55
+        87.16,
+        94.53,
+        104.24,
+        117.6,
+        137.15
       ]
     ]
   },
@@ -353,14 +379,16 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.103501,
-      "ke": 0.103501,
+      "wacc": 0.102101,
+      "ke": 0.102101,
       "kd": "N/D",
       "tax_rate": 0.169948,
-      "E": 5071587026180.0,
+      "E": 5042588023360.0,
       "D": 81567000000.0,
-      "rf": 0.05052,
+      "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf_currency": "USD",
+      "rf_proxy": false,
       "erp": 0.05,
       "beta": 1.05963,
       "beta_raw": 1.089,
@@ -384,6 +412,16 @@
       "NOA": 136938000000.0,
       "NFO": 24845000000.0,
       "equity_check": 0.0
+    },
+    "net_debt_detail": {
+      "fy": 2026,
+      "lt_debt": 68208000000.0,
+      "st_debt": 11903000000.0,
+      "finance_leases": 1456000000.0,
+      "cash": 36305000000.0,
+      "st_investments": 20417000000.0,
+      "st_investments_deducted": true,
+      "net_debt": 24845000000.0
     },
     "three_statement_10y": {
       "revenue": {
@@ -1343,8 +1381,8 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 344.53,
-    "price_in_reporting_currency": 344.53,
+    "price_listing": 342.56,
+    "price_in_reporting_currency": 342.56,
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2026-09-26",

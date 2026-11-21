@@ -1,67 +1,70 @@
 {
   "ticker": "TSLA",
   "cik": 1318605,
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 347.4934,
+    "prix": 345.82,
     "EPV": {
-      "epv_ev": 27777847522.67661,
-      "epv_equity": 35914847522.676605,
-      "epv_per_share": 10.179945,
+      "epv_ev": 28091615559.87013,
+      "epv_equity": 63774615559.87013,
+      "epv_per_share": 18.076705,
       "inputs": {
         "ebit_adj": 4745000000.0,
         "tax": 0.26961,
-        "wacc": 0.124765,
-        "net_debt": -8137000000.0
+        "wacc": 0.123371,
+        "net_debt": -35683000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": -2.994655,
-      "high": 9.053255,
+      "low": -5.317661,
+      "high": 16.076021,
       "fcf_p25": -998714000.0,
       "fcf_p75": 3019250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 10.866003,
-      "central": 10.179945,
-      "plus_100bps": 9.595703
+      "minus_100bps": 18.779041,
+      "central": 18.076705,
+      "plus_100bps": 17.47969
     },
     "RE_valuation": {
-      "re_value_equity": 16761617508.643173,
-      "re_value_per_share": 4.751025,
+      "re_value_equity": 12655425742.021263,
+      "re_value_per_share": 3.587139,
       "inputs": {
         "B0": 82137000000.0,
-        "RE": -6221990021.751232,
-        "ke": 0.125411,
-        "g": 0.042338,
-        "g_sgr": 0.042338,
-        "g_cap": 0.05052
+        "RE": -6106998221.751232,
+        "ke": 0.124011,
+        "g": 0.04912,
+        "g_sgr": 0.067443,
+        "g_cap": 0.04912
       }
     },
     "consensus": {
       "available": true,
-      "target_mean": 412.47626,
+      "target_mean": 417.52625,
       "target_median": 436.0,
       "target_high": 600.0,
       "target_low": 128.11,
       "n_analysts": 40,
       "warning_few_analysts": false,
-      "dispersion": 1.144042
+      "dispersion": 1.130204
     },
     "reverse_dcf": {
-      "implied_g": 0.121638,
+      "implied_g": 0.12016,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 1217819715200.0,
+        "ev": 1184369960000.0,
         "fcf_adj": 3395000000.0,
-        "wacc": 0.124765
+        "wacc": 0.123371
       }
     },
     "SGR": {
-      "sgr": 0.042338,
+      "sgr": 0.067443,
       "rr": 0.984957,
-      "roic": 0.042984
+      "roic": 0.068473,
+      "status": "ok",
+      "nm_reason": "N/D",
+      "invested_capital_share_of_assets": 0.337097
     },
     "flag_growth_unfinanceable": true
   },
@@ -113,11 +116,23 @@
       "2018": -0.0319,
       "2019": -0.0058,
       "2020": 0.1025,
-      "2021": 0.2985,
-      "2022": 0.3971,
-      "2023": 0.2594,
-      "2024": 0.0866,
-      "2025": 0.043
+      "2021": 0.3005,
+      "2022": 0.4891,
+      "2023": 0.3443,
+      "2024": 0.1263,
+      "2025": 0.0685
+    },
+    "invested_capital_share_10y": {
+      "2016": 0.367746,
+      "2017": 0.386923,
+      "2018": 0.432504,
+      "2019": 0.401323,
+      "2020": 0.278611,
+      "2021": 0.310892,
+      "2022": 0.311132,
+      "2023": 0.363635,
+      "2024": 0.365061,
+      "2025": 0.337097
     },
     "rnoa_10y": {
       "2016": -0.0728,
@@ -193,7 +208,7 @@
     }
   },
   "bloc_E_health": {
-    "net_debt_ebitda": -0.867022,
+    "net_debt_ebitda": -3.802131,
     "interest_coverage": 12.884615,
     "lt_debt_payback": {
       "years": 1.735372,
@@ -252,47 +267,47 @@
       0.1522
     ],
     "g_axis": [
-      0.0212,
-      0.0318,
-      0.0423,
-      0.0505,
-      0.0505
+      0.0,
+      0.0123,
+      0.0246,
+      0.0368,
+      0.0491
     ],
     "matrix": [
       [
-        -35.93,
-        -40.38,
-        -45.97,
-        -51.38,
-        -51.38
+        -29.61,
+        -33.25,
+        -37.79,
+        -43.61,
+        -51.34
       ],
       [
-        -22.94,
-        -26.42,
-        -30.79,
-        -35.0,
-        -35.0
+        -17.95,
+        -20.79,
+        -24.33,
+        -28.87,
+        -34.89
       ],
       [
-        6.8,
-        5.56,
-        4.01,
-        2.51,
-        2.51
+        8.75,
+        7.75,
+        6.51,
+        4.91,
+        2.78
       ],
       [
-        19.45,
-        19.17,
-        18.8,
-        18.46,
-        18.46
+        20.11,
+        19.89,
+        19.62,
+        19.27,
+        18.8
       ],
       [
-        33.81,
-        34.6,
-        35.59,
-        36.55,
-        36.55
+        32.99,
+        33.66,
+        34.49,
+        35.56,
+        36.98
       ]
     ]
   },
@@ -312,14 +327,16 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.124765,
-      "ke": 0.125411,
+      "wacc": 0.123371,
+      "ke": 0.124011,
       "kd": 0.041457,
       "tax_rate": 0.26961,
-      "E": 1225956715200.0,
+      "E": 1220052960000.0,
       "D": 8376000000.0,
-      "rf": 0.05052,
+      "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf_currency": "USD",
+      "rf_proxy": false,
       "erp": 0.05,
       "beta": 1.49781,
       "beta_raw": 1.743,
@@ -351,6 +368,16 @@
       "NOA": 47182000000.0,
       "NFO": -35683000000.0,
       "equity_check": 728000000.0
+    },
+    "net_debt_detail": {
+      "fy": 2025,
+      "lt_debt": 6584000000.0,
+      "st_debt": 1569000000.0,
+      "finance_leases": 223000000.0,
+      "cash": 16513000000.0,
+      "st_investments": 27546000000.0,
+      "st_investments_deducted": true,
+      "net_debt": -35683000000.0
     },
     "three_statement_10y": {
       "revenue": {
@@ -1263,8 +1290,8 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 347.4934,
-    "price_in_reporting_currency": 347.4934,
+    "price_listing": 345.82,
+    "price_in_reporting_currency": 345.82,
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",

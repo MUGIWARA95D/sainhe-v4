@@ -5,5 +5,5 @@ pandas>=2.0
 numpy>=1.24
 scipy>=1.11
 requests>=2.31
-yfinance>=0.2.54
+yfinance>=1.8.0          # 0.2.x cassé par Yahoo le 21 nov. 2026 (AttributeError: name)
 curl_cffi>=0.6

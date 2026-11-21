@@ -27,7 +27,7 @@ logging.basicConfig(level=logging.INFO, format="%(name)s %(levelname)s %(message
 log = logging.getLogger("sainhe.quality")
 
 STOCK = Path(__file__).resolve().parent.parent / "data" / "stock"
-TOL = 0.03          # 3 % : arrondis, reclassements mineurs
+TOL = config.CROSS_CHECK_TOL   # 3 % : arrondis, reclassements mineurs (seuil dans config.py)
 KEY_FIELDS = {
     "EPV/action": ("bloc_A_verdict", "EPV", "epv_per_share"),
     "RE/action": ("bloc_A_verdict", "RE_valuation", "re_value_per_share"),
@@ -60,15 +60,16 @@ def _yf_statements(ticker: str, sess):
     return {"income_stmt": t.income_stmt, "balance_sheet": t.balance_sheet}
 
 
-def cross_check(report: dict, ticker: str, sess) -> tuple[list[dict], list[str]]:
-    """(anomalies, champs effectivement comparés) — un « 0 anomalie » sans comparaison
-    ne prouve rien : la liste des champs vérifiés est publiée avec le résultat."""
+def cross_check(report: dict, ticker: str, sess) -> tuple[list[dict], list[str], list[dict]]:
+    """(anomalies, champs effectivement comparés, détail de CHAQUE comparaison) — un « 0 anomalie »
+    sans comparaison ne prouve rien : chaque vérification est publiée avec ses deux valeurs,
+    l'écart et la tolérance (auditable depuis la page Stock Analysis)."""
     sm = report.get("drill_down", {}).get("source_map_per_tag", {})
-    issues, checked = [], []
+    issues, checked, details = [], [], []
     try:
         st = _yf_statements(ticker, sess)
     except Exception as e:
-        return [{"type": "cross_source_unavailable", "detail": f"yfinance : {type(e).__name__}"}], []
+        return [{"type": "cross_source_unavailable", "detail": f"yfinance : {type(e).__name__}"}], [], []
     for tag, (stmt, rows) in CROSS.items():
         src = sm.get(tag)
         df = st.get(stmt)
@@ -93,11 +94,17 @@ def cross_check(report: dict, ticker: str, sess) -> tuple[list[dict], list[str]]
             continue
         checked.append(tag)
         gap = abs(src["value"] - other) / abs(other)
+        details.append({"field": tag, "fiscal_end": src.get("end_date"), "xbrl": src["value"],
+                        "xbrl_tag": src.get("xbrl_tag"), "filing_url": src.get("edgar_filing_url"),
+                        "second_source": "yfinance " + stmt, "second_source_row": row,
+                        "second_source_period": str(cols[0])[:10], "second_value": other,
+                        "gap_pct": round(gap * 100, 2), "tolerance_pct": round(TOL * 100, 2),
+                        "status": "gap" if gap > TOL else "ok"})
         if gap > TOL:
             issues.append({"type": "cross_source_gap", "field": tag, "fiscal_end": src.get("end_date"),
                            "xbrl": src["value"], "xbrl_tag": src.get("xbrl_tag"),
                            "yfinance": other, "gap_pct": round(gap * 100, 1)})
-    return issues, checked
+    return issues, checked, details
 
 
 def main() -> dict:
@@ -122,7 +129,7 @@ def main() -> dict:
             continue
         filled = sorted(k for k, path in KEY_FIELDS.items() if _get(r, path) is not None)
         missing = sorted(set(KEY_FIELDS) - set(filled))
-        issues, checked = cross_check(r, t, sess)
+        issues, checked, details = cross_check(r, t, sess)
         regress = sorted(prev_filled.get(t, set()) - set(filled))
         if regress:
             issues.append({"type": "nd_regression", "fields": regress,
@@ -132,7 +139,8 @@ def main() -> dict:
             issues.append({"type": "stale_financials", "fiscal_year_end": meta.get("fiscal_year_end"),
                            "months": meta.get("months_since_fiscal_year_end")})
         out["tickers"][t] = {"source": meta.get("source"), "filled_fields": filled,
-                             "missing_fields": missing, "cross_checked": checked, "issues": issues}
+                             "missing_fields": missing, "cross_checked": checked, "checks": details,
+                             "issues": issues}
         log.info("%-7s %d/%d champs, recoupés %s, %d anomalie(s)", t, len(filled), len(KEY_FIELDS),
                  checked or "aucun", len(issues))
     blocking = sum(1 for v in out["tickers"].values() for i in v["issues"]

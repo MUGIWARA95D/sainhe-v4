@@ -34,21 +34,35 @@ def _debt_component(cd: CompanyData, name: str, fy: int | None):
     return cd.value(name, fy)
 
 
-def net_debt(cd: CompanyData, fy: int | None = None):
-    """Net Debt = LT Debt + ST Debt + FinanceLeaseLiability − Cash  (.txt NOTE ASC 842).
-    OperatingLeaseLiability est EXCLU (obligation opérationnelle, pas dette financière).
-    Un composant manquant pour l'année (mais publié d'autres années) → N/D.
+def net_debt_detail(cd: CompanyData, fy: int | None = None) -> dict:
+    """Composants de la dette nette pour l'exercice fy (affichés tels quels sur la page).
+    Net Debt = LT Debt + ST Debt + FinanceLeaseLiability − Cash − placements à court terme
+    (.txt NOTE ASC 842). OperatingLeaseLiability est EXCLU (obligation opérationnelle).
+    Règles N/D, volontairement ASYMÉTRIQUES (21 nov. 2026) :
+      - composant de DETTE ou cash publié d'autres années mais pas cette année → dette nette N/D
+        (le compter à 0 sous-estimerait la dette : erreur dans le sens agressif) ;
+      - placements CT non publiés cette année → NON déduits, et signalé
+        (st_investments_deducted=False) : ne pas déduire un actif ne peut que SURESTIMER la dette
+        nette (sens prudent). Avant le 21 nov. ils n'étaient jamais déduits.
+    Tags US GAAP seulement (ShortTermInvestments, MarketableSecuritiesCurrent,
+    OtherShortTermInvestments) : pas d'équivalent IFRS homogène → non déduits pour les IFRS.
     """
     if fy is None:
         fy = (cd.years("revenue") or cd.years("net_income") or [None])[-1]
     lt, st = _debt_component(cd, "lt_debt", fy), _debt_component(cd, "st_debt", fy)
     cash = _debt_component(cd, "cash", fy)
-    if lt is None or st is None or cash is None:
-        return None
+    sti = cd.value("st_investments", fy)
     # Si la dette LT vient d'un tag incluant déjà les finance leases, ne pas les rajouter
     lt_dp = cd.series.get("lt_debt", {}).get(fy)
     fl = 0.0 if (lt_dp and "CapitalLease" in lt_dp.tag) else _nz(cd.value("finance_lease_liab", fy))
-    return lt + st + fl - cash
+    nd = None if (lt is None or st is None or cash is None) else lt + st + fl - cash - (sti or 0.0)
+    return {"fy": fy, "lt_debt": lt, "st_debt": st, "finance_leases": fl, "cash": cash,
+            "st_investments": sti, "st_investments_deducted": sti is not None, "net_debt": nd}
+
+
+def net_debt(cd: CompanyData, fy: int | None = None):
+    """Dette nette de l'exercice (voir net_debt_detail pour les règles et les composants)."""
+    return net_debt_detail(cd, fy)["net_debt"]
 
 
 # ------------------------------------------------------------------ Reformulation Penman

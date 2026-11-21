@@ -1,42 +1,42 @@
 {
   "ticker": "ZTS",
   "cik": 1555280,
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 79.43,
+    "prix": 79.11,
     "EPV": {
-      "epv_ev": 38313151113.184654,
-      "epv_equity": 31576151113.184654,
-      "epv_per_share": 71.143896,
+      "epv_ev": 38911442899.28138,
+      "epv_equity": 32174442899.28138,
+      "epv_per_share": 72.491901,
       "inputs": {
         "ebit_adj": 3631000000.0,
         "tax": 0.204464,
-        "wacc": 0.075394,
+        "wacc": 0.074235,
         "net_debt": 6737000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 39.371679,
-      "high": 58.483516,
+      "low": 40.117677,
+      "high": 59.591638,
       "fcf_p25": 1217500000.0,
       "fcf_p75": 1808500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 84.344292,
-      "central": 71.143896,
-      "plus_100bps": 61.035137
+      "minus_100bps": 86.140378,
+      "central": 72.491901,
+      "plus_100bps": 62.083996
     },
     "RE_valuation": {
-      "re_value_equity": 51648590397.30835,
-      "re_value_per_share": 116.368899,
+      "re_value_equity": 53372788630.754326,
+      "re_value_per_share": 120.253672,
       "inputs": {
         "B0": 3331000000.0,
-        "RE": 2413080627.0,
-        "ke": 0.089733,
+        "RE": 2417744027.0,
+        "ke": 0.088333,
         "g": 0.047477,
         "g_sgr": 0.047477,
-        "g_cap": 0.05052
+        "g_cap": 0.04912
       }
     },
     "consensus": {
@@ -50,18 +50,21 @@
       "dispersion": 0.468268
     },
     "reverse_dcf": {
-      "implied_g": 0.021857,
+      "implied_g": 0.020583,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 41990814050.0,
+        "ev": 41848786850.0,
         "fcf_adj": 2200000000.0,
-        "wacc": 0.075394
+        "wacc": 0.074235
       }
     },
     "SGR": {
       "sgr": 0.047477,
       "rr": 0.167742,
-      "roic": 0.283036
+      "roic": 0.283036,
+      "status": "ok",
+      "nm_reason": "N/D",
+      "invested_capital_share_of_assets": 0.650934
     },
     "flag_growth_unfinanceable": false
   },
@@ -83,7 +86,7 @@
     "roic_10y": {
       "2016": 0.1778,
       "2017": 0.1863,
-      "2018": 0.2271,
+      "2018": 0.2303,
       "2019": 0.2334,
       "2020": 0.2479,
       "2021": 0.2898,
@@ -91,6 +94,18 @@
       "2023": 0.2655,
       "2024": 0.2858,
       "2025": 0.283
+    },
+    "invested_capital_share_10y": {
+      "2016": 0.683488,
+      "2017": 0.600862,
+      "2018": 0.643593,
+      "2019": 0.625466,
+      "2020": 0.541112,
+      "2021": 0.55036,
+      "2022": 0.584791,
+      "2023": 0.667227,
+      "2024": 0.657512,
+      "2025": 0.650934
     },
     "rnoa_10y": {
       "2016": 0.1774,
@@ -185,9 +200,9 @@
     "ocf_ni": 1.08642,
     "accruals_pct_rev": -0.024401,
     "retained_earnings_test": {
-      "ratio": -1.66816,
+      "ratio": -1.668161,
       "retained_5y": 11654000000.0,
-      "delta_mcap": -19440737156.02112,
+      "delta_mcap": -19440751760.787964,
       "passes": false,
       "window": [
         2020,
@@ -293,47 +308,47 @@
       0.3005
     ],
     "g_axis": [
-      0.0237,
-      0.0356,
-      0.0475,
-      0.0505,
-      0.0505
+      0.0,
+      0.0123,
+      0.0246,
+      0.0368,
+      0.0491
     ],
     "matrix": [
       [
-        52.38,
-        59.94,
-        71.74,
-        75.92,
-        75.92
+        43.94,
+        48.14,
+        53.95,
+        62.52,
+        76.48
       ],
       [
-        59.55,
-        68.32,
-        82.01,
-        86.86,
-        86.86
+        49.75,
+        54.61,
+        61.34,
+        71.29,
+        87.46
       ],
       [
-        81.21,
-        93.63,
-        113.02,
-        119.88,
-        119.88
+        67.28,
+        74.16,
+        83.69,
+        97.76,
+        120.65
       ],
       [
-        83.96,
-        96.85,
-        116.96,
-        124.08,
-        124.08
+        69.51,
+        76.65,
+        86.53,
+        101.13,
+        124.87
       ],
       [
-        87.74,
-        101.26,
-        122.37,
-        129.84,
-        129.84
+        72.57,
+        80.06,
+        90.43,
+        105.75,
+        130.66
       ]
     ]
   },
@@ -353,14 +368,16 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.075394,
-      "ke": 0.089733,
+      "wacc": 0.074235,
+      "ke": 0.088333,
       "kd": 0.024552,
       "tax_rate": 0.204464,
-      "E": 35253814050.0,
+      "E": 35111786850.0,
       "D": 9049000000.0,
-      "rf": 0.05052,
+      "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf_currency": "USD",
+      "rf_proxy": false,
       "erp": 0.05,
       "beta": 0.78426,
       "beta_raw": 0.678,
@@ -392,6 +409,16 @@
       "NOA": 10068000000.0,
       "NFO": 6737000000.0,
       "equity_check": 0.0
+    },
+    "net_debt_detail": {
+      "fy": 2025,
+      "lt_debt": 9042000000.0,
+      "st_debt": 0.0,
+      "finance_leases": 7000000.0,
+      "cash": 2312000000.0,
+      "st_investments": "N/D",
+      "st_investments_deducted": false,
+      "net_debt": 6737000000.0
     },
     "three_statement_10y": {
       "revenue": {
@@ -1211,9 +1238,9 @@
     "edgar_filings_index": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001555280&type=10-K&dateb=&owner=include&count=40"
   },
   "score_composite": {
-    "value_0_100": 50.0,
+    "value_0_100": 51.2,
     "pillars": {
-      "valuation": 29.136085,
+      "valuation": 33.268616,
       "balance_sheet_health": 75,
       "earnings_quality": 50,
       "smart_money": 50,
@@ -1232,8 +1259,8 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 79.43,
-    "price_in_reporting_currency": 79.43,
+    "price_listing": 79.11,
+    "price_in_reporting_currency": 79.11,
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",

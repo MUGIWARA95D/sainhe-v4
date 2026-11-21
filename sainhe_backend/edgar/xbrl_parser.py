@@ -41,7 +41,8 @@ TAG_MAP: dict[str, list[str]] = {
     # cash restreint (écart marginal, tag source tracé dans DataPoint.tag).
     "cash": ["CashAndCashEquivalentsAtCarryingValue",
              "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"],
-    "st_investments": ["ShortTermInvestments", "MarketableSecuritiesCurrent"],
+    "st_investments": ["ShortTermInvestments", "MarketableSecuritiesCurrent",
+                       "OtherShortTermInvestments"],   # KO depuis 2022
     "ar": ["AccountsReceivableNetCurrent", "ReceivablesNetCurrent"],   # LMT, GEV : 2e tag
     "inventory": ["InventoryNet"],
     "current_assets": ["AssetsCurrent"],

@@ -16,7 +16,7 @@
     <div class="bib-wrap">
       <button class="box-info-btn" aria-label="About this section">i</button>
       <div class="box-info-pop">
-        <p class="bip-desc">Each company sits where its price meets its record. Horizontal: the perpetual free-cash-flow growth the market price implies (reverse DCF). Vertical: the share of years in which return on invested capital beat the cost of capital. Nothing here is a forecast.</p>
+        <p class="bip-desc">Each company sits where its price meets its record. Horizontal: the perpetual free-cash-flow growth the price implies (reverse DCF). Vertical: the share of years in which return on invested capital beat the cost of capital. Drag to select, click for the inputs behind each number. Nothing here is a forecast.</p>
         <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
       </div>
     </div>
@@ -29,7 +29,7 @@
         <span class="card-t">Expectations map</span>
         <span class="badge badge-gold" id="sa-asof">as of —</span>
       </div>
-      <div class="sa-filters" role="group" aria-label="Map filters">
+      <div class="sa-filters" role="group" aria-label="Map and table filters">
         <span class="sa-kicker">Accounts</span>
         <button class="sa-chip on" data-src="all" aria-pressed="true">All</button>
         <button class="sa-chip" data-src="10-K" aria-pressed="false">US 10-K</button>
@@ -38,37 +38,73 @@
         <span class="sa-sep" aria-hidden="true"></span>
         <label class="sa-check"><input type="checkbox" id="sa-hide-stale"> Hide accounts older than 15 months</label>
       </div>
-      <div class="sa-map-wrap"><canvas id="sa-map" role="img" aria-label="Scatter plot of implied growth against the share of years with ROIC above WACC. The table below lists the same data."></canvas></div>
+      <div class="sa-filters sa-wacc-row">
+        <label for="sa-dw">Adjust WACC assumption — base case shown in outline</label>
+        <input type="range" class="sa-range sa-dw" id="sa-dw" min="-2" max="2" step="0.25" value="0">
+        <output id="sa-dw-o" for="sa-dw">±0.00 pt</output>
+        <button class="sa-btn" id="sa-dw-reset" hidden>Back to base case</button>
+      </div>
+      <div class="sa-map-wrap"><canvas id="sa-map" role="img" aria-label="Scatter plot of implied growth against the share of years with ROIC above WACC. The coverage table below lists the same data."></canvas></div>
       <div class="sa-legend" aria-hidden="true">
         <span><i class="sa-lg-c" style="background:var(--s1)"></i>US 10-K</span>
         <span><i class="sa-lg-t" style="border-bottom-color:var(--s2)"></i>Foreign 20-F</span>
         <span><i class="sa-lg-d" style="background:var(--s3)"></i>Europe ESEF</span>
         <span><i class="sa-lg-h"></i>Hollow = accounts older than 15 months</span>
-        <span>Dashed line = risk-free rate · click a point to open the company file</span>
+        <span id="sa-lg-ghost" hidden>Outline + line = base case before the WACC shift</span>
+        <span>Dashed lines = risk-free rate of each currency · drag on the map to select an area · click a point for its audit trail</span>
+      </div>
+      <div class="sa-brushbar" id="sa-brushbar" hidden role="status">
+        <span id="sa-brush-txt"></span>
+        <button class="sa-btn" id="sa-brush-clear">Clear selection</button>
       </div>
       <div class="sa-unplaced" id="sa-unplaced"></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="sa-tbl-card">
       <div class="card-h">
         <span class="card-t">Coverage table</span>
-        <span class="badge badge-green" id="sa-quality-badge">quality check —</span>
+        <button type="button" class="badge badge-green sa-qbtn" id="sa-quality-badge" title="Open the list of checks">quality check —</button>
       </div>
-      <div class="sa-tbl-wrap">
+      <div class="sa-tbl-wrap sa-tbl-scroll" id="sa-tbl-wrap">
         <table class="sa-tbl" id="sa-tbl">
+          <caption class="sa-sr">Coverage table. Enter on a row opens the company's audit trail. Columns are sortable.</caption>
           <thead><tr>
-            <th data-k="ticker" class="l" scope="col">Company</th>
-            <th data-k="sector" class="l" scope="col">Sector</th>
-            <th data-k="implied_growth" scope="col" title="Perpetual FCF growth that today's price implies">Implied growth</th>
-            <th data-k="sgr" scope="col" title="Growth the company can finance itself: ROIC × reinvestment rate">Sustainable growth</th>
-            <th data-k="roic_share" scope="col" title="Years with ROIC above WACC">ROIC &gt; WACC</th>
-            <th data-k="ecart_pct" scope="col" title="No-growth value (EPV) per share relative to the price">EPV vs price</th>
-            <th data-k="n_flags" scope="col">Flags</th>
-            <th data-k="source" class="l" scope="col">Accounts</th>
+            <th scope="col" class="sa-td-cmp"><span class="sa-sr">Compare</span></th>
+            <th data-k="ticker" class="l" scope="col"><button class="sa-sort" data-k="ticker">Company</button></th>
+            <th data-k="sector" class="l sa-col-sector" scope="col"><button class="sa-sort" data-k="sector">Sector</button></th>
+            <th data-k="g" scope="col" title="Perpetual FCF growth that the price implies at the WACC shown"><button class="sa-sort" data-k="g"><span id="sa-th-g">Implied growth</span></button></th>
+            <th data-k="sgr" scope="col" title="ROIC × net reinvestment rate; n/m when the formula stops measuring growth"><button class="sa-sort" data-k="sgr">Sustainable growth</button></th>
+            <th data-k="gap" scope="col" title="Implied growth minus sustainable growth, in points"><button class="sa-sort" data-k="gap">Gap</button></th>
+            <th data-k="roic" class="l" scope="col" title="One box per fiscal year: filled when ROIC was above the WACC shown"><button class="sa-sort" data-k="roic">ROIC &gt; WACC</button></th>
+            <th data-k="epv" scope="col" title="No-growth value (EPV) per share relative to the price"><button class="sa-sort" data-k="epv">EPV vs price</button></th>
+            <th data-k="flags" scope="col"><button class="sa-sort" data-k="flags">Flags</button></th>
+            <th data-k="acc" class="l" scope="col"><button class="sa-sort" data-k="acc">Accounts</button></th>
           </tr></thead>
           <tbody></tbody>
         </table>
       </div>
+      <div class="sa-compare" id="sa-compare" hidden></div>
+      <details class="sa-details" id="sa-method-note">
+        <summary>Method notes — read before comparing two rows</summary>
+        <div class="sa-details-b">
+          <div>
+            <h4>Return on invested capital</h4>
+            <p>ROIC = EBIT × (1 − effective tax rate) / (book equity + net debt). Goodwill is included, because it sits inside book equity, so companies built by acquisition show lower returns. R&amp;D is expensed as filed and not capitalised, so R&amp;D-heavy companies show higher returns than an economic measure would. Operating leases are excluded from debt; finance leases are included.</p>
+            <h4>Net debt</h4>
+            <p>Long- and short-term debt + finance leases − cash − short-term investments. Short-term investments are deducted only when filed for that year under a US GAAP tag; otherwise they are not deducted and the audit trail says so. That can only overstate net debt, never understate it.</p>
+            <h4>ROIC above WACC, year by year</h4>
+            <p>Each past year is compared with the WACC shown, not with that year's WACC: historical WACCs are not reconstructed. When rates were lower, past spreads were wider than shown. A year is marked n/m when invested capital was below the published share of total assets: ROIC is then the artefact of a near-zero denominator.</p>
+          </div>
+          <div>
+            <h4>IFRS and US GAAP are not on the same basis</h4>
+            <p>Under IAS 38, IFRS filers capitalise development costs that meet set criteria, while US GAAP expenses research and development. Ferrari, TSMC, Hermès, Leonardo and Coats report under IFRS: their EBIT and invested capital are not directly comparable with Apple's or Microsoft's.</p>
+            <h4>EBIT used for the no-growth value (EPV)</h4>
+            <p>Last fiscal year's operating income, with one-off items removed (impairments, restructuring). There is no averaging over the business cycle, so for cyclical companies such as Caterpillar, Deere or ExxonMobil the EPV reflects where the cycle stood that year.</p>
+            <h4>Why the vertical lines sit at the risk-free rate</h4>
+            <p>A growth rate that lasts forever cannot exceed the long-run nominal growth of the economy whose currency discounts the cash flows. The risk-free rate is the usual market proxy for it (Damodaran's convention), and the engine caps perpetual growth at min(risk-free, cost of equity − 2 pts). Each line therefore shows the same cap the valuation uses, in the currency of the accounts. Nominal GDP growth would be the economic constraint itself; it is not shown yet. TSMC: there is no free 10-year yield in Taiwan dollars, so the US 10-year is used and flagged.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -202,6 +238,7 @@
             <ul>
               <li><strong>Implied growth</strong>: the perpetual growth g that solves EV = FCF × (1+g) / (WACC − g). FCF is adjusted for stock-based pay.</li>
               <li><strong>EPV</strong>: value with zero growth, EBIT × (1 − t) / WACC − net debt.</li>
+              <li><strong>WACC</strong>: risk-free rate of the currency of the accounts (US Treasury, Bund…) + β × 5% premium. Detailed notes sit under the coverage table.</li>
               <li><strong>Sustainable growth</strong>: ROIC × reinvestment rate, from the accounts only.</li>
               <li><strong>Lab</strong>: daily returns rebalanced to target weights; VaR and CVaR are historical (95 %, one day).</li>
             </ul>
@@ -209,7 +246,7 @@
           <div>
             <h3>Limits</h3>
             <ul>
-              <li>Missing data stays <span class="sa-nd">N/D</span>: nothing is imputed.</li>
+              <li>Missing data stays <span class="sa-nd">N/D</span>: nothing is imputed. A ratio whose formula stops measuring what it claims is shown as n/m, with the reason.</li>
               <li>A perpetuity formula is very sensitive near WACC = g; read the slope, not one point.</li>
               <li>Past crises do not repeat in the same way. Holdings not listed at the time are excluded.</li>
               <li>Rivals are an editorial pairing for one common market, not a full peer group.</li>

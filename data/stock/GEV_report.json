@@ -1,71 +1,85 @@
 {
   "ticker": "GEV",
   "cik": 1996810,
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 703.395,
+    "prix": 699.33,
     "EPV": {
-      "epv_ev": 26334258500.26713,
-      "epv_equity": 34841258500.267136,
-      "epv_per_share": 126.236444,
+      "epv_ev": 26699060276.390675,
+      "epv_equity": 35206060276.39067,
+      "epv_per_share": 127.558189,
       "inputs": {
         "ebit_adj": 1564000000.0,
         "tax": -0.725248,
-        "wacc": 0.102463,
+        "wacc": 0.101063,
         "net_debt": -8507000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": -12.240852,
-      "high": 109.138381,
+      "low": -12.369019,
+      "high": 110.281103,
       "fcf_p25": -359750000.0,
       "fcf_p75": 3207500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 136.555596,
-      "central": 126.236444,
-      "plus_100bps": 117.752411
+      "minus_100bps": 138.181135,
+      "central": 127.558189,
+      "plus_100bps": 118.848203
     },
     "RE_valuation": {
-      "re_value_equity": 76603681792.6727,
-      "re_value_per_share": 277.549572,
+      "re_value_equity": 51330789352.74469,
+      "re_value_per_share": 185.981121,
       "inputs": {
         "B0": 11178000000.0,
-        "RE": 4042312150.356436,
-        "ke": 0.102463,
-        "g": 0.05052,
-        "g_sgr": 1.457132,
-        "g_cap": 0.05052
+        "RE": 4057961350.356436,
+        "ke": 0.101063,
+        "g": 0.0,
+        "g_sgr": "N/D",
+        "g_cap": 0.04912
       }
     },
     "consensus": {
       "available": true,
-      "target_mean": 1167.1349,
+      "target_mean": 1162.4033,
       "target_median": 1200.0,
       "target_high": 1400.0,
-      "target_low": 797.0,
+      "target_low": 783.86,
       "n_analysts": 33,
       "warning_few_analysts": false,
-      "dispersion": 0.51665
+      "dispersion": 0.530057
     },
     "reverse_dcf": {
-      "implied_g": 0.080861,
+      "implied_g": 0.07936,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 185630020000.0,
+        "ev": 184508080000.0,
         "fcf_adj": 3710000000.0,
-        "wacc": 0.102463
+        "wacc": 0.101063
       }
     },
     "SGR": {
       "sgr": 1.457132,
       "rr": 1.625294,
-      "roic": 0.896534
+      "roic": 0.896534,
+      "status": "n/m",
+      "nm_reason": "invested_capital_near_zero",
+      "invested_capital_share_of_assets": 0.042386
     },
-    "flag_growth_unfinanceable": false
+    "flag_growth_unfinanceable": "N/D"
   },
-  "bloc_B_flags": [],
+  "bloc_B_flags": [
+    {
+      "id": "invested_capital_near_zero",
+      "severity": "medium",
+      "message": "Capital investi = 4% de l'actif (< 10%) : ROIC et SGR non significatifs",
+      "details": {
+        "invested_capital_share_of_assets": 0.042386,
+        "roic": 0.896534,
+        "sgr": 1.457132
+      }
+    }
+  ],
   "bloc_C_dupont": {
     "available": true,
     "fy": 2025,
@@ -84,6 +98,11 @@
       "2023": -0.5324,
       "2024": 0.1763,
       "2025": 0.8965
+    },
+    "invested_capital_share_10y": {
+      "2023": 0.137053,
+      "2024": 0.032378,
+      "2025": 0.042386
     },
     "rnoa_10y": {
       "2023": -0.462,
@@ -167,47 +186,47 @@
       0.0901
     ],
     "g_axis": [
-      0.0505,
-      0.0505,
-      0.0505,
-      0.0505,
-      0.0505
+      0.0,
+      0.0123,
+      0.0246,
+      0.0368,
+      0.0491
     ],
     "matrix": [
       [
-        -271.59,
-        -271.59,
-        -271.59,
-        -271.59,
-        -271.59
+        -149.74,
+        -167.64,
+        -191.29,
+        -223.98,
+        -272.13
       ],
       [
-        -265.29,
-        -265.29,
-        -265.29,
-        -265.29,
-        -265.29
+        -145.88,
+        -163.42,
+        -186.59,
+        -218.63,
+        -265.8
       ],
       [
-        -130.29,
-        -130.29,
-        -130.29,
-        -130.29,
-        -130.29
+        -63.35,
+        -73.12,
+        -86.03,
+        -103.88,
+        -130.17
       ],
       [
-        52.94,
-        52.94,
-        52.94,
-        52.94,
-        52.94
+        48.67,
+        49.44,
+        50.45,
+        51.85,
+        53.92
       ],
       [
-        174.58,
-        174.58,
-        174.58,
-        174.58,
-        174.58
+        123.03,
+        130.8,
+        141.06,
+        155.24,
+        176.14
       ]
     ]
   },
@@ -227,14 +246,16 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.102463,
-      "ke": 0.102463,
+      "wacc": 0.101063,
+      "ke": 0.101063,
       "kd": "N/D",
       "tax_rate": -0.725248,
-      "E": 194137020000.0,
+      "E": 193015080000.0,
       "D": 341000000.0,
-      "rf": 0.05052,
+      "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf_currency": "USD",
+      "rf_proxy": false,
       "erp": 0.05,
       "beta": 1.03886,
       "beta_raw": 1.058,
@@ -266,6 +287,16 @@
       "NOA": 3789000000.0,
       "NFO": -8507000000.0,
       "equity_check": 1118000000.0
+    },
+    "net_debt_detail": {
+      "fy": 2025,
+      "lt_debt": 0.0,
+      "st_debt": 63000000.0,
+      "finance_leases": 278000000.0,
+      "cash": 8848000000.0,
+      "st_investments": "N/D",
+      "st_investments_deducted": false,
+      "net_debt": -8507000000.0
     },
     "three_statement_10y": {
       "revenue": {
@@ -808,8 +839,8 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 703.395,
-    "price_in_reporting_currency": 703.395,
+    "price_listing": 699.33,
+    "price_in_reporting_currency": 699.33,
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",

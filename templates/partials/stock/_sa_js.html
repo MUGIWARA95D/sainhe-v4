@@ -83,162 +83,542 @@ const ROW = {}; ROWS.forEach(r => { ROW[r.ticker] = r; });
 const SRC_NAME = {'10-K': 'US 10-K', '20-F': 'Foreign 20-F', 'ESEF': 'Europe ESEF'};
 const asOf = $('#sa-asof'); if(asOf && VM.as_of) asOf.textContent = 'as of ' + VM.as_of;
 
-/* ═════════════ 1 · QUALITY × PRICE MAP ═════════════ */
-const mapState = {src: 'all', hideStale: false};
-let mapChart = null, selected = null;
+/* ═════════════ 1 · QUALITY × PRICE — map + table, one shared state ═════════════
+ * hover  : transient highlight, table row ↔ point (both directions)
+ * brush  : Set of tickers drawn as a rectangle on the map — filters the table
+ * compare: up to 4 tickers side by side, kept while filtering
+ * dW     : WACC shift applied to every company (−2..+2 pts), base case drawn in outline
+ * `selected` (the company in focus) drives the audit drawer and section 02.
+ * Every figure comes from valuation_map.json; recomputations are arithmetic only. */
+const TH = VM.thresholds || {};
+const st = {hover: null, brush: null, compare: [], dW: 0, src: 'all', hideStale: false, sort: {k: 'gap', dir: -1}};
+let mapChart = null, selected = null, drag = null, noClick = false, xRange = null;
 const SHAPE = {'10-K': 'circle', '20-F': 'triangle', 'ESEF': 'rectRot'};
 const SLOT = {'10-K': 's1', '20-F': 's2', 'ESEF': 's3'};
-const rfRef = median(ROWS.map(r => r.rf));
-function mapVisible(){
-  return ROWS.filter(r => (mapState.src === 'all' || r.src_kind === mapState.src) && !(mapState.hideStale && r.stale_financials));
+const icTxt = isNum(TH.ic_nm_min_share_of_assets) ? pct(TH.ic_nm_min_share_of_assets, 0) : 'the published share';
+const NM_TXT = {
+  negative_net_reinvestment: 'n/m — net reinvestment is negative (capex below depreciation and/or working capital released): growth is not funded by reinvestment.',
+  reinvestment_exceeds_nopat: 'n/m — reinvestment exceeds after-tax operating profit: growth is funded from outside, not self-sustained.',
+  invested_capital_near_zero: 'n/m — invested capital is below ' + icTxt + ' of total assets: the ROIC denominator is close to zero, so ROIC and sustainable growth are artefacts.'
+};
+function alpha(c, a){
+  const m = /^#([0-9a-f]{6})$/i.exec(String(c).trim()); if(!m || a >= 1) return c;
+  const n = parseInt(m[1], 16); return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
 }
-const quadPlugin = {
-  id: 'saQuad',
-  beforeDatasetsDraw(chart){
-    const {ctx, chartArea: a, scales: {x, y}} = chart, P = pal();
-    if(!isNum(rfRef)) return;
-    const xp = Math.min(Math.max(x.getPixelForValue(rfRef), a.left), a.right), yp = y.getPixelForValue(0.5);
-    const narrow = a.right - a.left < 520;
+function derive(r, dW){
+  const w = isNum(r.wacc) ? r.wacc + dW : null, R = r.rdcf || {};
+  let g = null;
+  if(dW === 0) g = isNum(r.implied_growth) ? r.implied_growth : null;
+  else if(isNum(w) && isNum(R.ev) && isNum(R.fcf_adj) && R.fcf_adj > 0) g = (w * R.ev - R.fcf_adj) / (R.ev + R.fcf_adj);
+  const nm = new Set(r.roic_nm_years || []), by = r.roic_by_year || {};
+  const cells = Object.keys(by).sort().map(y => {
+    const v = by[y];
+    if(nm.has(y)) return {y, s: 'nm', v: isNum(v) ? v : null};
+    if(!isNum(v) || !isNum(w)) return {y, s: 'nd', v: isNum(v) ? v : null};
+    return {y, v, d: v - w, s: v > w ? 'up' : 'dn'};
+  });
+  const valid = cells.filter(c => c.s === 'up' || c.s === 'dn'), up = valid.filter(c => c.s === 'up').length;
+  const sgrOk = r.sgr_status === 'ok' && isNum(r.sgr), sgrNm = r.sgr_status === 'n/m';
+  const gap = isNum(g) && sgrOk ? g - r.sgr : (sgrNm ? 'n/m' : null);
+  return {w, g, cells, up, n: valid.length, share: valid.length ? up / valid.length : null, sgrOk, sgrNm, gap};
+}
+const filtered = () => ROWS.filter(r => (st.src === 'all' || r.src_kind === st.src) && !(st.hideStale && r.stale_financials));
+function rfLines(rows){
+  const m = {};
+  rows.forEach(r => { if(!isNum(r.rf)) return; const k = r.rf.toFixed(4);
+    const l = (m[k] = m[k] || {rf: r.rf, cur: new Set(), proxy: new Set()}); l[r.rf_proxy ? 'proxy' : 'cur'].add(r.rf_currency); });
+  return Object.keys(m).map(k => m[k]).sort((a, b) => a.rf - b.rf);
+}
+function computeXRange(rows){
+  const xs = [];   // fixed over the whole slider range: points move, the axis does not
+  rows.forEach(r => [-0.02, 0, 0.02].forEach(d => { const g = derive(r, d).g; if(isNum(g)) xs.push(g); }));
+  rfLines(rows).forEach(l => xs.push(l.rf));
+  if(!xs.length) return [-0.02, 0.15];
+  return [Math.floor((Math.min.apply(null, xs) - .01) * 100) / 100, Math.ceil((Math.max.apply(null, xs) + .01) * 100) / 100];
+}
+
+/* — map: quadrant labels, risk-free lines, base-case links, ticker labels, brush rectangle — */
+const s1Plugin = {
+  id: 'saS1',
+  beforeDatasetsDraw(chart, args, opts){
+    const {ctx, chartArea: a, scales: {x, y}} = chart, P = pal(), narrow = a.right - a.left < 520;
+    const obs = chart.$saObs = [];
+    const put = (txt, px, py, align) => { const w = ctx.measureText(txt).width;
+      let x0 = align === 'right' ? px - w : px;
+      if(align !== 'right' && x0 + w > a.right - 4) x0 = px - 8 - w;
+      x0 = Math.max(a.left + 4, Math.min(x0, a.right - 4 - w));
+      ctx.textAlign = 'left'; ctx.fillText(txt, x0, py); obs.push({x: x0 - 2, y: py - 10, w: w + 4, h: 13}); };
     ctx.save();
-    ctx.globalAlpha = .6; ctx.fillStyle = P.goldBg; ctx.fillRect(a.left, a.top, xp - a.left, yp - a.top); ctx.globalAlpha = 1;
-    ctx.strokeStyle = P.muted; ctx.lineWidth = 1;
-    ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(xp, a.top); ctx.lineTo(xp, a.bottom); ctx.stroke();
-    ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(a.left, yp); ctx.lineTo(a.right, yp); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.font = '600 9.5px ' + FONT; ctx.fillStyle = P.muted; ctx.textBaseline = 'alphabetic';
+    const yp = y.getPixelForValue(0.5);
+    ctx.strokeStyle = P.border; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
+    ctx.beginPath(); ctx.moveTo(a.left, yp); ctx.lineTo(a.right, yp); ctx.stroke();
+    ctx.font = '10px ' + FONT; ctx.fillStyle = P.muted; ctx.strokeStyle = P.muted; ctx.setLineDash([5, 4]);
+    (opts.rf || []).forEach((l, i) => {
+      const xp = x.getPixelForValue(l.rf); if(xp < a.left || xp > a.right) return;
+      ctx.beginPath(); ctx.moveTo(xp, a.top); ctx.lineTo(xp, a.bottom); ctx.stroke();
+      const curs = Array.from(l.cur).join('/'), prox = Array.from(l.proxy).join('/');
+      put((narrow ? 'rf ' : 'risk-free ') + curs + (prox ? (curs ? ' · ' : '') + prox + (narrow ? '*' : ' (US proxy)') : '') + ' ' + pct(l.rf), xp + 4, a.bottom - 24 - i * 13, 'left');
+    });
+    ctx.setLineDash([]); ctx.font = '600 9.5px ' + FONT;
     const L = narrow ? ['PROVEN · MODEST', 'PROVEN · DEMANDING', 'UNPROVEN · MODEST', 'UNPROVEN · DEMANDING']
                      : ['PROVEN RETURNS · MODEST EXPECTATIONS', 'PROVEN RETURNS · DEMANDING EXPECTATIONS',
                         'UNPROVEN RETURNS · MODEST EXPECTATIONS', 'UNPROVEN RETURNS · DEMANDING EXPECTATIONS'];
-    // every text drawn here is an obstacle for the ticker labels (afterDatasetsDraw)
-    const obs = chart.$saObs = [];
-    const put = (txt, x, y, align) => { const w = ctx.measureText(txt).width, x0 = align === 'right' ? x - w : x;
-      ctx.textAlign = 'left'; ctx.fillText(txt, x0, y); obs.push({x: x0 - 2, y: y - 10, w: w + 4, h: 13}); };
-    put(L[0], a.left + 8, a.top + 14, 'left');
-    put(L[1], a.right - 8, a.top + 14, 'right');
-    put(L[2], a.left + 8, a.bottom - 8, 'left');
-    put(L[3], a.right - 8, a.bottom - 8, 'right');
-    ctx.font = '10px ' + FONT;
-    put('risk-free ' + pct(rfRef), xp + 5, a.bottom - 24, 'left');
+    put(L[0], a.left + 8, a.top + 14, 'left'); put(L[1], a.right - 8, a.top + 14, 'right');
+    put(L[2], a.left + 8, a.bottom - 8, 'left'); put(L[3], a.right - 8, a.bottom - 8, 'right');
     ctx.restore();
   },
   afterDatasetsDraw(chart){
-    const {ctx, chartArea: a} = chart, P = pal(), pts = [];
+    const {ctx, chartArea: a} = chart, P = pal(), cur = [], ghost = {};
     chart.data.datasets.forEach((ds, i) => { const meta = chart.getDatasetMeta(i); if(meta.hidden) return;
-      meta.data.forEach((pt, j) => pts.push({x: pt.x, y: pt.y, t: ds.data[j].t})); });
-    // markers are obstacles too: a label never covers another company's point
-    const placed = pts.map(p => ({x: p.x - 8, y: p.y - 8, w: 16, h: 16})).concat(chart.$saObs || []);
-    const hit = box => placed.some(b => box.x < b.x + b.w && box.x + box.w > b.x && box.y < b.y + b.h && box.y + box.h > b.y);
-    ctx.save(); ctx.font = '700 10px "SF Mono",Consolas,monospace'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
-    // selected company first; a label with no free slot next to its point is skipped
-    // (the point keeps its tooltip and the table lists every company)
-    pts.sort((u, v) => (v.t === selected) - (u.t === selected)).forEach(p => {
+      meta.data.forEach((pt, j) => { const t = ds.data[j].t; if(ds.kind === 'ghost') ghost[t] = pt; else cur.push({x: pt.x, y: pt.y, t}); }); });
+    ctx.save();
+    ctx.strokeStyle = alpha(P.muted, .7); ctx.lineWidth = 1;
+    cur.forEach(p => { const g = ghost[p.t]; if(g && Math.hypot(g.x - p.x, g.y - p.y) > 3){ ctx.beginPath(); ctx.moveTo(g.x, g.y); ctx.lineTo(p.x, p.y); ctx.stroke(); } });
+    const placed = cur.map(p => ({x: p.x - 8, y: p.y - 8, w: 16, h: 16})).concat(chart.$saObs || []);
+    const hit = b => placed.some(o => b.x < o.x + o.w && b.x + b.w > o.x && b.y < o.y + o.h && b.y + b.h > o.y);
+    ctx.font = '700 10px "SF Mono",Consolas,monospace'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+    const rank = t => (t === st.hover ? 2 : 0) + (t === selected ? 1 : 0);
+    cur.sort((u, v) => rank(v.t) - rank(u.t)).forEach(p => {
       const w = ctx.measureText(p.t).width, cands = [];
       [0, -10, 10].forEach(off => { cands.push([p.x + 10, p.y + off]); cands.push([p.x - 10 - w, p.y + off]); });
       const best = cands.find(c => c[0] > a.left && c[0] + w < a.right && !hit({x: c[0] - 1, y: c[1] - 6, w: w + 2, h: 12}));
       if(!best) return;
       placed.push({x: best[0] - 1, y: best[1] - 6, w: w + 2, h: 12});
-      ctx.fillStyle = p.t === selected ? P.gold : P.h;
+      const dim = st.brush && !st.brush.has(p.t);
+      ctx.fillStyle = rank(p.t) ? P.gold : (dim ? alpha(P.h, .3) : P.h);
       ctx.fillText(p.t, best[0], best[1]);
     });
     ctx.restore();
+  },
+  afterDraw(chart){
+    if(!drag || !drag.on) return;
+    const {ctx} = chart, P = pal(), x = Math.min(drag.x0, drag.x1), y = Math.min(drag.y0, drag.y1);
+    ctx.save(); ctx.fillStyle = alpha(P.s2, .08); ctx.strokeStyle = P.s2; ctx.setLineDash([4, 3]); ctx.lineWidth = 1;
+    ctx.fillRect(x, y, Math.abs(drag.x1 - drag.x0), Math.abs(drag.y1 - drag.y0));
+    ctx.strokeRect(x, y, Math.abs(drag.x1 - drag.x0), Math.abs(drag.y1 - drag.y0)); ctx.restore();
   }
 };
-function renderMap(){
+function mapDatasets(rows){
+  const P = pal(), out = [];
+  const dim = t => st.brush && !st.brush.has(t), hot = t => t === st.hover || t === selected;
+  ['10-K', '20-F', 'ESEF'].forEach(k => {
+    const col = P[SLOT[k]], set = rows.filter(r => r.src_kind === k);
+    const pt = (r, dW) => { const d = derive(r, dW); return isNum(d.g) && isNum(d.share) ? {x: d.g, y: d.share, t: r.ticker} : null; };
+    const cur = set.map(r => pt(r, st.dW)).filter(Boolean);
+    out.push({label: SRC_NAME[k], kind: 'cur', data: cur, pointStyle: SHAPE[k], order: 1,
+      pointRadius: cur.map(p => p.t === st.hover ? 10 : p.t === selected ? 8.5 : 6.5), pointHoverRadius: 10, pointHitRadius: 10,
+      backgroundColor: cur.map(p => alpha(ROW[p.t].stale_financials ? P.card : col, dim(p.t) ? .2 : 1)),
+      borderColor: cur.map(p => hot(p.t) ? P.h : (ROW[p.t].stale_financials ? alpha(col, dim(p.t) ? .3 : 1) : P.card)),
+      borderWidth: cur.map(p => hot(p.t) ? 2.5 : (ROW[p.t].stale_financials ? 2.2 : 1.5))});
+    if(st.dW !== 0){
+      const base = set.map(r => pt(r, 0)).filter(Boolean);
+      out.push({label: SRC_NAME[k] + ' · base case', kind: 'ghost', data: base, pointStyle: SHAPE[k], order: 2,
+        pointRadius: 6, pointHoverRadius: 6, pointHitRadius: 0, backgroundColor: 'rgba(0,0,0,0)', borderColor: alpha(col, .5), borderWidth: 1.5});
+    }
+  });
+  return out;
+}
+function renderMap(rebuild){
   const cv = $('#sa-map'); if(!cv) return;
-  const P = pal(), vis = mapVisible();
-  const placed = vis.filter(r => isNum(r.implied_growth) && isNum(r.roic_share));
-  const xs = placed.map(r => r.implied_growth).concat(isNum(rfRef) ? [rfRef] : []);
-  const xmin = xs.length ? Math.floor((Math.min.apply(null, xs) - .01) * 100) / 100 : -.02;
-  const xmax = xs.length ? Math.ceil((Math.max.apply(null, xs) + .015) * 100) / 100 : .15;
-  const datasets = ['10-K', '20-F', 'ESEF'].map(k => {
-    const pts = placed.filter(r => r.src_kind === k).map(r => ({x: r.implied_growth, y: r.roic_share, t: r.ticker}));
-    const col = P[SLOT[k]];
-    return {label: SRC_NAME[k], data: pts, pointStyle: SHAPE[k],
-      pointRadius: pts.map(p => p.t === selected ? 9 : 6.5), pointHoverRadius: 9, pointHitRadius: 10,
-      backgroundColor: pts.map(p => ROW[p.t].stale_financials ? P.card : col),
-      borderColor: pts.map(p => ROW[p.t].stale_financials ? col : P.card),
-      borderWidth: pts.map(p => ROW[p.t].stale_financials ? 2.2 : 1.5)};
-  });
-  if(mapChart) mapChart.destroy();
-  mapChart = new Chart(cv, {
-    type: 'scatter', data: {datasets},
-    options: {
-      responsive: true, maintainAspectRatio: false, animation: false,
-      layout: {padding: {top: 6, right: 8}},
-      interaction: {mode: 'nearest', intersect: true},
-      scales: {
-        x: axis(P, {min: xmin, max: xmax, title: {display: true, text: 'Perpetual FCF growth implied by the price (reverse DCF)', color: P.muted},
-          ticks: {color: P.muted, padding: 6, callback: v => Math.round(v * 100) + '%'}}),
-        y: axis(P, {min: -.09, max: 1.2, title: {display: true, text: 'Years with ROIC above WACC', color: P.muted},
-          afterBuildTicks: ax => { ax.ticks = [0, .25, .5, .75, 1].map(v => ({value: v})); },
-          ticks: {color: P.muted, padding: 6, callback: v => Math.round(v * 100) + '%'}})
+  const rows = filtered(), P = pal();
+  if(rebuild || !xRange) xRange = computeXRange(rows);
+  const ds = mapDatasets(rows), lines = rfLines(rows);
+  const xTitle = 'Perpetual FCF growth implied by the price (reverse DCF)' + (st.dW ? ' — WACC ' + signed(st.dW, 2, ' pt') : '');
+  if(mapChart && !rebuild){
+    mapChart.data.datasets = ds; mapChart.options.plugins.saS1.rf = lines;
+    mapChart.options.scales.x.min = xRange[0]; mapChart.options.scales.x.max = xRange[1];
+    mapChart.options.scales.x.title.text = xTitle; mapChart.update('none');
+  } else {
+    if(mapChart) mapChart.destroy();
+    mapChart = new Chart(cv, {
+      type: 'scatter', data: {datasets: ds},
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        layout: {padding: {top: 6, right: 8}},
+        interaction: {mode: 'nearest', intersect: true},
+        events: ['mousemove', 'mouseout', 'click', 'touchstart'],
+        scales: {
+          x: axis(P, {min: xRange[0], max: xRange[1], title: {display: true, text: xTitle, color: P.muted},
+            ticks: {color: P.muted, padding: 6, callback: v => Math.round(v * 100) + '%'}}),
+          y: axis(P, {min: -.09, max: 1.2, title: {display: true, text: 'Years with ROIC above WACC', color: P.muted},
+            afterBuildTicks: ax => { ax.ticks = [0, .25, .5, .75, 1].map(v => ({value: v})); },
+            ticks: {color: P.muted, padding: 6, callback: v => Math.round(v * 100) + '%'}})
+        },
+        plugins: {
+          saS1: {rf: lines},
+          legend: {display: false},
+          tooltip: Object.assign(tip(P), {filter: it => it.dataset.kind === 'cur', callbacks: {
+            title: it => { const r = ROW[it[0].raw.t]; return r.name + ' (' + r.ticker + ')'; },
+            label: it => { const r = ROW[it.raw.t], d = derive(r, st.dW); return [
+              'Implied growth  ' + pct(d.g) + (st.dW ? '  (base ' + pct(r.implied_growth) + ')' : ''),
+              'ROIC > WACC  ' + (d.n ? d.up + '/' + d.n + ' yrs' : 'N/D'),
+              'Sustainable growth  ' + (d.sgrOk ? pct(r.sgr) : d.sgrNm ? 'n/m' : 'N/D'),
+              'WACC  ' + pct(d.w) + ' · risk-free ' + (r.rf_currency || '') + ' ' + pct(r.rf) + (r.rf_proxy ? ' (US proxy)' : ''),
+              'Accounts  ' + SRC_NAME[r.src_kind] + ' · FY end ' + (r.fiscal_year_end || 'N/D') + (r.stale_financials ? ' (older than 15 months)' : '')]; },
+            footer: () => 'Click for the audit trail'}})
+        },
+        onHover: (e, els) => {
+          const el = els.find(x => mapChart.data.datasets[x.datasetIndex].kind === 'cur');
+          const t = el ? mapChart.data.datasets[el.datasetIndex].data[el.index].t : null;
+          e.native.target.style.cursor = t ? 'pointer' : 'crosshair';
+          if(t !== st.hover){ st.hover = t; hlRow(true); }
+        },
+        onClick: (e, els) => {
+          if(noClick) return;
+          const el = els.find(x => mapChart.data.datasets[x.datasetIndex].kind === 'cur');
+          if(el) focusCompany(mapChart.data.datasets[el.datasetIndex].data[el.index].t, null);
+        }
       },
-      plugins: {
-        legend: {display: false},
-        tooltip: Object.assign(tip(P), {callbacks: {
-          title: it => { const r = ROW[it[0].raw.t]; return r.name + ' (' + r.ticker + ')'; },
-          label: it => { const r = ROW[it.raw.t]; return [
-            'Implied growth  ' + pct(r.implied_growth),
-            'ROIC > WACC  ' + r.roic_txt,
-            'Sustainable growth  ' + pct(r.sgr),
-            'Accounts  ' + SRC_NAME[r.src_kind] + ' · FY end ' + (r.fiscal_year_end || 'N/D') + (r.stale_financials ? ' (older than 15 months)' : '')]; },
-          footer: () => 'Click to open the company file'}})
-      },
-      onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; },
-      onClick: (e, els) => { if(els.length){ const d = mapChart.data.datasets[els[0].datasetIndex].data[els[0].index]; openFile(d.t, true); } }
-    },
-    plugins: [quadPlugin]
-  });
-  const un = vis.filter(r => !(isNum(r.implied_growth) && isNum(r.roic_share)));
+      plugins: [s1Plugin]
+    });
+  }
+  const un = rows.filter(r => { const d = derive(r, st.dW); return !(isNum(d.g) && isNum(d.share)); });
   $('#sa-unplaced').innerHTML = un.length
     ? '<strong>Not placed (N/D):</strong> ' + un.map(r => '<button class="sa-src" data-open="' + esc(r.ticker) + '">' + esc(r.ticker) + '</button>').join(', ') +
-      ' — implied growth needs positive free cash flow and a known net debt; nothing is imputed.'
+      ' — implied growth needs positive free cash flow and a known net debt, and the vertical axis needs at least one meaningful ROIC year. Nothing is imputed.'
     : '';
+  $('#sa-lg-ghost').hidden = !st.dW;
 }
-$$('#sa-map-card .sa-chip[data-src]').forEach(b => b.addEventListener('click', () => {
-  mapState.src = b.dataset.src;
-  $$('#sa-map-card .sa-chip[data-src]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
-  renderMap();
-}));
-const hs = $('#sa-hide-stale'); if(hs) hs.addEventListener('change', () => { mapState.hideStale = hs.checked; renderMap(); });
-document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-open]'); if(b){ openFile(b.dataset.open, true); } });
+function bindBrush(){
+  const cv = $('#sa-map'); if(!cv) return;
+  const rel = e => { const b = cv.getBoundingClientRect(); return {x: e.clientX - b.left, y: e.clientY - b.top}; };
+  cv.addEventListener('pointerdown', e => {
+    if(!mapChart || e.pointerType === 'touch' || e.button !== 0) return;
+    const a = mapChart.chartArea, p = rel(e);
+    if(p.x < a.left || p.x > a.right || p.y < a.top || p.y > a.bottom) return;
+    drag = {x0: p.x, y0: p.y, x1: p.x, y1: p.y, on: false};
+    try{ cv.setPointerCapture(e.pointerId); }catch(err){}
+  });
+  cv.addEventListener('pointermove', e => {
+    if(!drag) return;
+    const a = mapChart.chartArea, p = rel(e);
+    drag.x1 = Math.min(Math.max(p.x, a.left), a.right); drag.y1 = Math.min(Math.max(p.y, a.top), a.bottom);
+    if(!drag.on && Math.hypot(drag.x1 - drag.x0, drag.y1 - drag.y0) > 6) drag.on = true;
+    if(drag.on) mapChart.draw();
+  });
+  cv.addEventListener('pointerup', () => {
+    if(!drag) return;
+    const d = drag; drag = null;
+    if(!d.on){ mapChart.draw(); return; }
+    noClick = true; setTimeout(() => { noClick = false; }, 0);
+    const x0 = Math.min(d.x0, d.x1), x1 = Math.max(d.x0, d.x1), y0 = Math.min(d.y0, d.y1), y1 = Math.max(d.y0, d.y1), sel = new Set();
+    mapChart.data.datasets.forEach((ds, i) => { if(ds.kind !== 'cur') return;
+      mapChart.getDatasetMeta(i).data.forEach((pt, j) => { if(pt.x >= x0 && pt.x <= x1 && pt.y >= y0 && pt.y <= y1) sel.add(ds.data[j].t); }); });
+    st.brush = sel.size ? sel : null;
+    renderS1();
+  });
+  cv.addEventListener('pointercancel', () => { drag = null; if(mapChart) mapChart.draw(); });
+  cv.addEventListener('mouseleave', () => { if(st.hover && !drag){ st.hover = null; hlRow(false); } });
+}
 
-/* coverage table (also the accessible table view of the map) */
-const tblState = {k: 'implied_growth', dir: -1};
+/* — coverage table — */
+const SORTV = {
+  ticker: r => r.ticker, sector: r => r.sector || null,
+  g: (r, d) => isNum(d.g) ? d.g : null, sgr: (r, d) => d.sgrOk ? r.sgr : null,
+  gap: (r, d) => isNum(d.gap) ? d.gap : null, roic: (r, d) => d.share,
+  epv: r => isNum(r.ecart_pct) ? r.ecart_pct : null, flags: r => (r.flags || []).length,
+  acc: r => r.fiscal_year_end || null
+};
+const flagTitle = id => (FLAG_EN[id] || [String(id || '').replace(/_/g, ' ')])[0];
+function nmHTML(t){ return '<span class="sa-nm" tabindex="0" data-tt="' + esc(t) + '">n/m</span>'; }
+function sgrCell(r, d){ return d.sgrOk ? esc(pct(r.sgr)) : d.sgrNm ? nmHTML(NM_TXT[r.sgr_nm_reason] || 'n/m') : NDH; }
+function gapCell(r, d){
+  if(isNum(d.gap)) return esc(pts(d.gap));
+  return d.gap === 'n/m' ? nmHTML('n/m — sustainable growth is not meaningful for this company, so the gap is not computed.') : NDH;
+}
+function cellTip(c, w){
+  if(c.s === 'nm') return c.y + ' · ROIC ' + pct(c.v) + ' — not meaningful: invested capital below ' + icTxt + ' of total assets';
+  if(c.s === 'nd') return c.y + ' · ' + (isNum(c.v) ? 'ROIC ' + pct(c.v) + ', WACC N/D' : 'ROIC N/D');
+  return c.y + ' · ROIC ' + pct(c.v) + ' − WACC ' + pct(w) + ' = ' + pts(c.d);
+}
+const CELL_WORD = {up: 'above', dn: 'below', nm: 'not meaningful', nd: 'N/D'};
+function sparkHTML(d){
+  if(!d.cells.length) return NDH;
+  return '<span class="sa-spark" role="img" aria-label="ROIC above WACC in ' + d.up + ' of ' + d.n + ' years: ' +
+    esc(d.cells.map(c => c.y + ' ' + CELL_WORD[c.s]).join(', ')) + '">' +
+    d.cells.map(c => '<i class="sa-sc ' + c.s + '" data-tt="' + esc(cellTip(c, d.w)) + '"></i>').join('') + '</span>' +
+    '<span class="sa-spark-n">' + (d.n ? d.up + '/' + d.n : 'N/D') + '</span>';
+}
+function flagsHTML(r){
+  const f = r.flags || []; if(!f.length) return '—';
+  const cls = f.some(x => x.severity === 'high') ? 'badge-red' : f.some(x => x.severity === 'medium') ? 'badge-gold' : 'sa-badge-info';
+  const names = f.map(x => flagTitle(x.id) + ' (' + (x.severity || 'info') + ')');
+  return '<span class="badge ' + cls + '" tabindex="0" data-tt="' + esc(names.map(n => '• ' + n).join('\n')) + '" aria-label="' +
+    esc(f.length + (f.length > 1 ? ' flags: ' : ' flag: ') + names.join('; ')) + '">' + f.length + '</span>';
+}
+function rowHTML(r, d){
+  const inC = st.compare.indexOf(r.ticker) >= 0, full = st.compare.length >= 4 && !inC;
+  const cls = [r.ticker === selected ? 'sel' : '', r.ticker === st.hover ? 'hl' : ''].filter(Boolean).join(' ');
+  return '<tr data-t="' + esc(r.ticker) + '" tabindex="0"' + (cls ? ' class="' + cls + '"' : '') + '>' +
+    '<td class="sa-td-cmp"><input type="checkbox" class="sa-cmp" data-cmp="' + esc(r.ticker) + '"' + (inC ? ' checked' : '') +
+      (full ? ' disabled' : '') + ' aria-label="Compare ' + esc(r.name) + '"></td>' +
+    '<td><span class="sa-tk">' + esc(r.ticker) + '</span><span class="sa-co">' + esc(r.name) + '</span></td>' +
+    '<td class="l sa-col-sector">' + esc(r.sector) + '</td>' +
+    '<td>' + H(pct(d.g)) + '</td>' +
+    '<td>' + sgrCell(r, d) + '</td>' +
+    '<td>' + gapCell(r, d) + '</td>' +
+    '<td class="l">' + sparkHTML(d) + '</td>' +
+    '<td>' + H(pctS(r.ecart_pct, 0)) + '</td>' +
+    '<td>' + flagsHTML(r) + '</td>' +
+    '<td class="l">' + esc(SRC_NAME[r.src_kind]) + ' · ' + esc(String(r.fiscal_year_end || 'N/D').slice(0, 7)) +
+      (r.stale_financials ? ' <span class="badge badge-red">old</span>' : '') + '</td></tr>';
+}
 function renderTable(){
   const tb = $('#sa-tbl tbody'); if(!tb) return;
-  const k = tblState.k, d = tblState.dir;
-  const rows = ROWS.slice().sort((a, b) => {
-    const va = a[k], vb = b[k];
-    if(va == null && vb == null) return 0; if(va == null) return 1; if(vb == null) return -1;
-    return (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * d;
+  const rows = filtered().filter(r => !st.brush || st.brush.has(r.ticker)), D = {};
+  rows.forEach(r => { D[r.ticker] = derive(r, st.dW); });
+  const k = st.sort.k, dir = st.sort.dir;
+  rows.sort((a, b) => {   // N/D and n/m always last, whatever the direction
+    const va = SORTV[k](a, D[a.ticker]), vb = SORTV[k](b, D[b.ticker]);
+    if(va == null && vb == null) return a.ticker.localeCompare(b.ticker);
+    if(va == null) return 1; if(vb == null) return -1;
+    return (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * dir;
   });
-  tb.innerHTML = rows.map(r => '<tr data-t="' + esc(r.ticker) + '"' + (r.ticker === selected ? ' class="sel"' : '') + ' tabindex="0">' +
-    '<td><span class="sa-tk">' + esc(r.ticker) + '</span><span class="sa-co">' + esc(r.name) + '</span></td>' +
-    '<td class="l">' + esc(r.sector) + '</td>' +
-    '<td>' + H(pct(r.implied_growth)) + '</td>' +
-    '<td>' + H(pct(r.sgr)) + '</td>' +
-    '<td>' + H(r.roic_txt) + '</td>' +
-    '<td>' + H(pctS(r.ecart_pct, 0)) + '</td>' +
-    '<td>' + (r.n_flags ? '<span class="badge badge-gold">' + r.n_flags + '</span>' : '—') + '</td>' +
-    '<td class="l">' + esc(SRC_NAME[r.src_kind]) + ' · ' + esc((r.fiscal_year_end || 'N/D').slice(0, 7)) +
-      (r.stale_financials ? ' <span class="badge badge-red">old</span>' : '') + '</td></tr>').join('');
-  $$('#sa-tbl th').forEach(th => th.setAttribute('aria-sort', th.dataset.k === k ? (d > 0 ? 'ascending' : 'descending') : 'none'));
+  tb.innerHTML = rows.length ? rows.map(r => rowHTML(r, D[r.ticker])).join('')
+    : '<tr><td colspan="10" class="l sa-note">No company in this selection.</td></tr>';
+  $$('#sa-tbl th[data-k]').forEach(th => th.setAttribute('aria-sort', th.dataset.k === k ? (dir > 0 ? 'ascending' : 'descending') : 'none'));
+  $('#sa-th-g').textContent = 'Implied growth' + (st.dW ? ' (WACC ' + signed(st.dW, 2, ' pt') + ')' : '');
 }
-$$('#sa-tbl th').forEach(th => th.addEventListener('click', () => {
-  const k = th.dataset.k; tblState.dir = tblState.k === k ? -tblState.dir : (k === 'ticker' || k === 'sector' || k === 'source' ? 1 : -1); tblState.k = k; renderTable();
+function hlRow(scroll){
+  const wrap = $('#sa-tbl-wrap');
+  $$('#sa-tbl tbody tr[data-t]').forEach(tr => {
+    const on = tr.dataset.t === st.hover; tr.classList.toggle('hl', on);
+    if(on && scroll && wrap){   // scroll inside the table only, never the page
+      const head = ($('#sa-tbl thead') || {}).offsetHeight || 0, top = tr.offsetTop, bot = top + tr.offsetHeight;
+      if(top - head < wrap.scrollTop || bot > wrap.scrollTop + wrap.clientHeight) wrap.scrollTop = top - head - 8;
+    }
+  });
+}
+function syncSelected(){ $$('#sa-tbl tbody tr[data-t]').forEach(tr => tr.classList.toggle('sel', tr.dataset.t === selected)); renderMap(); }
+function setHoverFromTable(t){ if(t === st.hover) return; st.hover = t; hlRow(false); renderMap(); }
+function renderBrushbar(){
+  const bar = $('#sa-brushbar'); if(!bar) return;
+  bar.hidden = !st.brush;
+  if(st.brush) $('#sa-brush-txt').textContent = st.brush.size + ' compan' + (st.brush.size > 1 ? 'ies' : 'y') + ' selected on the map (' +
+    Array.from(st.brush).join(', ') + ') — the table is filtered.';
+}
+function renderCompare(){
+  const el = $('#sa-compare'); if(!el) return;
+  const cols = st.compare.map(t => ROW[t]).filter(Boolean);
+  if(!cols.length){ el.hidden = true; el.innerHTML = ''; return; }
+  const D = cols.map(r => derive(r, st.dW));
+  const defs = [
+    ['Implied growth', (r, d) => H(pct(d.g))],
+    ['Sustainable growth', (r, d) => sgrCell(r, d)],
+    ['Gap (implied − sustainable)', (r, d) => gapCell(r, d)],
+    ['ROIC > WACC', (r, d) => sparkHTML(d)],
+    ['No-growth value (EPV) vs price', r => H(pctS(r.ecart_pct, 0))],
+    ['WACC' + (st.dW ? ' (shifted ' + signed(st.dW, 2, ' pt') + ')' : ''), (r, d) => H(pct(d.w))],
+    ['Risk-free', r => isNum(r.rf) ? esc((r.rf_currency || '') + ' ' + pct(r.rf)) + (r.rf_proxy ? ' <span class="sa-co">US proxy</span>' : '') : NDH],
+    ['Price (accounts currency)', r => H(money(r.prix, r.currency))],
+    ['Flags', r => (r.flags || []).length ? r.flags.map(f => esc(flagTitle(f.id))).join('<br>') : '—'],
+    ['Accounts', r => esc(SRC_NAME[r.src_kind]) + '<br>FY end ' + esc(r.fiscal_year_end || 'N/D') + (r.stale_financials ? ' <span class="badge badge-red">old</span>' : '')]
+  ];
+  el.hidden = false;
+  el.innerHTML = '<div class="sa-h3"><span>Side by side</span><em>' + cols.length + ' of 4 · kept while you filter</em></div>' +
+    '<div class="sa-tbl-wrap"><table class="sa-tbl sa-cmp-tbl"><thead><tr><th class="l" scope="col">Metric</th>' +
+    cols.map(r => '<th class="l" scope="col"><span class="sa-tk">' + esc(r.ticker) + '</span><button class="sa-cmp-x" data-uncmp="' + esc(r.ticker) +
+      '" aria-label="Remove ' + esc(r.name) + ' from the comparison">✕</button><div class="sa-co" style="margin:2px 0 0">' + esc(r.name) + '</div></th>').join('') +
+    '</tr></thead><tbody>' + defs.map(df => '<tr><th class="l" scope="row">' + esc(df[0]) + '</th>' +
+      cols.map((r, i) => '<td class="l">' + df[1](r, D[i]) + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>';
+}
+function syncCompareBoxes(){
+  const full = st.compare.length >= 4;
+  $$('#sa-tbl .sa-cmp').forEach(c => { const on = st.compare.indexOf(c.dataset.cmp) >= 0; c.checked = on; c.disabled = full && !on; });
+}
+function toggleCompare(t, on){
+  const i = st.compare.indexOf(t);
+  if(on && i < 0 && st.compare.length < 4) st.compare.push(t);
+  if(!on && i >= 0) st.compare.splice(i, 1);
+  syncCompareBoxes(); renderCompare();
+}
+function renderS1(rebuild){ renderMap(rebuild); renderTable(); renderCompare(); renderBrushbar(); }
+function focusCompany(t, opener){
+  if(!ROW[t]) return;
+  openFile(t, false);                 // section 02 follows the focus, without scrolling
+  openDrill(t, opener || document.activeElement);
+}
+
+/* events */
+$$('#sa-map-card .sa-chip[data-src]').forEach(b => b.addEventListener('click', () => {
+  st.src = b.dataset.src;
+  $$('#sa-map-card .sa-chip[data-src]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+  renderS1(true);
+}));
+const hsEl = $('#sa-hide-stale'); if(hsEl) hsEl.addEventListener('change', () => { st.hideStale = hsEl.checked; renderS1(true); });
+const dwIn = $('#sa-dw');
+function setShift(v){
+  st.dW = Math.round(v * 100) / 10000;
+  dwIn.value = v; $('#sa-dw-o').textContent = signed(st.dW, 2, ' pt'); $('#sa-dw-reset').hidden = !st.dW;
+  renderMap(); renderTable(); renderCompare();
+}
+if(dwIn){ dwIn.addEventListener('input', () => setShift(+dwIn.value)); $('#sa-dw-reset').addEventListener('click', () => setShift(0)); }
+$('#sa-brush-clear').addEventListener('click', () => { st.brush = null; renderS1(); });
+$$('#sa-tbl .sa-sort').forEach(b => b.addEventListener('click', () => {
+  const k = b.dataset.k;
+  st.sort.dir = st.sort.k === k ? -st.sort.dir : (k === 'ticker' || k === 'sector' || k === 'acc' ? 1 : -1);
+  st.sort.k = k; renderTable();
 }));
 const tbody = $('#sa-tbl tbody');
 if(tbody){
-  tbody.addEventListener('click', e => { const tr = e.target.closest('tr[data-t]'); if(tr) openFile(tr.dataset.t, true); });
-  tbody.addEventListener('keydown', e => { if(e.key === 'Enter'){ const tr = e.target.closest('tr[data-t]'); if(tr) openFile(tr.dataset.t, true); } });
+  tbody.addEventListener('mouseover', e => { const tr = e.target.closest('tr[data-t]'); setHoverFromTable(tr ? tr.dataset.t : null); });
+  tbody.addEventListener('mouseleave', () => setHoverFromTable(null));
+  tbody.addEventListener('focusin', e => { const tr = e.target.closest('tr[data-t]'); if(tr) setHoverFromTable(tr.dataset.t); });
+  tbody.addEventListener('click', e => {
+    if(e.target.closest('.sa-cmp') || e.target.closest('.sa-td-cmp')) return;
+    const tr = e.target.closest('tr[data-t]'); if(tr) focusCompany(tr.dataset.t, tr);
+  });
+  tbody.addEventListener('keydown', e => {
+    const tr = e.target.closest('tr[data-t]'); if(!tr || e.target !== tr) return;
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); focusCompany(tr.dataset.t, tr); }
+    else if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      const n = e.key === 'ArrowDown' ? tr.nextElementSibling : tr.previousElementSibling;
+      if(n && n.matches('tr[data-t]')){ e.preventDefault(); n.focus(); }
+    }
+  });
+  tbody.addEventListener('change', e => { const c = e.target.closest('.sa-cmp'); if(c) toggleCompare(c.dataset.cmp, c.checked); });
 }
+$('#sa-compare').addEventListener('click', e => { const b = e.target.closest('[data-uncmp]'); if(b) toggleCompare(b.dataset.uncmp, false); });
+document.addEventListener('click', e => {
+  const o = e.target.closest && e.target.closest('[data-open]'); if(o){ focusCompany(o.dataset.open, o); return; }
+  const g = e.target.closest && e.target.closest('[data-gofile]'); if(g){ closeDrawer(); openFile(g.dataset.gofile, true); }
+});
+
+/* floating tooltip for sparkline boxes, n/m and flags (mouse and keyboard) */
+const ttEl = document.createElement('div'); ttEl.id = 'sa-tt'; ttEl.setAttribute('role', 'tooltip'); document.body.appendChild(ttEl);
+function showTT(el){
+  ttEl.textContent = el.getAttribute('data-tt'); ttEl.classList.add('on');
+  const b = el.getBoundingClientRect(), w = ttEl.offsetWidth, h = ttEl.offsetHeight;
+  const x = Math.min(Math.max(8, b.left + b.width / 2 - w / 2), innerWidth - w - 8);
+  const y = b.top - h - 8 < 8 ? b.bottom + 8 : b.top - h - 8;
+  ttEl.style.left = x + 'px'; ttEl.style.top = y + 'px';
+}
+const hideTT = () => ttEl.classList.remove('on');
+document.addEventListener('mouseover', e => { const el = e.target.closest && e.target.closest('.sa [data-tt]'); if(el) showTT(el); else hideTT(); });
+document.addEventListener('focusin', e => { const el = e.target.closest && e.target.closest('.sa [data-tt]'); if(el) showTT(el); else hideTT(); });
+window.addEventListener('scroll', hideTT, {passive: true, capture: true});
+
+/* quality badge → the list of every check performed */
+let QUAL = null;
 getJSON('quality_report.json').then(q => {
-  const s = q.summary || {}, b = $('#sa-quality-badge'); if(!b) return;
+  QUAL = q; const s = q.summary || {}, b = $('#sa-quality-badge'); if(!b) return;
   b.textContent = (s.n_cross_checks || 0) + ' cross-checks · ' + (s.n_issues || 0) + ' gaps';
-  b.className = 'badge ' + (s.n_issues ? 'badge-red' : 'badge-green');
-  b.title = 'Weekly comparison of XBRL figures with a second source (quality_report.json)';
+  b.className = 'badge sa-qbtn ' + (s.n_issues ? 'badge-red' : 'badge-green');
 }).catch(() => {});
+$('#sa-quality-badge').addEventListener('click', e => openChecks(e.currentTarget));
+function openChecks(opener){
+  if(!QUAL){ openDrawer('Quality check', 'Cross-checks', '<p class="sa-note">Quality report unavailable.</p>', opener); return; }
+  const s = QUAL.summary || {}, T = QUAL.tickers || {}, tol = isNum(TH.cross_check_tol) ? pct(TH.cross_check_tol, 0) : 'the tolerance';
+  const rows = [];
+  Object.keys(T).sort().forEach(t => {
+    const v = T[t], cks = Array.isArray(v.checks) ? v.checks : null;
+    if(cks && cks.length) cks.forEach(c => rows.push('<tr><td class="l"><span class="sa-tk">' + esc(t) + '</span> ' + esc(String(c.field).replace(/_/g, ' ')) +
+      '<div class="sa-co" style="margin:0">' + esc(c.fiscal_end) + (c.xbrl_tag ? ' · ' + esc(c.xbrl_tag) : '') + '</div></td><td>' + H(big(c.xbrl)) +
+      '</td><td>' + H(big(c.second_value)) + '<div class="sa-co" style="margin:0">' + esc(c.second_source_row || '') + '</div></td><td>' +
+      (c.status === 'gap' ? '<span class="badge badge-red">' + esc(num(c.gap_pct, 2)) + '%</span>' : esc(num(c.gap_pct, 2)) + '%') + '</td></tr>'));
+    else rows.push('<tr><td class="l"><span class="sa-tk">' + esc(t) + '</span></td><td colspan="3" class="l sa-note">' +
+      ((v.cross_checked || []).length ? 'checked: ' + esc(v.cross_checked.join(', ')) + ' (values not kept in this report version)' : 'no figure could be compared') + '</td></tr>');
+  });
+  const other = [];
+  Object.keys(T).sort().forEach(t => (T[t].issues || []).forEach(i => { if(i.type !== 'cross_source_gap')
+    other.push('<li><span class="sa-tk">' + esc(t) + '</span> ' + esc(i.type === 'stale_financials' ? 'accounts ' + i.months + ' months old (FY end ' + i.fiscal_year_end + ')' : i.type.replace(/_/g, ' ')) + '</li>'); }));
+  openDrawer('Quality check', (s.n_cross_checks || 0) + ' cross-checks · ' + (s.n_issues || 0) + ' gaps',
+    '<p class="sa-note">Each week four filed figures per company (revenue, net income, total assets, cash) are compared with a second, independent source for the same fiscal year. A gap above ' +
+    esc(tol) + ' is an issue. Valuation outputs are not cross-checked: they are computed from these figures.</p>' +
+    '<div class="sa-tbl-wrap"><table class="sa-tbl sa-chk"><thead><tr><th class="l" scope="col">Company · figure</th><th scope="col">Filed (XBRL)</th><th scope="col">Second source</th><th scope="col">Gap</th></tr></thead><tbody>' +
+    rows.join('') + '</tbody></table></div>' +
+    (other.length ? '<div class="sa-dsec" style="margin-top:16px"><h4>Other notes</h4><ul class="sa-note" style="padding-left:18px;margin:0">' + other.join('') + '</ul></div>' : ''), opener);
+}
+
+/* audit trail (drill-down) — every input of the reverse DCF and the EPV, formulas with the numbers in */
+const n_ = v => isNum(v) ? v : null;
+const objOf = o => (o && typeof o === 'object' && !Array.isArray(o)) ? o : {};
+function kv(label, value, sub){ return '<dt>' + esc(label) + '</dt><dd>' + H(value) + '</dd>' + (sub ? '<div class="sub">' + sub + '</div>' : ''); }
+function tagLine(fc){
+  if(!fc || !fc.xbrl_tag) return '';
+  const url = /^https:\/\//.test(fc.edgar_filing_url || '') ? fc.edgar_filing_url : null;
+  return 'XBRL <code class="sa-mono">' + esc(fc.xbrl_tag) + '</code> · ' + esc(fc.filing_form || '') + ' FY ' + esc(fc.fiscal_year) +
+    (url ? ' · <a href="' + esc(url) + '" target="_blank" rel="noopener">filing ↗</a>' : '');
+}
+function bandHTML(p3){
+  if(p3.some(p => !isNum(p[1]))) return '<p class="sa-note">Sensitivity to WACC: <span class="sa-nd">N/D</span> (needs a positive free cash flow and a known enterprise value).</p>';
+  const lo = p3[0][1], hi = p3[2][1], pad = Math.max((hi - lo) * 0.3, 0.004), a = lo - pad, b = hi + pad;
+  const pos = v => ((v - a) / (b - a) * 100).toFixed(1);
+  return '<div class="sa-kicker" style="margin-top:6px">Implied growth if the WACC moves by one point</div>' +
+    '<div class="sa-band" role="img" aria-label="' + esc('Implied growth: ' + pct(lo) + ' at WACC −1 pt, ' + pct(p3[1][1]) + ' at the base WACC, ' + pct(hi) + ' at WACC +1 pt') + '">' +
+    '<span class="sa-band-track"></span><span class="sa-band-rng" style="left:' + pos(lo) + '%;width:' + (pos(hi) - pos(lo)).toFixed(1) + '%"></span>' +
+    p3.map(p => '<span class="sa-band-m' + (p[0] === 0 ? ' base' : '') + '" style="left:' + pos(p[1]) + '%"></span><span class="sa-band-l" style="left:' + pos(p[1]) + '%">' +
+      (p[0] === 0 ? 'base' : p[0] > 0 ? 'WACC +1 pt' : 'WACC −1 pt') + '<br><b>' + esc(pct(p[1])) + '</b></span>').join('') + '</div>';
+}
+function openDrill(t, opener){
+  const row = ROW[t]; if(!row) return;
+  openDrawer('Audit trail · ' + t, row.name, '<div class="sa-loading">Loading the filing data…</div>', opener);
+  report(t).then(rep => { if(selected === t && $('#sa-drawer').classList.contains('open')) $('#sa-dr-body').innerHTML = drillHTML(row, rep); })
+    .catch(err => { $('#sa-dr-body').innerHTML = '<p class="sa-note">Report unavailable (' + esc(err.message) + ').</p>'; });
+}
+function drillHTML(row, rep){
+  const A = objOf(rep.bloc_A_verdict), meta = objOf(rep.meta), dd = objOf(rep.drill_down), wd = objOf(dd.wacc_detail), sm = objOf(dd.source_map_per_tag);
+  const cur = meta.reporting_currency || row.currency || 'USD', fy = rep.fiscal_year;
+  const rd = objOf(A.reverse_dcf), rdi = objOf(rd.inputs), E = objOf(A.EPV), ei = objOf(E.inputs), S = objOf(A.SGR);
+  const adj = objOf(dd.adjustments), ndd = objOf(dd.net_debt_detail);
+  const price = n_(meta.price_in_reporting_currency), sh = sm.shares_diluted || sm.shares_outstanding || null, shares = n_(sh && sh.value);
+  const mc = n_(wd.E), nd = n_(ei.net_debt), ev = n_(rdi.ev), fcf = n_(rdi.fcf_adj);
+  const w = n_(rdi.wacc) !== null ? rdi.wacc : n_(wd.wacc), g = n_(rd.implied_g);
+  const fv = k => n_(objOf(sm[k]).value);
+  const gw = dw => (isNum(w) && isNum(ev) && isNum(fcf) && fcf > 0) ? ((w + dw) * ev - fcf) / (ev + fcf) : null;
+  const listed = meta.listing_currency && meta.listing_currency !== cur
+    ? 'listed at ' + esc(money(meta.price_listing, meta.listing_currency)) + ' × FX ' + esc(num(meta.fx_listing_to_reporting, 4)) +
+      (meta.adr_ratio && meta.adr_ratio !== 1 ? ' × ADR ratio ' + esc(num(meta.adr_ratio, 0)) : '') : '';
+  const ndSub = 'long-term debt ' + esc(big(n_(ndd.lt_debt))) + ' + short-term debt ' + esc(big(n_(ndd.st_debt))) + ' + finance leases ' + esc(big(n_(ndd.finance_leases))) +
+    ' − cash ' + esc(big(n_(ndd.cash))) + ' − short-term investments ' + (ndd.st_investments_deducted ? esc(big(n_(ndd.st_investments))) : '<span class="sa-nd">N/D</span> (not filed this year, not deducted)');
+  let h = '<div class="sa-dsec"><h4>What the price implies (reverse DCF)</h4><dl class="sa-kv">' +
+    kv('Price (' + (rep.as_of || 'N/D') + ')', money(price, cur), listed) +
+    kv('× diluted shares', big(shares), tagLine(sh)) +
+    kv('= market capitalisation', big(mc, cur)) +
+    kv('+ net debt', big(nd, cur), ndSub) +
+    kv('= enterprise value (EV)', big(ev, cur)) +
+    kv('Free cash flow, FY ' + (fy || 'N/D'), big(fcf, cur), 'operating cash flow ' + esc(big(fv('ocf'))) + ' − capex ' + esc(big(fv('capex'))) +
+      ' − stock-based pay ' + (fv('sbc') === null ? '<span class="sa-nd">N/D</span> (not filed: nothing deducted)' : esc(big(fv('sbc')))) + (sm.ocf ? ' · ' + tagLine(sm.ocf) : '')) +
+    kv('Discount rate (WACC)', pct(w, 2)) + '</dl>' +
+    '<pre class="sa-formula">g = (WACC × EV − FCF) / (EV + FCF)\n  = (' + pct(w, 2) + ' × ' + big(ev) + ' − ' + big(fcf) + ') / (' + big(ev) + ' + ' + big(fcf) + ')\n  = ' + pct(g, 2) + '</pre>' +
+    bandHTML([[-0.01, gw(-0.01)], [0, gw(0)], [0.01, gw(0.01)]]) +
+    (st.dW ? '<p class="sa-note">The map is shifted by ' + esc(signed(st.dW, 2, ' pt')) + ': implied growth there is ' + esc(pct(gw(st.dW))) + '.</p>' : '') + '</div>';
+  const ke = n_(wd.ke), kd = n_(wd.kd), t = n_(wd.tax_rate), eq = n_(wd.E), debt = n_(wd.D), V = isNum(eq) && isNum(debt) ? eq + debt : null;
+  const full = wd.mode === 'complet' && V && isNum(ke) && isNum(kd) && isNum(t);
+  h += '<div class="sa-dsec"><h4>Discount rate (WACC)</h4><dl class="sa-kv">' +
+    kv('Risk-free rate (' + (wd.rf_currency || 'N/D') + ')', pct(wd.rf, 2), wd.rf_proxy ? '<strong>Proxy:</strong> no free 10-year government yield in this currency; the US 10-year is used instead.' : 'Ten-year government yield in the currency of the accounts.') +
+    kv('Beta raw → adjusted', num(wd.beta_raw, 2) + ' → ' + num(wd.beta, 2), 'Yahoo Finance beta; adjusted = 0.67 × raw + 0.33 (Blume)') +
+    kv('Equity risk premium', pct(wd.erp)) +
+    kv('Cost of equity = rf + β × ERP', pct(ke, 2)) +
+    kv('Cost of debt', pct(kd, 2), 'interest expense / debt' + (sm.interest_expense ? ' · ' + tagLine(sm.interest_expense) : '')) +
+    kv('Tax rate', pct(t)) +
+    kv('Weights equity · debt', V ? pct(eq / V) + ' · ' + pct(debt / V) : 'N/D') + '</dl>' +
+    '<pre class="sa-formula">' + (full
+      ? 'WACC = E/V × ke + D/V × kd × (1 − t)\n     = ' + pct(eq / V) + ' × ' + pct(ke, 2) + ' + ' + pct(debt / V) + ' × ' + pct(kd, 2) + ' × (1 − ' + pct(t) + ')\n     = ' + pct(wd.wacc, 2)
+      : 'WACC = cost of equity (all-equity: cost of debt or market value N/D — conservative)\n     = ' + pct(wd.wacc, 2)) + '</pre></div>';
+  const adjs = Array.isArray(adj.adjustments) ? adj.adjustments : [], ebit = n_(ei.ebit_adj), tax = n_(ei.tax), ew = n_(ei.wacc);
+  h += '<div class="sa-dsec"><h4>Value with no growth (EPV)</h4><dl class="sa-kv">' +
+    kv('Operating income (EBIT) as filed, FY ' + (adj.fy || fy || 'N/D'), big(n_(adj.ebit_brut), cur), tagLine(sm.ebit)) +
+    kv('One-off items removed', adjs.length ? String(adjs.length) : 'none',
+      adjs.map(x => esc(String(x.item || '').replace(/_/g, ' ')) + ' ' + esc(big(n_(x.amount !== undefined ? x.amount : x.value)))).join(' · ')) +
+    kv('= EBIT used', big(ebit, cur), 'Normalisation: last fiscal year only, one-off items removed. No averaging over the business cycle.') +
+    kv('Tax rate', pct(tax), 'tax expense / pre-tax income' + (isNum(tax) && (tax < 0 || tax > 0.5) ? ' — <strong>outside 0–50%</strong>: a tax benefit or one-off distorts this year' : '') + (sm.tax_expense ? ' · ' + tagLine(sm.tax_expense) : '')) + '</dl>' +
+    '<pre class="sa-formula">EPV = EBIT × (1 − t) / WACC − net debt\n    = ' + big(ebit) + ' × (1 − ' + pct(tax) + ') / ' + pct(ew, 2) + ' − (' + big(nd) + ')\n    = ' +
+      big(n_(E.epv_equity)) + '\n÷ ' + big(shares) + ' shares = ' + money(n_(E.epv_per_share), cur) + '   (price ' + money(price, cur) + ')</pre></div>';
+  h += '<div class="sa-dsec"><h4>Sustainable growth</h4><dl class="sa-kv">' +
+    kv('ROIC, FY ' + (fy || 'N/D'), pct(n_(S.roic))) +
+    kv('Net reinvestment rate', pct(n_(S.rr)), '(capex − depreciation + change in working capital) / after-tax operating profit') +
+    kv('Invested capital / total assets', pct(n_(S.invested_capital_share_of_assets))) +
+    kv('= ROIC × reinvestment', S.status === 'n/m' ? 'n/m' : pct(n_(S.sgr))) + '</dl>' +
+    (S.status === 'n/m' ? '<p class="sa-note">' + esc(NM_TXT[S.nm_reason] || 'n/m') + ' Computed value, kept for traceability: ' + esc(pct(n_(S.sgr))) + '.</p>' : '') + '</div>';
+  h += '<div class="sa-dsec"><h4>Flags</h4>' + flagsListHTML(rep) + '</div>';
+  const furl = objOf(sm.revenue).edgar_filing_url, idx = dd.edgar_filings_index;
+  h += '<div class="sa-dsec sa-dlinks">' +
+    (/^https:\/\//.test(furl || '') ? '<a class="sa-btn" href="' + esc(furl) + '" target="_blank" rel="noopener">Annual filing ↗</a>' : '') +
+    (/^https:\/\//.test(idx || '') ? '<a class="sa-btn" href="' + esc(idx) + '" target="_blank" rel="noopener">All filings ↗</a>' : '') +
+    '<button class="sa-btn" data-gofile="' + esc(row.ticker) + '">Full company file ↓</button></div>';
+  return h;
+}
 
 /* ═════════════ 2 + 3 · COMPANY FILE, SIMULATOR, SOURCES ═════════════ */
 const FLAG_EN = {
@@ -249,9 +629,21 @@ const FLAG_EN = {
   restatement_2y: ['Restated accounts in the last two years', d => esc((d.details || []).map(x => x.form + ' ' + x.date).join(', ')) + '. Past figures were revised.'],
   goodwill_30pct: ['Goodwill above 30% of assets', d => 'Goodwill = ' + pct(d.goodwill_pct_assets, 0) + ' of total assets: growth bought through acquisitions.'],
   sbc_15pct_fcf: ['Stock-based pay above 15% of free cash flow', d => 'SBC = ' + pct(d.sbc_pct_fcf, 0) + ' of gross FCF. SAINHE deducts it from FCF before any valuation.'],
-  transitory_items: ['Transitory items', () => 'One-off items were adjusted out of EBIT and net income.']
+  transitory_items: ['Transitory items', () => 'One-off items were adjusted out of EBIT and net income.'],
+  invested_capital_near_zero: ['Invested capital close to zero', d => 'Invested capital = ' + pct(d.invested_capital_share_of_assets, 0) + ' of total assets: ROIC (' + pct(d.roic, 0) + ') and sustainable growth (' + pct(d.sgr, 0) + ') are not meaningful.'],
+  sgr_not_meaningful: ['Sustainable growth not meaningful', d => esc(NM_TXT[d.reason] || '') + ' Net reinvestment rate ' + pct(d.rr, 0) + '.'],
+  rf_currency_proxy: ['Risk-free rate proxy', d => 'No free 10-year government yield in ' + esc(d.currency) + ': the US 10-year (' + pct(d.rf, 2) + ') is used instead, so the discount rate is not in the currency of the accounts.']
 };
 const SEV = {high: 'high', medium: 'medium', info: 'info', low: 'info'};
+function flagsListHTML(rep){
+  const out = (rep.bloc_B_flags || []).map(f => {
+    const tr = FLAG_EN[f.id], d = f.details || {};
+    const title = tr ? tr[0] : String(f.id || '').replace(/_/g, ' ');
+    let body = ''; try{ body = tr ? tr[1](d) : ''; }catch(e){}
+    return '<div class="sa-flag ' + (SEV[f.severity] || 'info') + '"><b>' + esc(f.severity || 'info') + '</b><span><strong>' + esc(title) + '.</strong> ' + body + '</span></div>';
+  }).join('');
+  return out ? '<div class="sa-flags">' + out + '</div>' : '<p class="sa-note">No flag raised.</p>';
+}
 let fileTok = 0, sim = null, simChart = null, trendCharts = [], SPECS = {}, curRep = null;
 
 function buildPicker(){
@@ -264,7 +656,7 @@ function openFile(t, scroll, quiet){
   if(!ROW[t]) return;
   selected = t;
   $$('#sa-pick .sa-chip').forEach(b => { const on = b.dataset.pick === t; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
-  renderTable(); renderMap();
+  syncSelected();
   if(!quiet){ try{ history.replaceState(null, '', '#file=' + encodeURIComponent(t)); }catch(e){} }
   if(scroll){ const s = $('#sa-sec-file'); if(s) s.scrollIntoView({behavior: 'smooth', block: 'start'}); }
   const tok = ++fileTok;
@@ -289,15 +681,11 @@ function renderFile(row, rep){
   if(isNum(ig)) lede = 'At <strong>' + esc(money(meta.price_in_reporting_currency, cur)) + '</strong>, the price implies free cash flow growing <strong>' +
       esc(pct(ig)) + '</strong> a year, forever, discounted at a <strong>' + esc(pct(wd.wacc)) + '</strong> cost of capital. ' +
       (isNum(rev5) ? 'Revenue grew ' + esc(pct(rev5)) + ' a year over the last five years' : 'Five-year revenue growth is N/D') +
-      (isNum((A.SGR || {}).sgr) ? '; its sustainable growth rate (ROIC × reinvestment, last year) is ' + esc(pct(A.SGR.sgr)) + '.' : '.');
+      ((A.SGR || {}).status === 'n/m' ? '; its sustainable growth rate is not meaningful this year (see flags).'
+        : isNum((A.SGR || {}).sgr) ? '; its sustainable growth rate (ROIC × reinvestment, last year) is ' + esc(pct(A.SGR.sgr)) + '.' : '.');
   else lede = 'Implied growth is <strong>N/D</strong> for this company: the reverse DCF needs positive adjusted free cash flow and a known net debt. ' +
       'The record below still applies; nothing is imputed.';
-  const flags = (rep.bloc_B_flags || []).map(f => {
-    const tr = FLAG_EN[f.id], d = f.details || {};
-    const title = tr ? tr[0] : f.id.replace(/_/g, ' ');
-    let body = ''; try{ body = tr ? tr[1](d) : ''; }catch(e){}
-    return '<div class="sa-flag ' + (SEV[f.severity] || 'info') + '"><b>' + esc(f.severity || 'info') + '</b><span><strong>' + esc(title) + '.</strong> ' + body + '</span></div>';
-  }).join('');
+  const flagsHTML_ = flagsListHTML(rep);
   const listing = meta.listing_currency && meta.listing_currency !== cur
     ? '<span class="badge badge-gold" title="Listing price converted to the currency of the accounts">listed in ' + esc(meta.listing_currency) + (meta.adr_ratio && meta.adr_ratio !== 1 ? ' · ADR ×' + num(meta.adr_ratio, 0) : '') + '</span>' : '';
   $('#sa-head').innerHTML =
@@ -307,7 +695,7 @@ function renderFile(row, rep){
       (isNum(meta.months_since_fiscal_year_end) ? ' · ' + meta.months_since_fiscal_year_end + ' months ago' : '') + '</span>' + listing +
     (/^https:\/\//.test(idx || '') ? '<a class="sa-btn" href="' + esc(idx) + '" target="_blank" rel="noopener">All filings ↗</a>' : '') + '</div></div>' +
     '<p class="sa-lede" style="margin-top:12px">' + lede + '</p>' +
-    (flags ? '<div class="sa-flags">' + flags + '</div>' : '<p class="sa-note" style="margin-top:10px">No accounting flag raised.</p>');
+    '<div style="margin-top:14px">' + flagsHTML_ + '</div>';
   renderFacts(row, rep, cur);
   initSim(rep, cur);
   renderTrends(rep, cur);
@@ -400,30 +788,40 @@ function factHTML(fc){
     (/^https:\/\//.test(url) ? '<br><a href="' + esc(url) + '" target="_blank" rel="noopener">Open the filing ↗</a>' : '') + '</div>';
 }
 let drawerOpener = null;
+function openDrawer(kicker, title, html, opener){
+  drawerOpener = opener || document.activeElement;
+  $('#sa-dr-kicker').textContent = kicker; $('#sa-dr-title').textContent = title; $('#sa-dr-body').innerHTML = html;
+  $('#sa-drawer').classList.add('open'); $('#sa-drawer-scrim').classList.add('open');
+  $('#sa-drawer').setAttribute('aria-hidden', 'false'); $('#sa-dr-body').scrollTop = 0;
+  $('#sa-dr-close').focus();
+}
+function closeDrawer(){
+  if(!$('#sa-drawer').classList.contains('open')) return;
+  $('#sa-drawer').classList.remove('open'); $('#sa-drawer-scrim').classList.remove('open');
+  $('#sa-drawer').setAttribute('aria-hidden', 'true');
+  if(drawerOpener && drawerOpener.focus && document.contains(drawerOpener)) drawerOpener.focus();
+}
 function openSource(key){
   const s = SPECS[key]; if(!s) return;
-  drawerOpener = document.activeElement;
-  $('#sa-dr-kicker').textContent = s.k + ' · ' + (selected || '');
-  $('#sa-dr-title').textContent = s.t;
-  $('#sa-dr-body').innerHTML = '<div class="sa-dr-v">' + H(s.v) + '</div>' +
+  openDrawer(s.k + ' · ' + (selected || ''), s.t, '<div class="sa-dr-v">' + H(s.v) + '</div>' +
     (s.formula ? '<pre class="sa-formula">' + esc(s.formula) + '</pre>' : '') +
     (s.inputs || []).map(i => '<div class="sa-in"><div class="sa-in-h"><span>' + esc(i.l) + '</span><span>' +
       (i.open ? '<button class="sa-src" data-srckey="' + i.open + '">' + H(i.v) + '</button>' : H(i.v)) + '</span></div>' +
       (i.m ? '<div class="sa-in-m">' + esc(i.m) + '</div>' : '') + (i.fact !== undefined ? factHTML(i.fact) : '') + '</div>').join('') +
-    (s.note ? '<p class="sa-note" style="margin-top:10px">' + esc(s.note) + '</p>' : '');
-  $('#sa-drawer').classList.add('open'); $('#sa-drawer-scrim').classList.add('open');
-  $('#sa-drawer').setAttribute('aria-hidden', 'false');
-  $('#sa-dr-close').focus();
-}
-function closeSource(){
-  $('#sa-drawer').classList.remove('open'); $('#sa-drawer-scrim').classList.remove('open');
-  $('#sa-drawer').setAttribute('aria-hidden', 'true');
-  if(drawerOpener && drawerOpener.focus) drawerOpener.focus();
+    (s.note ? '<p class="sa-note" style="margin-top:10px">' + esc(s.note) + '</p>' : ''), drawerOpener && $('#sa-drawer').classList.contains('open') ? drawerOpener : document.activeElement);
 }
 document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-srckey]'); if(b){ e.preventDefault(); openSource(b.dataset.srckey); } });
-$('#sa-dr-close').addEventListener('click', closeSource);
-$('#sa-drawer-scrim').addEventListener('click', closeSource);
-document.addEventListener('keydown', e => { if(e.key === 'Escape' && $('#sa-drawer').classList.contains('open')) closeSource(); });
+$('#sa-dr-close').addEventListener('click', closeDrawer);
+$('#sa-drawer-scrim').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && $('#sa-drawer').classList.contains('open')) closeDrawer(); });
+$('#sa-drawer').addEventListener('keydown', e => {   // focus trap (role=dialog, aria-modal)
+  if(e.key !== 'Tab') return;
+  const f = $$('#sa-drawer button, #sa-drawer a[href], #sa-drawer [tabindex="0"]').filter(x => x.offsetParent !== null);
+  if(!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+});
 
 function renderFacts(row, rep, cur){
   const tile = (key, label, sub) => { const s = SPECS[key];
@@ -477,7 +875,7 @@ function initSim(rep, cur){
     return;
   }
   const basis = isNum(S.fcf.last) && S.fcf.last > 0 ? 'last' : 'med';
-  sim = {S, basis, w: S.wacc, g: null};
+  sim = {S, basis, w: Math.max(0.03, S.wacc + st.dW), g: null};
   sim.g = simImplied(S, S.fcf[basis], sim.w);
   const fb = (b, l) => { const v = S.fcf[b]; const dis = !(isNum(v) && v > 0);
     return '<button data-b="' + b + '"' + (b === basis ? ' class="on"' : '') + (dis ? ' disabled title="N/D or not positive"' : '') + '>' + l + ' · ' + esc(big(v, cur)) + '</button>'; };
@@ -498,7 +896,7 @@ function initSim(rep, cur){
     '<p class="sa-note" style="margin-top:10px">The curve gives the value per share for every growth rate at your discount rate; it crosses the price at the implied growth. ' +
     '<strong>Not an estimate by SAINHE:</strong> arithmetic on your inputs (Gordon formula on adjusted FCF, ' + esc(S.fy ? 'FY ' + S.fy : '') + '). It explodes as growth nears the discount rate.</p>';
   const gR = $('#sim-g'), wR = $('#sim-w');
-  wR.min = 3; wR.max = Math.max(16, Math.ceil(S.wacc * 100 + 3)); wR.value = (S.wacc * 100).toFixed(1);
+  wR.min = 3; wR.max = Math.max(16, Math.ceil(S.wacc * 100 + 3)); wR.value = (sim.w * 100).toFixed(1);
   gR.addEventListener('input', () => { sim.g = +gR.value / 100; updateSim(); });
   wR.addEventListener('input', () => { sim.w = +wR.value / 100; updateSim(true); });
   $('#sim-basis').addEventListener('click', e => { const b = e.target.closest('button[data-b]'); if(!b || b.disabled) return;
@@ -593,7 +991,7 @@ function renderTrends(rep, cur){
   });
 }
 restyle.push(() => { if(curRep && selected) renderTrends(curRep, (curRep.meta || {}).reporting_currency || 'USD'); });
-restyle.push(renderMap);
+restyle.push(() => renderMap(true));
 
 /* ═════════════ 4 · ALLOCATION LAB ═════════════ */
 let LAB = null;
@@ -855,10 +1253,11 @@ $('#sa-crisis-tbl tbody').addEventListener('click', e => { const tr = e.target.c
 
 /* ═════════════ BOOT ═════════════ */
 buildPicker();
-renderTable();
+renderS1(true);
+bindBrush();
 const hf = /^#file=(.+)$/.exec(location.hash);
 const first = hf && ROW[decodeURIComponent(hf[1])] ? decodeURIComponent(hf[1]) : (ROW.NVDA ? 'NVDA' : (ROWS[0] || {}).ticker);
-if(first) openFile(first, false, !hf); else renderMap();
+if(first) openFile(first, false, !hf);
 if(hf){ const s = $('#sa-sec-file'); if(s) setTimeout(() => s.scrollIntoView({block: 'start'}), 50); }
 
 getJSON('lab_data.json').then(d => {

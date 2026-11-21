@@ -43,12 +43,12 @@ print("=" * 60)
 cd = parse_companyfacts("TESTCO", 999999, testco_companyfacts())
 m = metrics.derive(cd, 2023)
 
-check("Net Debt ASC842 (300+30+15-100)", m["net_debt"], 245.0)
+check("Net Debt ASC842 (300+30+15-100-20 placements CT)", m["net_debt"], 225.0)
 check("EBITDA (250+50)", m["ebitda"], 300.0)
 check("Effective tax (46/230)", m["effective_tax_rate"], 0.20)
 check("NOPAT (250×0.8)", m["nopat"], 200.0)
-check("Invested Capital (700+245)", m["invested_capital"], 945.0)
-check("ROIC (200/945)", m["roic"], 200.0 / 945.0, tol=1e-4)
+check("Invested Capital (700+225)", m["invested_capital"], 925.0)
+check("ROIC (200/925)", m["roic"], 200.0 / 925.0, tol=1e-4)
 check("FCF brut (260-70)", m["fcf_brut"], 190.0)
 check("FCF ajusté SBC (190-25)", m["fcf_adj"], 165.0)
 check("Owner Earnings (260-50-25)", m["owner_earnings"], 185.0)
@@ -82,18 +82,50 @@ check("Ke (rf+β×ERP)", w["ke"], 0.092, tol=1e-4)
 check("WACC complet", w["wacc"], exp_wacc, tol=1e-4)
 
 e = valuation.epv(cd, w["wacc"], 2023)
-# EPV_EV = 250×0.8/wacc ; equity = EV-245 ; /100 shares
+# EPV_EV = 250×0.8/wacc ; equity = EV-225 ; /100 shares
 exp_ev = 200.0 / w["wacc"]
 check("EPV enterprise", e["epv_ev"], exp_ev, tol=0.5)
-check("EPV per share", e["epv_per_share"], (exp_ev - 245.0) / 100.0, tol=0.05)
+check("EPV per share", e["epv_per_share"], (exp_ev - 225.0) / 100.0, tol=0.05)
 
 r = valuation.reverse_dcf(cd, price=15.0, wacc_value=w["wacc"])
-# EV = 15×100+245 = 1745 ; g = (wacc×1745-165)/(1745+165)
-exp_g = (w["wacc"] * 1745 - 165.0) / (1745.0 + 165.0)
+# EV = 15×100+225 = 1725 ; g = (wacc×1725-165)/(1725+165)
+exp_g = (w["wacc"] * 1725 - 165.0) / (1725.0 + 165.0)
 check("Reverse DCF implied g", r["implied_g"], exp_g, tol=1e-4)
 
 s = valuation.sgr(cd, 2023)
 check_true("SGR calculé (non-None)", s["sgr"] is not None)
+check_true("SGR : statut publié", s.get("status") in ("ok", "n/m", "N/D"))
+
+print("\nValeurs non significatives (n/m) — seuils config.SGR_NM_* / IC_NM_MIN_SHARE_OF_ASSETS")
+check_true("n/m : réinvestissement négatif",
+           valuation.sgr_status(-0.03, 500.0, 1000.0) == ("n/m", "negative_net_reinvestment"))
+check_true("n/m : réinvestissement > NOPAT",
+           valuation.sgr_status(1.6, 500.0, 1000.0) == ("n/m", "reinvestment_exceeds_nopat"))
+check_true("n/m : capital investi < 10 % de l'actif",
+           valuation.sgr_status(0.3, 42.0, 1000.0) == ("n/m", "invested_capital_near_zero"))
+check_true("n/m : capital investi négatif",
+           valuation.sgr_status(0.3, -10.0, 1000.0) == ("n/m", "invested_capital_near_zero"))
+check_true("ok : cas normal", valuation.sgr_status(0.3, 500.0, 1000.0) == ("ok", None))
+check_true("N/D : réinvestissement inconnu", valuation.sgr_status(None, 500.0, 1000.0)[0] == "N/D")
+
+print("\nTaux sans risque par devise (macro.json simulé, sans réseau)")
+from compute import market_inputs
+_env = os.environ.get("SAINHE_RF_LIVE")
+os.environ["SAINHE_RF_LIVE"] = "1"
+market_inputs._cache.clear()
+market_inputs._cache["macro"] = {"us_10y": {"value": 4.5}, "bund_10y": {"value": 2.6}, "uk_10y": 4.4}
+eur, twd, usd = (market_inputs.risk_free_info(c) for c in ("EUR", "TWD", "USD"))
+check("Rf EUR = Bund 10 ans", eur["rf"], 0.026, tol=1e-9)
+check_true("Rf EUR non substitué", eur["proxy"] is False and eur["field"] == "bund_10y")
+check("Rf TWD = substitut US 10 ans", twd["rf"], 0.045, tol=1e-9)
+check_true("Rf TWD signalé comme substitut", twd["proxy"] is True and "PROXY" in twd["source"])
+check_true("Rf USD non substitué", usd["proxy"] is False)
+check_true("WACC EUR : Ke au Bund", abs(valuation.wacc(cd, price=15.0, currency="EUR")["ke"] - (0.026 + 0.05)) < 1e-9)
+market_inputs._cache.clear()
+if _env is None:
+    os.environ.pop("SAINHE_RF_LIVE", None)
+else:
+    os.environ["SAINHE_RF_LIVE"] = _env
 
 re_ = valuation.residual_earnings_static(cd, w["ke"], s["sgr"])
 check_true("RE valuation per share > 0", isinstance(re_["re_value_per_share"], float)
@@ -102,6 +134,7 @@ check_true("RE valuation per share > 0", isinstance(re_["re_value_per_share"], f
 sm = valuation.sensitivity_matrix(cd, w["ke"], s["sgr"])
 check_true("Sensitivity matrix 5×5", sm["matrix"] is not None and len(sm["matrix"]) == 5
            and len(sm["matrix"][0]) == 5)
+check_true("Sensitivity matrix : axe g non constant (0 → plafond)", len(set(sm["g_axis"])) == 5)
 
 print("\nBuffett")
 lt = buffett.lt_debt_payback(cd)
@@ -161,6 +194,14 @@ check_true("consensus dispersion calculée",
            isinstance(rep["bloc_A_verdict"]["consensus"]["dispersion"], float))
 vmap = report_builder.build_valuation_map([rep])
 check_true("valuation map 1 ligne", len(vmap["rows"]) == 1)
+row = vmap["rows"][0]
+for k in ("roic_by_year", "roic_nm_years", "wacc", "rf", "rf_currency", "sgr_status", "rdcf", "flags"):
+    check_true(f"valuation map : champ {k}", k in row)
+check_true("valuation map : entrées du DCF inverse",
+           all(k in row["rdcf"] for k in ("ev", "fcf_adj", "market_cap", "net_debt", "fiscal_year")))
+check_true("valuation map : compte ROIC > WACC cohérent avec la série",
+           row["roic_years_above_wacc"].endswith("/" + str(len([v for v in row["roic_by_year"].values()
+                                                                  if isinstance(v, float)]))))
 
 report_builder.save(rep, os.path.join(os.path.dirname(__file__), "TESTCO_report_sample.json"))
 print(f"\n{'='*60}\nRÉSULTAT : {PASS} ✓ / {FAIL} ✗")

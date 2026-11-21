@@ -12,13 +12,14 @@ from compute.adjustments import adjust
 
 # ------------------------------------------------------------------ WACC (.txt sous-module)
 def wacc(cd: CompanyData, price: float | None, beta: float | None = None,
-         rf: float | None = None, erp: float | None = None) -> dict:
+         rf: float | None = None, erp: float | None = None, currency: str | None = "USD") -> dict:
     """Sources : Couche 2 (Kd, T, D) + Yahoo (E = shares × prix) + Macro SAINHE (Rf, ERP, β).
     Rf live (US 10Y du dashboard) ; β ajusté Blume ; Kd N/D avec dette > 0 → WACC = Ke
     (all-equity, PRUDENT : surestime le WACC) au lieu d'un coût de la dette à 0 %."""
-    rf_src = "argument"
-    if rf is None:
-        rf, rf_src = market_inputs.risk_free()
+    rf_src, rf_proxy, rf_cur = "argument", False, (currency or "USD").upper()
+    if rf is None:   # taux souverain 10 ans de la devise des COMPTES (flux et taux cohérents)
+        info = market_inputs.risk_free_info(currency)
+        rf, rf_src, rf_proxy, rf_cur = info["rf"], info["source"], info["proxy"], info["currency"]
     erp = config.DEFAULT_ERP if erp is None else erp
     beta_raw = beta
     beta = config.DEFAULT_BETA if beta is None else market_inputs.blume_beta(beta)
@@ -45,8 +46,8 @@ def wacc(cd: CompanyData, price: float | None, beta: float | None = None,
         w = ke * (e / v) + (kd or 0.0) * (1 - t) * (d / v)
         detail = "complet"
     return {"wacc": w, "ke": ke, "kd": kd, "tax_rate": t, "E": e, "D": d,
-            "rf": rf, "rf_source": rf_src, "erp": erp, "beta": beta, "beta_raw": beta_raw,
-            "mode": detail}
+            "rf": rf, "rf_source": rf_src, "rf_currency": rf_cur, "rf_proxy": rf_proxy,
+            "erp": erp, "beta": beta, "beta_raw": beta_raw, "mode": detail}
 
 
 # ------------------------------------------------------------------ EPV (Greenwald)
@@ -115,11 +116,46 @@ def sgr(cd: CompanyData, fy: int | None = None) -> dict:
         return {"sgr": None, "rr": None, "note": "inputs manquants"}
     rr = (capex - da + (nwc_now - nwc_prev)) / nopat
     roic = m.get("roic")
-    return {"sgr": (roic * rr) if roic is not None else None, "rr": rr, "roic": roic}
+    status, reason = sgr_status(rr, m.get("invested_capital"), cd.value("total_assets", fy))
+    return {"sgr": (roic * rr) if roic is not None else None, "rr": rr, "roic": roic,
+            "status": status, "nm_reason": reason,
+            "invested_capital_share_of_assets": ic_share(m.get("invested_capital"),
+                                                         cd.value("total_assets", fy))}
+
+
+def ic_share(invested: float | None, total_assets: float | None) -> float | None:
+    """Capital investi / actif total (None si l'un des deux est N/D)."""
+    if invested is None or not total_assets:
+        return None
+    return invested / total_assets
+
+
+def roic_meaningful(invested: float | None, total_assets: float | None) -> bool | None:
+    """False si le capital investi est ≤ 0 ou < IC_NM_MIN_SHARE_OF_ASSETS de l'actif (ROIC =
+    artefact d'un dénominateur quasi nul) ; None si non évaluable (N/D)."""
+    sh = ic_share(invested, total_assets)
+    if sh is None:
+        return None
+    return invested > 0 and sh >= config.IC_NM_MIN_SHARE_OF_ASSETS
+
+
+def sgr_status(rr: float | None, invested: float | None, total_assets: float | None) -> tuple[str, str | None]:
+    """(« ok » | « n/m » | « N/D », raison). Seuils : config.SGR_NM_* et IC_NM_MIN_SHARE_OF_ASSETS.
+    Raisons : invested_capital_near_zero, negative_net_reinvestment, reinvestment_exceeds_nopat."""
+    if rr is None:
+        return "N/D", None
+    if roic_meaningful(invested, total_assets) is False:
+        return "n/m", "invested_capital_near_zero"
+    if rr < config.SGR_NM_RR_MIN:
+        return "n/m", "negative_net_reinvestment"
+    if rr > config.SGR_NM_RR_MAX:
+        return "n/m", "reinvestment_exceeds_nopat"
+    return "ok", None
 
 
 # ------------------------------------------------------------------ RE statique
-def residual_earnings_static(cd: CompanyData, ke: float, g: float | None) -> dict:
+def residual_earnings_static(cd: CompanyData, ke: float, g: float | None,
+                             rf: float | None = None) -> dict:
     """V₀ = B₀ + Σ_{t=1..5} RE/(1+ke)^t + CV ; RE = Adjusted NI − ke×B₀ constant (statique).
     CV = RE×(1+g)/(ke−g) actualisé. g = min(SGR, ke−50bps) pour éviter la divergence (.txt)."""
     adj = adjust(cd)
@@ -130,7 +166,7 @@ def residual_earnings_static(cd: CompanyData, ke: float, g: float | None) -> dic
     if None in (b0, ni_adj) or not ke:
         return {"re_value_per_share": None}
     g_sgr = g
-    g = 0.0 if g is None else min(g, terminal_g_cap(ke))
+    g = 0.0 if g is None else min(g, terminal_g_cap(ke, rf))
     g = max(g, 0.0)
     re = ni_adj - ke * b0
     pv = sum(re / (1 + ke) ** t for t in range(1, config.RE_HORIZON_YEARS + 1))
@@ -139,15 +175,16 @@ def residual_earnings_static(cd: CompanyData, ke: float, g: float | None) -> dic
     return {"re_value_equity": v0,
             "re_value_per_share": (v0 / shares) if shares else None,
             "inputs": {"B0": b0, "RE": re, "ke": ke, "g": g, "g_sgr": g_sgr,
-                       "g_cap": terminal_g_cap(ke)}}
+                       "g_cap": terminal_g_cap(ke, rf)}}
 
 
-def terminal_g_cap(ke: float) -> float:
+def terminal_g_cap(ke: float, rf: float | None = None) -> float:
     """Croissance PERPÉTUELLE plafonnée à min(Rf, ke − TERMINAL_G_KE_GAP).
     Avant : min(SGR, ke − 0,5 pt) → jusqu'à 9,5 % à perpétuité, CV multipliée par 200
     (GEV SGR 146 % → RE +195 %, MSFT +251 %, NVDA +277 %). Une entreprise ne peut croître
     durablement plus vite que l'économie nominale (≈ taux sans risque)."""
-    rf, _ = market_inputs.risk_free()
+    if rf is None:
+        rf, _ = market_inputs.risk_free()
     return max(0.0, min(rf, ke - config.TERMINAL_G_KE_GAP))
 
 
@@ -178,9 +215,12 @@ def wacc_sensitivity(cd: CompanyData, wacc_value: float) -> dict:
 
 
 # ------------------------------------------------------------------ Sensitivity matrix
-def sensitivity_matrix(cd: CompanyData, ke: float, sgr_value: float | None) -> dict:
-    """Grille NOPAT margin (percentiles historiques) × terminal growth (fractions de SGR),
-    valeur par cellule via RE statique avec NI recalculé à la marge testée (.txt Couche 4)."""
+def sensitivity_matrix(cd: CompanyData, ke: float, sgr_value: float | None,
+                       rf: float | None = None) -> dict:
+    """Grille NOPAT margin (percentiles historiques) × croissance terminale (fractions du
+    PLAFOND min(Rf, ke − 2 pts)), valeur par cellule via RE statique (.txt Couche 4).
+    Avant : fractions du SGR, toutes écrasées par le plafond → axe g constant (NVDA : 5 × 5,05 %),
+    matrice sans information. sgr_value conservé pour la signature (non utilisé)."""
     fy = (cd.years("revenue") or [None])[-1]
     rev = cd.value("revenue", fy)
     b0 = cd.value("equity", fy)
@@ -191,8 +231,8 @@ def sensitivity_matrix(cd: CompanyData, ke: float, sgr_value: float | None) -> d
         return {"matrix": None, "note": "données insuffisantes"}
     qs = statistics.quantiles(margins_hist, n=10)  # déciles
     margin_axis = [qs[0], qs[1], statistics.median(margins_hist), qs[6], qs[8]]  # ~p10..p90
-    base_g = sgr_value if (sgr_value and sgr_value > 0) else 0.02
-    g_axis = [min(base_g * f, terminal_g_cap(ke)) for f in config.SENSITIVITY_G_FACTORS]
+    cap = terminal_g_cap(ke, rf)
+    g_axis = [cap * f for f in config.SENSITIVITY_G_SHARES_OF_CAP]
 
     rows = []
     for m_ in margin_axis:

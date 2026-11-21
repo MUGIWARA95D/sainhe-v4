@@ -195,6 +195,7 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
         cd, price=valuation_price, yf_info=info, edgar_meta=meta,
         gics_sector=(info or {}).get("sector"),
         price_history=price_history,
+        currency=pc["reporting_currency"],
     )
     if ca and not ca["integer"]:
         va = report["bloc_A_verdict"]

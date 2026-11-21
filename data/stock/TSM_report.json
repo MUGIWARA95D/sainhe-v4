@@ -1,61 +1,61 @@
 {
   "ticker": "TSM",
   "cik": 1046179,
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "fiscal_year": 2024,
   "bloc_A_verdict": {
-    "prix": 2122.188969,
+    "prix": 2105.16232,
     "EPV": {
-      "epv_ev": 10050925699339.855,
-      "epv_equity": 12086870399339.855,
-      "epv_per_share": 466.099559,
+      "epv_ev": 10182347993857.16,
+      "epv_equity": 12218292693857.16,
+      "epv_per_share": 471.167527,
       "inputs": {
         "ebit_adj": 1322053000000.0,
         "tax": 0.176632,
-        "wacc": 0.108302,
+        "wacc": 0.106904,
         "net_debt": -2035944700000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 130.880687,
-      "high": 197.651113,
+      "low": 132.303772,
+      "high": 199.800203,
       "fcf_p25": 243994825000.0,
       "fcf_p75": 368471850000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 505.527863,
-      "central": 466.099559,
-      "plus_100bps": 433.336953
+      "minus_100bps": 511.687571,
+      "central": 471.167527,
+      "plus_100bps": 437.57966
     },
     "RE_valuation": {
-      "re_value_equity": 10693513530978.393,
-      "re_value_per_share": 412.368279,
+      "re_value_equity": 10833526146709.625,
+      "re_value_per_share": 417.767511,
       "inputs": {
         "B0": 4244266500000.0,
-        "RE": 698617909254.25,
-        "ke": 0.108325,
+        "RE": 704559882354.25,
+        "ke": 0.106926,
         "g": 0.0,
         "g_sgr": "N/D",
-        "g_cap": 0.05052
+        "g_cap": 0.04912
       }
     },
     "consensus": {
       "available": true,
-      "target_mean": 3870.413793,
-      "target_median": 3694.320068,
-      "target_high": 6597.000122,
-      "target_low": 2902.680054,
+      "target_mean": 3875.259632,
+      "target_median": 3698.945435,
+      "target_high": 6605.259705,
+      "target_low": 2906.31427,
       "n_analysts": 20,
       "warning_few_analysts": false,
       "dispersion": 0.954503
     },
     "reverse_dcf": {
-      "implied_g": 0.090424,
+      "implied_g": 0.088901,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 52996553232827.055,
+        "ev": 52555019029463.54,
         "fcf_adj": 868927900000.0,
-        "wacc": 0.108302
+        "wacc": 0.106904
       }
     },
     "SGR": {
@@ -63,9 +63,19 @@
       "rr": "N/D",
       "note": "inputs manquants"
     },
-    "flag_growth_unfinanceable": false
+    "flag_growth_unfinanceable": "N/D"
   },
-  "bloc_B_flags": [],
+  "bloc_B_flags": [
+    {
+      "id": "rf_currency_proxy",
+      "severity": "info",
+      "message": "Aucun taux 10 ans TWD publié : US 10Y utilisé en substitut",
+      "details": {
+        "currency": "TWD",
+        "rf": 0.04912
+      }
+    }
+  ],
   "bloc_C_dupont": {
     "available": true,
     "fy": 2024,
@@ -86,6 +96,13 @@
       "2022": 0.6145,
       "2023": 0.4049,
       "2024": 0.4929
+    },
+    "invested_capital_share_10y": {
+      "2020": 0.459236,
+      "2021": 0.324018,
+      "2022": 0.319124,
+      "2023": 0.357502,
+      "2024": 0.330006
     },
     "rnoa_10y": {
       "2016": 0.3553,
@@ -168,9 +185,9 @@
     "ocf_ni": 1.576492,
     "accruals_pct_rev": -0.230728,
     "retained_earnings_test": {
-      "ratio": 9.389061,
+      "ratio": 9.38906,
       "retained_5y": 2641045300000.0,
-      "delta_mcap": 24796935003729.64,
+      "delta_mcap": 24796932411167.9,
       "passes": true,
       "window": [
         2019,
@@ -276,47 +293,47 @@
       0.4246
     ],
     "g_axis": [
-      0.01,
-      0.015,
-      0.02,
-      0.025,
-      0.03
+      0.0,
+      0.0123,
+      0.0246,
+      0.0368,
+      0.0491
     ],
     "matrix": [
       [
-        338.11,
-        344.5,
-        351.61,
-        359.59,
-        368.57
+        331.37,
+        345.87,
+        364.68,
+        390.09,
+        426.29
       ],
       [
-        352.14,
-        359.04,
-        366.73,
-        375.34,
-        385.06
+        344.69,
+        360.34,
+        380.65,
+        408.07,
+        447.15
       ],
       [
-        379.22,
-        387.12,
-        395.91,
-        405.76,
-        416.87
+        370.39,
+        388.26,
+        411.45,
+        442.77,
+        487.4
       ],
       [
-        396.16,
-        404.68,
-        414.16,
-        424.79,
-        436.77
+        386.47,
+        405.73,
+        430.73,
+        464.48,
+        512.58
       ],
       [
-        455.96,
-        466.67,
-        478.6,
-        491.95,
-        507.01
+        443.23,
+        467.39,
+        498.76,
+        541.11,
+        601.46
       ]
     ]
   },
@@ -336,14 +353,16 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.108302,
-      "ke": 0.108325,
+      "wacc": 0.106904,
+      "ke": 0.106926,
       "kd": 0.114476,
       "tax_rate": 0.176632,
-      "E": 55032497932827.055,
+      "E": 54590963729463.54,
       "D": 91682300000.0,
-      "rf": 0.05052,
-      "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf": 0.04912,
+      "rf_source": "PROXY : aucun taux 10 ans TWD publié → US 10Y (sainhe macro.json us_10y)",
+      "rf_currency": "TWD",
+      "rf_proxy": true,
       "erp": 0.05,
       "beta": 1.15611,
       "beta_raw": 1.233,
@@ -367,6 +386,16 @@
       "NOA": 2243326900000.0,
       "NFO": -2035944700000.0,
       "equity_check": 35005100000.0
+    },
+    "net_debt_detail": {
+      "fy": 2024,
+      "lt_debt": 31824400000.0,
+      "st_debt": 59857900000.0,
+      "finance_leases": 0.0,
+      "cash": 2127627000000.0,
+      "st_investments": "N/D",
+      "st_investments_deducted": false,
+      "net_debt": -2035944700000.0
     },
     "three_statement_10y": {
       "revenue": {
@@ -971,9 +1000,9 @@
     "source": "SEC EDGAR 20-F",
     "listing_currency": "USD",
     "reporting_currency": "TWD",
-    "price_listing": 321.69,
-    "price_in_reporting_currency": 2122.1889692687987,
-    "fx_listing_to_reporting": 32.98500061035156,
+    "price_listing": 318.71,
+    "price_in_reporting_currency": 2105.1623204498287,
+    "fx_listing_to_reporting": 33.02629852294922,
     "adr_ratio": 5.0,
     "fiscal_year_end": "2024-12-31",
     "months_since_fiscal_year_end": 23,

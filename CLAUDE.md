@@ -68,7 +68,7 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
 - **Spécification (source de vérité)** : `G:\Mon Drive\PROJET SAINHE\sainhe reprise\SAINHE_stock_analysis_plan.txt`
   — en cas de conflit avec ce fichier ou un prompt, le plan gagne.
 - **Backend dans `sainhe_backend/`**. Tests hermétiques (sans réseau, `SAINHE_RF_LIVE=0`) depuis `sainhe_backend/` :
-  `py tests/test_pipeline.py` (62) et `py tests/test_full.py` (61, Portfolio Sim). `$env:PYTHONUTF8='1'` sous Windows.
+  `py tests/test_pipeline.py` (86) et `py tests/test_full.py` (61, Portfolio Sim). `$env:PYTHONUTF8='1'` sous Windows.
   Lancer : `py pipeline.py --coverage`, `py portfolio_runner.py`, `py quality_check.py` (dans cet ordre).
   Dépendances : `sainhe_backend/requirements.txt` (scipy inclus). Email SEC : `EDGAR_CONTACT_EMAIL` (`.env` / secret).
 - **Couverture** : 14 US (10-K) + ASML/TSM/RACE (20-F) + Hermès/Leonardo/Coats (ESEF) = 20 sociétés.
@@ -77,6 +77,12 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
 - **Devises** : prix ramené à la devise des COMPTES et à l'action ordinaire (`pipeline._pricing_context` :
   ASML/RACE EUR, TSM TWD + ADR ×5, COA.L pence→USD) ; devise dominante détectée par société (TSM : TWD
   prime sur la traduction de convenance USD). Parités fixes (SAR 3,75) plutôt que cotations Yahoo bruitées.
+- **WACC par devise (21 nov.)** : Rf = 10 ans souverain de la devise des COMPTES (`config.RF_FIELD_BY_CURRENCY`,
+  champs de macro.json) ; TWD sans source gratuite → US 10Y + flag `rf_currency_proxy`.
+- **Dette nette** : dette + leases financiers − cash − placements CT (`metrics.net_debt_detail`) ; placements
+  CT non publiés cette année → non déduits et signalés (asymétrie volontaire, sens prudent).
+- **Valeurs n/m** : SGR/ROIC non significatifs (réinvestissement < 0 ou > 1, capital investi < 10 % de l'actif)
+  → statut `n/m` + raison + flag ; seuils dans `sainhe_backend/config.py`, publiés dans `valuation_map.thresholds`.
 - **Règles N/D du moteur** : composante de dette publiée d'autres années mais pas cette année → N/D (pas 0) ;
   Kd N/D → WACC all-equity ; impôt N/D → EPV N/D ; croissance perpétuelle ≤ min(Rf, ke − 2 pts) ;
   opération sur titres non entière après le dernier exercice (spin-off) → valorisation N/D + flag.

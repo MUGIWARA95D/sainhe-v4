@@ -1,10 +1,10 @@
 {
   "ticker": "CTVA",
   "cik": 1755672,
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 7.975,
+    "prix": 7.89,
     "EPV": {
       "value": "N/D",
       "note": "N/D — comptes antérieurs à une opération sur titres (spin-off)"
@@ -39,7 +39,7 @@
       "value": "N/D",
       "note": "N/D — comptes antérieurs à une opération sur titres (spin-off)"
     },
-    "flag_growth_unfinanceable": false
+    "flag_growth_unfinanceable": "N/D"
   },
   "bloc_B_flags": [
     {
@@ -54,6 +54,16 @@
             "date": "2026-11-10"
           }
         ]
+      }
+    },
+    {
+      "id": "sgr_not_meaningful",
+      "severity": "info",
+      "message": "SGR non significatif (negative_net_reinvestment) : taux de réinvestissement -23%",
+      "details": {
+        "reason": "negative_net_reinvestment",
+        "rr": -0.227411,
+        "sgr": -0.013652
       }
     },
     {
@@ -87,12 +97,22 @@
     "roic_10y": {
       "2018": -0.0802,
       "2019": -0.0068,
-      "2020": 0.036,
-      "2021": 0.0837,
-      "2022": 0.0548,
-      "2023": 0.0459,
-      "2024": 0.0436,
+      "2020": 0.0364,
+      "2021": 0.084,
+      "2022": 0.0551,
+      "2023": 0.0461,
+      "2024": 0.0438,
       "2025": 0.06
+    },
+    "invested_capital_share_10y": {
+      "2018": 0.739058,
+      "2019": 0.534519,
+      "2020": 0.518981,
+      "2021": 0.518515,
+      "2022": 0.546577,
+      "2023": 0.576426,
+      "2024": 0.571292,
+      "2025": 0.518007
     },
     "rnoa_10y": {
       "2018": -0.0797,
@@ -156,7 +176,7 @@
     }
   },
   "bloc_E_health": {
-    "net_debt_ebitda": -0.632042,
+    "net_debt_ebitda": -0.634972,
     "interest_coverage": 10.377778,
     "lt_debt_payback": {
       "years": 1.541133,
@@ -177,7 +197,7 @@
     "retained_earnings_test": {
       "ratio": 0.783098,
       "retained_5y": 3455000000.0,
-      "delta_mcap": 2705602506.256104,
+      "delta_mcap": 2705602572.822571,
       "passes": false,
       "window": [
         2020,
@@ -294,14 +314,16 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.10052,
-      "ke": 0.10052,
+      "wacc": 0.09912,
+      "ke": 0.09912,
       "kd": 0.069767,
       "tax_rate": 0.28673,
       "E": "N/D",
       "D": 2580000000.0,
-      "rf": 0.05052,
+      "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf_currency": "USD",
+      "rf_proxy": false,
       "erp": 0.05,
       "beta": 1.0,
       "beta_raw": "N/D",
@@ -333,6 +355,16 @@
       "NOA": 22436000000.0,
       "NFO": -1950000000.0,
       "equity_check": 242000000.0
+    },
+    "net_debt_detail": {
+      "fy": 2025,
+      "lt_debt": 1686000000.0,
+      "st_debt": 894000000.0,
+      "finance_leases": 0.0,
+      "cash": 4521000000.0,
+      "st_investments": 9000000.0,
+      "st_investments_deducted": true,
+      "net_debt": -1950000000.0
     },
     "three_statement_10y": {
       "revenue": {
@@ -1168,8 +1200,8 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 7.975,
-    "price_in_reporting_currency": 7.975,
+    "price_listing": 7.89,
+    "price_in_reporting_currency": 7.89,
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",

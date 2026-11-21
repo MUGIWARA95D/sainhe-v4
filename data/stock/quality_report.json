@@ -17,6 +17,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2026-09-26",
+          "xbrl": 478834000000.0,
+          "xbrl_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2026-09-30",
+          "second_value": 478834000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2026-09-26",
+          "xbrl": 132175000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2026-09-30",
+          "second_value": 132175000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2026-09-26",
+          "xbrl": 404548000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2026-09-30",
+          "second_value": 404548000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2026-09-26",
+          "xbrl": 36305000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2026-09-30",
+          "second_value": 36305000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "ASML": {
@@ -36,6 +94,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 32667300000.0,
+          "xbrl_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 32667300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 9609400000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 9609400000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 50566600000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 50566600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 12916000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 12916000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "CAT": {
@@ -54,6 +170,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 67589000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 67589000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 8882000000.0,
+          "xbrl_tag": "ProfitLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 8884000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 98585000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 98585000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 9980000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 9980000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": []
     },
@@ -75,6 +249,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 1464900000.0,
+          "xbrl_tag": "Revenue",
+          "filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 1464900000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 103400000.0,
+          "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
+          "filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 103400000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 2586700000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 2586700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 232000000.0,
+          "xbrl_tag": "CashAndCashEquivalents",
+          "filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 232000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "CTVA": {
@@ -94,6 +326,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 17401000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 17401000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 1094000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 1094000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 42845000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 42845000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 4521000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 4521000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": []
     },
@@ -115,6 +405,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-11-02",
+          "xbrl": 45684000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-10-31",
+          "second_value": 44665000000.0,
+          "gap_pct": 2.28,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-11-02",
+          "xbrl": 5027000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-10-31",
+          "second_value": 5027000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-11-02",
+          "xbrl": 105996000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-10-31",
+          "second_value": 105996000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-11-02",
+          "xbrl": 8276000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-10-31",
+          "second_value": 8276000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "ECL": {
@@ -133,6 +481,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 16081200000.0,
+          "xbrl_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/31462/000110465926018357/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 16081200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 2075600000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/31462/000110465926018357/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 2075600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 24696300000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/31462/000110465926018357/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 24696300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 646200000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/31462/000110465926018357/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 646200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": []
     },
@@ -153,6 +559,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 38068000000.0,
+          "xbrl_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 38068000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 4884000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 4884000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 63016000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 63016000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 8848000000.0,
+          "xbrl_tag": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 8848000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "ISRG": {
@@ -171,6 +635,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 10064700000.0,
+          "xbrl_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000010/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 10064700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 2856000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000010/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 2856000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 20458700000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000010/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 20458700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 3368000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000010/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 3368000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": []
     },
@@ -191,6 +713,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 47941000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 47941000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 13107000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 13107000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 104816000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 104816000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 10270000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 10270000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "LDO.MI": {
@@ -210,6 +790,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2024-12-31",
+          "xbrl": 17763000000.0,
+          "xbrl_tag": "Revenue",
+          "filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2024-12-31",
+          "second_value": 17763000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2024-12-31",
+          "xbrl": 1074000000.0,
+          "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
+          "filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2024-12-31",
+          "second_value": 1074000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2024-12-31",
+          "xbrl": 33673000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2024-12-31",
+          "second_value": 33673000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2024-12-31",
+          "xbrl": 2556000000.0,
+          "xbrl_tag": "CashAndCashEquivalents",
+          "filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2024-12-31",
+          "second_value": 2556000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": [
         {
@@ -236,6 +874,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 75048000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 75048000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 5017000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 5017000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 59840000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 59840000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 4121000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/936468/000162828026004195/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 4121000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "MSFT": {
@@ -254,6 +950,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2026-06-30",
+          "xbrl": 331839000000.0,
+          "xbrl_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2026-06-30",
+          "second_value": 331839000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2026-06-30",
+          "xbrl": 133749000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2026-06-30",
+          "second_value": 133749000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2026-06-30",
+          "xbrl": 758376000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2026-06-30",
+          "second_value": 758376000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2026-06-30",
+          "xbrl": 20935000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2026-06-30",
+          "second_value": 20935000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": []
     },
@@ -274,6 +1028,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2026-01-25",
+          "xbrl": 215938000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2026-01-31",
+          "second_value": 215938000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2026-01-25",
+          "xbrl": 120067000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2026-01-31",
+          "second_value": 120067000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2026-01-25",
+          "xbrl": 206803000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2026-01-31",
+          "second_value": 206803000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2026-01-25",
+          "xbrl": 10605000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2026-01-31",
+          "second_value": 10605000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "RACE": {
@@ -292,6 +1104,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 7145768000.0,
+          "xbrl_tag": "Revenue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 7145768000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 1596919000.0,
+          "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 1596919000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 9628352000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 9628352000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 1467711000.0,
+          "xbrl_tag": "CashAndCashEquivalents",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 1467711000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": []
     },
@@ -313,6 +1183,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 16002000000.0,
+          "xbrl_tag": "Revenue",
+          "filing_url": "https://filings.xbrl.org/969500Y4IJGHJE2MTJ13/2026-12-31/ESEF/FR/0/hermes-2025-12-31-1/reports/ixbrlviewer.html",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 16001000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 4524000000.0,
+          "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
+          "filing_url": "https://filings.xbrl.org/969500Y4IJGHJE2MTJ13/2026-12-31/ESEF/FR/0/hermes-2025-12-31-1/reports/ixbrlviewer.html",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 4524000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 24322000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://filings.xbrl.org/969500Y4IJGHJE2MTJ13/2026-12-31/ESEF/FR/0/hermes-2025-12-31-1/reports/ixbrlviewer.html",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 24322000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 12239000000.0,
+          "xbrl_tag": "CashAndCashEquivalents",
+          "filing_url": "https://filings.xbrl.org/969500Y4IJGHJE2MTJ13/2026-12-31/ESEF/FR/0/hermes-2025-12-31-1/reports/ixbrlviewer.html",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 12239000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "TSLA": {
@@ -331,6 +1259,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 94827000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 94827000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 3794000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 3794000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 137806000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 137806000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 16513000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 16513000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": []
     },
@@ -351,6 +1337,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2024-12-31",
+          "xbrl": 2894307700000.0,
+          "xbrl_tag": "Revenue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2024-12-31",
+          "second_value": 2894307700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2024-12-31",
+          "xbrl": 1158380200000.0,
+          "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2024-12-31",
+          "second_value": 1158380200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2024-12-31",
+          "xbrl": 6691764700000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2024-12-31",
+          "second_value": 6691764700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2024-12-31",
+          "xbrl": 2127627000000.0,
+          "xbrl_tag": "CashAndCashEquivalents",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2024-12-31",
+          "second_value": 2127627000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": [
         {
@@ -377,6 +1421,64 @@
         "total_assets",
         "cash"
       ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 332238000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/2115436/000003408826000045/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 323905000000.0,
+          "gap_pct": 2.57,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 28844000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/2115436/000003408826000045/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 28844000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 448980000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/2115436/000003408826000045/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 448980000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 10681000000.0,
+          "xbrl_tag": "CashAndCashEquivalentsAtCarryingValue",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/2115436/000003408826000045/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 10681000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "ZTS": {
@@ -395,6 +1497,64 @@
         "net_income",
         "total_assets",
         "cash"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 9467000000.0,
+          "xbrl_tag": "Revenues",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000011/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Total Revenue",
+          "second_source_period": "2025-12-31",
+          "second_value": 9467000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 2673000000.0,
+          "xbrl_tag": "NetIncomeLoss",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000011/",
+          "second_source": "yfinance income_stmt",
+          "second_source_row": "Net Income Common Stockholders",
+          "second_source_period": "2025-12-31",
+          "second_value": 2673000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 15467000000.0,
+          "xbrl_tag": "Assets",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000011/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Total Assets",
+          "second_source_period": "2025-12-31",
+          "second_value": 15467000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 2312000000.0,
+          "xbrl_tag": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000011/",
+          "second_source": "yfinance balance_sheet",
+          "second_source_row": "Cash And Cash Equivalents",
+          "second_source_period": "2025-12-31",
+          "second_value": 2310000000.0,
+          "gap_pct": 0.09,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
       ],
       "issues": []
     }
