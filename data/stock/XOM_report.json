@@ -195,7 +195,7 @@
     "retained_earnings_test": {
       "ratio": 3.696853,
       "retained_5y": 98575000000.0,
-      "delta_mcap": 364417256076.0563,
+      "delta_mcap": 364417239770.9502,
       "passes": true,
       "window": [
         2020,

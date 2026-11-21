@@ -227,8 +227,12 @@
     "note": "rempli par peer_batch.build_peer_blocks() sur l'univers complet"
   },
   "bloc_G_smart_money": {
-    "n_insider_filings_6m": 29,
+    "n_insider_filings_6m": 30,
     "recent": [
+      {
+        "form": "4",
+        "date": "2026-11-20"
+      },
       {
         "form": "4",
         "date": "2026-11-18"
@@ -304,10 +308,6 @@
       {
         "form": "4",
         "date": "2026-08-12"
-      },
-      {
-        "form": "4",
-        "date": "2026-08-11"
       }
     ],
     "note": "détail buy/sell = Phase 6 (parsing Form 4 XML)"

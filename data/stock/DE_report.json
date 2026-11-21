@@ -166,9 +166,9 @@
     "ocf_ni": 1.483788,
     "accruals_pct_rev": -0.053235,
     "retained_earnings_test": {
-      "ratio": 1.638054,
+      "ratio": 1.638053,
       "retained_5y": 28282000000.0,
-      "delta_mcap": 46327448248.291016,
+      "delta_mcap": 46327428924.56055,
       "passes": true,
       "window": [
         2020,
