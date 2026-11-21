@@ -1,0 +1,837 @@
+{
+  "ticker": "GEBN.SW",
+  "cik": 0,
+  "as_of": "2026-11-21",
+  "fiscal_year": 2025,
+  "bloc_A_verdict": {
+    "prix": 575.0,
+    "EPV": {
+      "epv_ev": 11624958354.486757,
+      "epv_equity": 10912958354.486757,
+      "epv_per_share": 329.278811,
+      "inputs": {
+        "ebit_adj": 767200000.0,
+        "tax": 0.186224,
+        "wacc": 0.053706,
+        "net_debt": 712000000.0
+      }
+    },
+    "EPV_confidence_range": {
+      "low": 280.848559,
+      "high": 324.447512,
+      "fcf_p25": 598750000.0,
+      "fcf_p75": 691700000.0
+    },
+    "EPV_wacc_sensitivity": {
+      "minus_100bps": 409.533868,
+      "central": 329.278811,
+      "plus_100bps": 274.219232
+    },
+    "RE_valuation": {
+      "re_value_equity": 11374617420.16557,
+      "re_value_per_share": 343.20854,
+      "inputs": {
+        "B0": 1517100000.0,
+        "RE": 512581458.8,
+        "ke": 0.056172,
+        "g": 0.0051,
+        "g_sgr": 0.012875,
+        "g_cap": 0.0051
+      }
+    },
+    "consensus": {
+      "available": true,
+      "target_mean": 584.73334,
+      "target_median": 600.0,
+      "target_high": 655.0,
+      "target_low": 484.0,
+      "n_analysts": 15,
+      "warning_few_analysts": false,
+      "dispersion": 0.292441
+    },
+    "reverse_dcf": {
+      "implied_g": 0.017571,
+      "flag_unrealistic": false,
+      "inputs": {
+        "ev": 19768650000.0,
+        "fcf_adj": 702000000.0,
+        "wacc": 0.053706
+      }
+    },
+    "SGR": {
+      "sgr": 0.012875,
+      "rr": 0.045969,
+      "roic": 0.280081,
+      "status": "ok",
+      "nm_reason": "N/D",
+      "invested_capital_share_of_assets": 0.577801
+    },
+    "flag_growth_unfinanceable": true
+  },
+  "bloc_B_flags": [],
+  "bloc_C_dupont": {
+    "available": true,
+    "fy": 2025,
+    "RNOA": 0.280081,
+    "FLEV": 0.469316,
+    "NBC": 0.031888,
+    "SPREAD": 0.248193,
+    "leverage_gain": 0.116481,
+    "ROE_dupont": 0.396562,
+    "ROE_direct": 0.394041,
+    "coherence_gap": 0.0025,
+    "net_cash_position": false
+  },
+  "bloc_D_trends": {
+    "roic_10y": {
+      "2022": 0.3186,
+      "2023": 0.2864,
+      "2024": 0.2785,
+      "2025": 0.2801
+    },
+    "invested_capital_share_10y": {
+      "2022": 0.658754,
+      "2023": 0.627636,
+      "2024": 0.608267,
+      "2025": 0.577801
+    },
+    "rnoa_10y": {
+      "2022": 0.3186,
+      "2023": 0.2864,
+      "2024": 0.2785,
+      "2025": 0.2801
+    },
+    "gross_margin_10y": {
+      "2022": 0.6832,
+      "2023": 0.7125,
+      "2024": 0.7285,
+      "2025": 0.7364
+    },
+    "fcf_adj_10y": {
+      "2022": 580900000.0,
+      "2023": 660800000.0,
+      "2024": 652300000.0,
+      "2025": 702000000.0
+    },
+    "roe_10y": {
+      "2022": 0.4718,
+      "2023": 0.4674,
+      "2024": 0.4586,
+      "2025": 0.394
+    },
+    "owner_earnings_10y": {
+      "2022": 582400000.0,
+      "2023": 710300000.0,
+      "2024": 697900000.0,
+      "2025": 703500000.0
+    },
+    "revenue_10y": {
+      "2022": 3391900000.0,
+      "2023": 3083900000.0,
+      "2024": 3085500000.0,
+      "2025": 3162900000.0
+    }
+  },
+  "bloc_E_health": {
+    "net_debt_ebitda": 0.765098,
+    "interest_coverage": 27.498208,
+    "lt_debt_payback": {
+      "years": 1.825025,
+      "passes": true,
+      "label": "source secondaire"
+    },
+    "current_ratio": 1.539798,
+    "quick_ratio": 1.10965,
+    "de_ratio": 0.855448,
+    "ccc": {
+      "dso": 28.111543,
+      "dio": 160.431862,
+      "dpo": 37.787308,
+      "ccc": 150.756097
+    },
+    "ocf_ni": 1.450151,
+    "accruals_pct_rev": -0.08508,
+    "retained_earnings_test": {
+      "ratio": "N/D",
+      "note": "moins de 6 ans de données"
+    }
+  },
+  "bloc_F_peers": {
+    "note": "rempli par peer_batch.build_peer_blocks() sur l'univers complet"
+  },
+  "bloc_G_smart_money": {
+    "value": "N/D",
+    "note": "pas de dépôts d'initiés accessibles pour cette source"
+  },
+  "bloc_H_sensitivity": {
+    "margin_axis": [
+      0.1961,
+      0.1974,
+      0.2036,
+      0.2097,
+      0.2147
+    ],
+    "g_axis": [
+      0.0,
+      0.0013,
+      0.0026,
+      0.0038,
+      0.0051
+    ],
+    "matrix": [
+      [
+        333.21,
+        338.58,
+        344.2,
+        350.09,
+        356.28
+      ],
+      [
+        335.36,
+        340.77,
+        346.43,
+        352.37,
+        358.6
+      ],
+      [
+        345.91,
+        351.51,
+        357.38,
+        363.53,
+        369.99
+      ],
+      [
+        356.33,
+        362.13,
+        368.2,
+        374.57,
+        381.25
+      ],
+      [
+        364.69,
+        370.65,
+        376.88,
+        383.42,
+        390.29
+      ]
+    ]
+  },
+  "bloc_I_macro": {
+    "leading_indicator": {
+      "indicator": "PMI Manufacturing",
+      "value": "N/D",
+      "label": "contexte macro — indicateur avancé, pas une prédiction"
+    },
+    "geographic_exposure": {
+      "us_pct": "N/D",
+      "non_us_pct": "N/D",
+      "source": "yfinance country (HQ)",
+      "country": "Switzerland",
+      "note": "HQ Switzerland ; ventilation US/non-US indisponible en v1"
+    }
+  },
+  "drill_down": {
+    "wacc_detail": {
+      "wacc": 0.053706,
+      "ke": 0.056172,
+      "kd": 0.021498,
+      "tax_rate": 0.186224,
+      "E": 19056650000.0,
+      "D": 1297800000.0,
+      "rf": 0.0051,
+      "rf_source": "FRED IRLTLT01CHM156N (OECD long-term yield, 2026-10-01)",
+      "rf_currency": "CHF",
+      "rf_proxy": false,
+      "rf_proxy_reason": "N/D",
+      "erp": 0.05,
+      "beta": 1.02144,
+      "beta_raw": 1.032,
+      "mode": "complet"
+    },
+    "adjustments": {
+      "fy": 2025,
+      "ni_brut": 597800000.0,
+      "ni_adj": 597800000.0,
+      "ebit_brut": 767200000.0,
+      "ebit_adj": 767200000.0,
+      "adjustments": [],
+      "gap_pct": 0.0,
+      "gap_flag": false
+    },
+    "reformulation": {
+      "OA": 3272100000.0,
+      "FA": 585800000.0,
+      "OO": 1043000000.0,
+      "FO": 1297800000.0,
+      "NOA": 2229100000.0,
+      "NFO": 712000000.0,
+      "equity_check": 0.0
+    },
+    "net_debt_detail": {
+      "fy": 2025,
+      "lt_debt": 1091000000.0,
+      "st_debt": 206800000.0,
+      "finance_leases": 0.0,
+      "cash": 585800000.0,
+      "st_investments": "N/D",
+      "st_investments_deducted": false,
+      "net_debt": 712000000.0
+    },
+    "tax_detail": {
+      "rate": 0.186224,
+      "source": "year",
+      "raw": 0.186224,
+      "years": [
+        2025
+      ]
+    },
+    "three_statement_10y": {
+      "revenue": {
+        "2022": 3391900000.0,
+        "2023": 3083900000.0,
+        "2024": 3085500000.0,
+        "2025": 3162900000.0
+      },
+      "cogs": {
+        "2022": 1074500000.0,
+        "2023": 886700000.0,
+        "2024": 837600000.0,
+        "2025": 833600000.0
+      },
+      "gross_profit": {
+        "2022": 2317400000.0,
+        "2023": 2197200000.0,
+        "2024": 2247900000.0,
+        "2025": 2329300000.0
+      },
+      "opex": {
+        "2022": 1562400000.0,
+        "2023": 1428700000.0,
+        "2024": 1486100000.0,
+        "2025": 1562100000.0
+      },
+      "sga": {
+        "2022": 297400000.0,
+        "2023": 259500000.0,
+        "2024": 277000000.0,
+        "2025": 281200000.0
+      },
+      "ebit": {
+        "2022": 755000000.0,
+        "2023": 768500000.0,
+        "2024": 761800000.0,
+        "2025": 767200000.0
+      },
+      "interest_expense": {
+        "2022": 9600000.0,
+        "2023": 23000000.0,
+        "2024": 28800000.0,
+        "2025": 27900000.0
+      },
+      "tax_expense": {
+        "2022": 34600000.0,
+        "2023": 124800000.0,
+        "2024": 140300000.0,
+        "2025": 136800000.0
+      },
+      "pretax_income": {
+        "2022": 740900000.0,
+        "2023": 741800000.0,
+        "2024": 737400000.0,
+        "2025": 734600000.0
+      },
+      "net_income": {
+        "2022": 706300000.0,
+        "2023": 617000000.0,
+        "2024": 597100000.0,
+        "2025": 597800000.0
+      },
+      "eps_diluted": {
+        "2022": 20.41,
+        "2023": 18.35,
+        "2024": 18.0,
+        "2025": 18.04
+      },
+      "shares_diluted": {
+        "2022": 34607000.0,
+        "2023": 33629000.0,
+        "2024": 33179000.0,
+        "2025": 33142000.0
+      },
+      "cash": {
+        "2022": 205700000.0,
+        "2023": 356800000.0,
+        "2024": 407700000.0,
+        "2025": 585800000.0
+      },
+      "ar": {
+        "2022": 160300000.0,
+        "2023": 212200000.0,
+        "2024": 231100000.0,
+        "2025": 243600000.0
+      },
+      "inventory": {
+        "2022": 393700000.0,
+        "2023": 353000000.0,
+        "2024": 359200000.0,
+        "2025": 366400000.0
+      },
+      "current_assets": {
+        "2022": 882300000.0,
+        "2023": 1026800000.0,
+        "2024": 1128500000.0,
+        "2025": 1311600000.0
+      },
+      "total_assets": {
+        "2022": 3429200000.0,
+        "2023": 3556200000.0,
+        "2024": 3641000000.0,
+        "2025": 3857900000.0
+      },
+      "ppe_net": {
+        "2022": 948300000.0,
+        "2023": 976200000.0,
+        "2024": 1044800000.0,
+        "2025": 1072800000.0
+      },
+      "goodwill": {
+        "2022": 1145100000.0,
+        "2023": 1090100000.0,
+        "2024": 1097800000.0,
+        "2025": 1086900000.0
+      },
+      "intangibles": {
+        "2022": 264500000.0,
+        "2023": 249700000.0,
+        "2024": 234100000.0,
+        "2025": 223800000.0
+      },
+      "ap": {
+        "2022": 98300000.0,
+        "2023": 95800000.0,
+        "2024": 93800000.0,
+        "2025": 86300000.0
+      },
+      "current_liabilities": {
+        "2022": 737400000.0,
+        "2023": 711500000.0,
+        "2024": 854700000.0,
+        "2025": 851800000.0
+      },
+      "lt_debt": {
+        "2022": 811500000.0,
+        "2023": 1137100000.0,
+        "2024": 1088500000.0,
+        "2025": 1091000000.0
+      },
+      "st_debt": {
+        "2022": 156200000.0,
+        "2023": 131600000.0,
+        "2024": 231900000.0,
+        "2025": 206800000.0
+      },
+      "total_liabilities": {
+        "2022": 1932200000.0,
+        "2023": 2236100000.0,
+        "2024": 2339000000.0,
+        "2025": 2340800000.0
+      },
+      "equity": {
+        "2022": 1497000000.0,
+        "2023": 1320100000.0,
+        "2024": 1302000000.0,
+        "2025": 1517100000.0
+      },
+      "shares_outstanding": {
+        "2022": 33929131.0,
+        "2023": 33299117.0,
+        "2024": 32937493.0,
+        "2025": 32973728.0
+      },
+      "ocf": {
+        "2022": 736000000.0,
+        "2023": 857900000.0,
+        "2024": 847600000.0,
+        "2025": 866900000.0
+      },
+      "capex": {
+        "2022": 155100000.0,
+        "2023": 197100000.0,
+        "2024": 195300000.0,
+        "2025": 164900000.0
+      },
+      "buybacks": {
+        "2022": 667400000.0,
+        "2023": 329500000.0,
+        "2024": 214600000.0,
+        "2025": 83300000.0
+      },
+      "dividends_paid": {
+        "2022": 433100000.0,
+        "2023": 423700000.0,
+        "2024": 419500000.0,
+        "2025": 421500000.0
+      },
+      "dep_amort": {
+        "2022": 153600000.0,
+        "2023": 147600000.0,
+        "2024": 149700000.0,
+        "2025": 163400000.0
+      }
+    },
+    "source_map_per_tag": {
+      "revenue": {
+        "value": 3162900000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Revenue",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "cogs": {
+        "value": 833600000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cost Of Revenue",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "gross_profit": {
+        "value": 2329300000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Gross Profit",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "opex": {
+        "value": 1562100000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Expense",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "sga": {
+        "value": 281200000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Selling General And Administration",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "ebit": {
+        "value": 767200000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Income",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "interest_expense": {
+        "value": 27900000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Interest Expense",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "tax_expense": {
+        "value": 136800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Tax Provision",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "pretax_income": {
+        "value": 734600000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Pretax Income",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "net_income": {
+        "value": 597800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Net Income Common Stockholders",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "eps_diluted": {
+        "value": 18.04,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Diluted EPS",
+        "unit": "CHF/shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "shares_diluted": {
+        "value": 33142000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Diluted Average Shares",
+        "unit": "shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "cash": {
+        "value": 585800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash And Cash Equivalents",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "ar": {
+        "value": 243600000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Accounts Receivable",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "inventory": {
+        "value": 366400000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Inventory",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "current_assets": {
+        "value": 1311600000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Assets",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "total_assets": {
+        "value": 3857900000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Assets",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "ppe_net": {
+        "value": 1072800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Net PPE",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "goodwill": {
+        "value": 1086900000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Goodwill",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "intangibles": {
+        "value": 223800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Other Intangible Assets",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "ap": {
+        "value": 86300000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Accounts Payable",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "current_liabilities": {
+        "value": 851800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Liabilities",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "lt_debt": {
+        "value": 1091000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Long Term Debt",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "st_debt": {
+        "value": 206800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Debt",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "total_liabilities": {
+        "value": 2340800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Liabilities Net Minority Interest",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "equity": {
+        "value": 1517100000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "shares_outstanding": {
+        "value": 32973728.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Ordinary Shares Number",
+        "unit": "shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "ocf": {
+        "value": 866900000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Cash Flow",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "capex": {
+        "value": 164900000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Capital Expenditure",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "buybacks": {
+        "value": 83300000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Repurchase Of Capital Stock",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "dividends_paid": {
+        "value": 421500000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash Dividends Paid",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      },
+      "dep_amort": {
+        "value": 163400000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|GEBN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Depreciation And Amortization",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+      }
+    },
+    "edgar_filings_index": "https://finance.yahoo.com/quote/GEBN.SW/financials"
+  },
+  "score_composite": {
+    "value_0_100": 47.8,
+    "pillars": {
+      "valuation": 0,
+      "balance_sheet_health": 85,
+      "earnings_quality": 70,
+      "smart_money": 50,
+      "momentum": 50
+    },
+    "weights": {
+      "valuation": 0.3,
+      "balance_sheet_health": 0.25,
+      "earnings_quality": 0.2,
+      "smart_money": 0.15,
+      "momentum": 0.1
+    },
+    "note": "pondérations modifiables par l'utilisateur (.txt Couche 4)"
+  },
+  "meta": {
+    "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
+    "listing_currency": "CHF",
+    "reporting_currency": "CHF",
+    "price_listing": 575.0,
+    "price_in_reporting_currency": 575.0,
+    "fx_listing_to_reporting": 1.0,
+    "adr_ratio": 1.0,
+    "fiscal_year_end": "2025-12-31",
+    "months_since_fiscal_year_end": 11,
+    "stale_financials": false,
+    "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  }
+}

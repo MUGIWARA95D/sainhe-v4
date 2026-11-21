@@ -15,6 +15,9 @@ def _accn_to_url(cik: int, accn: str) -> str:
     """URL de la source : filing index EDGAR, ou visualiseur iXBRL filings.xbrl.org (ESEF)."""
     if not accn:
         return ""
+    if accn.startswith("YAHOO|"):
+        from secondary.yahoo_statements import page_url
+        return page_url(accn.split("|", 1)[1])
     if accn.startswith("ESEF|"):
         from esef.esef_client import filing_url
         return filing_url(accn)

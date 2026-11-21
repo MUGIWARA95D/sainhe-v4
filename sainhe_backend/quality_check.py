@@ -129,7 +129,9 @@ def main() -> dict:
             continue
         filled = sorted(k for k, path in KEY_FIELDS.items() if _get(r, path) is not None)
         missing = sorted(set(KEY_FIELDS) - set(filled))
-        issues, checked, details = cross_check(r, t, sess)
+        secondary = str(r.get("meta", {}).get("source", "")).startswith("Yahoo")
+        # source secondaire : la seconde source serait la même (Yahoo) → aucun recoupement possible
+        issues, checked, details = ([], [], []) if secondary else cross_check(r, t, sess)
         regress = sorted(prev_filled.get(t, set()) - set(filled))
         if regress:
             issues.append({"type": "nd_regression", "fields": regress,
@@ -140,6 +142,7 @@ def main() -> dict:
                            "months": meta.get("months_since_fiscal_year_end")})
         out["tickers"][t] = {"source": meta.get("source"), "filled_fields": filled,
                              "missing_fields": missing, "cross_checked": checked, "checks": details,
+                             "secondary_source": secondary,
                              "issues": issues}
         log.info("%-7s %d/%d champs, recoupés %s, %d anomalie(s)", t, len(filled), len(KEY_FIELDS),
                  checked or "aucun", len(issues))
@@ -156,6 +159,7 @@ def main() -> dict:
         "n_stale": sum(1 for v in out["tickers"].values() for i in v["issues"]
                        if i["type"] == "stale_financials"),
         "n_pipeline_failures": len(out["pipeline_failures"]),
+        "n_secondary_source": sum(1 for v in out["tickers"].values() if v.get("secondary_source")),
         "note": "n_issues compte les anomalies à corriger (écarts de sources, régressions N/D, "
                 "échecs) ; la fraîcheur est informative (dépend de la date de publication).",
     }

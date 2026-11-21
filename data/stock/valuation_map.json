@@ -11,11 +11,11 @@
       "sgr": 0.170287,
       "roic_years_above_wacc": "8/8",
       "roic_by_year": {
-        "2019": 1.0346,
+        "2019": 0.8398,
         "2020": 0.8124,
         "2021": 0.3622,
         "2022": 0.6025,
-        "2023": 0.2233,
+        "2023": 0.2068,
         "2024": 1.0866,
         "2025": 1.5848,
         "2026": 0.7133
@@ -252,13 +252,13 @@
       "ecart_pct": -0.3889,
       "implied_growth": 0.032758,
       "sgr": 0.009673,
-      "roic_years_above_wacc": "7/10",
+      "roic_years_above_wacc": "6/10",
       "roic_by_year": {
-        "2016": 0.0431,
-        "2017": 0.0908,
+        "2016": 0.0249,
+        "2017": 0.0537,
         "2018": 0.0969,
         "2019": 0.0653,
-        "2020": -0.1013,
+        "2020": -0.0927,
         "2021": 0.1161,
         "2022": 0.2815,
         "2023": 0.1767,
@@ -300,7 +300,7 @@
       "roic_years_above_wacc": "10/10",
       "roic_by_year": {
         "2016": 0.3054,
-        "2017": 0.2303,
+        "2017": 0.4538,
         "2018": 0.4305,
         "2019": 0.5153,
         "2020": 0.4812,
@@ -342,16 +342,12 @@
       "ecart_pct": -0.9477,
       "implied_growth": 0.12016,
       "sgr": 0.067443,
-      "roic_years_above_wacc": "4/10",
+      "roic_years_above_wacc": "4/6",
       "roic_by_year": {
-        "2016": -0.0829,
-        "2017": -0.1493,
-        "2018": -0.0319,
-        "2019": -0.0058,
         "2020": 0.1025,
         "2021": 0.3005,
         "2022": 0.4891,
-        "2023": 0.3443,
+        "2023": 0.2041,
         "2024": 0.1263,
         "2025": 0.0685
       },
@@ -391,42 +387,39 @@
     {
       "ticker": "GEV",
       "prix": 699.33,
-      "epv_per_share": 127.558189,
+      "epv_per_share": "N/D",
       "re_per_share": 185.981121,
-      "ecart_pct": -0.8176,
+      "ecart_pct": "N/D",
       "implied_growth": 0.07936,
-      "sgr": 1.457132,
-      "roic_years_above_wacc": "0/1",
+      "sgr": "N/D",
+      "roic_years_above_wacc": "N/D",
       "roic_by_year": {
-        "2023": -0.5324,
-        "2024": 0.1763,
-        "2025": 0.8965
+        "2024": 0.1763
       },
       "roic_nm_years": [
-        "2024",
-        "2025"
+        "2024"
       ],
       "wacc": 0.101063,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
-      "sgr_status": "n/m",
-      "sgr_nm_reason": "invested_capital_near_zero",
-      "sgr_rr": 1.625294,
+      "sgr_status": "N/D",
+      "sgr_nm_reason": null,
+      "sgr_rr": "N/D",
       "rdcf": {
         "ev": 184508080000.0,
         "fcf_adj": 3710000000.0,
         "market_cap": 193015080000.0,
-        "net_debt": -8507000000.0,
+        "net_debt": null,
         "fiscal_year": 2025
       },
       "flags": [
         {
-          "id": "invested_capital_near_zero",
-          "severity": "medium"
+          "id": "tax_rate_abnormal",
+          "severity": "info"
         }
       ],
-      "score": 40.0,
+      "score": 55.0,
       "n_flags": 1,
       "consensus_median": 1200.0,
       "currency": "USD",
@@ -479,11 +472,8 @@
       "ecart_pct": "N/D",
       "implied_growth": "N/D",
       "sgr": "N/D",
-      "roic_years_above_wacc": "0/8",
+      "roic_years_above_wacc": "0/5",
       "roic_by_year": {
-        "2018": -0.0802,
-        "2019": -0.0068,
-        "2020": 0.0364,
         "2021": 0.084,
         "2022": 0.0551,
         "2023": 0.0461,
@@ -585,10 +575,10 @@
       "ecart_pct": -0.691,
       "implied_growth": 0.058438,
       "sgr": 0.003574,
-      "roic_years_above_wacc": "9/10",
+      "roic_years_above_wacc": "10/10",
       "roic_by_year": {
         "2016": 0.1245,
-        "2017": 0.0272,
+        "2017": 0.1121,
         "2018": 0.1555,
         "2019": 0.1615,
         "2020": 0.1354,
@@ -632,8 +622,8 @@
       "sgr": 0.046521,
       "roic_years_above_wacc": "7/10",
       "roic_by_year": {
-        "2016": -0.0123,
-        "2017": 0.0238,
+        "2016": 0.0239,
+        "2017": 0.0965,
         "2018": 0.1759,
         "2019": 0.1704,
         "2020": 0.1001,
@@ -720,21 +710,22 @@
     {
       "ticker": "TSM",
       "prix": 2105.16232,
-      "epv_per_share": 471.167527,
-      "re_per_share": 417.767511,
-      "ecart_pct": -0.7762,
-      "implied_growth": 0.088901,
+      "epv_per_share": 680.573268,
+      "re_per_share": 612.295477,
+      "ecart_pct": -0.6767,
+      "implied_growth": 0.085856,
       "sgr": "N/D",
-      "roic_years_above_wacc": "5/5",
+      "roic_years_above_wacc": "6/6",
       "roic_by_year": {
         "2020": 0.3907,
         "2021": 0.4815,
         "2022": 0.6145,
         "2023": 0.4049,
-        "2024": 0.4929
+        "2024": 0.4929,
+        "2025": 0.5816
       },
       "roic_nm_years": [],
-      "wacc": 0.106904,
+      "wacc": 0.106768,
       "rf": 0.04912,
       "rf_currency": "TWD",
       "rf_proxy": true,
@@ -742,16 +733,16 @@
       "sgr_nm_reason": null,
       "sgr_rr": "N/D",
       "rdcf": {
-        "ev": 52555019029463.54,
-        "fcf_adj": 868927900000.0,
-        "market_cap": 54590963729463.54,
-        "net_debt": -2035944700000.0,
-        "fiscal_year": 2024
+        "ev": 51994698451671.164,
+        "fcf_adj": 1001319000000.0,
+        "market_cap": 54585794651671.164,
+        "net_debt": -2591096200000.0,
+        "fiscal_year": 2025
       },
       "flags": [
         {
           "id": "rf_currency_proxy",
-          "severity": "info"
+          "severity": "medium"
         }
       ],
       "score": 42.8,
@@ -759,8 +750,8 @@
       "consensus_median": 3698.945435,
       "currency": "TWD",
       "source": "SEC EDGAR 20-F",
-      "fiscal_year_end": "2024-12-31",
-      "stale_financials": true
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
     },
     {
       "ticker": "RACE",
@@ -861,93 +852,471 @@
     {
       "ticker": "LDO.MI",
       "prix": 47.83,
-      "epv_per_share": "N/D",
-      "re_per_share": 29.316294,
-      "ecart_pct": "N/D",
-      "implied_growth": "N/D",
-      "sgr": "N/D",
-      "roic_years_above_wacc": "N/D",
-      "roic_by_year": {},
+      "epv_per_share": 40.068055,
+      "re_per_share": 48.819093,
+      "ecart_pct": -0.1623,
+      "implied_growth": 0.031421,
+      "sgr": 0.115456,
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2022": 0.0877,
+        "2023": 0.0871,
+        "2024": 0.1,
+        "2025": 0.1356
+      },
       "roic_nm_years": [],
-      "wacc": 0.066408,
+      "wacc": 0.058239,
       "rf": 0.03442,
       "rf_currency": "EUR",
       "rf_proxy": false,
-      "sgr_status": "N/D",
-      "sgr_nm_reason": null,
-      "sgr_rr": "N/D",
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.851558,
       "rdcf": {
-        "ev": null,
-        "fcf_adj": null,
-        "market_cap": 27543924932.975872,
-        "net_debt": null,
-        "fiscal_year": 2024
+        "ev": 28230004760.0,
+        "fcf_adj": 734000000.0,
+        "market_cap": 27587004760.0,
+        "net_debt": 643000000.0,
+        "fiscal_year": 2025
       },
       "flags": [],
-      "score": 50.0,
+      "score": 53.0,
       "n_flags": 0,
       "consensus_median": 69.0,
       "currency": "EUR",
-      "source": "ESEF (filings.xbrl.org)",
-      "fiscal_year_end": "2024-12-31",
-      "stale_financials": true
+      "source": "Yahoo Finance statements (secondary) — ESEF 2024 incomplete (ebit, ocf, capex, pretax_income not tagged)",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
     },
     {
       "ticker": "COA.L",
       "prix": 0.951702,
-      "epv_per_share": 0.718991,
-      "re_per_share": 0.550187,
-      "ecart_pct": -0.2445,
-      "implied_growth": "N/D",
-      "sgr": "N/D",
-      "roic_years_above_wacc": "5/5",
+      "epv_per_share": 0.988235,
+      "re_per_share": 0.55028,
+      "ecart_pct": 0.0384,
+      "implied_growth": -0.000709,
+      "sgr": -0.028819,
+      "roic_years_above_wacc": "4/4",
       "roic_by_year": {
-        "2020": -4.9242,
-        "2021": 0.1779,
-        "2022": 0.1143,
-        "2023": 0.1492,
-        "2024": 0.1804,
-        "2025": 0.1065
+        "2022": 0.1367,
+        "2023": 0.15,
+        "2024": 0.2034,
+        "2025": 0.1273
       },
-      "roic_nm_years": [
-        "2020"
-      ],
-      "wacc": 0.078669,
+      "roic_nm_years": [],
+      "wacc": 0.07656,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
-      "sgr_status": "N/D",
-      "sgr_nm_reason": null,
-      "sgr_rr": "N/D",
+      "sgr_status": "n/m",
+      "sgr_nm_reason": "negative_net_reinvestment",
+      "sgr_rr": -0.226454,
       "rdcf": {
-        "ev": null,
-        "fcf_adj": null,
-        "market_cap": 1676422213.357596,
-        "net_debt": 814200000.0,
+        "ev": 2490837513.414979,
+        "fcf_adj": 192600000.0,
+        "market_cap": 1676137513.414979,
+        "net_debt": 814700000.0,
         "fiscal_year": 2025
       },
       "flags": [
         {
           "id": "altman_distress",
           "severity": "high"
+        },
+        {
+          "id": "sgr_not_meaningful",
+          "severity": "info"
         }
       ],
-      "score": 39.3,
-      "n_flags": 1,
+      "score": 58.8,
+      "n_flags": 2,
       "consensus_median": 1.57044,
       "currency": "USD",
-      "source": "ESEF (filings.xbrl.org)",
+      "source": "Yahoo Finance statements (secondary) — ESEF 2025 incomplete (capex not tagged)",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "ROP.SW",
+      "prix": 396.8,
+      "epv_per_share": 556.623374,
+      "re_per_share": 573.324705,
+      "ecart_pct": 0.4028,
+      "implied_growth": -0.003912,
+      "sgr": 0.048016,
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2022": 0.3324,
+        "2023": 0.2814,
+        "2024": 0.2129,
+        "2025": 0.3006
+      },
+      "roic_nm_years": [],
+      "wacc": 0.032434,
+      "rf": 0.0051,
+      "rf_currency": "CHF",
+      "rf_proxy": false,
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.15971,
+      "rdcf": {
+        "ev": 334790400000.0,
+        "fcf_adj": 12216000000.0,
+        "market_cap": 318630400000.0,
+        "net_debt": 16160000000.0,
+        "fiscal_year": 2025
+      },
+      "flags": [],
+      "score": 77.8,
+      "n_flags": 0,
+      "consensus_median": 410.0,
+      "currency": "CHF",
+      "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "NESN.SW",
+      "prix": 85.55,
+      "epv_per_share": 111.261975,
+      "re_per_share": 104.227759,
+      "ecart_pct": 0.3005,
+      "implied_growth": -0.012428,
+      "sgr": 0.027865,
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2022": 0.3365,
+        "2023": 0.4288,
+        "2024": 0.4129,
+        "2025": 0.3924
+      },
+      "roic_nm_years": [],
+      "wacc": 0.037579,
+      "rf": 0.0051,
+      "rf_currency": "CHF",
+      "rf_proxy": false,
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.07101,
+      "rdcf": {
+        "ev": 214446800000.0,
+        "fcf_adj": 10859000000.0,
+        "market_cap": 220376800000.0,
+        "net_debt": -5930000000.0,
+        "fiscal_year": 2025
+      },
+      "flags": [],
+      "score": 74.0,
+      "n_flags": 0,
+      "consensus_median": 89.0,
+      "currency": "CHF",
+      "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "GEBN.SW",
+      "prix": 575.0,
+      "epv_per_share": 329.278811,
+      "re_per_share": 343.20854,
+      "ecart_pct": -0.4273,
+      "implied_growth": 0.017571,
+      "sgr": 0.012875,
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2022": 0.3186,
+        "2023": 0.2864,
+        "2024": 0.2785,
+        "2025": 0.2801
+      },
+      "roic_nm_years": [],
+      "wacc": 0.053706,
+      "rf": 0.0051,
+      "rf_currency": "CHF",
+      "rf_proxy": false,
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.045969,
+      "rdcf": {
+        "ev": 19768650000.0,
+        "fcf_adj": 702000000.0,
+        "market_cap": 19056650000.0,
+        "net_debt": 712000000.0,
+        "fiscal_year": 2025
+      },
+      "flags": [],
+      "score": 47.8,
+      "n_flags": 0,
+      "consensus_median": 600.0,
+      "currency": "CHF",
+      "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "6954.T",
+      "prix": 5047.0,
+      "epv_per_share": 2703.455359,
+      "re_per_share": 2307.052142,
+      "ecart_pct": -0.4643,
+      "implied_growth": 0.01823,
+      "sgr": -0.031795,
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2023": 0.1332,
+        "2024": 0.0907,
+        "2025": 0.1093,
+        "2026": 0.1232
+      },
+      "roic_nm_years": [],
+      "wacc": 0.07736,
+      "rf": 0.0287,
+      "rf_currency": "JPY",
+      "rf_proxy": false,
+      "sgr_status": "n/m",
+      "sgr_nm_reason": "negative_net_reinvestment",
+      "sgr_rr": -0.258142,
+      "rdcf": {
+        "ev": 3955748456220.0,
+        "fcf_adj": 229715000000.0,
+        "market_cap": 4709619456220.0,
+        "net_debt": -753871000000.0,
+        "fiscal_year": 2026
+      },
+      "flags": [
+        {
+          "id": "sgr_not_meaningful",
+          "severity": "info"
+        }
+      ],
+      "score": 44.0,
+      "n_flags": 1,
+      "consensus_median": 7000.0,
+      "currency": "JPY",
+      "source": "Yahoo Finance statements (secondary) — Japan: EDINET requires an API key",
+      "fiscal_year_end": "2026-03-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "2222.SR",
+      "prix": 26.48,
+      "epv_per_share": 24.201102,
+      "re_per_share": 50.114573,
+      "ecart_pct": -0.0861,
+      "implied_growth": 0.012273,
+      "sgr": 0.054099,
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2022": 0.4688,
+        "2023": 0.3224,
+        "2024": 0.2707,
+        "2025": 0.2457
+      },
+      "roic_nm_years": [],
+      "wacc": 0.062844,
+      "rf": 0.04912,
+      "rf_currency": "SAR",
+      "rf_proxy": true,
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.220209,
+      "rdcf": {
+        "ev": 6412378360000.0,
+        "fcf_adj": 320354000000.0,
+        "market_cap": 6405035360000.0,
+        "net_debt": 7343000000.0,
+        "fiscal_year": 2025
+      },
+      "flags": [
+        {
+          "id": "rf_currency_proxy",
+          "severity": "info"
+        }
+      ],
+      "score": 57.6,
+      "n_flags": 1,
+      "consensus_median": 29.55,
+      "currency": "SAR",
+      "source": "Yahoo Finance statements (secondary) — Saudi Arabia: no public XBRL feed",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "600111.SS",
+      "prix": 31.91,
+      "epv_per_share": 14.100263,
+      "re_per_share": 10.603212,
+      "ecart_pct": -0.5581,
+      "implied_growth": "N/D",
+      "sgr": 0.102769,
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2022": 0.4221,
+        "2023": 0.1504,
+        "2024": 0.0861,
+        "2025": 0.1265
+      },
+      "roic_nm_years": [],
+      "wacc": 0.062042,
+      "rf": 0.0158,
+      "rf_currency": "CNY",
+      "rf_proxy": false,
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.81256,
+      "rdcf": {
+        "ev": null,
+        "fcf_adj": null,
+        "market_cap": 115365491996.88,
+        "net_debt": 678209467.22,
+        "fiscal_year": 2025
+      },
+      "flags": [],
+      "score": 38.8,
+      "n_flags": 0,
+      "consensus_median": 56.0,
+      "currency": "CNY",
+      "source": "Yahoo Finance statements (secondary) — China: no public XBRL feed",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "KAP.L",
+      "prix": 12779.467969,
+      "epv_per_share": 30720.244521,
+      "re_per_share": 26977.174704,
+      "ecart_pct": 1.4039,
+      "implied_growth": -0.091505,
+      "sgr": "N/D",
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2022": 0.281,
+        "2023": 0.3708,
+        "2024": 0.3441,
+        "2025": 0.3006
+      },
+      "roic_nm_years": [],
+      "wacc": 0.080762,
+      "rf": 0.04912,
+      "rf_currency": "KZT",
+      "rf_proxy": true,
+      "sgr_status": "N/D",
+      "sgr_nm_reason": null,
+      "sgr_rr": "N/D",
+      "rdcf": {
+        "ev": 3058404473971.0938,
+        "fcf_adj": 579929000000.0,
+        "market_cap": 3314444473971.0938,
+        "net_debt": -256040000000.0,
+        "fiscal_year": 2025
+      },
+      "flags": [
+        {
+          "id": "rf_currency_proxy",
+          "severity": "medium"
+        }
+      ],
+      "score": 72.8,
+      "n_flags": 1,
+      "consensus_median": 38729.655577,
+      "currency": "KZT",
+      "source": "Yahoo Finance statements (secondary) — Kazakhstan: no public XBRL feed",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "SAF.PA",
+      "prix": 292.7,
+      "epv_per_share": 103.046,
+      "re_per_share": 299.763826,
+      "ecart_pct": -0.6479,
+      "implied_growth": 0.046787,
+      "sgr": 0.12519,
+      "roic_years_above_wacc": "2/2",
+      "roic_by_year": {
+        "2023": 0.2189,
+        "2025": 0.2611
+      },
+      "roic_nm_years": [],
+      "wacc": 0.080053,
+      "rf": 0.03442,
+      "rf_currency": "EUR",
+      "rf_proxy": false,
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.479422,
+      "rdcf": {
+        "ev": 119952379272.2,
+        "fcf_adj": 3812000000.0,
+        "market_cap": 122314379272.2,
+        "net_debt": -2362000000.0,
+        "fiscal_year": 2025
+      },
+      "flags": [],
+      "score": 43.8,
+      "n_flags": 0,
+      "consensus_median": 351.5,
+      "currency": "EUR",
+      "source": "Yahoo Finance statements (secondary) — ESEF report not indexed on filings.xbrl.org",
+      "fiscal_year_end": "2025-12-31",
+      "stale_financials": false
+    },
+    {
+      "ticker": "RHM.DE",
+      "prix": 693.4,
+      "epv_per_share": 424.844926,
+      "re_per_share": 326.501603,
+      "ecart_pct": -0.3873,
+      "implied_growth": 0.020972,
+      "sgr": 0.207868,
+      "roic_years_above_wacc": "4/4",
+      "roic_by_year": {
+        "2022": 0.1948,
+        "2023": 0.1633,
+        "2024": 0.1958,
+        "2025": 0.2964
+      },
+      "roic_nm_years": [],
+      "wacc": 0.066634,
+      "rf": 0.03442,
+      "rf_currency": "EUR",
+      "rf_proxy": false,
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.701354,
+      "rdcf": {
+        "ev": 31639044000.0,
+        "fcf_adj": 1415000000.0,
+        "market_cap": 32354044000.0,
+        "net_debt": -715000000.0,
+        "fiscal_year": 2025
+      },
+      "flags": [],
+      "score": 47.8,
+      "n_flags": 0,
+      "consensus_median": 1275.0,
+      "currency": "EUR",
+      "source": "Yahoo Finance statements (secondary) — ESEF report not indexed on filings.xbrl.org",
       "fiscal_year_end": "2025-12-31",
       "stale_financials": false
     }
   ],
   "note": "prix et valeurs par action dans la devise des comptes (champ currency)",
+  "out_of_scope": {
+    "GLD": "gold ETF: no company accounts",
+    "BTC-USD": "crypto-asset: no company accounts",
+    "ANT": "listed on 19 Nov 2026: no annual report filed yet"
+  },
   "thresholds": {
     "sgr_nm_rr_min": 0.0,
     "sgr_nm_rr_max": 1.0,
     "ic_nm_min_share_of_assets": 0.1,
     "terminal_g_ke_gap": 0.02,
-    "cross_check_tol": 0.03
+    "cross_check_tol": 0.03,
+    "tax_rate_valid_range": [
+      0.0,
+      0.6
+    ]
   },
   "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
 }

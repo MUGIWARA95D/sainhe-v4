@@ -124,8 +124,28 @@ EDGAR_TICKERS = [
 # Déposants 20-F (IFRS) — couverture partielle via ifrs-full XBRL
 ADR_TICKERS = ["ASML", "TSM", "RACE"]
 
-# Couverture complète du job CI hebdomadaire : US 10-K + 20-F + ESEF
-COVERAGE_TICKERS = EDGAR_TICKERS + ADR_TICKERS + list(ESEF_ENTITIES)
+# Source SECONDAIRE (secondary/yahoo_statements.py) : sociétés sans XBRL accessible gratuitement.
+# Ticker → raison (affichée sur la page). Valeurs Yahoo (agrégateur), badge « secondary source ».
+YAHOO_STATEMENTS_TICKERS = {
+    "ROP.SW":    "Switzerland: no ESEF, no SEC filing",
+    "NESN.SW":   "Switzerland: no ESEF, no SEC filing",
+    "GEBN.SW":   "Switzerland: no ESEF, no SEC filing",
+    "6954.T":    "Japan: EDINET requires an API key",
+    "2222.SR":   "Saudi Arabia: no public XBRL feed",
+    "600111.SS": "China: no public XBRL feed",
+    "KAP.L":     "Kazakhstan: no public XBRL feed",
+    "SAF.PA":    "ESEF report not indexed on filings.xbrl.org",
+    "RHM.DE":    "ESEF report not indexed on filings.xbrl.org",
+}
+# Champs indispensables à la valorisation : s'ils manquent à l'ESEF pour le dernier exercice (ou si
+# l'ESEF est périmé), la société passe sur la source secondaire (pipeline.secondary_reason).
+SECONDARY_CRITICAL_FIELDS = ("revenue", "ebit", "ocf", "capex", "pretax_income", "equity", "cash")
+# Hors périmètre (pas de comptes de société) — affiché tel quel sur la page
+OUT_OF_SCOPE = {"GLD": "gold ETF: no company accounts", "BTC-USD": "crypto-asset: no company accounts",
+                "ANT": "listed on 19 Nov 2026: no annual report filed yet"}
+
+# Couverture complète du job CI hebdomadaire : US 10-K + 20-F + ESEF + source secondaire
+COVERAGE_TICKERS = EDGAR_TICKERS + ADR_TICKERS + list(ESEF_ENTITIES) + list(YAHOO_STATEMENTS_TICKERS)
 
 # Garde-fous du plan §7 (publié dans chaque JSON et sur la page)
 DISCLAIMER = ("Informational only, not investment advice. SAINHE publishes measurements and flags "
@@ -183,6 +203,15 @@ SENSITIVITY_G_SHARES_OF_CAP = (0.0, 0.25, 0.5, 0.75, 1.0)   # axe g de bloc_H : 
 MACRO_JSON_URL = "https://sainhe.pages.dev/data/macro.json"
 RF_FIELD_BY_CURRENCY = {"USD": "us_10y", "EUR": "bund_10y", "GBP": "uk_10y",
                         "JPY": "jgb_10y", "CNY": "cgb_10y"}
+# Devises sans champ dans macro.json : taux longs OCDE publiés par FRED (CSV public, sans clé,
+# mensuel, ~1 mois de décalage). CHF : la BNS ne publie plus son cube rendoblim depuis juil. 2025.
+RF_FRED_SERIES_BY_CURRENCY = {"CHF": "IRLTLT01CHM156N", "KRW": "IRLTLT01KRM156N", "SEK": "IRLTLT01SEM156N",
+                              "NOK": "IRLTLT01NOM156N", "DKK": "IRLTLT01DKM156N", "AUD": "IRLTLT01AUM156N",
+                              "CAD": "IRLTLT01CAM156N"}
+FRED_CSV_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}"
+# Devises ancrées au dollar : le US 10Y est un substitut défendable (signalé comme tel)
+RF_USD_PEGS = {"SAR": "riyal pegged to the dollar at 3.75", "HKD": "Hong Kong dollar pegged to the dollar",
+               "AED": "dirham pegged to the dollar"}
 DEFAULT_RISK_FREE = 0.042
 
 # Valeurs NON SIGNIFICATIVES (« n/m ») — SGR = ROIC × taux de réinvestissement net, avec
@@ -195,6 +224,14 @@ DEFAULT_RISK_FREE = 0.042
 #    total, ou ≤ 0 : le dénominateur du ROIC est quasi nul (trésorerie nette, avances clients)
 #    → ROIC et SGR sont des artefacts (GEV : 4 % de l'actif, ROIC 90 %, SGR 146 %).
 # La valeur calculée reste publiée (traçabilité) ; c'est son statut qui passe à « n/m ».
+# Taux d'impôt effectif = impôt / résultat avant impôt. Hors de [0 %, 60 %] (crédit d'impôt,
+# reprise de provisions, perte avant impôt) il ne mesure plus la fiscalité courante : on prend la
+# MÉDIANE des exercices « normaux » parmi les TAX_RATE_MEDIAN_YEARS précédents (au moins
+# TAX_RATE_MIN_YEARS), tirée des mêmes dépôts — sinon N/D. GEV 2025 : −72,5 % brut.
+TAX_RATE_VALID_RANGE = (0.0, 0.6)   # borne haute 60 % : fiscalité pétrolière saoudienne ≈ 50 % (Aramco)
+TAX_RATE_MEDIAN_YEARS = 5
+TAX_RATE_MIN_YEARS = 2
+
 SGR_NM_RR_MIN = 0.0
 SGR_NM_RR_MAX = 1.0
 IC_NM_MIN_SHARE_OF_ASSETS = 0.10

@@ -387,6 +387,7 @@
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
+      "rf_proxy_reason": "N/D",
       "erp": 0.05,
       "beta": 1.29413,
       "beta_raw": 1.439,
@@ -420,6 +421,14 @@
       "st_investments": 2566900000.0,
       "st_investments_deducted": true,
       "net_debt": -5934900000.0
+    },
+    "tax_detail": {
+      "rate": 0.131304,
+      "source": "year",
+      "raw": 0.131304,
+      "years": [
+        2025
+      ]
     },
     "three_statement_10y": {
       "revenue": {

@@ -154,7 +154,7 @@
     "retained_earnings_test": {
       "ratio": 1.638054,
       "retained_5y": 28282000000.0,
-      "delta_mcap": 46327448248.291016,
+      "delta_mcap": 46327443417.3584,
       "passes": true,
       "window": [
         2020,
@@ -274,6 +274,7 @@
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
+      "rf_proxy_reason": "N/D",
       "erp": 0.05,
       "beta": 0.92965,
       "beta_raw": 0.895,
@@ -307,6 +308,14 @@
       "st_investments": "N/D",
       "st_investments_deducted": false,
       "net_debt": "N/D"
+    },
+    "tax_detail": {
+      "rate": 0.201215,
+      "source": "year",
+      "raw": 0.201215,
+      "years": [
+        2025
+      ]
     },
     "three_statement_10y": {
       "revenue": {

@@ -35,6 +35,7 @@
         <button class="sa-chip" data-src="10-K" aria-pressed="false">US 10-K</button>
         <button class="sa-chip" data-src="20-F" aria-pressed="false">Foreign 20-F</button>
         <button class="sa-chip" data-src="ESEF" aria-pressed="false">Europe ESEF</button>
+        <button class="sa-chip" data-src="YF" aria-pressed="false">Secondary (Yahoo)</button>
         <span class="sa-sep" aria-hidden="true"></span>
         <label class="sa-check"><input type="checkbox" id="sa-hide-stale"> Hide accounts older than 15 months</label>
       </div>
@@ -49,6 +50,7 @@
         <span><i class="sa-lg-c" style="background:var(--s1)"></i>US 10-K</span>
         <span><i class="sa-lg-t" style="border-bottom-color:var(--s2)"></i>Foreign 20-F</span>
         <span><i class="sa-lg-d" style="background:var(--s3)"></i>Europe ESEF</span>
+        <span><i style="background:var(--muted);border-radius:2px"></i>Yahoo statements (secondary source)</span>
         <span><i class="sa-lg-h"></i>Hollow = accounts older than 15 months</span>
         <span id="sa-lg-ghost" hidden>Outline + line = base case before the WACC shift</span>
         <span>Dashed lines = risk-free rate of each currency · drag on the map to select an area · click a point for its audit trail</span>
@@ -96,6 +98,8 @@
             <p>Each past year is compared with the WACC shown, not with that year's WACC: historical WACCs are not reconstructed. When rates were lower, past spreads were wider than shown. A year is marked n/m when invested capital was below the published share of total assets: ROIC is then the artefact of a near-zero denominator.</p>
           </div>
           <div>
+            <h4>Secondary source</h4>
+            <p>Companies with no free machine-readable filing — Swiss issuers (no ESEF, no SEC filing), Fanuc (EDINET requires a key), Saudi Aramco, China Northern Rare Earth, Kazatomprom, and European reports not indexed on filings.xbrl.org (Safran, Rheinmetall) or incomplete there (Leonardo, Coats) — use Yahoo Finance annual statements: four to five years, standardised by the aggregator. They are drawn in grey, cannot be cross-checked against an independent source, and line definitions may differ from the filing.</p>
             <h4>IFRS and US GAAP are not on the same basis</h4>
             <p>Under IAS 38, IFRS filers capitalise development costs that meet set criteria, while US GAAP expenses research and development. Ferrari, TSMC, Hermès, Leonardo and Coats report under IFRS: their EBIT and invested capital are not directly comparable with Apple's or Microsoft's.</p>
             <h4>EBIT used for the no-growth value (EPV)</h4>

@@ -85,7 +85,7 @@
   "bloc_D_trends": {
     "roic_10y": {
       "2016": 0.1245,
-      "2017": 0.0272,
+      "2017": 0.1121,
       "2018": 0.1555,
       "2019": 0.1615,
       "2020": 0.1354,
@@ -109,7 +109,7 @@
     },
     "rnoa_10y": {
       "2016": 0.1241,
-      "2017": 0.0263,
+      "2017": 0.1082,
       "2018": 0.1489,
       "2019": 0.1552,
       "2020": 0.1305,
@@ -200,9 +200,9 @@
     "ocf_ni": 0.565194,
     "accruals_pct_rev": 0.118875,
     "retained_earnings_test": {
-      "ratio": 6.931086,
+      "ratio": 6.931089,
       "retained_5y": 13807000000.0,
-      "delta_mcap": 95697509330.74951,
+      "delta_mcap": 95697542236.32812,
       "passes": true,
       "window": [
         2020,
@@ -289,7 +289,7 @@
   },
   "bloc_H_sensitivity": {
     "margin_axis": [
-      0.0525,
+      0.1645,
       0.1677,
       0.2089,
       0.2151,
@@ -304,11 +304,11 @@
     ],
     "matrix": [
       [
-        7.83,
-        7.88,
-        7.96,
-        8.09,
-        8.35
+        24.49,
+        27.01,
+        30.76,
+        36.95,
+        49.09
       ],
       [
         24.98,
@@ -366,6 +366,7 @@
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
+      "rf_proxy_reason": "N/D",
       "erp": 0.05,
       "beta": 0.51023,
       "beta_raw": 0.269,
@@ -399,6 +400,14 @@
       "st_investments": 3602000000.0,
       "st_investments_deducted": true,
       "net_debt": 31620000000.0
+    },
+    "tax_detail": {
+      "rate": 0.178835,
+      "source": "year",
+      "raw": 0.178835,
+      "years": [
+        2025
+      ]
     },
     "three_statement_10y": {
       "revenue": {

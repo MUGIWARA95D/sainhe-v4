@@ -111,10 +111,19 @@ def build_report(cd: CompanyData, price: float | None, yf_info: dict | None,
                       "message": f"SGR non significatif ({sgr_.get('nm_reason')}) : taux de réinvestissement "
                                  f"{sgr_.get('rr', 0):.0%}",
                       "details": {"reason": sgr_.get("nm_reason"), "rr": sgr_.get("rr"), "sgr": sgr_v}})
+    tax_info = metrics.effective_tax(cd, fy)
+    if tax_info["source"] != "year":
+        flags.append({"id": "tax_rate_abnormal", "severity": "info",
+                      "message": ("Taux d'impôt de l'exercice hors de [0 %, 50 %] ou perte avant impôt : "
+                                  + ("médiane des exercices normaux retenue" if tax_info["source"] == "median"
+                                     else "aucun exercice normal → N/D")),
+                      "details": tax_info})
     if w.get("rf_proxy"):
-        flags.append({"id": "rf_currency_proxy", "severity": "info",
-                      "message": f"Aucun taux 10 ans {w.get('rf_currency')} publié : US 10Y utilisé en substitut",
-                      "details": {"currency": w.get("rf_currency"), "rf": w.get("rf")}})
+        peg = w.get("rf_proxy_reason") == "usd_peg"
+        flags.append({"id": "rf_currency_proxy", "severity": "info" if peg else "medium",
+                      "message": (f"{w.get('rf_currency')} ancré au dollar : US 10Y utilisé" if peg else
+                                  f"Aucun taux 10 ans {w.get('rf_currency')} publié : US 10Y utilisé en substitut"),
+                      "details": {"currency": w.get("rf_currency"), "rf": w.get("rf"), "reason": w.get("rf_proxy_reason")}})
 
     report = {
         "ticker": cd.ticker, "cik": cd.cik,
@@ -172,6 +181,7 @@ def build_report(cd: CompanyData, price: float | None, yf_info: dict | None,
             "adjustments": adj,
             "reformulation": m.get("reformulation"),
             "net_debt_detail": metrics.net_debt_detail(cd, fy),
+            "tax_detail": metrics.effective_tax(cd, fy),
             "three_statement_10y": {name: cd.history(name, 10) for name in cd.series},
             "source_map_per_tag": build_source_map(cd),
             "edgar_filings_index": edgar_filings_index_url(cd.cik),
@@ -239,10 +249,12 @@ def build_valuation_map(reports: list[dict]) -> dict:
     return {"as_of": datetime.date.today().isoformat(), "rows": rows,
             "note": "prix et valeurs par action dans la devise des comptes (champ currency)",
             # seuils publiés avec les données : la page les affiche, elle ne les recode pas
+            "out_of_scope": config.OUT_OF_SCOPE,
             "thresholds": {"sgr_nm_rr_min": config.SGR_NM_RR_MIN, "sgr_nm_rr_max": config.SGR_NM_RR_MAX,
                            "ic_nm_min_share_of_assets": config.IC_NM_MIN_SHARE_OF_ASSETS,
                            "terminal_g_ke_gap": config.TERMINAL_G_KE_GAP,
-                           "cross_check_tol": config.CROSS_CHECK_TOL}}
+                           "cross_check_tol": config.CROSS_CHECK_TOL,
+                           "tax_rate_valid_range": list(config.TAX_RATE_VALID_RANGE)}}
 
 
 def save(obj: dict, path: str):

@@ -16,10 +16,11 @@ def wacc(cd: CompanyData, price: float | None, beta: float | None = None,
     """Sources : Couche 2 (Kd, T, D) + Yahoo (E = shares × prix) + Macro SAINHE (Rf, ERP, β).
     Rf live (US 10Y du dashboard) ; β ajusté Blume ; Kd N/D avec dette > 0 → WACC = Ke
     (all-equity, PRUDENT : surestime le WACC) au lieu d'un coût de la dette à 0 %."""
-    rf_src, rf_proxy, rf_cur = "argument", False, (currency or "USD").upper()
+    rf_src, rf_proxy, rf_cur, rf_reason = "argument", False, (currency or "USD").upper(), None
     if rf is None:   # taux souverain 10 ans de la devise des COMPTES (flux et taux cohérents)
         info = market_inputs.risk_free_info(currency)
         rf, rf_src, rf_proxy, rf_cur = info["rf"], info["source"], info["proxy"], info["currency"]
+        rf_reason = info.get("proxy_reason")
     erp = config.DEFAULT_ERP if erp is None else erp
     beta_raw = beta
     beta = config.DEFAULT_BETA if beta is None else market_inputs.blume_beta(beta)
@@ -46,7 +47,7 @@ def wacc(cd: CompanyData, price: float | None, beta: float | None = None,
         w = ke * (e / v) + (kd or 0.0) * (1 - t) * (d / v)
         detail = "complet"
     return {"wacc": w, "ke": ke, "kd": kd, "tax_rate": t, "E": e, "D": d,
-            "rf": rf, "rf_source": rf_src, "rf_currency": rf_cur, "rf_proxy": rf_proxy,
+            "rf": rf, "rf_source": rf_src, "rf_currency": rf_cur, "rf_proxy": rf_proxy, "rf_proxy_reason": rf_reason,
             "erp": erp, "beta": beta, "beta_raw": beta_raw, "mode": detail}
 
 

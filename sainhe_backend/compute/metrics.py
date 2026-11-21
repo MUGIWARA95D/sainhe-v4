@@ -13,6 +13,35 @@ def _nz(x, default=0.0):
     return default if x is None else x
 
 
+def effective_tax(cd: CompanyData, fy: int | None) -> dict:
+    """Taux d'impôt retenu pour l'exercice fy : {rate, source, raw, years}.
+    source = "year" (taux de l'exercice, dans TAX_RATE_VALID_RANGE), "median" (médiane des
+    exercices normaux précédents : le taux de l'année est aberrant ou la société est en perte)
+    ou "N/D". Jamais de taux légal ni de moyenne sectorielle : uniquement les dépôts de la société."""
+    lo, hi = config.TAX_RATE_VALID_RANGE
+
+    def rate(y):
+        tax, pre = cd.value("tax_expense", y), cd.value("pretax_income", y)
+        if tax is None or pre is None or pre <= 0:
+            return None
+        return tax / pre
+
+    tax, pre = cd.value("tax_expense", fy), cd.value("pretax_income", fy)
+    raw = (tax / pre) if (tax is not None and pre) else None
+    cur = rate(fy)
+    if cur is not None and lo <= cur <= hi:
+        return {"rate": cur, "source": "year", "raw": raw, "years": [fy]}
+    prev = [y for y in (cd.years("pretax_income") or []) if fy is not None and y < fy][-config.TAX_RATE_MEDIAN_YEARS:]
+    ok = [(y, rate(y)) for y in prev]
+    ok = [(y, r) for y, r in ok if r is not None and lo <= r <= hi]
+    if len(ok) >= config.TAX_RATE_MIN_YEARS:
+        vals = sorted(r for _, r in ok)
+        m = len(vals) // 2
+        med = vals[m] if len(vals) % 2 else (vals[m - 1] + vals[m]) / 2
+        return {"rate": med, "source": "median", "raw": raw, "years": [y for y, _ in ok]}
+    return {"rate": None, "source": "N/D", "raw": raw, "years": []}
+
+
 def _div(a, b):
     if a is None or b in (None, 0):
         return None
@@ -101,8 +130,8 @@ def derive(cd: CompanyData, fy: int | None = None) -> dict:
     ocf = cd.value("ocf", fy)
     capex = cd.value("capex", fy)
     sbc = cd.value("sbc", fy)
-    tax, pretax = cd.value("tax_expense", fy), cd.value("pretax_income", fy)
-    t_eff = _div(tax, pretax)
+    tax_info = effective_tax(cd, fy)
+    t_eff = tax_info["rate"]
     nd = net_debt(cd, fy)
     eq = cd.value("equity", fy)
     interest = cd.value("interest_expense", fy)
@@ -135,6 +164,7 @@ def derive(cd: CompanyData, fy: int | None = None) -> dict:
         "net_debt": nd,
         "nopat": nopat,
         "effective_tax_rate": t_eff,
+        "tax_rate_detail": tax_info,
         "invested_capital": invested,
         "roic": _div(nopat, invested),
         "kd": _div(interest, total_debt),

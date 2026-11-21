@@ -76,11 +76,11 @@ ROWS.forEach(r => {
   const m = /^(\d+)\s*\/\s*(\d+)$/.exec(String(r.roic_years_above_wacc || ''));
   r.roic_share = m && +m[2] > 0 ? (+m[1]) / (+m[2]) : null;
   r.roic_txt = m ? m[1] + '/' + m[2] + ' yrs' : 'N/D';
-  r.src_kind = /20-F/.test(r.source || '') ? '20-F' : /ESEF/.test(r.source || '') ? 'ESEF' : '10-K';
+  r.src_kind = /Yahoo/.test(r.source || '') ? 'YF' : /20-F/.test(r.source || '') ? '20-F' : /ESEF/.test(r.source || '') ? 'ESEF' : '10-K';
   ['implied_growth', 'sgr', 'ecart_pct', 'prix', 'epv_per_share', 're_per_share', 'rf'].forEach(k => { if(!isNum(r[k])) r[k] = null; });
 });
 const ROW = {}; ROWS.forEach(r => { ROW[r.ticker] = r; });
-const SRC_NAME = {'10-K': 'US 10-K', '20-F': 'Foreign 20-F', 'ESEF': 'Europe ESEF'};
+const SRC_NAME = {'10-K': 'US 10-K', '20-F': 'Foreign 20-F', 'ESEF': 'Europe ESEF', 'YF': 'Yahoo (secondary)'};
 const asOf = $('#sa-asof'); if(asOf && VM.as_of) asOf.textContent = 'as of ' + VM.as_of;
 
 /* ═════════════ 1 · QUALITY × PRICE — map + table, one shared state ═════════════
@@ -93,8 +93,9 @@ const asOf = $('#sa-asof'); if(asOf && VM.as_of) asOf.textContent = 'as of ' + V
 const TH = VM.thresholds || {};
 const st = {hover: null, brush: null, compare: [], dW: 0, src: 'all', hideStale: false, sort: {k: 'gap', dir: -1}};
 let mapChart = null, selected = null, drag = null, noClick = false, xRange = null;
-const SHAPE = {'10-K': 'circle', '20-F': 'triangle', 'ESEF': 'rectRot'};
-const SLOT = {'10-K': 's1', '20-F': 's2', 'ESEF': 's3'};
+const SHAPE = {'10-K': 'circle', '20-F': 'triangle', 'ESEF': 'rectRot', 'YF': 'rect'};
+// secondary source: neutral ink, not a fourth categorical hue (the validated palette has three)
+const SLOT = {'10-K': 's1', '20-F': 's2', 'ESEF': 's3', 'YF': 'muted'};
 const icTxt = isNum(TH.ic_nm_min_share_of_assets) ? pct(TH.ic_nm_min_share_of_assets, 0) : 'the published share';
 const NM_TXT = {
   negative_net_reinvestment: 'n/m — net reinvestment is negative (capex below depreciation and/or working capital released): growth is not funded by reinvestment.',
@@ -201,7 +202,7 @@ const s1Plugin = {
 function mapDatasets(rows){
   const P = pal(), out = [];
   const dim = t => st.brush && !st.brush.has(t), hot = t => t === st.hover || t === selected;
-  ['10-K', '20-F', 'ESEF'].forEach(k => {
+  ['10-K', '20-F', 'ESEF', 'YF'].forEach(k => {
     const col = P[SLOT[k]], set = rows.filter(r => r.src_kind === k);
     const pt = (r, dW) => { const d = derive(r, dW); return isNum(d.g) && isNum(d.share) ? {x: d.g, y: d.share, t: r.ticker} : null; };
     const cur = set.map(r => pt(r, st.dW)).filter(Boolean);
@@ -277,6 +278,10 @@ function renderMap(rebuild){
     ? '<strong>Not placed (N/D):</strong> ' + un.map(r => '<button class="sa-src" data-open="' + esc(r.ticker) + '">' + esc(r.ticker) + '</button>').join(', ') +
       ' — implied growth needs positive free cash flow and a known net debt, and the vertical axis needs at least one meaningful ROIC year. Nothing is imputed.'
     : '';
+  if(!un.length) $('#sa-unplaced').innerHTML = '';
+  const oos = VM.out_of_scope || {};
+  $('#sa-unplaced').innerHTML += (Object.keys(oos).length ? '<div style="margin-top:6px"><strong>Outside the scope:</strong> ' +
+    Object.keys(oos).map(t => '<span class="sa-tk">' + esc(t) + '</span> ' + esc(oos[t])).join(' · ') + '.</div>' : '');
   $('#sa-lg-ghost').hidden = !st.dW;
 }
 function bindBrush(){
@@ -360,7 +365,9 @@ function rowHTML(r, d){
     '<td class="l">' + sparkHTML(d) + '</td>' +
     '<td>' + H(pctS(r.ecart_pct, 0)) + '</td>' +
     '<td>' + flagsHTML(r) + '</td>' +
-    '<td class="l">' + esc(SRC_NAME[r.src_kind]) + ' · ' + esc(String(r.fiscal_year_end || 'N/D').slice(0, 7)) +
+    '<td class="l">' + (r.src_kind === 'YF' ? '<span class="sa-nm" tabindex="0" data-tt="' + esc('Secondary source: ' + String(r.source || '').replace(/^.*— /, '') +
+      '. Figures come from Yahoo Finance statements, not from the filing itself, and cannot be cross-checked against a second source.') + '">' + esc(SRC_NAME[r.src_kind]) + '</span>' : esc(SRC_NAME[r.src_kind])) +
+      ' · ' + esc(String(r.fiscal_year_end || 'N/D').slice(0, 7)) +
       (r.stale_financials ? ' <span class="badge badge-red">old</span>' : '') + '</td></tr>';
 }
 function renderTable(){
@@ -516,6 +523,7 @@ function openChecks(opener){
       '<div class="sa-co" style="margin:0">' + esc(c.fiscal_end) + (c.xbrl_tag ? ' · ' + esc(c.xbrl_tag) : '') + '</div></td><td>' + H(big(c.xbrl)) +
       '</td><td>' + H(big(c.second_value)) + '<div class="sa-co" style="margin:0">' + esc(c.second_source_row || '') + '</div></td><td>' +
       (c.status === 'gap' ? '<span class="badge badge-red">' + esc(num(c.gap_pct, 2)) + '%</span>' : esc(num(c.gap_pct, 2)) + '%') + '</td></tr>'));
+    else if(v.secondary_source) rows.push('<tr><td class="l"><span class="sa-tk">' + esc(t) + '</span></td><td colspan="3" class="l sa-note">secondary source (Yahoo): no independent second source to compare with</td></tr>');
     else rows.push('<tr><td class="l"><span class="sa-tk">' + esc(t) + '</span></td><td colspan="3" class="l sa-note">' +
       ((v.cross_checked || []).length ? 'checked: ' + esc(v.cross_checked.join(', ')) + ' (values not kept in this report version)' : 'no figure could be compared') + '</td></tr>');
   });
@@ -537,6 +545,8 @@ function kv(label, value, sub){ return '<dt>' + esc(label) + '</dt><dd>' + H(val
 function tagLine(fc){
   if(!fc || !fc.xbrl_tag) return '';
   const url = /^https:\/\//.test(fc.edgar_filing_url || '') ? fc.edgar_filing_url : null;
+  if(fc.filing_form === 'Yahoo') return 'Yahoo Finance line <code class="sa-mono">' + esc(String(fc.xbrl_tag).replace(/^yahoo:/, '')) +
+    '</code> · FY ' + esc(fc.fiscal_year) + ' · secondary source' + (url ? ' · <a href="' + esc(url) + '" target="_blank" rel="noopener">page ↗</a>' : '');
   return 'XBRL <code class="sa-mono">' + esc(fc.xbrl_tag) + '</code> · ' + esc(fc.filing_form || '') + ' FY ' + esc(fc.fiscal_year) +
     (url ? ' · <a href="' + esc(url) + '" target="_blank" rel="noopener">filing ↗</a>' : '');
 }
@@ -549,6 +559,13 @@ function bandHTML(p3){
     '<span class="sa-band-track"></span><span class="sa-band-rng" style="left:' + pos(lo) + '%;width:' + (pos(hi) - pos(lo)).toFixed(1) + '%"></span>' +
     p3.map(p => '<span class="sa-band-m' + (p[0] === 0 ? ' base' : '') + '" style="left:' + pos(p[1]) + '%"></span><span class="sa-band-l" style="left:' + pos(p[1]) + '%">' +
       (p[0] === 0 ? 'base' : p[0] > 0 ? 'WACC +1 pt' : 'WACC −1 pt') + '<br><b>' + esc(pct(p[1])) + '</b></span>').join('') + '</div>';
+}
+function taxNote(td){
+  const rng = Array.isArray(TH.tax_rate_valid_range) ? pct(TH.tax_rate_valid_range[0], 0) + '–' + pct(TH.tax_rate_valid_range[1], 0) : 'the normal range';
+  if(td.source === 'median') return 'This year\'s rate (' + esc(pct(n_(td.raw))) + ') is outside ' + esc(rng) + ' (tax credit, one-off or loss): median of the normal years ' +
+    esc((td.years || []).join(', ')) + ' used, from the same filings.';
+  if(td.source === 'N/D') return 'This year\'s rate (' + esc(pct(n_(td.raw))) + ') is outside ' + esc(rng) + ' and fewer than two earlier years are normal: <span class="sa-nd">N/D</span>, so the EPV is not computed.';
+  return 'tax expense / pre-tax income, fiscal year ' + esc((td.years || [])[0] || '');
 }
 function openDrill(t, opener){
   const row = ROW[t]; if(!row) return;
@@ -602,7 +619,7 @@ function drillHTML(row, rep){
     kv('One-off items removed', adjs.length ? String(adjs.length) : 'none',
       adjs.map(x => esc(String(x.item || '').replace(/_/g, ' ')) + ' ' + esc(big(n_(x.amount !== undefined ? x.amount : x.value)))).join(' · ')) +
     kv('= EBIT used', big(ebit, cur), 'Normalisation: last fiscal year only, one-off items removed. No averaging over the business cycle.') +
-    kv('Tax rate', pct(tax), 'tax expense / pre-tax income' + (isNum(tax) && (tax < 0 || tax > 0.5) ? ' — <strong>outside 0–50%</strong>: a tax benefit or one-off distorts this year' : '') + (sm.tax_expense ? ' · ' + tagLine(sm.tax_expense) : '')) + '</dl>' +
+    kv('Tax rate', pct(tax), taxNote(objOf(dd.tax_detail)) + (sm.tax_expense ? ' · ' + tagLine(sm.tax_expense) : '')) + '</dl>' +
     '<pre class="sa-formula">EPV = EBIT × (1 − t) / WACC − net debt\n    = ' + big(ebit) + ' × (1 − ' + pct(tax) + ') / ' + pct(ew, 2) + ' − (' + big(nd) + ')\n    = ' +
       big(n_(E.epv_equity)) + '\n÷ ' + big(shares) + ' shares = ' + money(n_(E.epv_per_share), cur) + '   (price ' + money(price, cur) + ')</pre></div>';
   h += '<div class="sa-dsec"><h4>Sustainable growth</h4><dl class="sa-kv">' +
@@ -632,7 +649,10 @@ const FLAG_EN = {
   transitory_items: ['Transitory items', () => 'One-off items were adjusted out of EBIT and net income.'],
   invested_capital_near_zero: ['Invested capital close to zero', d => 'Invested capital = ' + pct(d.invested_capital_share_of_assets, 0) + ' of total assets: ROIC (' + pct(d.roic, 0) + ') and sustainable growth (' + pct(d.sgr, 0) + ') are not meaningful.'],
   sgr_not_meaningful: ['Sustainable growth not meaningful', d => esc(NM_TXT[d.reason] || '') + ' Net reinvestment rate ' + pct(d.rr, 0) + '.'],
-  rf_currency_proxy: ['Risk-free rate proxy', d => 'No free 10-year government yield in ' + esc(d.currency) + ': the US 10-year (' + pct(d.rf, 2) + ') is used instead, so the discount rate is not in the currency of the accounts.']
+  tax_rate_abnormal: ['Tax rate out of the normal range', d => 'This year\'s effective rate is ' + pct(d.raw) + ': ' +
+    (d.source === 'median' ? 'the median of the normal years ' + esc((d.years || []).join(', ')) + ' (' + pct(d.rate) + ') is used instead.' : 'fewer than two normal earlier years (' + esc(String((d.years || []).length)) + '), so the tax rate is N/D.')],
+  rf_currency_proxy: ['Risk-free rate proxy', d => d.reason === 'usd_peg' ? esc(d.currency) + ' is pegged to the US dollar: the US 10-year (' + pct(d.rf, 2) + ') is used.'
+    : 'No free 10-year government yield in ' + esc(d.currency) + ': the US 10-year (' + pct(d.rf, 2) + ') is used instead, so the discount rate is not in the currency of the accounts.']
 };
 const SEV = {high: 'high', medium: 'medium', info: 'info', low: 'info'};
 function flagsListHTML(rep){
@@ -780,6 +800,9 @@ function buildSpecs(row, rep){
 }
 function factHTML(fc){
   if(!fc) return '<div class="sa-in-m">Filed figure: N/D for this year.</div>';
+  if(fc.filing_form === 'Yahoo') return '<div class="sa-in-m">Yahoo Finance line <code class="sa-mono">' + esc(String(fc.xbrl_tag || '').replace(/^yahoo:/, '')) +
+    '</code> · ' + esc(fc.unit || '') + ' · FY ' + esc(fc.fiscal_year) + ' (period end ' + esc(fc.end_date || 'N/D') + ') · secondary source, not the filing itself' +
+    (/^https:\/\//.test(fc.edgar_filing_url || '') ? '<br><a href="' + esc(fc.edgar_filing_url) + '" target="_blank" rel="noopener">Open the Yahoo page ↗</a>' : '') + '</div>';
   const acc = String(fc.accession || '');
   const accTxt = acc.indexOf('ESEF|') === 0 ? 'ESEF report filed ' + acc.split('|')[1].slice(0, 10) : 'accession ' + acc;
   const url = fc.edgar_filing_url || '';

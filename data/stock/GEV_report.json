@@ -6,26 +6,20 @@
   "bloc_A_verdict": {
     "prix": 699.33,
     "EPV": {
-      "epv_ev": 26699060276.390675,
-      "epv_equity": 35206060276.39067,
-      "epv_per_share": 127.558189,
-      "inputs": {
-        "ebit_adj": 1564000000.0,
-        "tax": -0.725248,
-        "wacc": 0.101063,
-        "net_debt": -8507000000.0
-      }
+      "epv_ev": "N/D",
+      "epv_equity": "N/D",
+      "epv_per_share": "N/D",
+      "note": "EBIT ajusté, WACC ou taux d'impôt N/D"
     },
     "EPV_confidence_range": {
-      "low": -12.369019,
-      "high": 110.281103,
-      "fcf_p25": -359750000.0,
-      "fcf_p75": 3207500000.0
+      "low": "N/D",
+      "high": "N/D",
+      "fallback": "moins de 4 ans de FCF → plage = EPV central (growth 0%)"
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 138.181135,
-      "central": 127.558189,
-      "plus_100bps": 118.848203
+      "minus_100bps": "N/D",
+      "central": "N/D",
+      "plus_100bps": "N/D"
     },
     "RE_valuation": {
       "re_value_equity": 51330789352.74469,
@@ -59,55 +53,37 @@
       }
     },
     "SGR": {
-      "sgr": 1.457132,
-      "rr": 1.625294,
-      "roic": 0.896534,
-      "status": "n/m",
-      "nm_reason": "invested_capital_near_zero",
-      "invested_capital_share_of_assets": 0.042386
+      "sgr": "N/D",
+      "rr": "N/D",
+      "note": "inputs manquants"
     },
     "flag_growth_unfinanceable": "N/D"
   },
   "bloc_B_flags": [
     {
-      "id": "invested_capital_near_zero",
-      "severity": "medium",
-      "message": "Capital investi = 4% de l'actif (< 10%) : ROIC et SGR non significatifs",
+      "id": "tax_rate_abnormal",
+      "severity": "info",
+      "message": "Taux d'impôt de l'exercice hors de [0 %, 50 %] ou perte avant impôt : aucun exercice normal → N/D",
       "details": {
-        "invested_capital_share_of_assets": 0.042386,
-        "roic": 0.896534,
-        "sgr": 1.457132
+        "rate": "N/D",
+        "source": "N/D",
+        "raw": -0.725248,
+        "years": []
       }
     }
   ],
   "bloc_C_dupont": {
-    "available": true,
-    "fy": 2025,
-    "RNOA": 0.631999,
-    "FLEV": -0.761048,
-    "NBC": -0.0,
-    "SPREAD": 0.631999,
-    "leverage_gain": -0.480982,
-    "ROE_dupont": 0.151017,
-    "ROE_direct": 0.43693,
-    "coherence_gap": -0.2859,
-    "net_cash_position": true
+    "available": false
   },
   "bloc_D_trends": {
     "roic_10y": {
-      "2023": -0.5324,
-      "2024": 0.1763,
-      "2025": 0.8965
+      "2024": 0.1763
     },
     "invested_capital_share_10y": {
-      "2023": 0.137053,
-      "2024": 0.032378,
-      "2025": 0.042386
+      "2024": 0.032378
     },
     "rnoa_10y": {
-      "2023": -0.462,
-      "2024": 0.1083,
-      "2025": 0.632
+      "2024": 0.1083
     },
     "gross_margin_10y": {
       "2022": 0.1166,
@@ -178,57 +154,8 @@
     "note": "détail buy/sell = Phase 6 (parsing Form 4 XML)"
   },
   "bloc_H_sensitivity": {
-    "margin_axis": [
-      -0.1097,
-      -0.1069,
-      -0.0464,
-      0.0357,
-      0.0901
-    ],
-    "g_axis": [
-      0.0,
-      0.0123,
-      0.0246,
-      0.0368,
-      0.0491
-    ],
-    "matrix": [
-      [
-        -149.74,
-        -167.64,
-        -191.29,
-        -223.98,
-        -272.13
-      ],
-      [
-        -145.88,
-        -163.42,
-        -186.59,
-        -218.63,
-        -265.8
-      ],
-      [
-        -63.35,
-        -73.12,
-        -86.03,
-        -103.88,
-        -130.17
-      ],
-      [
-        48.67,
-        49.44,
-        50.45,
-        51.85,
-        53.92
-      ],
-      [
-        123.03,
-        130.8,
-        141.06,
-        155.24,
-        176.14
-      ]
-    ]
+    "matrix": "N/D",
+    "note": "données insuffisantes"
   },
   "bloc_I_macro": {
     "leading_indicator": {
@@ -249,13 +176,14 @@
       "wacc": 0.101063,
       "ke": 0.101063,
       "kd": "N/D",
-      "tax_rate": -0.725248,
+      "tax_rate": 0.0,
       "E": 193015080000.0,
       "D": 341000000.0,
       "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
+      "rf_proxy_reason": "N/D",
       "erp": 0.05,
       "beta": 1.03886,
       "beta_raw": 1.058,
@@ -297,6 +225,12 @@
       "st_investments": "N/D",
       "st_investments_deducted": false,
       "net_debt": -8507000000.0
+    },
+    "tax_detail": {
+      "rate": "N/D",
+      "source": "N/D",
+      "raw": -0.725248,
+      "years": []
     },
     "three_statement_10y": {
       "revenue": {
@@ -818,9 +752,9 @@
     "edgar_filings_index": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001996810&type=10-K&dateb=&owner=include&count=40"
   },
   "score_composite": {
-    "value_0_100": 40.0,
+    "value_0_100": 55.0,
     "pillars": {
-      "valuation": 0,
+      "valuation": 50,
       "balance_sheet_health": 70,
       "earnings_quality": 50,
       "smart_money": 50,

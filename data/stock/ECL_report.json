@@ -209,9 +209,9 @@
     "ocf_ni": 1.422528,
     "accruals_pct_rev": -0.054536,
     "retained_earnings_test": {
-      "ratio": 3.337818,
+      "ratio": 3.337819,
       "retained_5y": 4577500000.0,
-      "delta_mcap": 15278863925.170898,
+      "delta_mcap": 15278868354.797363,
       "passes": true,
       "window": [
         2020,
@@ -387,6 +387,7 @@
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
+      "rf_proxy_reason": "N/D",
       "erp": 0.05,
       "beta": 0.90419,
       "beta_raw": 0.857,
@@ -420,6 +421,14 @@
       "st_investments": "N/D",
       "st_investments_deducted": false,
       "net_debt": 7590100000.0
+    },
+    "tax_detail": {
+      "rate": 0.178421,
+      "source": "year",
+      "raw": 0.178421,
+      "years": [
+        2025
+      ]
     },
     "three_statement_10y": {
       "revenue": {

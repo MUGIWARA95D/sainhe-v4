@@ -40,6 +40,32 @@ def _field_rate(data: dict | None, field: str) -> float | None:
     return val / 100 if isinstance(val, (int, float)) and 0 < val < 20 else None
 
 
+def _fred_rate(series: str | None) -> tuple[float, str] | None:
+    """Dernière valeur (décimale, mois) d'une série FRED via le CSV public, ou None."""
+    if not series:
+        return None
+    key = f"fred_{series}"
+    if key in _cache:
+        return _cache[key]
+    out = None
+    try:
+        r = requests.get(config.FRED_CSV_URL.format(series=series), timeout=15)
+        r.raise_for_status()
+        for line in reversed(r.text.strip().splitlines()[1:]):
+            d, _, v = line.partition(",")
+            try:
+                val = float(v)
+            except ValueError:
+                continue
+            if 0 < abs(val) < 20:
+                out = (val / 100, d)
+                break
+    except Exception as e:
+        log.warning("FRED %s indisponible (%s)", series, type(e).__name__)
+    _cache[key] = out
+    return out
+
+
 def risk_free_info(currency: str | None = "USD") -> dict:
     """{rf, source, currency, field, proxy}. proxy=True : la devise n'a pas de taux publié,
     le US 10Y est utilisé à sa place (à signaler dans le rapport)."""
@@ -57,16 +83,22 @@ def risk_free_info(currency: str | None = "USD") -> dict:
     data = _macro_data()
     field = config.RF_FIELD_BY_CURRENCY.get(cur)
     rate = _field_rate(data, field) if field else None
+    fred = None if rate is not None else _fred_rate(config.RF_FRED_SERIES_BY_CURRENCY.get(cur))
     if rate is not None:
         info = {"rf": rate, "currency": cur, "field": field, "proxy": False,
                 "source": f"sainhe macro.json {field} ({config.MACRO_JSON_URL})"}
+    elif fred is not None:
+        info = {"rf": fred[0], "currency": cur, "field": config.RF_FRED_SERIES_BY_CURRENCY[cur], "proxy": False,
+                "source": f"FRED {config.RF_FRED_SERIES_BY_CURRENCY[cur]} (OECD long-term yield, {fred[1]})"}
     else:
         us = _field_rate(data, config.RF_FIELD_BY_CURRENCY["USD"])
         if us is not None:
+            peg = config.RF_USD_PEGS.get(cur)
             info = {"rf": us, "currency": cur, "field": "us_10y", "proxy": cur != "USD",
-                    "source": (f"PROXY : aucun taux 10 ans {cur} publié → US 10Y "
-                               f"(sainhe macro.json us_10y)") if cur != "USD"
-                    else f"sainhe macro.json us_10y ({config.MACRO_JSON_URL})"}
+                    "proxy_reason": ("usd_peg" if peg else "no_source") if cur != "USD" else None,
+                    "source": (f"PROXY : {peg} → US 10Y (sainhe macro.json us_10y)" if peg else
+                               f"PROXY : aucun taux 10 ans {cur} publié → US 10Y (sainhe macro.json us_10y)")
+                    if cur != "USD" else f"sainhe macro.json us_10y ({config.MACRO_JSON_URL})"}
         else:
             info = {"rf": config.DEFAULT_RISK_FREE, "currency": cur, "field": None, "proxy": cur != "USD",
                     "source": "config.DEFAULT_RISK_FREE (repli, macro.json indisponible)"}

@@ -73,6 +73,43 @@ check("FLEV (225/700)", d["FLEV"], 225.0 / 700.0, tol=1e-4)
 check("NBC (20×0.8/225)", d["NBC"], 16.0 / 225.0, tol=1e-4)
 check("ROE dupont ≈ ROE direct", d["coherence_gap"], 0.0, tol=1e-3)
 
+print("\nInstance XBRL d'un dépôt (companyfacts en retard)")
+from edgar import instance as _inst
+_xml = """<xbrl xmlns="http://www.xbrl.org/2003/instance" xmlns:iso4217="http://www.xbrl.org/2003/iso4217"
+ xmlns:ifrs-full="https://xbrl.ifrs.org/taxonomy/2025-03-27/ifrs-full" xmlns:xbrldi="http://xbrl.org/2006/xbrldi">
+ <context id="FY25"><entity><identifier scheme="x">1</identifier></entity><period><startDate>2025-01-01</startDate><endDate>2025-12-31</endDate></period></context>
+ <context id="I25"><entity><identifier scheme="x">1</identifier></entity><period><instant>2025-12-31</instant></period></context>
+ <context id="SEG"><entity><identifier scheme="x">1</identifier><segment><xbrldi:explicitMember dimension="a">b</xbrldi:explicitMember></segment></entity><period><instant>2025-12-31</instant></period></context>
+ <unit id="TWD"><measure>iso4217:TWD</measure></unit>
+ <ifrs-full:Revenue contextRef="FY25" unitRef="TWD" decimals="-6">3809000000000</ifrs-full:Revenue>
+ <ifrs-full:Assets contextRef="I25" unitRef="TWD" decimals="-6">7000000000000</ifrs-full:Assets>
+ <ifrs-full:Assets contextRef="SEG" unitRef="TWD" decimals="-6">1</ifrs-full:Assets>
+</xbrl>"""
+_ex = _inst.parse_instance(_xml, "0001628280-26-025362", "20-F")
+_rev = _ex["ifrs-full"]["Revenue"]["units"]["TWD"][0]
+check("instance : chiffre d'affaires lu", _rev["val"], 3.809e12, tol=1)
+check_true("instance : période annuelle conservée", _rev["start"] == "2025-01-01" and _rev["end"] == "2025-12-31")
+check_true("instance : fait dimensionnel écarté", len(_ex["ifrs-full"]["Assets"]["units"]["TWD"]) == 1)
+_subs = {"filings": {"recent": {"form": ["6-K", "20-F"], "accessionNumber": ["a", "0001628280-26-025362"],
+                                "reportDate": ["2026-09-30", "2025-12-31"], "isXBRL": [0, 1]}}}
+check_true("instance : dépôt annuel plus récent détecté", (_inst.newer_annual_filing(_subs, ("20-F",), 2024) or {}).get("accn") == "0001628280-26-025362")
+check_true("instance : rien si companyfacts est à jour", _inst.newer_annual_filing(_subs, ("20-F",), 2025) is None)
+
+print("\nSource secondaire Yahoo (relevés simulés, sans réseau)")
+import pandas as _pd
+from secondary import yahoo_statements as _ys
+_cols = [_pd.Timestamp("2025-12-31"), _pd.Timestamp("2024-12-31")]
+_frames = {"income": _pd.DataFrame({_cols[0]: [100.0, 30.0, 20.0, 5.0], _cols[1]: [90.0, 27.0, float("nan"), 4.0]},
+                                   index=["Total Revenue", "Operating Income", "Pretax Income", "Tax Provision"]),
+           "balance": _pd.DataFrame({_cols[0]: [12.0], _cols[1]: [10.0]}, index=["Cash And Cash Equivalents"]),
+           "cashflow": _pd.DataFrame({_cols[0]: [25.0, -8.0], _cols[1]: [22.0, -7.0]}, index=["Operating Cash Flow", "Capital Expenditure"])}
+_ycd = _ys.company_from_frames("ROP.SW", _frames, "CHF")
+check("Yahoo : chiffre d'affaires 2025", _ycd.value("revenue", 2025), 100.0)
+check("Yahoo : capex positif (signe Yahoo négatif)", _ycd.value("capex", 2025), 8.0)
+check_true("Yahoo : NaN → année absente (pas de 0)", _ycd.value("pretax_income", 2024) is None)
+check_true("Yahoo : devise des comptes et tag tracés", _ycd.reporting_currency() == "CHF"
+           and _ycd.latest("revenue").tag == "yahoo:Total Revenue")
+
 print("\nValorisation")
 w = valuation.wacc(cd, price=15.0)
 # Ke = 0.042 + 1.0×0.05 = 0.092 ; E=1500, D=345, V=1845
@@ -108,6 +145,20 @@ check_true("n/m : capital investi négatif",
 check_true("ok : cas normal", valuation.sgr_status(0.3, 500.0, 1000.0) == ("ok", None))
 check_true("N/D : réinvestissement inconnu", valuation.sgr_status(None, 500.0, 1000.0)[0] == "N/D")
 
+print("\nTaux d'impôt aberrant → médiane des exercices normaux (config.TAX_RATE_*)")
+class _TaxStub:
+    def __init__(self, d): self.d = d
+    def value(self, k, y): return self.d.get(k, {}).get(y)
+    def years(self, k): return sorted(self.d.get(k, {}))
+_ts = _TaxStub({"tax_expense": {2021: 20.0, 2022: 21.0, 2023: 22.0, 2024: -50.0},
+                "pretax_income": {2021: 100.0, 2022: 100.0, 2023: 100.0, 2024: 69.0}})
+_t24 = metrics.effective_tax(_ts, 2024)
+check("impôt : taux négatif → médiane 3 ans", _t24["rate"], 0.21, tol=1e-9)
+check_true("impôt : source = median, brut conservé", _t24["source"] == "median" and _t24["raw"] < 0)
+check_true("impôt : exercice normal → taux de l'année", metrics.effective_tax(_ts, 2023)["source"] == "year")
+_ts2 = _TaxStub({"tax_expense": {2023: 22.0, 2024: 5.0}, "pretax_income": {2023: 100.0, 2024: -40.0}})
+check_true("impôt : perte et 1 seul exercice normal → N/D", metrics.effective_tax(_ts2, 2024)["rate"] is None)
+
 print("\nTaux sans risque par devise (macro.json simulé, sans réseau)")
 from compute import market_inputs
 _env = os.environ.get("SAINHE_RF_LIVE")
@@ -121,6 +172,11 @@ check("Rf TWD = substitut US 10 ans", twd["rf"], 0.045, tol=1e-9)
 check_true("Rf TWD signalé comme substitut", twd["proxy"] is True and "PROXY" in twd["source"])
 check_true("Rf USD non substitué", usd["proxy"] is False)
 check_true("WACC EUR : Ke au Bund", abs(valuation.wacc(cd, price=15.0, currency="EUR")["ke"] - (0.026 + 0.05)) < 1e-9)
+market_inputs._cache["fred_IRLTLT01CHM156N"] = (0.0051, "2026-10-01")
+chf, sar = market_inputs.risk_free_info("CHF"), market_inputs.risk_free_info("SAR")
+check("Rf CHF = FRED OCDE (Confédération 10 ans)", chf["rf"], 0.0051, tol=1e-12)
+check_true("Rf CHF non substitué, source FRED", chf["proxy"] is False and "FRED" in chf["source"])
+check_true("Rf SAR : substitut US justifié par l'ancrage", sar["proxy"] is True and sar.get("proxy_reason") == "usd_peg")
 market_inputs._cache.clear()
 if _env is None:
     os.environ.pop("SAINHE_RF_LIVE", None)

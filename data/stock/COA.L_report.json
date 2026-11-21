@@ -1,34 +1,35 @@
 {
   "ticker": "COA.L",
-  "cik": "2138003SPYWGAITNFY17",
+  "cik": 0,
   "as_of": "2026-11-21",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 0.951702,
     "EPV": {
-      "epv_ev": 2080701355.363584,
-      "epv_equity": 1266501355.363584,
-      "epv_per_share": 0.718991,
+      "epv_ev": 2555179266.498735,
+      "epv_equity": 1740479266.498735,
+      "epv_per_share": 0.988235,
       "inputs": {
-        "ebit_adj": 241400000.0,
+        "ebit_adj": 288500000.0,
         "tax": 0.321925,
-        "wacc": 0.078669,
-        "net_debt": 814200000.0
+        "wacc": 0.07656,
+        "net_debt": 814700000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 0.718991,
-      "high": 0.718991,
-      "fallback": "moins de 4 ans de FCF → plage = EPV central (growth 0%)"
+      "low": 0.331207,
+      "high": 0.860344,
+      "fcf_p25": 64550000.0,
+      "fcf_p75": 167675000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 0.891005,
-      "central": 0.718991,
-      "plus_100bps": 0.585775
+      "minus_100bps": 1.206206,
+      "central": 0.988235,
+      "plus_100bps": 0.820627
     },
     "RE_valuation": {
       "re_value_equity": 969153911.763879,
-      "re_value_per_share": 0.550187,
+      "re_value_per_share": 0.55028,
       "inputs": {
         "B0": 722500000.0,
         "RE": 26315752.5,
@@ -49,14 +50,21 @@
       "dispersion": 0.207704
     },
     "reverse_dcf": {
-      "implied_g": "N/D",
+      "implied_g": -0.000709,
       "flag_unrealistic": false,
-      "note": "FCF ajusté ≤ 0 ou inputs manquants (dont dette nette)"
+      "inputs": {
+        "ev": 2490837513.414979,
+        "fcf_adj": 192600000.0,
+        "wacc": 0.07656
+      }
     },
     "SGR": {
-      "sgr": "N/D",
-      "rr": "N/D",
-      "note": "inputs manquants"
+      "sgr": -0.028819,
+      "rr": -0.226454,
+      "roic": 0.12726,
+      "status": "n/m",
+      "nm_reason": "negative_net_reinvestment",
+      "invested_capital_share_of_assets": 0.594271
     },
     "flag_growth_unfinanceable": "N/D"
   },
@@ -64,86 +72,87 @@
     {
       "id": "altman_distress",
       "severity": "high",
-      "message": "Altman Z = 1.55 < 1.81 : zone de détresse financière",
+      "message": "Altman Z = 1.61 < 1.81 : zone de détresse financière",
       "details": {
-        "z": 1.549719,
+        "z": 1.609713,
         "zone": "distress",
         "components": {
           "WC/TA": 0.103568,
           "RE/TA": -0.000348,
-          "EBIT/TA": 0.093324,
-          "MVE/TL": 0.919394,
+          "EBIT/TA": 0.111532,
+          "MVE/TL": 0.919237,
           "Sales/TA": 0.56632
         }
+      }
+    },
+    {
+      "id": "sgr_not_meaningful",
+      "severity": "info",
+      "message": "SGR non significatif (negative_net_reinvestment) : taux de réinvestissement -23%",
+      "details": {
+        "reason": "negative_net_reinvestment",
+        "rr": -0.226454,
+        "sgr": -0.028819
       }
     }
   ],
   "bloc_C_dupont": {
     "available": true,
     "fy": 2025,
-    "RNOA": 0.103764,
-    "FLEV": 1.12692,
-    "NBC": 0.043389,
-    "SPREAD": 0.060374,
-    "leverage_gain": 0.068037,
-    "ROE_dupont": 0.171801,
+    "RNOA": 0.12397,
+    "FLEV": 1.127612,
+    "NBC": 0.036372,
+    "SPREAD": 0.087599,
+    "leverage_gain": 0.098777,
+    "ROE_dupont": 0.222747,
     "ROE_direct": 0.143114,
-    "coherence_gap": 0.0287,
+    "coherence_gap": 0.0796,
     "net_cash_position": false
   },
   "bloc_D_trends": {
     "roic_10y": {
-      "2020": -4.9242,
-      "2021": 0.1779,
-      "2022": 0.1143,
-      "2023": 0.1492,
-      "2024": 0.1804,
-      "2025": 0.1065
+      "2022": 0.1367,
+      "2023": 0.15,
+      "2024": 0.2034,
+      "2025": 0.1273
     },
     "invested_capital_share_10y": {
-      "2020": -0.009157,
-      "2021": 0.438989,
-      "2022": 0.526366,
-      "2023": 0.465438,
-      "2024": 0.493698,
-      "2025": 0.594077
+      "2022": 0.535208,
+      "2023": 0.549612,
+      "2024": 0.493823,
+      "2025": 0.594271
     },
     "rnoa_10y": {
-      "2020": 0.0303,
-      "2021": 0.1699,
-      "2022": 0.1105,
-      "2023": 0.1436,
-      "2024": 0.1733,
-      "2025": 0.1038
+      "2022": 0.1322,
+      "2023": 0.1451,
+      "2024": 0.1954,
+      "2025": 0.124
     },
     "gross_margin_10y": {
-      "2020": 0.3024,
-      "2021": 0.3231,
       "2022": 0.3111,
       "2023": 0.3336,
       "2024": 0.3685,
       "2025": 0.3917
     },
     "fcf_adj_10y": {
-      "2020": "N/D",
-      "2021": "N/D",
-      "2022": "N/D",
-      "2023": "N/D",
-      "2024": "N/D",
-      "2025": "N/D"
+      "2022": 62700000.0,
+      "2023": 92900000.0,
+      "2024": 70100000.0,
+      "2025": 192600000.0
     },
     "roe_10y": {
-      "2020": 0.0909,
-      "2021": 0.1655,
       "2022": -0.0238,
       "2023": 0.1012,
       "2024": 0.2314,
       "2025": 0.1431
     },
-    "owner_earnings_10y": {},
+    "owner_earnings_10y": {
+      "2022": 38800000.0,
+      "2023": 55200000.0,
+      "2024": 31600000.0,
+      "2025": 154500000.0
+    },
     "revenue_10y": {
-      "2020": 1163300000.0,
-      "2021": 1446700000.0,
       "2022": 1537600000.0,
       "2023": 1394200000.0,
       "2024": 1433000000.0,
@@ -151,8 +160,8 @@
     }
   },
   "bloc_E_health": {
-    "net_debt_ebitda": "N/D",
-    "interest_coverage": 4.633397,
+    "net_debt_ebitda": 2.271257,
+    "interest_coverage": 6.601831,
     "lt_debt_payback": {
       "years": 10.117988,
       "passes": false,
@@ -160,19 +169,18 @@
     },
     "current_ratio": 1.563052,
     "quick_ratio": 1.198403,
-    "de_ratio": 1.448028,
+    "de_ratio": 1.44872,
     "ccc": {
-      "dso": 83.793774,
+      "dso": 67.149635,
       "dio": 71.066659,
-      "dpo": 138.487824,
-      "ccc": 16.372609
+      "dpo": 79.709348,
+      "ccc": 58.506946
     },
     "ocf_ni": 2.173114,
     "accruals_pct_rev": -0.082804,
     "retained_earnings_test": {
       "ratio": "N/D",
-      "note": "shares manquants",
-      "retained_5y": 25300000.0
+      "note": "moins de 6 ans de données"
     }
   },
   "bloc_F_peers": {
@@ -180,15 +188,15 @@
   },
   "bloc_G_smart_money": {
     "value": "N/D",
-    "note": "Forms 3/4/5 et 13F : obligations SEC, sans équivalent ESEF"
+    "note": "pas de dépôts d'initiés accessibles pour cette source"
   },
   "bloc_H_sensitivity": {
     "margin_axis": [
-      0.0389,
-      0.0578,
-      0.0836,
-      0.0986,
-      0.1152
+      0.0841,
+      0.0899,
+      0.1071,
+      0.1232,
+      0.1439
     ],
     "g_axis": [
       0.0,
@@ -199,39 +207,39 @@
     ],
     "matrix": [
       [
-        0.3,
-        0.29,
-        0.28,
-        0.27,
-        0.24
-      ],
-      [
-        0.45,
-        0.45,
-        0.46,
-        0.46,
-        0.47
-      ],
-      [
-        0.65,
-        0.67,
+        0.66,
+        0.68,
         0.7,
         0.74,
-        0.79
+        0.8
       ],
       [
-        0.77,
+        0.7,
+        0.73,
+        0.76,
         0.8,
-        0.84,
-        0.89,
-        0.97
+        0.87
       ],
       [
-        0.9,
-        0.94,
-        1.0,
+        0.84,
+        0.87,
+        0.92,
+        0.98,
+        1.08
+      ],
+      [
+        0.96,
+        1.01,
         1.07,
-        1.18
+        1.15,
+        1.27
+      ],
+      [
+        1.12,
+        1.18,
+        1.26,
+        1.37,
+        1.53
       ]
     ]
   },
@@ -251,16 +259,17 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.078669,
+      "wacc": 0.07656,
       "ke": 0.106691,
-      "kd": 0.049799,
+      "kd": 0.04175,
       "tax_rate": 0.321925,
-      "E": 1676422213.357596,
-      "D": 1046200000.0,
+      "E": 1676137513.414979,
+      "D": 1046700000.0,
       "rf": 0.04912,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
+      "rf_proxy_reason": "N/D",
       "erp": 0.05,
       "beta": 1.15142,
       "beta_raw": 1.226,
@@ -270,8 +279,8 @@
       "fy": 2025,
       "ni_brut": 103400000.0,
       "ni_adj": 103400000.0,
-      "ebit_brut": 241400000.0,
-      "ebit_adj": 241400000.0,
+      "ebit_brut": 288500000.0,
+      "ebit_adj": 288500000.0,
       "adjustments": [],
       "gap_pct": 0.0,
       "gap_flag": false
@@ -279,227 +288,228 @@
     "reformulation": {
       "OA": 2354700000.0,
       "FA": 232000000.0,
-      "OO": 777200000.0,
-      "FO": 1046200000.0,
-      "NOA": 1577500000.0,
-      "NFO": 814200000.0,
+      "OO": 776700000.0,
+      "FO": 1046700000.0,
+      "NOA": 1578000000.0,
+      "NFO": 814700000.0,
       "equity_check": 40800000.0
     },
     "net_debt_detail": {
       "fy": 2025,
       "lt_debt": 1046200000.0,
-      "st_debt": 0.0,
+      "st_debt": 500000.0,
       "finance_leases": 0.0,
       "cash": 232000000.0,
       "st_investments": "N/D",
       "st_investments_deducted": false,
-      "net_debt": 814200000.0
+      "net_debt": 814700000.0
+    },
+    "tax_detail": {
+      "rate": 0.321925,
+      "source": "year",
+      "raw": 0.321925,
+      "years": [
+        2025
+      ]
     },
     "three_statement_10y": {
       "revenue": {
-        "2020": 1163300000.0,
-        "2021": 1446700000.0,
         "2022": 1537600000.0,
         "2023": 1394200000.0,
         "2024": 1433000000.0,
         "2025": 1464900000.0
       },
       "cogs": {
-        "2020": 811500000.0,
-        "2021": 979300000.0,
         "2022": 1059200000.0,
         "2023": 929100000.0,
         "2024": 905000000.0,
         "2025": 891100000.0
       },
       "gross_profit": {
-        "2020": 351800000.0,
-        "2021": 467400000.0,
         "2022": 478400000.0,
         "2023": 465100000.0,
         "2024": 528000000.0,
         "2025": 573800000.0
       },
+      "opex": {
+        "2022": 258200000.0,
+        "2023": 246700000.0,
+        "2024": 274800000.0,
+        "2025": 285300000.0
+      },
+      "sga": {
+        "2022": 259400000.0,
+        "2023": 252500000.0,
+        "2024": 274800000.0,
+        "2025": 285300000.0
+      },
       "ebit": {
-        "2020": 103100000.0,
-        "2021": 178200000.0,
-        "2022": 181100000.0,
-        "2023": 184000000.0,
-        "2024": 224500000.0,
-        "2025": 241400000.0
+        "2022": 220200000.0,
+        "2023": 218400000.0,
+        "2024": 253200000.0,
+        "2025": 288500000.0
       },
       "interest_expense": {
-        "2020": 25500000.0,
-        "2021": 21800000.0,
         "2022": 33400000.0,
-        "2023": 33900000.0,
-        "2024": 31500000.0,
-        "2025": 52100000.0
+        "2023": 38300000.0,
+        "2024": 35300000.0,
+        "2025": 43700000.0
       },
       "tax_expense": {
-        "2020": 37400000.0,
-        "2021": 53100000.0,
         "2022": 56400000.0,
         "2023": 55000000.0,
         "2024": 71500000.0,
         "2025": 64900000.0
       },
       "pretax_income": {
-        "2020": 79600000.0,
-        "2021": 158000000.0,
         "2022": 151400000.0,
         "2023": 155800000.0,
         "2024": 198000000.0,
         "2025": 201600000.0
       },
       "net_income": {
-        "2020": 26400000.0,
-        "2021": 88900000.0,
         "2022": -14700000.0,
         "2023": 56500000.0,
         "2024": 80100000.0,
         "2025": 103400000.0
       },
       "eps_diluted": {
-        "2021": 0.0607,
-        "2022": -0.0097,
+        "2022": -0.0098,
         "2023": 0.0348,
         "2024": 0.0493,
         "2025": 0.0587
       },
+      "shares_diluted": {
+        "2022": 1525300000.0,
+        "2023": 1621400000.0,
+        "2024": 1624600000.0,
+        "2025": 1761200000.0
+      },
       "cash": {
-        "2020": 71900000.0,
-        "2021": 107200000.0,
         "2022": 172400000.0,
         "2023": 132400000.0,
         "2024": 146000000.0,
         "2025": 232000000.0
       },
       "ar": {
-        "2020": 274500000.0,
-        "2021": 302700000.0,
-        "2022": 286300000.0,
-        "2023": 292000000.0,
-        "2024": 292200000.0,
-        "2025": 336300000.0
+        "2022": 235500000.0,
+        "2023": 238100000.0,
+        "2024": 245700000.0,
+        "2025": 269500000.0
       },
       "inventory": {
-        "2020": 187000000.0,
-        "2021": 250100000.0,
         "2022": 211400000.0,
         "2023": 173500000.0,
         "2024": 176100000.0,
         "2025": 173500000.0
       },
       "current_assets": {
-        "2020": 538300000.0,
-        "2021": 665200000.0,
         "2022": 672100000.0,
         "2023": 600500000.0,
         "2024": 616400000.0,
         "2025": 743700000.0
       },
       "total_assets": {
-        "2020": 1212200000.0,
-        "2021": 1515300000.0,
         "2022": 1888800000.0,
         "2023": 1714300000.0,
         "2024": 1610700000.0,
         "2025": 2586700000.0
       },
       "ppe_net": {
-        "2020": 254400000.0,
-        "2021": 244500000.0,
-        "2022": 256300000.0,
-        "2023": 243200000.0,
-        "2024": 226300000.0,
-        "2025": 248700000.0
+        "2022": 352800000.0,
+        "2023": 317600000.0,
+        "2024": 295200000.0,
+        "2025": 323700000.0
       },
       "goodwill": {
-        "2021": 26200000.0,
         "2022": 124700000.0,
         "2023": 126100000.0,
         "2024": 120400000.0,
         "2025": 372900000.0
       },
       "intangibles": {
-        "2021": 256700000.0,
         "2022": 488700000.0,
         "2023": 470700000.0,
         "2024": 443500000.0,
         "2025": 1002300000.0
       },
       "ap": {
-        "2020": -255700000.0,
-        "2021": 346800000.0,
-        "2022": 278400000.0,
-        "2023": 285600000.0,
-        "2024": 299200000.0,
-        "2025": 338100000.0
+        "2022": 151300000.0,
+        "2023": 163200000.0,
+        "2024": 167200000.0,
+        "2025": 194600000.0
       },
       "current_liabilities": {
-        "2020": -359400000.0,
-        "2021": 456400000.0,
         "2022": 385100000.0,
         "2023": 518500000.0,
         "2024": 399900000.0,
         "2025": 475800000.0
       },
       "lt_debt": {
-        "2020": -229700000.0,
-        "2021": 235100000.0,
         "2022": 550100000.0,
         "2023": 372200000.0,
         "2024": 595100000.0,
         "2025": 1046200000.0
       },
+      "st_debt": {
+        "2022": 16700000.0,
+        "2023": 144300000.0,
+        "2024": 200000.0,
+        "2025": 500000.0
+      },
       "total_liabilities": {
-        "2020": -893300000.0,
-        "2021": 946900000.0,
         "2022": 1238200000.0,
         "2023": 1124900000.0,
         "2024": 1232100000.0,
         "2025": 1823400000.0
       },
       "equity": {
-        "2019": 351500000.0,
-        "2020": 290500000.0,
-        "2021": 537300000.0,
         "2022": 616500000.0,
         "2023": 558100000.0,
         "2024": 346100000.0,
         "2025": 722500000.0
       },
       "retained_earnings": {
-        "2020": -23800000.0,
-        "2021": 236200000.0,
         "2022": 216700000.0,
         "2023": 157400000.0,
         "2024": -35400000.0,
         "2025": -900000.0
       },
+      "shares_outstanding": {
+        "2022": 1597810385.0,
+        "2023": 1591686162.0,
+        "2024": 1592904616.0,
+        "2025": 1914361942.0
+      },
       "ocf": {
-        "2020": 65600000.0,
-        "2021": 128600000.0,
         "2022": 96400000.0,
         "2023": 123900000.0,
         "2024": 95800000.0,
         "2025": 224700000.0
       },
-      "dividends_paid": {
-        "2020": 17800000.0,
-        "2021": 44100000.0,
-        "2022": 51200000.0,
-        "2023": 60300000.0,
-        "2024": 64500000.0,
-        "2025": 68800000.0
+      "capex": {
+        "2022": 33700000.0,
+        "2023": 31000000.0,
+        "2024": 25700000.0,
+        "2025": 32100000.0
       },
-      "shares_diluted": {
-        "2021": 1464579901.153213,
-        "2022": 1515463917.525773,
-        "2023": 1623563218.390805,
-        "2024": 1624746450.30426,
-        "2025": 1761499148.211244
+      "buybacks": {
+        "2022": 2100000.0,
+        "2023": 10100000.0,
+        "2024": 8700000.0,
+        "2025": 9000000.0
+      },
+      "dividends_paid": {
+        "2022": 33000000.0,
+        "2023": 40300000.0,
+        "2024": 46200000.0,
+        "2025": 53600000.0
+      },
+      "dep_amort": {
+        "2022": 57600000.0,
+        "2023": 68700000.0,
+        "2024": 64200000.0,
+        "2025": 70200000.0
       }
     },
     "source_map_per_tag": {
@@ -507,270 +517,340 @@
         "value": 1464900000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "Revenue",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Revenue",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "cogs": {
         "value": 891100000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "CostOfSales",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cost Of Revenue",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "gross_profit": {
         "value": 573800000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "GrossProfit",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Gross Profit",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
+      },
+      "opex": {
+        "value": 285300000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Expense",
+        "unit": "USD",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
+      },
+      "sga": {
+        "value": 285300000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Selling General And Administration",
+        "unit": "USD",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "ebit": {
-        "value": 241400000.0,
+        "value": 288500000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "ProfitLossFromOperatingActivities",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Income",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "interest_expense": {
-        "value": 52100000.0,
+        "value": 43700000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "FinanceCosts",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Interest Expense",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "tax_expense": {
         "value": 64900000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "IncomeTaxExpenseContinuingOperations",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Tax Provision",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "pretax_income": {
         "value": 201600000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "ProfitLossBeforeTax",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Pretax Income",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "net_income": {
         "value": 103400000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Net Income Common Stockholders",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "eps_diluted": {
         "value": 0.0587,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "DilutedEarningsLossPerShare",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Diluted EPS",
         "unit": "USD/shares",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
+      },
+      "shares_diluted": {
+        "value": 1761200000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Diluted Average Shares",
+        "unit": "shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "cash": {
         "value": 232000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "CashAndCashEquivalents",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash And Cash Equivalents",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "ar": {
-        "value": 336300000.0,
+        "value": 269500000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "TradeAndOtherCurrentReceivables",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Accounts Receivable",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "inventory": {
         "value": 173500000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "Inventories",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Inventory",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "current_assets": {
         "value": 743700000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "CurrentAssets",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Assets",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "total_assets": {
         "value": 2586700000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "Assets",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Assets",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "ppe_net": {
-        "value": 248700000.0,
+        "value": 323700000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "PropertyPlantAndEquipment",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Net PPE",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "goodwill": {
         "value": 372900000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "Goodwill",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Goodwill",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "intangibles": {
         "value": 1002300000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "IntangibleAssetsOtherThanGoodwill",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Other Intangible Assets",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "ap": {
-        "value": 338100000.0,
+        "value": 194600000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "TradeAndOtherCurrentPayables",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Accounts Payable",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "current_liabilities": {
         "value": 475800000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "CurrentLiabilities",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Liabilities",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "lt_debt": {
         "value": 1046200000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "LongtermBorrowings",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Long Term Debt",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
+      },
+      "st_debt": {
+        "value": 500000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Debt",
+        "unit": "USD",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "total_liabilities": {
         "value": 1823400000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "Liabilities",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Liabilities Net Minority Interest",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "equity": {
         "value": 722500000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "EquityAttributableToOwnersOfParent",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Stockholders Equity",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "retained_earnings": {
         "value": -900000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "RetainedEarnings",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Retained Earnings",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
+      },
+      "shares_outstanding": {
+        "value": 1914361942.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Ordinary Shares Number",
+        "unit": "shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "ocf": {
         "value": 224700000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "CashFlowsFromUsedInOperatingActivities",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Cash Flow",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
+      },
+      "capex": {
+        "value": 32100000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Capital Expenditure",
+        "unit": "USD",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
+      },
+      "buybacks": {
+        "value": 9000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Repurchase Of Capital Stock",
+        "unit": "USD",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
       "dividends_paid": {
-        "value": 68800000.0,
+        "value": 53600000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "DividendsPaid",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash Dividends Paid",
         "unit": "USD",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
-      "shares_diluted": {
-        "value": 1761499148.211244,
+      "dep_amort": {
+        "value": 70200000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "ESEF|2026-03-18 14:01:02.626563|/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-        "filing_form": "ESEF",
-        "xbrl_tag": "derived:net_income/eps_diluted",
-        "unit": "shares",
-        "edgar_filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html"
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Depreciation And Amortization",
+        "unit": "USD",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       }
     },
-    "edgar_filings_index": "https://filings.xbrl.org/api/entities/2138003SPYWGAITNFY17/filings"
+    "edgar_filings_index": "https://finance.yahoo.com/quote/COA.L/financials"
   },
   "score_composite": {
-    "value_0_100": 39.3,
+    "value_0_100": 58.8,
     "pillars": {
-      "valuation": 1.09575,
-      "balance_sheet_health": 50,
+      "valuation": 57.677384,
+      "balance_sheet_health": 60,
       "earnings_quality": 70,
       "smart_money": 50,
       "momentum": 50
@@ -785,7 +865,7 @@
     "note": "pondérations modifiables par l'utilisateur (.txt Couche 4)"
   },
   "meta": {
-    "source": "ESEF (filings.xbrl.org)",
+    "source": "Yahoo Finance statements (secondary) — ESEF 2025 incomplete (capex not tagged)",
     "listing_currency": "GBp",
     "reporting_currency": "USD",
     "price_listing": 72.75,

@@ -1,0 +1,856 @@
+{
+  "ticker": "KAP.L",
+  "cik": 0,
+  "as_of": "2026-11-21",
+  "fiscal_year": 2025,
+  "bloc_A_verdict": {
+    "prix": 12779.467969,
+    "EPV": {
+      "epv_ev": 7711470458197.969,
+      "epv_equity": 7967510458197.969,
+      "epv_per_share": 30720.244521,
+      "inputs": {
+        "ebit_adj": 768676000000.0,
+        "tax": 0.189786,
+        "wacc": 0.080762,
+        "net_debt": -256040000000.0
+      }
+    },
+    "EPV_confidence_range": {
+      "low": 12598.471183,
+      "high": 27578.807654,
+      "fcf_p25": 237830750000.0,
+      "fcf_p75": 520625750000.0
+    },
+    "EPV_wacc_sensitivity": {
+      "minus_100bps": 34922.096384,
+      "central": 30720.244521,
+      "plus_100bps": 27444.300861
+    },
+    "RE_valuation": {
+      "re_value_equity": 6996719099745.5,
+      "re_value_per_share": 26977.174704,
+      "inputs": {
+        "B0": 2327943000000.0,
+        "RE": 380656987352.5,
+        "ke": 0.081533,
+        "g": 0.0,
+        "g_sgr": "N/D",
+        "g_cap": 0.04912
+      }
+    },
+    "consensus": {
+      "available": true,
+      "target_mean": 38795.717602,
+      "target_median": 38729.655577,
+      "target_high": 45549.403445,
+      "target_low": 33958.508151,
+      "n_analysts": 14,
+      "warning_few_analysts": false,
+      "dispersion": 0.298767
+    },
+    "reverse_dcf": {
+      "implied_g": -0.091505,
+      "flag_unrealistic": false,
+      "inputs": {
+        "ev": 3058404473971.0938,
+        "fcf_adj": 579929000000.0,
+        "wacc": 0.080762
+      }
+    },
+    "SGR": {
+      "sgr": "N/D",
+      "rr": "N/D",
+      "note": "inputs manquants"
+    },
+    "flag_growth_unfinanceable": "N/D"
+  },
+  "bloc_B_flags": [
+    {
+      "id": "rf_currency_proxy",
+      "severity": "medium",
+      "message": "Aucun taux 10 ans KZT publié : US 10Y utilisé en substitut",
+      "details": {
+        "currency": "KZT",
+        "rf": 0.04912,
+        "reason": "no_source"
+      }
+    }
+  ],
+  "bloc_C_dupont": {
+    "available": true,
+    "fy": 2025,
+    "RNOA": 0.208594,
+    "FLEV": -0.109986,
+    "NBC": -0.059462,
+    "SPREAD": 0.268056,
+    "leverage_gain": -0.029482,
+    "ROE_dupont": 0.179112,
+    "ROE_direct": 0.245049,
+    "coherence_gap": -0.0659,
+    "net_cash_position": true
+  },
+  "bloc_D_trends": {
+    "roic_10y": {
+      "2022": 0.281,
+      "2023": 0.3708,
+      "2024": 0.3441,
+      "2025": 0.3006
+    },
+    "invested_capital_share_10y": {
+      "2022": 0.583416,
+      "2023": 0.556496,
+      "2024": 0.502709,
+      "2025": 0.514473
+    },
+    "rnoa_10y": {
+      "2022": 0.2165,
+      "2023": 0.2783,
+      "2024": 0.2334,
+      "2025": 0.2086
+    },
+    "gross_margin_10y": {
+      "2022": 0.5255,
+      "2023": 0.5317,
+      "2024": 0.4862,
+      "2025": 0.4783
+    },
+    "fcf_adj_10y": {
+      "2022": 209382000000.0,
+      "2023": 323177000000.0,
+      "2024": 342716000000.0,
+      "2025": 579929000000.0
+    },
+    "roe_10y": {
+      "2022": 0.2657,
+      "2023": 0.2744,
+      "2024": 0.4181,
+      "2025": 0.245
+    },
+    "owner_earnings_10y": {},
+    "revenue_10y": {
+      "2022": 1001171000000.0,
+      "2023": 1434635000000.0,
+      "2024": 1813352000000.0,
+      "2025": 1803049000000.0
+    }
+  },
+  "bloc_E_health": {
+    "net_debt_ebitda": "N/D",
+    "interest_coverage": 40.906604,
+    "lt_debt_payback": {
+      "years": 0.090431,
+      "passes": true,
+      "label": "source secondaire"
+    },
+    "current_ratio": 3.475306,
+    "quick_ratio": 2.56096,
+    "de_ratio": 0.094567,
+    "ccc": {
+      "dso": 63.064942,
+      "dio": 161.155532,
+      "dpo": 73.850713,
+      "ccc": 150.369761
+    },
+    "ocf_ni": 1.419635,
+    "accruals_pct_rev": -0.132767,
+    "retained_earnings_test": {
+      "ratio": "N/D",
+      "note": "moins de 6 ans de données"
+    }
+  },
+  "bloc_F_peers": {
+    "note": "rempli par peer_batch.build_peer_blocks() sur l'univers complet"
+  },
+  "bloc_G_smart_money": {
+    "value": "N/D",
+    "note": "pas de dépôts d'initiés accessibles pour cette source"
+  },
+  "bloc_H_sensitivity": {
+    "margin_axis": [
+      0.3361,
+      0.3454,
+      0.3642,
+      0.3692,
+      0.3785
+    ],
+    "g_axis": [
+      0.0,
+      0.0123,
+      0.0246,
+      0.0368,
+      0.0491
+    ],
+    "matrix": [
+      [
+        28661.38,
+        31212.62,
+        34863.67,
+        40521.1,
+        50465.33
+      ],
+      [
+        29451.95,
+        32105.66,
+        35903.33,
+        41787.96,
+        52131.55
+      ],
+      [
+        31058.26,
+        33920.14,
+        38015.74,
+        44362.0,
+        55517.02
+      ],
+      [
+        31479.89,
+        34396.41,
+        38570.21,
+        45037.64,
+        56405.65
+      ],
+      [
+        32272.84,
+        35292.13,
+        39612.99,
+        46308.31,
+        58076.88
+      ]
+    ]
+  },
+  "bloc_I_macro": {
+    "leading_indicator": {
+      "indicator": "PMI Manufacturing",
+      "value": "N/D",
+      "label": "contexte macro — indicateur avancé, pas une prédiction"
+    },
+    "geographic_exposure": {
+      "us_pct": "N/D",
+      "non_us_pct": "N/D",
+      "source": "yfinance country (HQ)",
+      "country": "Kazakhstan",
+      "note": "HQ Kazakhstan ; ventilation US/non-US indisponible en v1"
+    }
+  },
+  "drill_down": {
+    "wacc_detail": {
+      "wacc": 0.080762,
+      "ke": 0.081533,
+      "kd": 0.085357,
+      "tax_rate": 0.189786,
+      "E": 3314444473971.0938,
+      "D": 220146000000.0,
+      "rf": 0.04912,
+      "rf_source": "PROXY : aucun taux 10 ans KZT publié → US 10Y (sainhe macro.json us_10y)",
+      "rf_currency": "KZT",
+      "rf_proxy": true,
+      "rf_proxy_reason": "no_source",
+      "erp": 0.05,
+      "beta": 0.64825,
+      "beta_raw": 0.475,
+      "mode": "complet"
+    },
+    "adjustments": {
+      "fy": 2025,
+      "ni_brut": 570460000000.0,
+      "ni_adj": 570460000000.0,
+      "ebit_brut": 768676000000.0,
+      "ebit_adj": 768676000000.0,
+      "adjustments": [],
+      "gap_pct": 0.0,
+      "gap_flag": false
+    },
+    "reformulation": {
+      "OA": 3551050000000.0,
+      "FA": 476186000000.0,
+      "OO": 565385000000.0,
+      "FO": 220146000000.0,
+      "NOA": 2985665000000.0,
+      "NFO": -256040000000.0,
+      "equity_check": 913762000000.0
+    },
+    "net_debt_detail": {
+      "fy": 2025,
+      "lt_debt": 51587000000.0,
+      "st_debt": 168559000000.0,
+      "finance_leases": 0.0,
+      "cash": 347398000000.0,
+      "st_investments": 128788000000.0,
+      "st_investments_deducted": true,
+      "net_debt": -256040000000.0
+    },
+    "tax_detail": {
+      "rate": 0.189786,
+      "source": "year",
+      "raw": 0.189786,
+      "years": [
+        2025
+      ]
+    },
+    "three_statement_10y": {
+      "revenue": {
+        "2022": 1001171000000.0,
+        "2023": 1434635000000.0,
+        "2024": 1813352000000.0,
+        "2025": 1803049000000.0
+      },
+      "cogs": {
+        "2022": 475097000000.0,
+        "2023": 671862000000.0,
+        "2024": 931621000000.0,
+        "2025": 940653000000.0
+      },
+      "gross_profit": {
+        "2022": 526074000000.0,
+        "2023": 762773000000.0,
+        "2024": 881731000000.0,
+        "2025": 862396000000.0
+      },
+      "opex": {
+        "2022": 76376000000.0,
+        "2023": 89660000000.0,
+        "2024": 82301000000.0,
+        "2025": 93720000000.0
+      },
+      "sga": {
+        "2022": 44934000000.0,
+        "2023": 50176000000.0,
+        "2024": 37217000000.0,
+        "2025": 46904000000.0
+      },
+      "rnd": {
+        "2022": 887000000.0,
+        "2023": 806000000.0,
+        "2024": 2303000000.0,
+        "2025": 3600000000.0
+      },
+      "ebit": {
+        "2022": 449698000000.0,
+        "2023": 673113000000.0,
+        "2024": 799430000000.0,
+        "2025": 768676000000.0
+      },
+      "interest_expense": {
+        "2022": 6581000000.0,
+        "2023": 8606000000.0,
+        "2024": 14108000000.0,
+        "2025": 18791000000.0
+      },
+      "tax_expense": {
+        "2022": 110742000000.0,
+        "2023": 148007000000.0,
+        "2024": 236997000000.0,
+        "2025": 188965000000.0
+      },
+      "pretax_income": {
+        "2022": 583705000000.0,
+        "2023": 728342000000.0,
+        "2024": 1369112000000.0,
+        "2025": 995672000000.0
+      },
+      "net_income": {
+        "2022": 348048000000.0,
+        "2023": 419184000000.0,
+        "2024": 872263000000.0,
+        "2025": 570460000000.0
+      },
+      "eps_diluted": {
+        "2022": 1342.0,
+        "2023": 1616.0,
+        "2024": 3363.0,
+        "2025": 2200.0
+      },
+      "shares_diluted": {
+        "2022": 259357000.0,
+        "2023": 259357000.0,
+        "2024": 259357000.0,
+        "2025": 259357000.0
+      },
+      "cash": {
+        "2022": 169536000000.0,
+        "2023": 211912000000.0,
+        "2024": 294385000000.0,
+        "2025": 347398000000.0
+      },
+      "st_investments": {
+        "2022": 1264000000.0,
+        "2023": 46905000000.0,
+        "2024": 20421000000.0,
+        "2025": 128788000000.0
+      },
+      "ar": {
+        "2022": 258631000000.0,
+        "2023": 332036000000.0,
+        "2024": 622960000000.0,
+        "2025": 311532000000.0
+      },
+      "inventory": {
+        "2022": 392621000000.0,
+        "2023": 423314000000.0,
+        "2024": 388157000000.0,
+        "2025": 415319000000.0
+      },
+      "current_assets": {
+        "2022": 947720000000.0,
+        "2023": 1290708000000.0,
+        "2024": 1626223000000.0,
+        "2025": 1578571000000.0
+      },
+      "total_assets": {
+        "2022": 2222533000000.0,
+        "2023": 2599292000000.0,
+        "2024": 3821881000000.0,
+        "2025": 4027236000000.0
+      },
+      "ppe_net": {
+        "2022": 902157000000.0,
+        "2023": 904931000000.0,
+        "2024": 1702138000000.0,
+        "2025": 1787516000000.0
+      },
+      "goodwill": {
+        "2022": 48494000000.0,
+        "2023": 48494000000.0,
+        "2024": 48494000000.0,
+        "2025": 48494000000.0
+      },
+      "intangibles": {
+        "2022": 10665000000.0,
+        "2023": 11662000000.0,
+        "2024": 12759000000.0,
+        "2025": 13090000000.0
+      },
+      "ap": {
+        "2022": 98462000000.0,
+        "2023": 175389000000.0,
+        "2024": 280823000000.0,
+        "2025": 190323000000.0
+      },
+      "current_liabilities": {
+        "2022": 271403000000.0,
+        "2023": 430812000000.0,
+        "2024": 420985000000.0,
+        "2025": 454225000000.0
+      },
+      "lt_debt": {
+        "2022": 83300000000.0,
+        "2023": 0.0,
+        "2024": 106401000000.0,
+        "2025": 51587000000.0
+      },
+      "st_debt": {
+        "2022": 74118000000.0,
+        "2023": 177403000000.0,
+        "2024": 43306000000.0,
+        "2025": 168559000000.0
+      },
+      "total_liabilities": {
+        "2022": 526030000000.0,
+        "2023": 591025000000.0,
+        "2024": 824330000000.0,
+        "2025": 785531000000.0
+      },
+      "equity": {
+        "2022": 1310044000000.0,
+        "2023": 1527909000000.0,
+        "2024": 2086393000000.0,
+        "2025": 2327943000000.0
+      },
+      "retained_earnings": {
+        "2022": 1268580000000.0,
+        "2023": 1487091000000.0,
+        "2024": 2044521000000.0,
+        "2025": 2286398000000.0
+      },
+      "shares_outstanding": {
+        "2022": 259356608.0,
+        "2023": 259356608.0,
+        "2024": 259356608.0,
+        "2025": 259356608.0
+      },
+      "ocf": {
+        "2022": 283859000000.0,
+        "2023": 432225000000.0,
+        "2024": 516487000000.0,
+        "2025": 809845000000.0
+      },
+      "capex": {
+        "2022": 74477000000.0,
+        "2023": 109048000000.0,
+        "2024": 173771000000.0,
+        "2025": 229916000000.0
+      },
+      "dividends_paid": {
+        "2022": 227388000000.0,
+        "2023": 200970000000.0,
+        "2024": 314649000000.0,
+        "2025": 327858000000.0
+      }
+    },
+    "source_map_per_tag": {
+      "revenue": {
+        "value": 1803049000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Revenue",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "cogs": {
+        "value": 940653000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cost Of Revenue",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "gross_profit": {
+        "value": 862396000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Gross Profit",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "opex": {
+        "value": 93720000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Expense",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "sga": {
+        "value": 46904000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Selling General And Administration",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "rnd": {
+        "value": 3600000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Research And Development",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "ebit": {
+        "value": 768676000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Income",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "interest_expense": {
+        "value": 18791000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Interest Expense",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "tax_expense": {
+        "value": 188965000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Tax Provision",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "pretax_income": {
+        "value": 995672000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Pretax Income",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "net_income": {
+        "value": 570460000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Net Income Common Stockholders",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "eps_diluted": {
+        "value": 2200.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Diluted EPS",
+        "unit": "KZT/shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "shares_diluted": {
+        "value": 259357000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Diluted Average Shares",
+        "unit": "shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "cash": {
+        "value": 347398000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash And Cash Equivalents",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "st_investments": {
+        "value": 128788000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Other Short Term Investments",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "ar": {
+        "value": 311532000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Accounts Receivable",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "inventory": {
+        "value": 415319000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Inventory",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "current_assets": {
+        "value": 1578571000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Assets",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "total_assets": {
+        "value": 4027236000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Assets",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "ppe_net": {
+        "value": 1787516000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Net PPE",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "goodwill": {
+        "value": 48494000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Goodwill",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "intangibles": {
+        "value": 13090000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Other Intangible Assets",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "ap": {
+        "value": 190323000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Accounts Payable",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "current_liabilities": {
+        "value": 454225000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Liabilities",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "lt_debt": {
+        "value": 51587000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Long Term Debt",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "st_debt": {
+        "value": 168559000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Debt",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "total_liabilities": {
+        "value": 785531000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Liabilities Net Minority Interest",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "equity": {
+        "value": 2327943000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "retained_earnings": {
+        "value": 2286398000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Retained Earnings",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "shares_outstanding": {
+        "value": 259356608.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Ordinary Shares Number",
+        "unit": "shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "ocf": {
+        "value": 809845000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash Flowsfromusedin Operating Activities Direct",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "capex": {
+        "value": 229916000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Capital Expenditure",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      },
+      "dividends_paid": {
+        "value": 327858000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash Dividends Paid",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+      }
+    },
+    "edgar_filings_index": "https://finance.yahoo.com/quote/KAP.L/financials"
+  },
+  "score_composite": {
+    "value_0_100": 72.8,
+    "pillars": {
+      "valuation": 100,
+      "balance_sheet_health": 65,
+      "earnings_quality": 70,
+      "smart_money": 50,
+      "momentum": 50
+    },
+    "weights": {
+      "valuation": 0.3,
+      "balance_sheet_health": 0.25,
+      "earnings_quality": 0.2,
+      "smart_money": 0.15,
+      "momentum": 0.1
+    },
+    "note": "pondérations modifiables par l'utilisateur (.txt Couche 4)"
+  },
+  "meta": {
+    "source": "Yahoo Finance statements (secondary) — Kazakhstan: no public XBRL feed",
+    "listing_currency": "USD",
+    "reporting_currency": "KZT",
+    "price_listing": 29.4,
+    "price_in_reporting_currency": 12779.46796875,
+    "fx_listing_to_reporting": 434.67578125,
+    "adr_ratio": 1.0,
+    "fiscal_year_end": "2025-12-31",
+    "months_since_fiscal_year_end": 11,
+    "stale_financials": false,
+    "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  }
+}

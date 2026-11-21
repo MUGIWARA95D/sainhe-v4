@@ -1,0 +1,853 @@
+{
+  "ticker": "RHM.DE",
+  "cik": 0,
+  "as_of": "2026-11-21",
+  "fiscal_year": 2025,
+  "bloc_A_verdict": {
+    "prix": 693.4,
+    "EPV": {
+      "epv_ev": 19108264241.936577,
+      "epv_equity": 19823264241.936577,
+      "epv_per_share": 424.844926,
+      "inputs": {
+        "ebit_adj": 1702000000.0,
+        "tax": 0.251908,
+        "wacc": 0.066634,
+        "net_debt": -715000000.0
+      }
+    },
+    "EPV_confidence_range": {
+      "low": -13.510969,
+      "high": 392.793904,
+      "fcf_p25": -45000000.0,
+      "fcf_p75": 1308250000.0
+    },
+    "EPV_wacc_sensitivity": {
+      "minus_100bps": 497.155623,
+      "central": 424.844926,
+      "plus_100bps": 371.406035
+    },
+    "RE_valuation": {
+      "re_value_equity": 15234564818.477005,
+      "re_value_per_share": 326.501603,
+      "inputs": {
+        "B0": 5011000000.0,
+        "RE": 365466923.5,
+        "ke": 0.065962,
+        "g": 0.03442,
+        "g_sgr": 0.207868,
+        "g_cap": 0.03442
+      }
+    },
+    "consensus": {
+      "available": true,
+      "target_mean": 1326.2273,
+      "target_median": 1275.0,
+      "target_high": 2000.0,
+      "target_low": 900.0,
+      "n_analysts": 22,
+      "warning_few_analysts": false,
+      "dispersion": 0.82942
+    },
+    "reverse_dcf": {
+      "implied_g": 0.020972,
+      "flag_unrealistic": false,
+      "inputs": {
+        "ev": 31639044000.0,
+        "fcf_adj": 1415000000.0,
+        "wacc": 0.066634
+      }
+    },
+    "SGR": {
+      "sgr": 0.207868,
+      "rr": 0.701354,
+      "roic": 0.296381,
+      "status": "ok",
+      "nm_reason": "N/D",
+      "invested_capital_share_of_assets": 0.256141
+    },
+    "flag_growth_unfinanceable": false
+  },
+  "bloc_B_flags": [],
+  "bloc_C_dupont": {
+    "available": true,
+    "fy": 2025,
+    "RNOA": 0.259847,
+    "FLEV": -0.142686,
+    "NBC": -0.121369,
+    "SPREAD": 0.381216,
+    "leverage_gain": -0.054394,
+    "ROE_dupont": 0.205453,
+    "ROE_direct": 0.138894,
+    "coherence_gap": 0.0666,
+    "net_cash_position": true
+  },
+  "bloc_D_trends": {
+    "roic_10y": {
+      "2022": 0.1948,
+      "2023": 0.1633,
+      "2024": 0.1958,
+      "2025": 0.2964
+    },
+    "invested_capital_share_10y": {
+      "2022": 0.356225,
+      "2023": 0.345349,
+      "2024": 0.340282,
+      "2025": 0.256141
+    },
+    "rnoa_10y": {
+      "2022": 0.1781,
+      "2023": 0.1511,
+      "2024": 0.1805,
+      "2025": 0.2598
+    },
+    "gross_margin_10y": {
+      "2022": 0.5271,
+      "2023": 0.5486,
+      "2024": 0.5384,
+      "2025": 0.5238
+    },
+    "fcf_adj_10y": {
+      "2022": -175000000.0,
+      "2023": 345000000.0,
+      "2024": 988000000.0,
+      "2025": 1415000000.0
+    },
+    "roe_10y": {
+      "2022": 0.1681,
+      "2023": 0.1613,
+      "2024": 0.177,
+      "2025": 0.1389
+    },
+    "owner_earnings_10y": {
+      "2022": -76000000.0,
+      "2023": 435000000.0,
+      "2024": 1317000000.0,
+      "2025": 1786000000.0
+    },
+    "revenue_10y": {
+      "2022": 6410000000.0,
+      "2023": 7176000000.0,
+      "2024": 7715000000.0,
+      "2025": 9935000000.0
+    }
+  },
+  "bloc_E_health": {
+    "net_debt_ebitda": -0.324557,
+    "interest_coverage": 14.672414,
+    "lt_debt_payback": {
+      "years": 1.295977,
+      "passes": true,
+      "label": "source secondaire"
+    },
+    "current_ratio": 1.201742,
+    "quick_ratio": 0.745673,
+    "de_ratio": 0.194772,
+    "ccc": {
+      "dso": 70.060896,
+      "dio": 319.172479,
+      "dpo": 91.50074,
+      "ccc": 297.732635
+    },
+    "ocf_ni": 3.28592,
+    "accruals_pct_rev": -0.160141,
+    "retained_earnings_test": {
+      "ratio": "N/D",
+      "note": "moins de 6 ans de données"
+    }
+  },
+  "bloc_F_peers": {
+    "note": "rempli par peer_batch.build_peer_blocks() sur l'univers complet"
+  },
+  "bloc_G_smart_money": {
+    "value": "N/D",
+    "note": "pas de dépôts d'initiés accessibles pour cette source"
+  },
+  "bloc_H_sensitivity": {
+    "margin_axis": [
+      0.0855,
+      0.0876,
+      0.1079,
+      0.126,
+      0.1303
+    ],
+    "g_axis": [
+      0.0,
+      0.0086,
+      0.0172,
+      0.0258,
+      0.0344
+    ],
+    "matrix": [
+      [
+        275.91,
+        295.5,
+        321.99,
+        359.84,
+        418.35
+      ],
+      [
+        282.93,
+        303.32,
+        330.92,
+        370.35,
+        431.29
+      ],
+      [
+        348.43,
+        376.44,
+        414.33,
+        468.48,
+        552.16
+      ],
+      [
+        406.8,
+        441.59,
+        488.66,
+        555.91,
+        659.86
+      ],
+      [
+        420.59,
+        456.98,
+        506.22,
+        576.57,
+        685.3
+      ]
+    ]
+  },
+  "bloc_I_macro": {
+    "leading_indicator": {
+      "indicator": "PMI Manufacturing",
+      "value": "N/D",
+      "label": "contexte macro — indicateur avancé, pas une prédiction"
+    },
+    "geographic_exposure": {
+      "us_pct": "N/D",
+      "non_us_pct": "N/D",
+      "source": "yfinance country (HQ)",
+      "country": "Germany",
+      "note": "HQ Germany ; ventilation US/non-US indisponible en v1"
+    }
+  },
+  "drill_down": {
+    "wacc_detail": {
+      "wacc": 0.066634,
+      "ke": 0.065962,
+      "kd": 0.118852,
+      "tax_rate": 0.251908,
+      "E": 32354044000.0,
+      "D": 976000000.0,
+      "rf": 0.03442,
+      "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
+      "rf_currency": "EUR",
+      "rf_proxy": false,
+      "rf_proxy_reason": "N/D",
+      "erp": 0.05,
+      "beta": 0.63083,
+      "beta_raw": 0.449,
+      "mode": "complet"
+    },
+    "adjustments": {
+      "fy": 2025,
+      "ni_brut": 696000000.0,
+      "ni_adj": 696000000.0,
+      "ebit_brut": 1702000000.0,
+      "ebit_adj": 1702000000.0,
+      "adjustments": [],
+      "gap_pct": 0.0,
+      "gap_flag": false
+    },
+    "reformulation": {
+      "OA": 15081000000.0,
+      "FA": 1691000000.0,
+      "OO": 10181000000.0,
+      "FO": 976000000.0,
+      "NOA": 4900000000.0,
+      "NFO": -715000000.0,
+      "equity_check": 604000000.0
+    },
+    "net_debt_detail": {
+      "fy": 2025,
+      "lt_debt": 902000000.0,
+      "st_debt": 74000000.0,
+      "finance_leases": 0.0,
+      "cash": 1650000000.0,
+      "st_investments": 41000000.0,
+      "st_investments_deducted": true,
+      "net_debt": -715000000.0
+    },
+    "tax_detail": {
+      "rate": 0.251908,
+      "source": "year",
+      "raw": 0.251908,
+      "years": [
+        2025
+      ]
+    },
+    "three_statement_10y": {
+      "revenue": {
+        "2022": 6410000000.0,
+        "2023": 7176000000.0,
+        "2024": 7715000000.0,
+        "2025": 9935000000.0
+      },
+      "cogs": {
+        "2022": 3031000000.0,
+        "2023": 3239000000.0,
+        "2024": 3561000000.0,
+        "2025": 4731000000.0
+      },
+      "gross_profit": {
+        "2022": 3379000000.0,
+        "2023": 3937000000.0,
+        "2024": 4154000000.0,
+        "2025": 5204000000.0
+      },
+      "opex": {
+        "2022": 2625000000.0,
+        "2023": 3083000000.0,
+        "2024": 2825000000.0,
+        "2025": 3502000000.0
+      },
+      "sga": {
+        "2022": 234000000.0,
+        "2023": 264000000.0,
+        "2024": 267000000.0,
+        "2025": 319000000.0
+      },
+      "ebit": {
+        "2022": 754000000.0,
+        "2023": 854000000.0,
+        "2024": 1329000000.0,
+        "2025": 1702000000.0
+      },
+      "interest_expense": {
+        "2022": 32000000.0,
+        "2023": 111000000.0,
+        "2024": 116000000.0,
+        "2025": 116000000.0
+      },
+      "tax_expense": {
+        "2022": 183000000.0,
+        "2023": 185000000.0,
+        "2024": 328000000.0,
+        "2025": 396000000.0
+      },
+      "pretax_income": {
+        "2022": 718000000.0,
+        "2023": 815000000.0,
+        "2024": 1168000000.0,
+        "2025": 1572000000.0
+      },
+      "net_income": {
+        "2022": 474000000.0,
+        "2023": 535000000.0,
+        "2024": 717000000.0,
+        "2025": 696000000.0
+      },
+      "eps_diluted": {
+        "2022": 10.94,
+        "2023": 12.07,
+        "2024": 15.96,
+        "2025": 15.16
+      },
+      "shares_diluted": {
+        "2022": 43360000.0,
+        "2023": 46340000.0,
+        "2024": 46660000.0,
+        "2025": 46660000.0
+      },
+      "cash": {
+        "2022": 545000000.0,
+        "2023": 850000000.0,
+        "2024": 1184000000.0,
+        "2025": 1650000000.0
+      },
+      "st_investments": {
+        "2022": 151000000.0,
+        "2023": 65000000.0,
+        "2024": 81000000.0,
+        "2025": 41000000.0
+      },
+      "ar": {
+        "2022": 1560000000.0,
+        "2023": 2033000000.0,
+        "2024": 1959000000.0,
+        "2025": 1907000000.0
+      },
+      "inventory": {
+        "2022": 1879000000.0,
+        "2023": 2951000000.0,
+        "2024": 3528000000.0,
+        "2025": 4137000000.0
+      },
+      "current_assets": {
+        "2022": 5178000000.0,
+        "2023": 7092000000.0,
+        "2024": 8231000000.0,
+        "2025": 10901000000.0
+      },
+      "total_assets": {
+        "2022": 8096000000.0,
+        "2023": 11707000000.0,
+        "2024": 14344000000.0,
+        "2025": 16772000000.0
+      },
+      "ppe_net": {
+        "2022": 1347000000.0,
+        "2023": 1641000000.0,
+        "2024": 2188000000.0,
+        "2025": 2300000000.0
+      },
+      "goodwill": {
+        "2022": 483000000.0,
+        "2023": 1125000000.0,
+        "2024": 1426000000.0,
+        "2025": 1354000000.0
+      },
+      "intangibles": {
+        "2022": 338000000.0,
+        "2023": 953000000.0,
+        "2024": 1376000000.0,
+        "2025": 1244000000.0
+      },
+      "ap": {
+        "2022": 931000000.0,
+        "2023": 1222000000.0,
+        "2024": 1151000000.0,
+        "2025": 1186000000.0
+      },
+      "current_liabilities": {
+        "2022": 3665000000.0,
+        "2023": 5459000000.0,
+        "2024": 6782000000.0,
+        "2025": 9071000000.0
+      },
+      "lt_debt": {
+        "2022": 346000000.0,
+        "2023": 1277000000.0,
+        "2024": 1597000000.0,
+        "2025": 902000000.0
+      },
+      "st_debt": {
+        "2022": 415000000.0,
+        "2023": 365000000.0,
+        "2024": 499000000.0,
+        "2025": 74000000.0
+      },
+      "total_liabilities": {
+        "2022": 5006000000.0,
+        "2023": 8064000000.0,
+        "2024": 9880000000.0,
+        "2025": 11157000000.0
+      },
+      "equity": {
+        "2022": 2819000000.0,
+        "2023": 3316000000.0,
+        "2024": 4050000000.0,
+        "2025": 5011000000.0
+      },
+      "retained_earnings": {
+        "2022": 2147000000.0,
+        "2023": 2533000000.0,
+        "2024": 3247000000.0,
+        "2025": 3503000000.0
+      },
+      "shares_outstanding": {
+        "2022": 43381666.0,
+        "2023": 43417494.0,
+        "2024": 43437346.0,
+        "2025": 45881030.0
+      },
+      "ocf": {
+        "2022": 174000000.0,
+        "2023": 743000000.0,
+        "2024": 1720000000.0,
+        "2025": 2287000000.0
+      },
+      "capex": {
+        "2022": 349000000.0,
+        "2023": 398000000.0,
+        "2024": 732000000.0,
+        "2025": 872000000.0
+      },
+      "dividends_paid": {
+        "2022": 143000000.0,
+        "2023": 187000000.0,
+        "2024": 248000000.0,
+        "2025": 369000000.0
+      },
+      "dep_amort": {
+        "2022": 250000000.0,
+        "2023": 308000000.0,
+        "2024": 403000000.0,
+        "2025": 501000000.0
+      }
+    },
+    "source_map_per_tag": {
+      "revenue": {
+        "value": 9935000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Revenue",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "cogs": {
+        "value": 4731000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cost Of Revenue",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "gross_profit": {
+        "value": 5204000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Gross Profit",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "opex": {
+        "value": 3502000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Expense",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "sga": {
+        "value": 319000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Selling General And Administration",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "ebit": {
+        "value": 1702000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Income",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "interest_expense": {
+        "value": 116000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Interest Expense",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "tax_expense": {
+        "value": 396000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Tax Provision",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "pretax_income": {
+        "value": 1572000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Pretax Income",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "net_income": {
+        "value": 696000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Net Income Common Stockholders",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "eps_diluted": {
+        "value": 15.16,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Diluted EPS",
+        "unit": "EUR/shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "shares_diluted": {
+        "value": 46660000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Diluted Average Shares",
+        "unit": "shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "cash": {
+        "value": 1650000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash And Cash Equivalents",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "st_investments": {
+        "value": 41000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Other Short Term Investments",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "ar": {
+        "value": 1907000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Accounts Receivable",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "inventory": {
+        "value": 4137000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Inventory",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "current_assets": {
+        "value": 10901000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Assets",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "total_assets": {
+        "value": 16772000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Assets",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "ppe_net": {
+        "value": 2300000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Net PPE",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "goodwill": {
+        "value": 1354000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Goodwill",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "intangibles": {
+        "value": 1244000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Other Intangible Assets",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "ap": {
+        "value": 1186000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Accounts Payable",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "current_liabilities": {
+        "value": 9071000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Liabilities",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "lt_debt": {
+        "value": 902000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Long Term Debt",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "st_debt": {
+        "value": 74000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Current Debt",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "total_liabilities": {
+        "value": 11157000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Total Liabilities Net Minority Interest",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "equity": {
+        "value": 5011000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "retained_earnings": {
+        "value": 3503000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Retained Earnings",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "shares_outstanding": {
+        "value": 45881030.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Ordinary Shares Number",
+        "unit": "shares",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "ocf": {
+        "value": 2287000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Operating Cash Flow",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "capex": {
+        "value": 872000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Capital Expenditure",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "dividends_paid": {
+        "value": 369000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Cash Dividends Paid",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "dep_amort": {
+        "value": 501000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Depreciation And Amortization",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      }
+    },
+    "edgar_filings_index": "https://finance.yahoo.com/quote/RHM.DE/financials"
+  },
+  "score_composite": {
+    "value_0_100": 47.8,
+    "pillars": {
+      "valuation": 0,
+      "balance_sheet_health": 85,
+      "earnings_quality": 70,
+      "smart_money": 50,
+      "momentum": 50
+    },
+    "weights": {
+      "valuation": 0.3,
+      "balance_sheet_health": 0.25,
+      "earnings_quality": 0.2,
+      "smart_money": 0.15,
+      "momentum": 0.1
+    },
+    "note": "pondérations modifiables par l'utilisateur (.txt Couche 4)"
+  },
+  "meta": {
+    "source": "Yahoo Finance statements (secondary) — ESEF report not indexed on filings.xbrl.org",
+    "listing_currency": "EUR",
+    "reporting_currency": "EUR",
+    "price_listing": 693.4,
+    "price_in_reporting_currency": 693.4,
+    "fx_listing_to_reporting": 1.0,
+    "adr_ratio": 1.0,
+    "fiscal_year_end": "2025-12-31",
+    "months_since_fiscal_year_end": 11,
+    "stale_financials": false,
+    "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  }
+}

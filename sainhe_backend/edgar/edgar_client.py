@@ -67,6 +67,27 @@ class EdgarClient:
         self._db.commit()
         return data
 
+    def get_text(self, url: str, key: str, max_age_days: float = 30.0) -> str:
+        """Document brut d'un dépôt (instance XBRL…) : même User-Agent, même débit, même cache.
+        Un dépôt EDGAR est immuable : le cache peut être long."""
+        if key in self._fixtures:
+            return self._fixtures[key]
+        row = self._db.execute("SELECT fetched_at, payload FROM edgar_cache WHERE key=?", (key,)).fetchone()
+        if row and (time.time() - row[0]) < max_age_days * 86400:
+            log.info("CACHE hit %s", key)
+            return json.loads(row[1])
+        if not config.EDGAR_USER_AGENT:
+            raise RuntimeError("EDGAR_CONTACT_EMAIL manquant (voir _get_json)")
+        self._throttle()
+        log.info("FETCH %s", url)
+        resp = self._session.get(url, timeout=60)
+        resp.raise_for_status()
+        text = resp.text
+        self._db.execute("INSERT OR REPLACE INTO edgar_cache (key, fetched_at, payload) VALUES (?,?,?)",
+                         (key, time.time(), json.dumps(text)))
+        self._db.commit()
+        return text
+
     # ------------------------------------------------------------------ API publique
     def ticker_to_cik(self, ticker: str) -> int:
         data = self._get_json(config.EDGAR_TICKER_MAP_URL, "ticker_map",

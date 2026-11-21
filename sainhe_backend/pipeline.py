@@ -18,6 +18,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 import config
 from edgar.edgar_client import EdgarClient
+from edgar import instance
+from secondary import yahoo_statements
 from edgar.xbrl_parser import parse_companyfacts
 from edgar.metadata_flags import metadata_flags
 from output import report_builder
@@ -89,11 +91,53 @@ def _apply_split(cd, ratio: float) -> None:
             s[y] = dataclasses.replace(dp, value=v, tag=f"{dp.tag}×split{ratio:g}")
 
 
+def _with_newer_instance(client: EdgarClient, ticker: str, cik: int, facts: dict, subs: dict, forms):
+    """companyfacts en retard sur le dernier dépôt annuel XBRL (TSMC : 20-F du 2026-04-16 absent)
+    → faits lus dans l'instance XBRL du dépôt et ajoutés (edgar/instance.py)."""
+    cd = parse_companyfacts(ticker, cik, facts, forms=forms)
+    newer = instance.newer_annual_filing(subs, forms, (cd.years("revenue") or [None])[-1])
+    if not newer:
+        return cd, facts
+    try:
+        nodash = newer["accn"].replace("-", "")
+        idx = client._get_json(f"https://www.sec.gov/Archives/edgar/data/{cik}/{nodash}/index.json",
+                               f"index:{newer['accn']}", max_age_days=30)
+        url = instance.instance_url(idx, cik, newer["accn"])
+        if not url:
+            return cd, facts
+        extra = instance.parse_instance(client.get_text(url, f"instance:{newer['accn']}"), newer["accn"], newer["form"])
+        facts = instance.merge_facts(facts, extra)
+        cd2 = parse_companyfacts(ticker, cik, facts, forms=forms)
+        log.warning("%s : companyfacts sans le %s du %s → instance XBRL lue (%s), exercices %s",
+                    ticker, newer["form"], newer["report_date"], url.rsplit("/", 1)[-1], cd2.years("revenue")[-3:])
+        return cd2, facts
+    except Exception as e:  # instance illisible : on garde companyfacts, signalé
+        log.warning("%s : instance XBRL du dépôt %s illisible (%s)", ticker, newer["accn"], e)
+        return cd, facts
+
+
+def secondary_reason(cd) -> str | None:
+    """Raison de passer une société ESEF sur la source secondaire, ou None."""
+    fy = (cd.years("revenue") or [None])[-1]
+    missing = [f for f in config.SECONDARY_CRITICAL_FIELDS if cd.value(f, fy) is None]
+    if missing:
+        return f"ESEF {fy} incomplete ({', '.join(missing)} not tagged)"
+    last = cd.latest("revenue")
+    try:
+        end = datetime.date.fromisoformat(last.end)
+        today = datetime.date.today()
+        if (today.year - end.year) * 12 + today.month - end.month > config.STALE_FINANCIALS_MONTHS:
+            return f"ESEF stale (latest indexed year {fy})"
+    except (AttributeError, ValueError):
+        pass
+    return None
+
+
 def _parse_with_fallback(client: EdgarClient, ticker: str, cik: int, forms):
     """CIK de la table SEC sans historique (nouvelle holding) → CIK historique en complément."""
     facts = client.companyfacts(cik)
     subs = client.submissions(cik)
-    cd = parse_companyfacts(ticker, cik, facts, forms=forms)
+    cd, facts = _with_newer_instance(client, ticker, cik, facts, subs, forms)
     fb = config.CIK_FALLBACK.get(ticker)
     if fb and fb != cik and not (cd.series.get("revenue") and cd.series.get("ebit")):
         log.warning("%s : CIK %s sans historique %s → CIK historique %s", ticker, cik, forms, fb)
@@ -150,11 +194,23 @@ def _pricing_context(ticker: str, cd, info: dict | None) -> dict:
 
 def _load_company(client: EdgarClient, esef, ticker: str):
     """(CompanyData, submissions EDGAR ou {}, source) selon le régime de publication."""
+    if ticker in config.YAHOO_STATEMENTS_TICKERS:
+        cd, _ = yahoo_statements.fetch(ticker, _yf_session())
+        return cd, {}, f"{yahoo_statements.SOURCE} — {config.YAHOO_STATEMENTS_TICKERS[ticker]}"
     if ticker in config.ESEF_ENTITIES:
         lei = config.ESEF_ENTITIES[ticker]
         cd = parse_companyfacts(ticker, lei, esef.companyfacts(lei, ticker), forms=("ESEF",))
         if not cd.series.get("revenue"):
             raise ValueError(f"aucun chiffre d'affaires ESEF exploitable pour {ticker} (LEI {lei})")
+        reason = secondary_reason(cd)
+        if reason:
+            try:
+                ycd, _ = yahoo_statements.fetch(ticker, _yf_session())
+                if (ycd.years("revenue") or [0])[-1] >= (cd.years("revenue") or [0])[-1]:
+                    log.warning("%s : %s → source secondaire Yahoo", ticker, reason)
+                    return ycd, {}, f"{yahoo_statements.SOURCE} — {reason}"
+            except Exception as e:
+                log.warning("%s : source secondaire indisponible (%s) — ESEF conservé", ticker, e)
         return cd, {}, "ESEF (filings.xbrl.org)"
     cik = client.ticker_to_cik(ticker)
     forms = ("20-F",) if ticker in config.ADR_TICKERS else ("10-K",)
@@ -232,6 +288,9 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
         "stale_financials": bool(months is not None and months > config.STALE_FINANCIALS_MONTHS),
         "disclaimer": config.DISCLAIMER,
     }
+    if source.startswith(yahoo_statements.SOURCE):
+        report["bloc_G_smart_money"] = {"value": "N/D", "note": "pas de dépôts d'initiés accessibles pour cette source"}
+        report["drill_down"]["edgar_filings_index"] = yahoo_statements.page_url(ticker)
     if source.startswith("ESEF"):
         report["bloc_G_smart_money"] = {"value": "N/D",
                                         "note": "Forms 3/4/5 et 13F : obligations SEC, sans équivalent ESEF"}

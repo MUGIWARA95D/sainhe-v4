@@ -1,5 +1,54 @@
 {
   "tickers": {
+    "2222.SR": {
+      "source": "Yahoo Finance statements (secondary) — Saudi Arabia: no public XBRL feed",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
+      "issues": []
+    },
+    "600111.SS": {
+      "source": "Yahoo Finance statements (secondary) — China: no public XBRL feed",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [
+        "croissance implicite"
+      ],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
+      "issues": []
+    },
+    "6954.T": {
+      "source": "Yahoo Finance statements (secondary) — Japan: EDINET requires an API key",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
+      "issues": []
+    },
     "AAPL": {
       "source": "SEC EDGAR 10-K",
       "filled_fields": [
@@ -75,6 +124,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "ASML": {
@@ -152,6 +202,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "CAT": {
@@ -229,84 +280,23 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "COA.L": {
-      "source": "ESEF (filings.xbrl.org)",
+      "source": "Yahoo Finance statements (secondary) — ESEF 2025 incomplete (capex not tagged)",
       "filled_fields": [
         "EPV/action",
         "RE/action",
-        "WACC"
-      ],
-      "missing_fields": [
         "SGR",
+        "WACC",
         "croissance implicite",
         "dette nette/EBITDA"
       ],
-      "cross_checked": [
-        "revenue",
-        "net_income",
-        "total_assets",
-        "cash"
-      ],
-      "checks": [
-        {
-          "field": "revenue",
-          "fiscal_end": "2025-12-31",
-          "xbrl": 1464900000.0,
-          "xbrl_tag": "Revenue",
-          "filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-          "second_source": "yfinance income_stmt",
-          "second_source_row": "Total Revenue",
-          "second_source_period": "2025-12-31",
-          "second_value": 1464900000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "net_income",
-          "fiscal_end": "2025-12-31",
-          "xbrl": 103400000.0,
-          "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
-          "filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-          "second_source": "yfinance income_stmt",
-          "second_source_row": "Net Income Common Stockholders",
-          "second_source_period": "2025-12-31",
-          "second_value": 103400000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "total_assets",
-          "fiscal_end": "2025-12-31",
-          "xbrl": 2586700000.0,
-          "xbrl_tag": "Assets",
-          "filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-          "second_source": "yfinance balance_sheet",
-          "second_source_row": "Total Assets",
-          "second_source_period": "2025-12-31",
-          "second_value": 2586700000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "cash",
-          "fiscal_end": "2025-12-31",
-          "xbrl": 232000000.0,
-          "xbrl_tag": "CashAndCashEquivalents",
-          "filing_url": "https://filings.xbrl.org/2138003SPYWGAITNFY17/2025-12-31/ESEF/GB/0/2138003SPYWGAITNFY17-2025-12-31/reports/ixbrlviewer.html",
-          "second_source": "yfinance balance_sheet",
-          "second_source_row": "Cash And Cash Equivalents",
-          "second_source_period": "2025-12-31",
-          "second_value": 232000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        }
-      ],
+      "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
       "issues": []
     },
     "CTVA": {
@@ -385,6 +375,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "DE": {
@@ -463,6 +454,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "ECL": {
@@ -540,10 +532,11 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
-    "GEV": {
-      "source": "SEC EDGAR 10-K",
+    "GEBN.SW": {
+      "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
       "filled_fields": [
         "EPV/action",
         "RE/action",
@@ -553,6 +546,23 @@
         "dette nette/EBITDA"
       ],
       "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
+      "issues": []
+    },
+    "GEV": {
+      "source": "SEC EDGAR 10-K",
+      "filled_fields": [
+        "RE/action",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [
+        "EPV/action",
+        "SGR"
+      ],
       "cross_checked": [
         "revenue",
         "net_income",
@@ -617,6 +627,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "ISRG": {
@@ -694,6 +705,24 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
+      "issues": []
+    },
+    "KAP.L": {
+      "source": "Yahoo Finance statements (secondary) — Kazakhstan: no public XBRL feed",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "WACC",
+        "croissance implicite"
+      ],
+      "missing_fields": [
+        "SGR",
+        "dette nette/EBITDA"
+      ],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
       "issues": []
     },
     "KO": {
@@ -771,91 +800,24 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "LDO.MI": {
-      "source": "ESEF (filings.xbrl.org)",
+      "source": "Yahoo Finance statements (secondary) — ESEF 2024 incomplete (ebit, ocf, capex, pretax_income not tagged)",
       "filled_fields": [
-        "RE/action",
-        "WACC"
-      ],
-      "missing_fields": [
         "EPV/action",
+        "RE/action",
         "SGR",
+        "WACC",
         "croissance implicite",
         "dette nette/EBITDA"
       ],
-      "cross_checked": [
-        "revenue",
-        "net_income",
-        "total_assets",
-        "cash"
-      ],
-      "checks": [
-        {
-          "field": "revenue",
-          "fiscal_end": "2024-12-31",
-          "xbrl": 17763000000.0,
-          "xbrl_tag": "Revenue",
-          "filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
-          "second_source": "yfinance income_stmt",
-          "second_source_row": "Total Revenue",
-          "second_source_period": "2024-12-31",
-          "second_value": 17763000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "net_income",
-          "fiscal_end": "2024-12-31",
-          "xbrl": 1074000000.0,
-          "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
-          "filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
-          "second_source": "yfinance income_stmt",
-          "second_source_row": "Net Income Common Stockholders",
-          "second_source_period": "2024-12-31",
-          "second_value": 1074000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "total_assets",
-          "fiscal_end": "2024-12-31",
-          "xbrl": 33673000000.0,
-          "xbrl_tag": "Assets",
-          "filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
-          "second_source": "yfinance balance_sheet",
-          "second_source_row": "Total Assets",
-          "second_source_period": "2024-12-31",
-          "second_value": 33673000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "cash",
-          "fiscal_end": "2024-12-31",
-          "xbrl": 2556000000.0,
-          "xbrl_tag": "CashAndCashEquivalents",
-          "filing_url": "https://filings.xbrl.org/529900X4EEX1U9LN3U39/2024-12-31/ESEF/IT/1/529900X4EEX1U9LN3U39-2024-12-31-0-it/reports/ixbrlviewer.html",
-          "second_source": "yfinance balance_sheet",
-          "second_source_row": "Cash And Cash Equivalents",
-          "second_source_period": "2024-12-31",
-          "second_value": 2556000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        }
-      ],
-      "issues": [
-        {
-          "type": "stale_financials",
-          "fiscal_year_end": "2024-12-31",
-          "months": 23
-        }
-      ]
+      "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
+      "issues": []
     },
     "LMT": {
       "source": "SEC EDGAR 10-K",
@@ -932,6 +894,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "MSFT": {
@@ -1009,6 +972,23 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
+      "issues": []
+    },
+    "NESN.SW": {
+      "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
       "issues": []
     },
     "NVDA": {
@@ -1086,6 +1066,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "RACE": {
@@ -1163,6 +1144,23 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
+      "issues": []
+    },
+    "RHM.DE": {
+      "source": "Yahoo Finance statements (secondary) — ESEF report not indexed on filings.xbrl.org",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
       "issues": []
     },
     "RMS.PA": {
@@ -1241,6 +1239,39 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
+      "issues": []
+    },
+    "ROP.SW": {
+      "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
+      "issues": []
+    },
+    "SAF.PA": {
+      "source": "Yahoo Finance statements (secondary) — ESEF report not indexed on filings.xbrl.org",
+      "filled_fields": [
+        "EPV/action",
+        "RE/action",
+        "SGR",
+        "WACC",
+        "croissance implicite",
+        "dette nette/EBITDA"
+      ],
+      "missing_fields": [],
+      "cross_checked": [],
+      "checks": [],
+      "secondary_source": true,
       "issues": []
     },
     "TSLA": {
@@ -1318,6 +1349,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "TSM": {
@@ -1341,68 +1373,63 @@
       "checks": [
         {
           "field": "revenue",
-          "fiscal_end": "2024-12-31",
-          "xbrl": 2894307700000.0,
-          "xbrl_tag": "Revenue",
-          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/",
+          "fiscal_end": "2025-12-31",
+          "xbrl": 3809054300000.0,
+          "xbrl_tag": "RevenueFromContractsWithCustomers",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/",
           "second_source": "yfinance income_stmt",
           "second_source_row": "Total Revenue",
-          "second_source_period": "2024-12-31",
-          "second_value": 2894307700000.0,
+          "second_source_period": "2025-12-31",
+          "second_value": 3809054300000.0,
           "gap_pct": 0.0,
           "tolerance_pct": 3.0,
           "status": "ok"
         },
         {
           "field": "net_income",
-          "fiscal_end": "2024-12-31",
-          "xbrl": 1158380200000.0,
+          "fiscal_end": "2025-12-31",
+          "xbrl": 1697604000000.0,
           "xbrl_tag": "ProfitLossAttributableToOwnersOfParent",
-          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/",
           "second_source": "yfinance income_stmt",
           "second_source_row": "Net Income Common Stockholders",
-          "second_source_period": "2024-12-31",
-          "second_value": 1158380200000.0,
+          "second_source_period": "2025-12-31",
+          "second_value": 1697604000000.0,
           "gap_pct": 0.0,
           "tolerance_pct": 3.0,
           "status": "ok"
         },
         {
           "field": "total_assets",
-          "fiscal_end": "2024-12-31",
-          "xbrl": 6691764700000.0,
+          "fiscal_end": "2025-12-31",
+          "xbrl": 7932842500000.0,
           "xbrl_tag": "Assets",
-          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/",
           "second_source": "yfinance balance_sheet",
           "second_source_row": "Total Assets",
-          "second_source_period": "2024-12-31",
-          "second_value": 6691764700000.0,
+          "second_source_period": "2025-12-31",
+          "second_value": 7932842500000.0,
           "gap_pct": 0.0,
           "tolerance_pct": 3.0,
           "status": "ok"
         },
         {
           "field": "cash",
-          "fiscal_end": "2024-12-31",
-          "xbrl": 2127627000000.0,
+          "fiscal_end": "2025-12-31",
+          "xbrl": 2767856400000.0,
           "xbrl_tag": "CashAndCashEquivalents",
-          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000119312525083423/",
+          "filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/",
           "second_source": "yfinance balance_sheet",
           "second_source_row": "Cash And Cash Equivalents",
-          "second_source_period": "2024-12-31",
-          "second_value": 2127627000000.0,
+          "second_source_period": "2025-12-31",
+          "second_value": 2767856400000.0,
           "gap_pct": 0.0,
           "tolerance_pct": 3.0,
           "status": "ok"
         }
       ],
-      "issues": [
-        {
-          "type": "stale_financials",
-          "fiscal_year_end": "2024-12-31",
-          "months": 23
-        }
-      ]
+      "secondary_source": false,
+      "issues": []
     },
     "XOM": {
       "source": "SEC EDGAR 10-K",
@@ -1479,6 +1506,7 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     },
     "ZTS": {
@@ -1556,18 +1584,20 @@
           "status": "ok"
         }
       ],
+      "secondary_source": false,
       "issues": []
     }
   },
   "pipeline_failures": {},
   "summary": {
-    "n_tickers": 20,
-    "n_cross_checks": 80,
+    "n_tickers": 29,
+    "n_cross_checks": 72,
     "n_issues": 0,
     "n_cross_source_gaps": 0,
     "n_nd_regressions": 0,
-    "n_stale": 2,
+    "n_stale": 0,
     "n_pipeline_failures": 0,
+    "n_secondary_source": 11,
     "note": "n_issues compte les anomalies à corriger (écarts de sources, régressions N/D, échecs) ; la fraîcheur est informative (dépend de la date de publication)."
   }
 }

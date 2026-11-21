@@ -7,3 +7,4 @@ scipy>=1.11
 requests>=2.31
 yfinance>=1.8.0          # 0.2.x cassé par Yahoo le 21 nov. 2026 (AttributeError: name)
 curl_cffi>=0.6
+defusedxml>=0.7          # instances XBRL EDGAR (edgar/instance.py)
