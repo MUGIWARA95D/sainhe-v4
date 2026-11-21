@@ -154,9 +154,11 @@ const s1Plugin = {
     ctx.strokeStyle = P.border; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
     ctx.beginPath(); ctx.moveTo(a.left, yp); ctx.lineTo(a.right, yp); ctx.stroke();
     ctx.font = '10px ' + FONT; ctx.fillStyle = P.muted; ctx.strokeStyle = P.muted; ctx.setLineDash([5, 4]);
+    const labelRf = a.right - a.left >= 640;
     (opts.rf || []).forEach((l, i) => {
       const xp = x.getPixelForValue(l.rf); if(xp < a.left || xp > a.right) return;
       ctx.beginPath(); ctx.moveTo(xp, a.top); ctx.lineTo(xp, a.bottom); ctx.stroke();
+      if(!labelRf) return;
       const curs = Array.from(l.cur).join('/'), prox = Array.from(l.proxy).join('/');
       put((narrow ? 'rf ' : 'risk-free ') + curs + (prox ? (curs ? ' · ' : '') + prox + (narrow ? '*' : ' (US proxy)') : '') + ' ' + pct(l.rf), xp + 4, a.bottom - 24 - i * 13, 'left');
     });
@@ -279,6 +281,11 @@ function renderMap(rebuild){
       ' — implied growth needs positive free cash flow and a known net debt, and the vertical axis needs at least one meaningful ROIC year. Nothing is imputed.'
     : '';
   if(!un.length) $('#sa-unplaced').innerHTML = '';
+  const rfl = $('#sa-rfleg');
+  if(rfl) rfl.textContent = lines.length ? 'Risk-free rate by currency, dashed lines from left to right: ' + lines.map(l => {
+    const c = Array.from(l.cur).join('/'), p = Array.from(l.proxy).join('/');
+    return (c ? c + ' ' : '') + (p ? (c ? '· ' : '') + p + ' (US proxy) ' : '') + pct(l.rf);
+  }).join(' · ') + '.' : '';
   const oos = VM.out_of_scope || {};
   $('#sa-unplaced').innerHTML += (Object.keys(oos).length ? '<div style="margin-top:6px"><strong>Outside the scope:</strong> ' +
     Object.keys(oos).map(t => '<span class="sa-tk">' + esc(t) + '</span> ' + esc(oos[t])).join(' · ') + '.</div>' : '');
@@ -287,8 +294,14 @@ function renderMap(rebuild){
 function bindBrush(){
   const cv = $('#sa-map'); if(!cv) return;
   const rel = e => { const b = cv.getBoundingClientRect(); return {x: e.clientX - b.left, y: e.clientY - b.top}; };
+  const tgl = $('#sa-brush-toggle');
+  if(tgl) tgl.addEventListener('click', () => {
+    st.touchBrush = !st.touchBrush; tgl.setAttribute('aria-pressed', st.touchBrush);
+    tgl.textContent = st.touchBrush ? 'Done selecting' : 'Select an area on the map';
+    cv.style.touchAction = st.touchBrush ? 'none' : '';
+  });
   cv.addEventListener('pointerdown', e => {
-    if(!mapChart || e.pointerType === 'touch' || e.button !== 0) return;
+    if(!mapChart || (e.pointerType === 'touch' && !st.touchBrush) || e.button !== 0) return;
     const a = mapChart.chartArea, p = rel(e);
     if(p.x < a.left || p.x > a.right || p.y < a.top || p.y > a.bottom) return;
     drag = {x0: p.x, y0: p.y, x1: p.x, y1: p.y, on: false};
@@ -357,7 +370,7 @@ function rowHTML(r, d){
   return '<tr data-t="' + esc(r.ticker) + '" tabindex="0"' + (cls ? ' class="' + cls + '"' : '') + '>' +
     '<td class="sa-td-cmp"><input type="checkbox" class="sa-cmp" data-cmp="' + esc(r.ticker) + '"' + (inC ? ' checked' : '') +
       (full ? ' disabled' : '') + ' aria-label="Compare ' + esc(r.name) + '"></td>' +
-    '<td><span class="sa-tk">' + esc(r.ticker) + '</span><span class="sa-co">' + esc(r.name) + '</span></td>' +
+    '<td class="sa-td-co"><span class="sa-tk">' + esc(r.ticker) + '</span><span class="sa-co">' + esc(r.name) + '</span></td>' +
     '<td class="l sa-col-sector">' + esc(r.sector) + '</td>' +
     '<td>' + H(pct(d.g)) + '</td>' +
     '<td>' + sgrCell(r, d) + '</td>' +

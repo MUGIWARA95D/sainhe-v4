@@ -44,6 +44,7 @@
         <input type="range" class="sa-range sa-dw" id="sa-dw" min="-2" max="2" step="0.25" value="0">
         <output id="sa-dw-o" for="sa-dw">±0.00 pt</output>
         <button class="sa-btn" id="sa-dw-reset" hidden>Back to base case</button>
+        <button class="sa-btn sa-brush-toggle" id="sa-brush-toggle" type="button" aria-pressed="false">Select an area on the map</button>
       </div>
       <div class="sa-map-wrap"><canvas id="sa-map" role="img" aria-label="Scatter plot of implied growth against the share of years with ROIC above WACC. The coverage table below lists the same data."></canvas></div>
       <div class="sa-legend" aria-hidden="true">
@@ -53,8 +54,9 @@
         <span><i style="background:var(--muted);border-radius:2px"></i>Yahoo statements (secondary source)</span>
         <span><i class="sa-lg-h"></i>Hollow = accounts older than 15 months</span>
         <span id="sa-lg-ghost" hidden>Outline + line = base case before the WACC shift</span>
-        <span>Dashed lines = risk-free rate of each currency · drag on the map to select an area · click a point for its audit trail</span>
+        <span>Dashed lines = risk-free rate of each currency · drag on the map (or use “Select an area” on touch screens) to select · click a point for its audit trail</span>
       </div>
+      <div class="sa-rfleg" id="sa-rfleg"></div>
       <div class="sa-brushbar" id="sa-brushbar" hidden role="status">
         <span id="sa-brush-txt"></span>
         <button class="sa-btn" id="sa-brush-clear">Clear selection</button>
@@ -72,7 +74,7 @@
           <caption class="sa-sr">Coverage table. Enter on a row opens the company's audit trail. Columns are sortable.</caption>
           <thead><tr>
             <th scope="col" class="sa-td-cmp"><span class="sa-sr">Compare</span></th>
-            <th data-k="ticker" class="l" scope="col"><button class="sa-sort" data-k="ticker">Company</button></th>
+            <th data-k="ticker" class="l sa-td-co" scope="col"><button class="sa-sort" data-k="ticker">Company</button></th>
             <th data-k="sector" class="l sa-col-sector" scope="col"><button class="sa-sort" data-k="sector">Sector</button></th>
             <th data-k="g" scope="col" title="Perpetual FCF growth that the price implies at the WACC shown"><button class="sa-sort" data-k="g"><span id="sa-th-g">Implied growth</span></button></th>
             <th data-k="sgr" scope="col" title="ROIC × net reinvestment rate; n/m when the formula stops measuring growth"><button class="sa-sort" data-k="sgr">Sustainable growth</button></th>
