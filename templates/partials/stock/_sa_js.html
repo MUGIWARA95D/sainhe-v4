@@ -166,11 +166,28 @@ const s1Plugin = {
     const yp = y.getPixelForValue(Y_LINE()), lineIn = yp >= a.top && yp <= a.bottom;
     ctx.strokeStyle = P.border; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
     if(lineIn){ ctx.beginPath(); ctx.moveTo(a.left, yp); ctx.lineTo(a.right, yp); ctx.stroke(); }
-    // risk-free: thin dashed lines only — the text line under the map names them (no in-chart labels)
+    // risk-free: one thin dashed line per rate, named in the band above the plot ("EUR 3.44%");
+    // currencies with no free 10-year yield sit on the US line and are listed after it (proxy)
     ctx.strokeStyle = alpha(P.muted, .7); ctx.setLineDash([5, 4]);
+    const rfLbl = [];
     (opts.rf || []).forEach(l => {
       const xp = x.getPixelForValue(l.rf); if(xp < a.left || xp > a.right) return;
       ctx.beginPath(); ctx.moveTo(xp, a.top); ctx.lineTo(xp, a.bottom); ctx.stroke();
+      const cur = Array.from(l.cur).join(' · '), px = Array.from(l.proxy);
+      rfLbl.push({xp, txt: (cur || px.join(' · ')) + ' ' + (st.xmode === 'excess' ? '' : pct(l.rf, narrow ? 1 : 2)),
+        sub: cur && px.length ? (narrow ? '+' + px.length + ' proxy' : '+ ' + px.join(', ') + ' (proxy)') : ''});
+    });
+    ctx.setLineDash([]); ctx.font = '600 9.5px ' + FONT; ctx.textBaseline = 'alphabetic';
+    const rows_ = [[], [], []];   // up to three rows when labels would touch
+    rfLbl.forEach(L => {
+      const full = L.txt.trim() + (L.sub ? '  ' + L.sub : ''), w = ctx.measureText(full).width;
+      const x0 = Math.max(a.left, Math.min(L.xp - w / 2, a.right - w));
+      let r = rows_.findIndex(row => !row.some(o => x0 < o[1] + 8 && x0 + w > o[0] - 8)); if(r < 0) r = rows_.length - 1;
+      rows_[r].push([x0, x0 + w]);
+      const yy = a.top - 6 - r * 13;
+      ctx.fillStyle = P.muted; ctx.textAlign = 'left'; ctx.fillText(L.txt.trim(), x0, yy);
+      if(L.sub){ const w1 = ctx.measureText(L.txt.trim() + '  ').width; ctx.fillStyle = alpha(P.muted, .65); ctx.fillText(L.sub, x0 + w1, yy); }
+      ctx.strokeStyle = alpha(P.muted, .5); ctx.beginPath(); ctx.moveTo(L.xp, yy + 2); ctx.lineTo(L.xp, a.top); ctx.stroke();
     });
     ctx.setLineDash([]); ctx.font = '600 9.5px ' + FONT; ctx.fillStyle = P.muted;
     const sp = st.ymode === 'spread';
@@ -260,7 +277,7 @@ function renderMap(rebuild){
       type: 'scatter', data: {datasets: ds},
       options: {
         responsive: true, maintainAspectRatio: false, animation: false,
-        layout: {padding: {top: 6, right: 8}},
+        layout: {padding: {top: 44, right: 8}},   // room for the risk-free labels above the plot
         interaction: {mode: 'nearest', intersect: true},
         events: ['mousemove', 'mouseout', 'click', 'touchstart'],
         scales: {
