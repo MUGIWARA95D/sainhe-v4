@@ -8,7 +8,7 @@
   <!-- ═══ STATEMENT BAR ═══════════════════════════════════════ -->
   <div class="statement-bar">
     <span class="sb-label">Read the filings ·</span>
-    <span class="sb-body">What today's price requires you to believe, what the accounts have already proven, and how an allocation would have lived through five crises.</span>
+    <span class="sb-body">What today's price requires you to believe, what the accounts have already proven, and how today's choice of companies would have lived through four crises.</span>
   </div>
 
   <!-- ─── 01 · QUALITY × PRICE MAP ───────────────────────────── -->
@@ -23,6 +23,16 @@
     <div class="section-lbl" id="nav-sa-map">
       <span class="section-num">01</span><h2>Quality × Price</h2><em>What the market expects vs what the company has proven</em>
     </div>
+    <details class="sa-read" id="sa-howto">
+      <summary>How to read this map</summary>
+      <ul>
+        <li><strong>Horizontal:</strong> how fast the market is betting this company's cash flow will grow, forever. Further right = the price already assumes more.</li>
+        <li><strong>Vertical:</strong> how often the company has earned more than its cost of capital. Higher = it has proven it more often.</li>
+        <li><strong>Top left:</strong> a solid record the price does not demand much from. <strong>Bottom right:</strong> the price demands a lot and the record does not back it.</li>
+        <li>A dashed line per currency marks that currency's risk-free rate.</li>
+        <li>This describes what is priced in. It does not say what will happen.</li>
+      </ul>
+    </details>
 
     <div class="card" id="sa-map-card">
       <div class="card-h">
@@ -42,6 +52,10 @@
         <span class="sa-kicker">Growth</span>
         <button class="sa-chip on" data-xm="nominal" aria-pressed="true">Nominal</button>
         <button class="sa-chip" data-xm="excess" aria-pressed="false" title="Implied growth minus the risk-free rate of the company's own currency">Above risk-free</button>
+        <span class="sa-sep" aria-hidden="true"></span>
+        <span class="sa-kicker">Record</span>
+        <button class="sa-chip on" data-ym="share" aria-pressed="true">Years above WACC</button>
+        <button class="sa-chip" data-ym="spread" aria-pressed="false" title="Median of ROIC − WACC over the fiscal years measured, in percentage points">Median ROIC − WACC spread</button>
       </div>
       <div class="sa-filters sa-wacc-row">
         <label for="sa-dw">Adjust WACC assumption — base case shown in outline</label>
@@ -50,15 +64,20 @@
         <button class="sa-btn" id="sa-dw-reset" hidden>Back to base case</button>
         <button class="sa-btn sa-brush-toggle" id="sa-brush-toggle" type="button" aria-pressed="false">Select an area on the map</button>
       </div>
-      <div class="sa-map-wrap"><canvas id="sa-map" role="img" aria-label="Scatter plot of implied growth against the share of years with ROIC above WACC. The coverage table below lists the same data."></canvas></div>
+      <div class="sa-map-frame">
+        <div class="sa-axl sa-axl-y" aria-hidden="true"><strong>What the accounts show</strong><span id="sa-ysub">years with ROIC above WACC</span></div>
+        <div class="sa-map-wrap"><canvas id="sa-map" role="img" aria-label="Scatter plot of implied growth against the share of years with ROIC above WACC. The coverage table below lists the same data."></canvas></div>
+        <div class="sa-axl sa-axl-x" aria-hidden="true"><strong>What the price assumes</strong><span id="sa-xsub">perpetual FCF growth implied by the price (reverse DCF)</span></div>
+      </div>
       <div class="sa-legend" aria-hidden="true">
         <span><i class="sa-lg-c" style="background:var(--s1)"></i>US 10-K</span>
         <span><i class="sa-lg-t" style="border-bottom-color:var(--s2)"></i>Foreign 20-F</span>
         <span><i class="sa-lg-d" style="background:var(--s3)"></i>Europe ESEF</span>
         <span><i style="background:var(--muted);border-radius:2px"></i>Yahoo statements (secondary source)</span>
         <span><i class="sa-lg-h"></i>Hollow = accounts older than 15 months</span>
+        <span><i class="sa-lg-n1"></i><i class="sa-lg-n2"></i>Marker size = fiscal years measured (a 4/4 record is drawn smaller than 10/10)</span>
         <span id="sa-lg-ghost" hidden>Outline + line = base case before the WACC shift</span>
-        <span>Dashed lines = risk-free rate of each currency · drag on the map (or use “Select an area” on touch screens) to select · click a point for its audit trail</span>
+        <span>Dashed vertical lines = risk-free rate of each currency (listed below the map) · drag on the map (or use “Select an area” on touch screens) to select · click a point for its audit trail</span>
       </div>
       <div class="sa-rfleg" id="sa-axis-note"></div>
       <div class="sa-rfleg" id="sa-rfleg"></div>
@@ -182,19 +201,24 @@
     <div class="card" id="sa-lab-card">
       <div class="sa-lab-bar" role="group" aria-label="Allocation presets and currency">
         <span class="sa-kicker">Start from</span>
-        <button class="sa-chip on" data-preset="equal">Equal weight</button>
-        <button class="sa-chip" data-preset="invvol">Inverse volatility</button>
-        <button class="sa-chip" data-preset="hrp">Risk clusters (HRP)</button>
-        <button class="sa-chip" data-preset="maxsharpe" title="Long-only, at most 20% per name, on the companies you keep">Best Sharpe</button>
-        <button class="sa-chip" data-preset="minvol" title="Long-only, at most 20% per name, on the companies you keep">Lowest volatility</button>
-        <button class="sa-chip" data-preset="lowbeta" title="Best Sharpe with a beta to the world market of 0.6 or less">Best Sharpe, low market beta</button>
-        <button class="sa-chip" data-preset="mine" id="sa-preset-mine" hidden>My saved mix</button>
+        <button class="sa-chip on" data-preset="equal" aria-pressed="true" data-tt="The same amount in every company. Use it when you have no view on which is better; it is the honest starting point and hard to beat.">Equal weight</button>
+        <button class="sa-chip" data-preset="invvol" aria-pressed="false" data-tt="More money in the calm companies, less in the jumpy ones. Use it for a smoother ride without picking favourites.">Inverse volatility</button>
+        <button class="sa-chip" data-preset="hrp" aria-pressed="false" data-tt="Groups companies that move together, then splits risk between the groups. Use it when your list holds several companies doing the same thing and you do not want to bet on that theme by accident.">Risk clusters (HRP)</button>
+        <button class="sa-chip" data-preset="maxsharpe" aria-pressed="false" data-tt="The mix that gave the most return per unit of wobble in the past. The most fitted to history, and the most likely to disappoint.">Best Sharpe</button>
+        <button class="sa-chip" data-preset="minvol" aria-pressed="false" data-tt="The mix that moved the least. Use it when sleeping well matters more than the last point of return.">Lowest volatility</button>
+        <button class="sa-chip" data-preset="lowbeta" aria-pressed="false" data-tt="Like Best Sharpe, but penalising companies that simply follow the index. Use it when you want returns that do not come from owning the market.">Best Sharpe, low market beta</button>
+        <button class="sa-chip" data-preset="mine" id="sa-preset-mine" aria-pressed="false" hidden>My saved mix</button>
         <span class="sa-sep" aria-hidden="true"></span>
-        <span class="sa-kicker">Measured in</span>
-        <span class="sa-seg" id="sa-lens" role="group" aria-label="Currency lens"></span>
+        <span class="sa-lens-l"><span class="sa-kicker">Measured in</span><span class="sa-lens-sub">overrides the site currency for this panel</span></span>
+        <span class="sa-seg" id="sa-lens" role="group" aria-label="Measured in — overrides the site currency for this panel"></span>
+        <span class="sa-lens-sync" id="sa-lens-sync" aria-live="polite"></span>
         <span class="sa-sep" aria-hidden="true"></span>
         <button class="sa-btn" id="sa-lab-save">Save my mix</button>
         <button class="sa-btn" id="sa-lab-share">Copy link</button>
+      </div>
+      <div class="sa-lab-desc">
+        <p class="sa-note" id="sa-preset-desc"></p>
+        <p class="sa-note">All six are fitted on past data. The out-of-sample check below is the honest test.</p>
       </div>
       <div id="sa-lab"><div class="sa-loading">Loading five years of prices…</div></div>
     </div>
@@ -213,6 +237,10 @@
       <span class="section-num">04</span><h2>Range of outcomes</h2><em>Your allocation, replayed 2,000 times from its own history</em>
     </div>
     <div class="card" id="sa-mc-card">
+      <div class="card-h">
+        <span class="card-t">Range of outcomes · Monte Carlo (stationary block bootstrap)<span class="sa-card-sub">Your allocation, replayed 2,000 times from its own history</span></span>
+        <span class="badge badge-gold">raw and tail-adjusted</span>
+      </div>
       <div class="sa-filters" role="group" aria-label="Simulation settings">
         <label class="sa-kicker" for="sa-mc-amt">Invested</label>
         <input type="number" id="sa-mc-amt" class="sa-num" min="1" step="1000" value="10000" inputmode="decimal">
@@ -238,17 +266,18 @@
     <div class="bib-wrap">
       <button class="box-info-btn" aria-label="About this section">i</button>
       <div class="box-info-pop">
-        <p class="bip-desc">The allocation you built in the Lab, replayed through five historical stress windows, in the currency you chose. Holdings that were not listed yet are left out and the remaining weights are rescaled — the coverage is shown for every crisis.</p>
+        <p class="bip-desc">The allocation you built in the Lab, replayed through four historical stress windows, in the currency you chose. Holdings that were not listed yet are left out and the remaining weights are rescaled — the coverage is shown for every crisis. Not the history of your portfolio.</p>
         <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
       </div>
     </div>
     <div class="section-lbl" id="nav-sa-crisis">
-      <span class="section-num">05</span><h2>Crisis replay</h2><em>Your allocation through 2008, 2013, 2018, 2020 and 2022</em>
+      <span class="section-num">05</span><h2>Crisis replay</h2><em>Your companies through 2000–02, 2008–09, 2020 and 2022</em>
     </div>
 
     <div class="card">
       <div class="sa-filters" id="sa-crisis-pick" role="group" aria-label="Choose a crisis"></div>
-      <div class="sa-crisis-c"><canvas id="sa-crisis" role="img" aria-label="Value of 100 invested at the start of the crisis window, for your allocation, equal weight and MSCI ACWI. The table below gives the figures."></canvas></div>
+      <p class="sa-note sa-crisis-cov" id="sa-crisis-cov"></p>
+      <div class="sa-crisis-c"><canvas id="sa-crisis" role="img" aria-label="Value of 100 invested at the start of the crisis window, for your allocation, equal weight and the market. The table below gives the figures."></canvas></div>
       <div class="sa-tbl-wrap">
         <table class="sa-tbl" id="sa-crisis-tbl">
           <thead><tr>
@@ -257,7 +286,8 @@
             <th scope="col">Your allocation</th>
             <th scope="col">Worst drawdown</th>
             <th scope="col">Equal weight</th>
-            <th scope="col">ACWI</th>
+            <th scope="col">Market</th>
+            <th scope="col" title="Kritzman &amp; Li (2010) turbulence: share of days more unusual than 95% of the last five years">Unusual days</th>
             <th class="l" scope="col">Coverage</th>
           </tr></thead>
           <tbody></tbody>
@@ -279,7 +309,7 @@
             <ul>
               <li>US companies: annual 10-K, foreign issuers: 20-F, both read directly from SEC EDGAR XBRL.</li>
               <li>European companies: ESEF annual reports from filings.xbrl.org; when a report is missing or incomplete, and for Swiss, Japanese, Saudi, Chinese and Kazakh issuers, Yahoo Finance statements (secondary source, in grey).</li>
-              <li>Prices and FX: daily closes, free sources. Figures are in the currency of the accounts and never converted in a calculation; absolute levels also show the header currency underneath, with the rate, its date and its source. Ten-year series are never converted.</li>
+              <li>Prices and FX: daily closes, free sources (Yahoo Finance; before 2004 and on days Yahoo lacks, the Federal Reserve H.10 rates via FRED). Figures are in the currency of the accounts and never converted in a calculation; absolute levels also show the header currency underneath, with the rate, its date and its source. Ten-year series are never converted.</li>
               <li>Every week filed figures are cross-checked against a second source, every company's accounts are tested for accounting identities, and the gaps are published (click the quality badge).</li>
             </ul>
           </div>
@@ -292,7 +322,8 @@
               <li><strong>Sustainable growth</strong>: ROIC × reinvestment rate, from the accounts only.</li>
               <li><strong>Lab</strong>: daily returns rebalanced to target weights; VaR and CVaR are historical (95 %, one day); Sharpe and Sortino use the 10-year yield of the measuring currency.</li>
               <li><strong>Best Sharpe / lowest volatility</strong>: long-only, at most 20% per company, fitted on the companies you keep — with an out-of-sample check, because fitted weights always flatter the past.</li>
-              <li><strong>Range of outcomes</strong>: 2,000 paths drawn in one-month blocks from the allocation's own last five years (block bootstrap). A spread, not a forecast.</li>
+              <li><strong>Range of outcomes</strong>: 2,000 paths, stationary block bootstrap of the allocation's own last five years, shown raw and tail-adjusted (extreme-value tail fitted on S&amp;P 500 days since 1993). A spread, not a forecast.</li>
+              <li><strong>Crisis replay</strong>: S&amp;P 500 peak to trough for 2000–02, 2008–09, 2020 and 2022, with the companies listed at the time only; turbulence after Kritzman &amp; Li (2010).</li>
             </ul>
           </div>
           <div>
@@ -300,12 +331,40 @@
             <ul>
               <li>Missing data stays <span class="sa-nd">N/D</span>: nothing is imputed. A ratio whose formula stops measuring what it claims is shown as n/m, with the reason.</li>
               <li>A perpetuity formula is very sensitive near WACC = g; read the slope, not one point.</li>
-              <li>Past crises do not repeat in the same way. Holdings not listed at the time are excluded.</li>
+              <li>Past crises do not repeat in the same way. Holdings not listed at the time are excluded, never proxied, and the replay is not the history of your portfolio. Before 2008 the market line is the S&amp;P 500: no world ETF traded.</li>
               <li>Rivals are an editorial pairing for one common market, not a full peer group.</li>
               <li>Freshness: a badge turns amber when revenue growth since the last annual accounts exceeds 15% a year pro rata (four-quarter figures from 10-Qs where filed).</li>
             </ul>
           </div>
         </div>
+        <details class="sa-details sa-mnotes" id="sa-method-full" open>
+          <summary>Method notes, point by point</summary>
+          <div class="sa-details-b">
+            <div>
+              <h4>Three currencies, one rule</h4>
+              <p><em>accountsCurrency</em> is the currency of the filing: the reverse DCF, the EPV, residual earnings and the WACC are computed in it and never converted. <em>discountCurrency</em> is always the same currency — discounting Swiss-franc cash flows at a euro rate would be wrong. <em>displayCurrency</em>, the header selector, only adds an “≈” equivalent under absolute amounts, with the rate, its date and its source (N/D when no rate is published); ratios and rates carry no currency. In the Lab the measuring currency is part of the return, so prices are converted every day at that day's rate.</p>
+              <h4>Equity risk premium and beta</h4>
+              <p>Equity risk premium: <span id="sa-mn-erp">Damodaran's implied ERP</span>, one mature-market premium for every currency (no country risk premium yet). Beta: five years of weekly returns in US dollars against the MSCI World (URTH ETF), adjusted towards 1 with Blume's rule, 0.67 × raw + 0.33.</p>
+              <h4>Return on invested capital</h4>
+              <p>EBIT × (1 − effective tax rate) / (book equity + net debt). Goodwill is included (it sits in book equity); R&amp;D is expensed as filed, not capitalised; operating leases are left out of debt, finance leases are in. When invested capital falls below <span id="sa-mn-ic">a set share</span> of total assets — buybacks, net cash — ROIC becomes extreme because its denominator is close to zero: the year is marked n/m, not used as proof.</p>
+              <h4>IFRS and US GAAP</h4>
+              <p>IAS 38 lets IFRS filers capitalise development costs that meet set criteria; US GAAP expenses research and development. EBIT and invested capital of IFRS filers are therefore not on the same basis as those of US GAAP filers.</p>
+              <h4>Single-stage reverse DCF</h4>
+              <p>It solves EV = FCF × (1 + g) / (WACC − g) for one constant growth rate g, forever. A perpetual rate above the risk-free rate of the currency would make the company eventually larger than the economy that currency measures, so it is not literally possible: read a high implied rate as the intensity of what is priced in, not a forecast. The two-stage fade in the company file relaxes the assumption.</p>
+            </div>
+            <div>
+              <h4>EPV normalisation</h4>
+              <p>Last fiscal year's EBIT with one-off items removed (impairments, restructuring). No averaging over the business cycle, so for cyclical companies the EPV reflects where their cycle stood that year.</p>
+              <h4>Optimiser fit window vs display window</h4>
+              <p>Optimised presets are fitted on the days when every company kept has a price. If one listed recently, that window is shorter than the five years displayed, and applying the weights before it uses information that did not exist yet (look-ahead bias). That part of the line is drawn grey, the headline figures cover the fit window and the five-year figures sit underneath. Inside the window the fit is still in-sample — hence the out-of-sample check.</p>
+              <h4>Block bootstrap and its tail</h4>
+              <p>The stationary block bootstrap (Politis &amp; Romano, 1994) reshuffles observed days in blocks of random length, keeping volatility clustering. It can only reuse the days it was given: five years without a systemic crash produce almost no deep falls, so the tail is underestimated. The tail-adjusted run redraws the days beyond a threshold from a generalised Pareto distribution (peaks over threshold, probability-weighted moments) fitted on S&amp;P 500 days since 1993 and scaled to the allocation's volatility. It is shown next to the raw run, not instead of it. An outcome absent from 2,000 paths is reported as “none in 2,000 paths”, never as 0%.</p>
+              <h4>Yahoo Finance as a secondary source</h4>
+              <p id="sa-mn-yf">For companies with no free machine-readable filing, the annual income statement, balance sheet and cash-flow statement come from Yahoo Finance — revenue to net income, EPS and shares, cash and short-term investments, debt, equity, operating cash flow, capital expenditure, stock-based pay, depreciation — over four to five years, standardised by the aggregator. A line Yahoo does not give stays N/D. Missing stock-based pay means nothing is deducted from free cash flow, so FCF is overstated and implied growth understated; missing short-term investments are not deducted from net debt, so net debt and implied growth are overstated.</p>
+              <p class="sa-note" id="sa-mn-yf-list"><button class="sa-btn" id="sa-mn-yf-btn" type="button">List the gaps company by company</button></p>
+            </div>
+          </div>
+        </details>
         <div class="sa-disc"><strong>Informational only, not investment advice.</strong> SAINHE publishes measurements and flags computed from public filings and market prices. It does not recommend buying or selling any security, and nothing on this page is a price target or a forecast.</div>
       </div>
     </div>

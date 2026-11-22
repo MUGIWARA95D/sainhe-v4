@@ -23,15 +23,18 @@ function derive(r, dW){
     return {y, v, d: v - w, s: v > w ? 'up' : 'dn'};
   });
   const valid = cells.filter(c => c.s === 'up' || c.s === 'dn'), up = valid.filter(c => c.s === 'up').length;
+  const ds = valid.map(c => c.d).sort((a, b) => a - b), mid = ds.length >> 1;
+  const spread = ds.length ? (ds.length % 2 ? ds[mid] : (ds[mid - 1] + ds[mid]) / 2) : null;   // median ROIC − WACC
   const sgrOk = r.sgr_status === 'ok' && isNum(r.sgr), sgrNm = r.sgr_status === 'n/m';
   const gap = isNum(g) && sgrOk ? g - r.sgr : (sgrNm ? 'n/m' : null);
-  return {w, g, cells, up, n: valid.length, share: valid.length ? up / valid.length : null, sgrOk, sgrNm, gap};
+  return {w, g, cells, up, n: valid.length, share: valid.length ? up / valid.length : null, spread, sgrOk, sgrNm, gap};
 }
 
 /* — section 02: reverse DCF on the user's inputs — */
 const simEV = S => S.price * S.shares + S.nd;
 const simImplied = (S, fcf, w) => { const ev = simEV(S); return (w * ev - fcf) / (ev + fcf); };
 const simValue = (S, g, w, fcf) => (fcf * (1 + g) / (w - g) - S.nd) / S.shares;
+const impliedAt = (S, price, fcf, w) => isNum(price) && price > 0 ? simImplied(Object.assign({}, S, {price}), fcf, w) : null;
 
 /* — section 02: two-stage fade — growth falls linearly from g1 (year 1) to gT (year N), then gT forever — */
 function fadeValue(S, g1, gT, N, w, fcf){
@@ -62,7 +65,8 @@ function fxRate(fx, from, to){
 /* — Lab: daily returns (1e-5 integers), FX in "USD per unit" — */
 function decode(b){
   const r = {}; for(const t in b.r) r[t] = Float64Array.from(b.r[t], v => v == null ? NaN : v / 1e5);
-  return {dates: b.dates, r, fx: b.fx_usd || {}, start: b.start, end: b.end, memo: {}};
+  const fx = {}; for(const c in (b.fx_usd || {})) fx[c] = Float64Array.from(b.fx_usd[c], v => v == null ? NaN : v);
+  return {dates: b.dates, r, fx, start: b.start, end: b.end, bench: b.bench, listed: b.listed, memo: {}};
 }
 function refSeries(B, t, cur, R){                 // returns of t (quoted in cur) measured in R
   const key = t + '|' + R; if(B.memo[key]) return B.memo[key];
@@ -73,7 +77,8 @@ function refSeries(B, t, cur, R){                 // returns of t (quoted in cur
   for(let i = 1; i < n; i++){
     if(!isFinite(r[i])){ out[i] = NaN; continue; }
     const x1 = (fc ? fc[i] : 1) / (fr ? fr[i] : 1), x0 = (fc ? fc[i - 1] : 1) / (fr ? fr[i - 1] : 1);
-    out[i] = (1 + r[i]) * (x1 / x0) - 1;
+    const v = (1 + r[i]) * (x1 / x0) - 1;
+    out[i] = isFinite(v) ? v : NaN;               // no FX quote that day → missing, never guessed
   }
   return (B.memo[key] = out);
 }
@@ -122,19 +127,28 @@ function quantile(sorted, q){ if(!sorted.length) return NaN; const i = (sorted.l
   return sorted[lo] + (sorted[hi] - sorted[lo]) * (i - lo); }
 /* ret: finite daily returns. Blocks of `block` consecutive days drawn at random keep the
  * volatility clustering of real markets (a crash is followed by more big moves). */
+/* o.tail = {thr, xi, beta, cap} in daily-return units: a drawn day worse than −thr is redrawn as
+ * −(thr + Y), Y ~ GPD(xi, beta), floored at −cap. Tail draws use their own generator, so the
+ * blocks — and every non-tail day — are the same paths as the raw run. */
 function bootstrap(ret, o){
   const n = ret.length, rand = rng(o.seed || 1), step = o.step || 21, block = o.block || 21, days = o.days, paths = o.paths;
+  const T = o.tail, trand = T ? rng(((o.seed || 1) ^ 0x9E3779B9) >>> 0) : null;
   const nCk = Math.floor(days / step) + 1, ck = Array.from({length: nCk}, () => new Float64Array(paths));
   const finals = new Float64Array(paths), mdds = new Float64Array(paths);
   for(let p = 0; p < paths; p++){
     let v = 1, peak = 1, mdd = 0, d = 0; ck[0][p] = 1;
+    let idx = 0, left = 0;
     while(d < days){
-      const s = Math.floor(rand() * n);
-      for(let j = 0; j < block && d < days; j++){
-        v *= 1 + ret[(s + j) % n]; d++;
-        if(v > peak) peak = v; else if(v / peak - 1 < mdd) mdd = v / peak - 1;
-        if(d % step === 0) ck[d / step][p] = v;
-      }
+      // stationary (Politis & Romano 1994): a new block starts each day with probability 1/block,
+      // so block lengths are geometric with mean `block`; otherwise fixed blocks of `block` days.
+      // Both wrap around the end of the sample (circular).
+      if(o.stationary){ if(d === 0 || rand() < 1 / block) idx = Math.floor(rand() * n); else idx = (idx + 1) % n; }
+      else { if(left === 0){ idx = Math.floor(rand() * n); left = block; } else idx = (idx + 1) % n; left--; }
+      let x = ret[idx];
+      if(T && x < -T.thr) x = Math.max(-T.cap, -(T.thr + gpdQ(T.xi, T.beta, trand())));
+      v *= 1 + x; d++;
+      if(v > peak) peak = v; else if(v / peak - 1 < mdd) mdd = v / peak - 1;
+      if(d % step === 0) ck[d / step][p] = v;
     }
     finals[p] = v; mdds[p] = mdd;
   }
@@ -143,7 +157,66 @@ function bootstrap(ret, o){
   const sf = Array.from(finals).sort((x, y) => x - y), sm = Array.from(mdds).sort((x, y) => x - y);
   return {bands, step, final: {p5: quantile(sf, .05), p25: quantile(sf, .25), p50: quantile(sf, .5), p75: quantile(sf, .75), p95: quantile(sf, .95)},
     probLoss: sf.filter(v => v < 1).length / paths, medianMdd: quantile(sm, .5),
-    probDD30: sm.filter(v => v <= -0.3).length / paths, paths, days, sample: n};
+    probDD30: sm.filter(v => v <= -0.3).length / paths, probDD50: sm.filter(v => v <= -0.5).length / paths,
+    nLoss: sf.filter(v => v < 1).length, nDD30: sm.filter(v => v <= -0.3).length, nDD50: sm.filter(v => v <= -0.5).length,
+    worstMdd: sm[0], paths, days, sample: n, tail: !!T, stationary: !!o.stationary, block};
+}
+
+/* — EVT: generalised Pareto tail, peaks over threshold, probability-weighted moments
+ * (Hosking & Wallis 1987). losses > 0; threshold = the q-quantile of the losses. — */
+function gpdQ(xi, beta, u){                        // inverse CDF of GPD(xi, beta)
+  const p = Math.min(u, 1 - 1e-12);
+  return Math.abs(xi) < 1e-9 ? -beta * Math.log(1 - p) : beta / xi * (Math.pow(1 - p, -xi) - 1);
+}
+function gpdFit(losses, q){
+  const L = losses.filter(isFinite).sort((a, b) => a - b); if(L.length < 200) return null;
+  const u = quantile(L, q), y = L.filter(v => v > u).map(v => v - u), n = y.length;   // ascending
+  if(n < 30) return null;
+  let a0 = 0, a1 = 0; for(let i = 0; i < n; i++){ a0 += y[i]; a1 += y[i] * (n - 1 - i) / (n - 1); }
+  a0 /= n; a1 /= n;                                 // a1 = E[y·(1 − F(y))], unbiased estimator
+  const k = a0 / (a0 - 2 * a1) - 2, beta = 2 * a0 * a1 / (a0 - 2 * a1), xi = -k;
+  if(!(beta > 0) || !(xi < 0.5)) return null;       // PWM needs a finite variance (xi < 1/2)
+  return {u, xi, beta, n, N: L.length, q, max: L[L.length - 1]};
+}
+/* the long reference's daily returns, standardised by their own volatility, fitted once;
+ * rescaled to the allocation's volatility → thresholds in the allocation's return units */
+function tailFor(refRet, sdTarget, q){
+  const a = refRet.filter(isFinite), m = avg(a), sd = Math.sqrt(avg(a.map(v => (v - m) ** 2)));
+  const fit = gpdFit(a.map(v => -v / sd), q || 0.95); if(!fit || !(sdTarget > 0)) return null;
+  return Object.assign({}, fit, {sdRef: sd, thr: fit.u * sdTarget, beta: fit.beta * sdTarget, cap: Math.min(0.9, 2 * fit.max * sdTarget), scale: sdTarget / sd});
+}
+
+/* — turbulence (Kritzman & Li 2010): Mahalanobis distance of a day's returns from the
+ * mean and covariance of a reference period. hist, test: arrays of equal-length vectors — */
+function cholInv(S){                               // inverse of a symmetric positive matrix (ridge if needed)
+  const k = S.length; let ridge = 0;
+  for(let tries = 0; tries < 6; tries++){
+    const L = Array.from({length: k}, () => new Array(k).fill(0)); let ok = true;
+    for(let i = 0; i < k && ok; i++) for(let j = 0; j <= i; j++){
+      let v = S[i][j] + (i === j ? ridge : 0); for(let m = 0; m < j; m++) v -= L[i][m] * L[j][m];
+      if(i === j){ if(!(v > 0)){ ok = false; break; } L[i][i] = Math.sqrt(v); } else L[i][j] = v / L[j][j];
+    }
+    if(ok){
+      const Li = Array.from({length: k}, () => new Array(k).fill(0));
+      for(let i = 0; i < k; i++){ Li[i][i] = 1 / L[i][i]; for(let j = 0; j < i; j++){ let v = 0; for(let m = j; m < i; m++) v -= L[i][m] * Li[m][j]; Li[i][j] = v / L[i][i]; } }
+      const inv = Array.from({length: k}, () => new Array(k).fill(0));
+      for(let i = 0; i < k; i++) for(let j = 0; j <= i; j++){ let v = 0; for(let m = i; m < k; m++) v += Li[m][i] * Li[m][j]; inv[i][j] = inv[j][i] = v; }
+      return inv;
+    }
+    ridge = ridge ? ridge * 10 : 1e-10 * (S.reduce((s, r, i) => s + r[i], 0) / k || 1);
+  }
+  return null;
+}
+function turbulence(hist, test){
+  const k = hist.length ? hist[0].length : 0, T = hist.length; if(k < 2 || T <= k + 10) return null;
+  const mu = new Array(k).fill(0); hist.forEach(x => { for(let a = 0; a < k; a++) mu[a] += x[a] / T; });
+  const S = Array.from({length: k}, () => new Array(k).fill(0));
+  hist.forEach(x => { for(let a = 0; a < k; a++){ const da = x[a] - mu[a]; for(let b = 0; b <= a; b++) S[a][b] += da * (x[b] - mu[b]) / (T - 1); } });
+  for(let a = 0; a < k; a++) for(let b = 0; b < a; b++) S[b][a] = S[a][b];
+  const Si = cholInv(S); if(!Si) return null;
+  const d = x => { let v = 0; for(let a = 0; a < k; a++){ const da = x[a] - mu[a]; let r = 0; for(let b = 0; b < k; b++) r += Si[a][b] * (x[b] - mu[b]); v += da * r; } return v / k; };
+  const ref = hist.map(d).sort((a, b) => a - b), p95 = quantile(ref, 0.95), dt = test.map(d);
+  return {d: dt, p95, k, T, share: dt.length ? dt.filter(v => v > p95).length / dt.length : null, median: quantile(dt.slice().sort((a, b) => a - b), 0.5), refMedian: quantile(ref, 0.5)};
 }
 
 /* — optimiser: long-only, cap per name, on the days all chosen names have prices — */
@@ -197,7 +270,7 @@ function evaluate(series, rows, w, rf){
   return {ret: m * TRADING_DAYS, vol: sd * Math.sqrt(TRADING_DAYS), sharpe: sd > 0 ? (m * TRADING_DAYS - (rf || 0)) / (sd * Math.sqrt(TRADING_DAYS)) : null};
 }
 
-return {isNum, avg, derive, simEV, simImplied, simValue, fadeValue, fadeImplied, fxRate, decode, refSeries, portfolio, stats, riskContrib,
-        rng, quantile, bootstrap, aligned, moments, projectCapped, optimize, evaluate, TRADING_DAYS};
+return {isNum, avg, derive, simEV, simImplied, simValue, impliedAt, fadeValue, fadeImplied, fxRate, decode, refSeries, portfolio, stats, riskContrib,
+        rng, quantile, bootstrap, gpdQ, gpdFit, tailFor, cholInv, turbulence, aligned, moments, projectCapped, optimize, evaluate, TRADING_DAYS};
 })();
 </script>

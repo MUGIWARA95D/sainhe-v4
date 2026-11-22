@@ -33,6 +33,21 @@ log = logging.getLogger("sainhe.portfolio_runner")
 ROOT = Path(__file__).resolve().parent.parent
 MIN_DAYS = 400
 HISTORY_START = "2007-01-01"   # stress tests : GFC 2008 → hike cycle 2022
+LAB_HISTORY_START = "1999-06-01"   # Rejeu de crises du Labo : bulle internet (pic 2000-03-24)
+LONG_REF = "SPY"               # série longue (depuis 1993) : forme de la queue pour l'EVT du Monte Carlo
+# Crises rejouées dans le Labo, de pic à creux du S&P 500 (clôtures) ; le backend garde
+# portfolio/stress.SCENARIOS pour ses propres stress tests.
+LAB_CRISES = {
+    "DotCom_2000":     ("2000-03-24", "2002-10-09"),
+    "GFC_2008":        ("2007-10-09", "2009-03-09"),
+    "COVID_2020":      ("2020-02-19", "2020-03-23"),
+    "Rate_Shock_2022": ("2022-01-03", "2022-10-12"),
+}
+# Change avant l'historique Yahoo (≈ 2004) : séries journalières H.10 de la Fed via FRED
+# (midi New York). (série, inversée ?) : inversée = la série donne des unités pour 1 USD.
+FRED_FX = {"EUR": ("DEXUSEU", False), "GBP": ("DEXUSUK", False), "CHF": ("DEXSZUS", True),
+           "JPY": ("DEXJPUS", True), "CNY": ("DEXCHUS", True), "HKD": ("DEXHKUS", True),
+           "KRW": ("DEXKOUS", True), "TWD": ("DEXTAUS", True)}
 MAIN_YEARS = 5                 # métriques courantes (rendements, risque, HRP, Monte Carlo)
 BENCHMARKS = ["SPY", "ACWI"]
 CURRENCIES = ["USD", "EUR", "CHF", "HKD"]
@@ -81,7 +96,6 @@ def export_lab_data(closes: dict, infos: dict, wl: dict, comps: dict, holdings: 
       - fenêtres de crise (stress.SCENARIOS) avec les mêmes données ;
       - préréglages : poids par défaut et HRP (portfolio_report_USD.json).
     """
-    from portfolio.stress import SCENARIOS
     names = list(dict.fromkeys(holdings + [c[0] for c in comps.values()] + BENCHMARKS))
     names = [t for t in names if t in closes and len(closes[t])]
     nat = {}
@@ -92,26 +106,42 @@ def export_lab_data(closes: dict, infos: dict, wl: dict, comps: dict, holdings: 
     px = pd.DataFrame({t: closes[t] for t in names}).reindex(days).ffill(limit=3)
     rets = px.pct_change(fill_method=None)
     currencies = sorted(set(nat.values()) | set(CURRENCIES))
-    fx = {}
+    fx, fx_prov = {}, {}
     for c in currencies:
         if c == "USD":
             continue
-        s = fx_series(c, "USD", sess)
+        s, prov = fx_usd_long(c, sess)
+        fx_prov[c] = prov
         if s is not None:
-            fx[c] = s.reindex(days).ffill().bfill()
+            # ffill borné (jours fériés de change) ; AUCUN bfill : avant la première cotation
+            # le change est absent (null) et le titre est écarté ce jour-là, jamais deviné
+            fx[c] = s.reindex(days).ffill(limit=5)
 
-    def block(idx) -> dict:
-        return {"dates": [d.strftime("%Y-%m-%d") for d in idx],
-                "r": {t: _enc(rets.loc[idx, t]) for t in names},
-                "fx_usd": {c: [round(float(v), 6) for v in s.loc[idx].tolist()] for c, s in fx.items()}}
+    def block(idx, sparse=False) -> dict:
+        r = {t: _enc(rets.loc[idx, t]) for t in names}
+        if sparse:                       # fenêtres de crise : titres non cotés omis (poids)
+            r = {t: v for t, v in r.items() if any(x is not None for x in v)}
+        return {"dates": [d.strftime("%Y-%m-%d") for d in idx], "r": r,
+                "fx_usd": {c: [None if v != v else round(float(v), 6) for v in s.loc[idx].tolist()]
+                           for c, s in fx.items()}}
 
     cutoff = days[-1] - pd.DateOffset(years=MAIN_YEARS, days=15)
     main_idx = days[days >= cutoff]
+    first = {t: px[t].first_valid_index() for t in names}
     crises = {}
-    for name, (start, end) in SCENARIOS.items():
+    for name, (start, end) in LAB_CRISES.items():
         idx = days[(days >= pd.Timestamp(start) - pd.Timedelta(days=7)) & (days <= pd.Timestamp(end))]
         if len(idx) > 2:
-            crises[name] = {"start": start, "end": end, **block(idx)}
+            ws = pd.Timestamp(start)
+            # référence monde (ACWI) seulement si cotée dès le début ; sinon S&P 500 (signalé)
+            bench = "ACWI" if first.get("ACWI") is not None and first["ACWI"] <= ws else "SPY"
+            crises[name] = {"start": start, "end": end, "bench": bench,
+                            "listed": sorted(t for t in holdings if t in names and first.get(t) is not None
+                                             and first[t] <= ws),
+                            **block(idx, sparse=True)}
+    spy = closes[LONG_REF].pct_change(fill_method=None).dropna()
+    long_ref = {"t": LONG_REF, "name": "SPDR S&P 500 ETF (total return, dividends reinvested)",
+                "from": str(spy.index[0].date()), "to": str(spy.index[-1].date()), "r": _enc(spy)}
     hrp = {}
     rp = ROOT / "data" / "stock" / "portfolio_report_USD.json"
     if rp.exists():
@@ -132,6 +162,9 @@ def export_lab_data(closes: dict, infos: dict, wl: dict, comps: dict, holdings: 
         "presets": {"default": weights, "hrp": hrp},
         "main": block(main_idx),
         "crises": crises,
+        "crisis_rule": "S&P 500 peak to trough (closes); window starts 7 days before the peak",
+        "fx_provenance": fx_prov,
+        "long_ref": long_ref,
         "disclaimer": config.DISCLAIMER,
     }
     path = ROOT / "data" / "stock" / "lab_data.json"
@@ -169,7 +202,7 @@ def fetch(tickers: list[str], sess):
             tk = yf.Ticker(t, session=sess)
             h = tk.history(period="max", auto_adjust=True)["Close"].dropna()
             h.index = h.index.tz_localize(None).normalize()
-            closes[t] = h.loc[HISTORY_START:]
+            closes[t] = h if t == LONG_REF else h.loc[LAB_HISTORY_START:]
             try:
                 infos[t] = tk.get_info()
             except Exception:
@@ -185,11 +218,11 @@ USD_PEGS = {"SAR": 3.75}      # unités de devise pour 1 USD
 MIN_FX_DAYS = 250
 
 
-def _fx_direct(cur: str, ref: str, sess) -> pd.Series | None:
+def _fx_direct(cur: str, ref: str, sess, start: str = HISTORY_START) -> pd.Series | None:
     import yfinance as yf
     for pair, inv in ((f"{cur}{ref}=X", False), (f"{ref}{cur}=X", True)):
         try:
-            h = yf.Ticker(pair, session=sess).history(period="max")["Close"].dropna().loc[HISTORY_START:]
+            h = yf.Ticker(pair, session=sess).history(period="max")["Close"].dropna().loc[start:]
             if len(h) >= MIN_FX_DAYS:
                 h.index = h.index.tz_localize(None).normalize()
                 return (1 / h) if inv else h
@@ -205,6 +238,64 @@ def _fx_usd(cur: str, sess) -> pd.Series | float | None:
     if cur in USD_PEGS:
         return 1.0 / USD_PEGS[cur]
     return _fx_direct(cur, "USD", sess)
+
+
+def _fred_fx_usd(cur: str) -> pd.Series | None:
+    """USD pour 1 `cur`, journalier, depuis FRED (CSV public, sans clé) ; None si indisponible."""
+    spec = FRED_FX.get(cur)
+    if not spec:
+        return None
+    series, inverted = spec
+    try:
+        import io, requests
+        r = requests.get(config.FRED_CSV_URL.format(series=series), timeout=30)
+        r.raise_for_status()
+        df = pd.read_csv(io.StringIO(r.text), na_values=[".", ""])
+        df.columns = ["date", "v"]
+        s = pd.Series(pd.to_numeric(df["v"], errors="coerce").values,
+                      index=pd.to_datetime(df["date"])).dropna()
+        s = s[s > 0]
+        return (1 / s) if inverted else s
+    except Exception as e:
+        log.warning("FRED %s indisponible (%s)", series, type(e).__name__)
+        return None
+
+
+def fx_usd_long(cur: str, sess) -> tuple[pd.Series | None, dict]:
+    """USD pour 1 `cur` depuis LAB_HISTORY_START : Yahoo d'abord ; FRED (H.10 de la Fed)
+    seulement les jours sans cotation Yahoo — avant son premier jour (≈ 2004) et dans ses
+    trous (2008). Jamais deux sources le même jour. Retourne (série, provenance)."""
+    if cur in USD_PEGS:
+        days = pd.bdate_range(LAB_HISTORY_START, pd.Timestamp.today().normalize())
+        return (pd.Series(1.0 / USD_PEGS[cur], index=days),
+                {"source": f"official peg {USD_PEGS[cur]} {cur} per USD"})
+    y = _fx_direct(cur, "USD", sess, start=LAB_HISTORY_START)
+    f = _fred_fx_usd(cur)
+    if f is not None:
+        f = f.loc[LAB_HISTORY_START:]
+        if y is not None:
+            f = f[~f.index.isin(y.index)]
+        if not len(f):
+            f = None
+    if y is None and f is None:
+        return None, {"source": "N/D"}
+    prov: dict = {}
+    if y is not None:
+        prov["yahoo_from"] = str(y.index[0].date())
+    if f is not None:
+        prov["fred"] = FRED_FX[cur][0]
+        before = f[f.index < y.index[0]] if y is not None else f
+        if len(before):
+            prov["fred_from"], prov["fred_to"] = str(before.index[0].date()), str(before.index[-1].date())
+        prov["fred_gap_days"] = int(len(f) - len(before))
+    parts = ["Yahoo Finance daily close"] if y is not None else []
+    if f is not None:
+        where = [w for w in (("before " + prov["yahoo_from"]) if y is not None and "fred_from" in prov else "",
+                             (f"on {prov['fred_gap_days']} days Yahoo lacks") if prov.get("fred_gap_days") else "") if w]
+        parts.append(f"FRED {prov['fred']} (Fed H.10, noon New York) " + " and ".join(where))
+    prov["source"] = "; ".join(x.strip() for x in parts)
+    out = pd.concat([x for x in (f, y) if x is not None]).sort_index()
+    return out[~out.index.duplicated(keep="last")], prov
 
 
 def fx_series(cur: str, ref: str, sess) -> pd.Series | None:
@@ -236,7 +327,8 @@ def main(currencies: list[str], n_sims: int) -> dict:
     wl = load_watchlist()
     comps = load_competitors()
     comp_tickers = [c[0] for c in comps.values() if c[0] not in wl]
-    closes, infos = fetch(list(dict.fromkeys(list(wl) + BENCHMARKS + comp_tickers)), sess)
+    closes_long, infos = fetch(list(dict.fromkeys(list(wl) + BENCHMARKS + comp_tickers)), sess)
+    closes = {t: s.loc[HISTORY_START:] for t, s in closes_long.items()}
     native = {}
     for t in wl:
         c = (infos.get(t) or {}).get("currency") or wl[t].get("devise", "USD")
@@ -334,7 +426,7 @@ def main(currencies: list[str], n_sims: int) -> dict:
         status["currencies"][ref] = {"holdings": len(w_ref), "kb": round(size / 1024)}
     # Données du Portfolio Lab / Rejeu de crises (calcul côté navigateur) — après les
     # rapports, pour reprendre les poids HRP de portfolio_report_USD.json
-    lab = export_lab_data(closes, infos, wl, comps, tickers,
+    lab = export_lab_data(closes_long, infos, wl, comps, tickers,
                           {t: w / sum(weights.values()) for t, w in weights.items()}, sess)
     status["lab_data_kb"] = round(lab.stat().st_size / 1024)
     return status

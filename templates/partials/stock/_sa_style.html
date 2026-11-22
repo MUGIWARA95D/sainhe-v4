@@ -37,8 +37,25 @@
 .sa-btn:hover{border-color:var(--gold);color:var(--gold)}
 
 /* ── Quality × Price map ── */
-.sa-map-wrap{position:relative;height:460px;padding:10px 18px 6px}
-@media(max-width:700px){.sa-map-wrap{height:360px;padding:6px 4px}}
+.sa-map-frame{display:grid;grid-template-columns:30px minmax(0,1fr);padding:0 10px 0 4px}
+.sa-map-wrap{position:relative;height:460px;padding:10px 8px 0 0;grid-column:2}
+@media(max-width:700px){.sa-map-wrap{height:360px;padding:6px 2px 0 0}.sa-map-frame{grid-template-columns:24px minmax(0,1fr);padding:0 4px 0 0}}
+.sa-axl{color:var(--muted);font-size:10.5px;line-height:1.3;text-align:center}
+.sa-axl strong{display:block;font-family:var(--serif);font-weight:400;font-size:12.5px;color:var(--h)}
+.sa-axl-x{grid-column:2;padding:2px 0 12px}
+.sa-axl-y{grid-column:1;grid-row:1;writing-mode:vertical-rl;transform:rotate(180deg);align-self:center;white-space:nowrap}
+.sa-axl-y span{display:block}
+.sa-lg-n1,.sa-lg-n2{border-radius:50%;background:var(--muted)}
+.sa .sa-legend i.sa-lg-n1{width:6px;height:6px;margin-right:3px;vertical-align:1px}
+.sa .sa-legend i.sa-lg-n2{width:12px;height:12px;margin-right:6px;vertical-align:-2px}
+.sa-read{margin:0 0 16px;border:1px solid var(--border-lt);border-radius:12px;background:var(--card);padding:0 20px}
+.sa-read summary{cursor:pointer;padding:12px 0;font-family:var(--serif);font-size:14px;color:var(--h);list-style:none;display:flex;align-items:center;gap:8px;min-height:44px}
+.sa-read summary::-webkit-details-marker{display:none}
+.sa-read summary::before{content:"";width:7px;height:7px;border-right:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);transform:rotate(-45deg);transition:transform .15s;margin-right:2px}
+.sa-read[open] summary::before{transform:rotate(45deg)}
+.sa-read summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sa-read ul{margin:0 0 14px;padding-left:18px;font-size:12.5px;line-height:1.7;color:var(--p)}
+@media (prefers-reduced-motion:reduce){.sa-read summary::before{transition:none}}
 .sa-legend{display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:11px;color:var(--muted);padding:0 28px 14px}
 .sa-legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
 .sa-lg-c{border-radius:50%}
@@ -99,9 +116,24 @@
 .sa-ctl-h output{font-family:var(--serif);font-size:15px;color:var(--h)}
 .sa-range{width:100%;accent-color:var(--gold);margin:0}
 .sa-pins{position:relative;height:30px;margin-top:2px}
-.sa-pin{position:absolute;top:0;transform:translateX(-50%);font-size:9.5px;color:var(--muted);white-space:nowrap;text-align:center;line-height:1.2}
-.sa-pin::before{content:"";display:block;width:1px;height:7px;background:currentColor;margin:0 auto 2px}
+.sa-pin{position:absolute;top:0;font:inherit;font-size:9.5px;color:var(--muted);white-space:nowrap;line-height:1.2;background:none;border:0;padding:9px 7px 3px;cursor:pointer;border-radius:6px}
+.sa-pin i{position:absolute;top:0;width:1px;height:7px;background:currentColor}
+.sa-pin:hover{color:var(--h);background:var(--gold-bg)}
+.sa-pin:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 .sa-pin.p-imp{color:var(--gold);font-weight:600}
+.sa-pin.p-an{color:var(--s2)}
+@media (pointer:coarse){.sa-pin{padding:12px 8px 6px;font-size:10.5px}}
+.sa-view{margin:14px 0 4px;border:1px solid var(--border-lt);border-radius:12px;padding:12px 14px;background:var(--card-alt)}
+.sa-view-l{margin:0 0 4px;font-size:14px;color:var(--h);line-height:1.5}
+.sa-view-l .sa-co{display:block;margin:2px 0 0}
+.sa-view-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.sa-curline{margin:12px 0 0;font-size:11.5px;color:var(--muted);line-height:1.55}
+.sa-curline strong{color:var(--h);font-weight:600}
+.sa-curline .sa-co{display:block;margin:1px 0 0}
+#sa-drawer .sa-curline{margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid var(--border-lt)}
+.sa-caveat{font-style:italic}
+.sa-mnotes{margin-top:18px;border-top:1px solid var(--border-lt);padding:0}
+.sa-mnotes em{font-style:normal;font-family:'SF Mono',Consolas,monospace;font-size:11px;color:var(--h)}
 .sa-curve{position:relative;height:230px;margin-top:10px}
 .sa-seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
 .sa-seg button{font-size:11px;padding:5px 10px;border:none;background:var(--card);color:var(--muted);cursor:pointer;font-family:var(--sans)}
@@ -135,9 +167,28 @@
 
 /* ── Allocation Lab ── */
 .sa-lab-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.35fr)}
-.sa-lab-l{border-right:1px solid var(--border-lt);min-width:0}
+/* left panel spans the card's full height: the list scrolls, the note stays pinned at the bottom */
+.sa-lab-l{border-right:1px solid var(--border-lt);min-width:0;position:relative;min-height:520px}
+.sa-lab-li{position:absolute;inset:0;display:flex;flex-direction:column}
+.sa-lab-li .sa-rows{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto}
+.sa-lab-foot{margin:0;padding:10px 20px 14px;border-top:1px solid var(--border-lt);background:var(--card)}
 .sa-lab-r{min-width:0}
-@media(max-width:1000px){.sa-lab-grid{grid-template-columns:minmax(0,1fr)}.sa-lab-l{border-right:none;border-bottom:1px solid var(--border-lt)}.sa-rows{max-height:420px}}
+@media(max-width:1000px){.sa-lab-grid{grid-template-columns:minmax(0,1fr)}.sa-lab-l{border-right:none;border-bottom:1px solid var(--border-lt);min-height:0}
+  .sa-lab-li{position:static}.sa-lab-li .sa-rows{max-height:420px}}
+.sa-lab-desc{padding:10px 28px 12px;border-bottom:1px solid var(--border-lt);display:grid;gap:2px}
+.sa-lab-desc .sa-note{margin:0}
+@media(max-width:700px){.sa-lab-desc{padding:10px 16px}}
+.sa-lens-l{display:inline-flex;flex-direction:column;line-height:1.15}
+.sa-lens-sub{font-size:9.5px;color:var(--muted)}
+.sa-lens-sync{font-size:10.5px;color:var(--muted)}
+.sa-lens-sync.on{color:var(--gold)}
+.sa-fitnote{margin:0 0 10px;padding:8px 10px;border-left:2px solid var(--muted);background:var(--card-alt);border-radius:0 8px 8px 0}
+.sa-m-5y{display:block;margin-top:3px;color:var(--muted)}
+#sa-lab-fx .sa-dual{display:inline;font-size:inherit;margin:0}
+.sa-m-5y em{font-style:normal;opacity:.8}
+.sa-card-sub{display:block;font-family:var(--sans);font-size:11px;color:var(--muted);font-weight:400;margin-top:2px;letter-spacing:0;text-transform:none}
+.sa-crisis-cov{padding:0 28px;margin:4px 0 0}
+@media(max-width:700px){.sa-crisis-cov{padding:0 16px}}
 .sa-lab-bar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:14px 28px;border-bottom:1px solid var(--border-lt)}
 .sa-lab-bar .sa-kicker{margin-right:2px}
 .sa-rows{max-height:620px;overflow-y:auto;padding:4px 0}
@@ -325,4 +376,14 @@
   .sa-rfleg{padding-left:16px;padding-right:16px}
 }
 @media (prefers-reduced-motion:reduce){ #sa-drawer,#sa-drawer-scrim{transition:none} }
+/* phones: the audit panel is a full-screen sheet with its own header; the site header is hidden meanwhile */
+@media (max-width:700px){
+  #sa-drawer{width:100vw;left:0;border-left:none;box-shadow:none}
+  .sa-dr-h{position:sticky;top:0;background:var(--card);z-index:1;padding:14px 16px 12px;align-items:center}
+  .sa-dr-t{font-size:16px}
+  .sa-dr-x{width:44px;height:44px;font-size:16px}
+  .sa-dr-b{padding:14px 16px 32px}
+  html.sa-sheet-open #hdr, html.sa-sheet-open #page-dots{visibility:hidden}
+  html.sa-sheet-open, html.sa-sheet-open body{overflow:hidden}
+}
 </style>

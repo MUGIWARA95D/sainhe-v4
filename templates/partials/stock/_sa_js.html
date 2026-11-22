@@ -10,7 +10,7 @@
 (function(){
 'use strict';
 if(!window.Chart || !window.SACALC) return;
-const {derive, simImplied, simValue, fadeValue, fadeImplied, fxRate, decode, refSeries, portfolio, stats, riskContrib, bootstrap, aligned, moments, optimize, evaluate} = window.SACALC;
+const {derive, simImplied, simValue, impliedAt, fadeValue, fadeImplied, fxRate, decode, refSeries, portfolio, stats, riskContrib, bootstrap, tailFor, turbulence, quantile, aligned, moments, optimize, evaluate} = window.SACALC;
 const VM = JSON.parse((document.getElementById('sa-vmap')||{}).textContent || '{}') || {};
 const ROWS = (VM.rows || []).slice();
 const BASE = '/data/stock/';
@@ -92,8 +92,14 @@ const asOf = $('#sa-asof'); if(asOf && VM.as_of) asOf.textContent = 'as of ' + V
  * `selected` (the company in focus) drives the audit drawer and section 02.
  * Every figure comes from valuation_map.json; recomputations are arithmetic only. */
 const TH = VM.thresholds || {};
-const st = {hover: null, brush: null, compare: [], dW: 0, src: 'all', hideStale: false, sort: {k: 'gap', dir: -1}, xmode: 'nominal', cmpMode: false};
-let mapChart = null, selected = null, drag = null, noClick = false, xRange = null;
+const st = {hover: null, brush: null, compare: [], dW: 0, src: 'all', hideStale: false, sort: {k: 'gap', dir: -1}, xmode: 'nominal', ymode: 'share', cmpMode: false};
+let mapChart = null, selected = null, drag = null, noClick = false, xRange = null, yRange = null;
+/* vertical axis: 'share' = share of fiscal years with ROIC above WACC (default) ;
+ * 'spread' = median ROIC − WACC over the same years, in points — spreads apart companies that
+ * all sit at 100% (a 4/4 record and a 10/10 record are not the same proof) */
+const yOf = d => st.ymode === 'spread' ? d.spread : d.share;
+const Y_LINE = () => st.ymode === 'spread' ? 0 : 0.5;            // quadrant boundary
+const markerR = n => 3.2 + 0.5 * Math.min(Math.max(n || 0, 1), 10);   // marker size ∝ fiscal years measured
 const SHAPE = {'10-K': 'circle', '20-F': 'triangle', 'ESEF': 'rectRot', 'YF': 'rect'};
 // secondary source: neutral ink, not a fourth categorical hue (the validated palette has three)
 const SLOT = {'10-K': 's1', '20-F': 's2', 'ESEF': 's3', 'YF': 'muted'};
@@ -121,6 +127,17 @@ function computeXRange(rows){
   if(!xs.length) return [-0.02, 0.15];
   return [Math.floor((Math.min.apply(null, xs) - .01) * 100) / 100, Math.ceil((Math.max.apply(null, xs) + .01) * 100) / 100];
 }
+/* vertical range on the companies shown (filters rescale it), fixed over the WACC slider */
+function computeYRange(rows){
+  const ys = [];
+  rows.forEach(r => [-0.02, 0, 0.02].forEach(d => { const v = yOf(derive(r, d)); if(isNum(v)) ys.push(v); }));
+  if(!ys.length) return st.ymode === 'spread' ? [-0.1, 0.3] : [-0.09, 1.12];
+  let lo = Math.min.apply(null, ys), hi = Math.max.apply(null, ys);
+  const pad = Math.max(st.ymode === 'spread' ? 0.03 : 0.08, (hi - lo) * 0.12);
+  lo -= pad; hi += pad * 1.6;                                     // headroom for the quadrant labels
+  if(st.ymode === 'share'){ lo = Math.max(lo, -0.09); hi = Math.min(hi, 1.14); }
+  return [lo, hi];
+}
 
 /* — map: quadrant labels, risk-free lines, base-case links, ticker labels, brush rectangle — */
 const s1Plugin = {
@@ -134,24 +151,23 @@ const s1Plugin = {
       x0 = Math.max(a.left + 4, Math.min(x0, a.right - 4 - w));
       ctx.textAlign = 'left'; ctx.fillText(txt, x0, py); obs.push({x: x0 - 2, y: py - 10, w: w + 4, h: 13}); };
     ctx.save();
-    const yp = y.getPixelForValue(0.5);
+    const yp = y.getPixelForValue(Y_LINE()), lineIn = yp >= a.top && yp <= a.bottom;
     ctx.strokeStyle = P.border; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
-    ctx.beginPath(); ctx.moveTo(a.left, yp); ctx.lineTo(a.right, yp); ctx.stroke();
-    ctx.font = '10px ' + FONT; ctx.fillStyle = P.muted; ctx.strokeStyle = P.muted; ctx.setLineDash([5, 4]);
-    const labelRf = a.right - a.left >= 640;
-    (opts.rf || []).forEach((l, i) => {
+    if(lineIn){ ctx.beginPath(); ctx.moveTo(a.left, yp); ctx.lineTo(a.right, yp); ctx.stroke(); }
+    // risk-free: thin dashed lines only — the text line under the map names them (no in-chart labels)
+    ctx.strokeStyle = alpha(P.muted, .7); ctx.setLineDash([5, 4]);
+    (opts.rf || []).forEach(l => {
       const xp = x.getPixelForValue(l.rf); if(xp < a.left || xp > a.right) return;
       ctx.beginPath(); ctx.moveTo(xp, a.top); ctx.lineTo(xp, a.bottom); ctx.stroke();
-      if(!labelRf) return;
-      const curs = Array.from(l.cur).join('/'), prox = Array.from(l.proxy).join('/');
-      put((narrow ? 'rf ' : 'risk-free ') + curs + (prox ? (curs ? ' · ' : '') + prox + (narrow ? '*' : ' (US proxy)') : '') + ' ' + pct(l.rf), xp + 4, a.bottom - 24 - i * 13, 'left');
     });
-    ctx.setLineDash([]); ctx.font = '600 9.5px ' + FONT;
-    const L = narrow ? ['PROVEN · MODEST', 'PROVEN · DEMANDING', 'UNPROVEN · MODEST', 'UNPROVEN · DEMANDING']
-                     : ['PROVEN RETURNS · MODEST EXPECTATIONS', 'PROVEN RETURNS · DEMANDING EXPECTATIONS',
-                        'UNPROVEN RETURNS · MODEST EXPECTATIONS', 'UNPROVEN RETURNS · DEMANDING EXPECTATIONS'];
-    put(L[0], a.left + 8, a.top + 14, 'left'); put(L[1], a.right - 8, a.top + 14, 'right');
-    put(L[2], a.left + 8, a.bottom - 8, 'left'); put(L[3], a.right - 8, a.bottom - 8, 'right');
+    ctx.setLineDash([]); ctx.font = '600 9.5px ' + FONT; ctx.fillStyle = P.muted;
+    const sp = st.ymode === 'spread';
+    const up = narrow ? (sp ? 'ROIC > WACC' : 'PROVEN') : (sp ? 'ROIC ABOVE WACC' : 'PROVEN RETURNS'),
+          dn = narrow ? (sp ? 'ROIC < WACC' : 'UNPROVEN') : (sp ? 'ROIC BELOW WACC' : 'UNPROVEN RETURNS'),
+          lo_ = narrow ? 'MODEST' : 'MODEST EXPECTATIONS', hi_ = narrow ? 'DEMANDING' : 'DEMANDING EXPECTATIONS';
+    // label only the halves that are on screen: a filtered view may show one side of the boundary
+    if(yp > a.top + 20){ put(up + ' · ' + lo_, a.left + 8, a.top + 14, 'left'); put(up + ' · ' + hi_, a.right - 8, a.top + 14, 'right'); }
+    if(yp < a.bottom - 20){ put(dn + ' · ' + lo_, a.left + 8, a.bottom - 8, 'left'); put(dn + ' · ' + hi_, a.right - 8, a.bottom - 8, 'right'); }
     ctx.restore();
   },
   afterDatasetsDraw(chart){
@@ -194,17 +210,17 @@ function mapDatasets(rows){
   const dim = t => st.brush && !st.brush.has(t), hot = t => t === st.hover || t === selected;
   ['10-K', '20-F', 'ESEF', 'YF'].forEach(k => {
     const col = P[SLOT[k]], set = rows.filter(r => r.src_kind === k);
-    const pt = (r, dW) => { const d = derive(r, dW), x = xOf(r, d.g); return isNum(x) && isNum(d.share) ? {x, y: d.share, t: r.ticker} : null; };
+    const pt = (r, dW) => { const d = derive(r, dW), x = xOf(r, d.g), y = yOf(d); return isNum(x) && isNum(y) ? {x, y, t: r.ticker, n: d.n} : null; };
     const cur = set.map(r => pt(r, st.dW)).filter(Boolean);
     out.push({label: SRC_NAME[k], kind: 'cur', data: cur, pointStyle: SHAPE[k], order: 1,
-      pointRadius: cur.map(p => p.t === st.hover ? 10 : p.t === selected ? 8.5 : 6.5), pointHoverRadius: 10, pointHitRadius: 10,
+      pointRadius: cur.map(p => markerR(p.n) + (p.t === st.hover ? 3 : p.t === selected ? 2 : 0)), pointHoverRadius: cur.map(p => markerR(p.n) + 3), pointHitRadius: 10,
       backgroundColor: cur.map(p => alpha(ROW[p.t].stale_financials ? P.card : col, dim(p.t) ? .2 : 1)),
       borderColor: cur.map(p => hot(p.t) ? P.h : (ROW[p.t].stale_financials ? alpha(col, dim(p.t) ? .3 : 1) : P.card)),
       borderWidth: cur.map(p => hot(p.t) ? 2.5 : (ROW[p.t].stale_financials ? 2.2 : 1.5))});
     if(st.dW !== 0){
       const base = set.map(r => pt(r, 0)).filter(Boolean);
       out.push({label: SRC_NAME[k] + ' · base case', kind: 'ghost', data: base, pointStyle: SHAPE[k], order: 2,
-        pointRadius: 6, pointHoverRadius: 6, pointHitRadius: 0, backgroundColor: 'rgba(0,0,0,0)', borderColor: alpha(col, .5), borderWidth: 1.5});
+        pointRadius: base.map(p => markerR(p.n)), pointHoverRadius: base.map(p => markerR(p.n)), pointHitRadius: 0, backgroundColor: 'rgba(0,0,0,0)', borderColor: alpha(col, .5), borderWidth: 1.5});
     }
   });
   return out;
@@ -212,14 +228,20 @@ function mapDatasets(rows){
 function renderMap(rebuild){
   const cv = $('#sa-map'); if(!cv) return;
   const rows = filtered(), P = pal();
-  if(rebuild || !xRange) xRange = computeXRange(rows);
+  if(rebuild || !xRange){ xRange = computeXRange(rows); yRange = computeYRange(rows); }
   const ds = mapDatasets(rows), lines = st.xmode === 'excess' ? [{rf: 0, cur: new Set(['own currency']), proxy: new Set()}] : rfLines(rows);
-  const xTitle = (st.xmode === 'excess' ? 'Implied growth minus the risk-free rate of each company\'s currency' : 'Perpetual FCF growth implied by the price (reverse DCF)') +
+  // two-level axis titles in HTML (plain question above, technical term below)
+  const xs = $('#sa-xsub'), ys = $('#sa-ysub');
+  if(xs) xs.textContent = (st.xmode === 'excess' ? 'implied growth minus the risk-free rate of each company\'s currency' : 'perpetual FCF growth implied by the price (reverse DCF)') +
     (st.dW ? ' — WACC ' + signed(st.dW, 2, ' pt') : '');
+  if(ys) ys.textContent = st.ymode === 'spread' ? 'median ROIC − WACC spread, in points' : 'years with ROIC above WACC';
+  cv.setAttribute('aria-label', 'Scatter plot of ' + (st.xmode === 'excess' ? 'implied growth above the risk-free rate' : 'implied growth') + ' against ' +
+    (st.ymode === 'spread' ? 'the median spread of ROIC over WACC' : 'the share of years with ROIC above WACC') + '. The coverage table below lists the same data.');
+  const yTick = v => st.ymode === 'spread' ? (v > 0.0005 ? '+' : v < -0.0005 ? '−' : '') + Math.abs(Math.round(v * 100)) + ' pts' : Math.round(v * 100) + '%';
   if(mapChart && !rebuild){
     mapChart.data.datasets = ds; mapChart.options.plugins.saS1.rf = lines;
     mapChart.options.scales.x.min = xRange[0]; mapChart.options.scales.x.max = xRange[1];
-    mapChart.options.scales.x.title.text = xTitle; mapChart.update('none');
+    mapChart.update('none');
   } else {
     if(mapChart) mapChart.destroy();
     mapChart = new Chart(cv, {
@@ -230,11 +252,11 @@ function renderMap(rebuild){
         interaction: {mode: 'nearest', intersect: true},
         events: ['mousemove', 'mouseout', 'click', 'touchstart'],
         scales: {
-          x: axis(P, {min: xRange[0], max: xRange[1], title: {display: true, text: xTitle, color: P.muted},
+          x: axis(P, {min: xRange[0], max: xRange[1],
             ticks: {color: P.muted, padding: 6, callback: v => Math.round(v * 100) + '%'}}),
-          y: axis(P, {min: -.09, max: 1.2, title: {display: true, text: 'Years with ROIC above WACC', color: P.muted},
-            afterBuildTicks: ax => { ax.ticks = [0, .25, .5, .75, 1].map(v => ({value: v})); },
-            ticks: {color: P.muted, padding: 6, callback: v => Math.round(v * 100) + '%'}})
+          y: axis(P, {min: yRange[0], max: yRange[1],
+            afterBuildTicks: ax => { ax.ticks = ax.ticks.filter(t => st.ymode === 'spread' || (t.value >= -1e-9 && t.value <= 1 + 1e-9)); },
+            ticks: {color: P.muted, padding: 6, maxTicksLimit: 7, callback: yTick}})
         },
         plugins: {
           saS1: {rf: lines},
@@ -243,7 +265,7 @@ function renderMap(rebuild){
             title: it => { const r = ROW[it[0].raw.t]; return r.name + ' (' + r.ticker + ')'; },
             label: it => { const r = ROW[it.raw.t], d = derive(r, st.dW); return [
               'Implied growth  ' + pct(d.g) + (st.dW ? '  (base ' + pct(r.implied_growth) + ')' : ''),
-              'ROIC > WACC  ' + (d.n ? d.up + '/' + d.n + ' yrs' : 'N/D'),
+              'ROIC > WACC  ' + (d.n ? d.up + '/' + d.n + ' yrs' : 'N/D') + (isNum(d.spread) ? ' · median spread ' + pts(d.spread) : ''),
               'Sustainable growth  ' + (d.sgrOk ? pct(r.sgr) : d.sgrNm ? 'n/m' : 'N/D'),
               'WACC  ' + pct(d.w) + ' · risk-free ' + (r.rf_currency || '') + ' ' + pct(r.rf) + (r.rf_proxy ? ' (US proxy)' : ''),
               'Accounts  ' + SRC_NAME[r.src_kind] + ' · FY end ' + (r.fiscal_year_end || 'N/D') + (r.stale_financials ? ' (older than 15 months)' : '')]; },
@@ -264,7 +286,7 @@ function renderMap(rebuild){
       plugins: [s1Plugin]
     });
   }
-  const un = rows.filter(r => { const d = derive(r, st.dW); return !(isNum(xOf(r, d.g)) && isNum(d.share)); });
+  const un = rows.filter(r => { const d = derive(r, st.dW); return !(isNum(xOf(r, d.g)) && isNum(yOf(d))); });
   const axn = $('#sa-axis-note');
   if(axn) axn.textContent = st.xmode === 'excess'
     ? 'Growth above the risk-free rate of each company\'s own currency: the risk-free rate carries that currency\'s expected inflation, so points are comparable across currencies. Above 0 = faster than the economy can grow forever.'
@@ -460,6 +482,10 @@ $$('#sa-map-card .sa-chip[data-src]').forEach(b => b.addEventListener('click', (
   $$('#sa-map-card .sa-chip[data-src]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
   renderS1(true);
 }));
+$$('#sa-map-card .sa-chip[data-ym]').forEach(b => b.addEventListener('click', () => {
+  st.ymode = b.dataset.ym; $$('#sa-map-card .sa-chip[data-ym]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+  renderMap(true);
+}));
 $$('#sa-map-card .sa-chip[data-xm]').forEach(b => b.addEventListener('click', () => {
   st.xmode = b.dataset.xm; $$('#sa-map-card .sa-chip[data-xm]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
   renderMap(true);
@@ -566,7 +592,7 @@ function openChecks(opener){
 /* audit trail (drill-down) — every input of the reverse DCF and the EPV, formulas with the numbers in */
 const n_ = v => isNum(v) ? v : null;
 const objOf = o => (o && typeof o === 'object' && !Array.isArray(o)) ? o : {};
-function kv(label, value, sub){ return '<dt>' + esc(label) + '</dt><dd>' + H(value) + '</dd>' + (sub ? '<div class="sub">' + sub + '</div>' : ''); }
+function kv(label, value, sub, dual){ return '<dt>' + esc(label) + '</dt><dd>' + H(value) + (dual || '') + '</dd>' + (sub ? '<div class="sub">' + sub + '</div>' : ''); }
 function tagLine(fc){
   if(!fc || !fc.xbrl_tag) return '';
   const url = /^https:\/\//.test(fc.edgar_filing_url || '') ? fc.edgar_filing_url : null;
@@ -594,6 +620,7 @@ function taxNote(td){
 }
 function openDrill(t, opener){
   const row = ROW[t]; if(!row) return;
+  drawerState = {kind: 'drill', t};
   openDrawer('Audit trail · ' + t, row.name, '<div class="sa-loading">Loading the filing data…</div>', opener);
   report(t).then(rep => { if(selected === t && $('#sa-drawer').classList.contains('open')) $('#sa-dr-body').innerHTML = drillHTML(row, rep); })
     .catch(err => { $('#sa-dr-body').innerHTML = '<p class="sa-note">Report unavailable (' + esc(err.message) + ').</p>'; });
@@ -613,14 +640,14 @@ function drillHTML(row, rep){
       (meta.adr_ratio && meta.adr_ratio !== 1 ? ' × ADR ratio ' + esc(num(meta.adr_ratio, 0)) : '') : '';
   const ndSub = 'long-term debt ' + esc(big(n_(ndd.lt_debt))) + ' + short-term debt ' + esc(big(n_(ndd.st_debt))) + ' + finance leases ' + esc(big(n_(ndd.finance_leases))) +
     ' − cash ' + esc(big(n_(ndd.cash))) + ' − short-term investments ' + (ndd.st_investments_deducted ? esc(big(n_(ndd.st_investments))) : '<span class="sa-nd">N/D</span> (not filed this year, not deducted)');
-  let h = '<div class="sa-dsec"><h4>What the price implies (reverse DCF)</h4><dl class="sa-kv">' +
-    kv('Price (' + ((rep.meta || {}).price_date || rep.as_of || 'N/D') + ')', money(price, cur), listed) +
+  let h = curLine(cur) + '<div class="sa-dsec"><h4>What the price implies (reverse DCF)</h4><dl class="sa-kv">' +
+    kv('Price (' + ((rep.meta || {}).price_date || rep.as_of || 'N/D') + ')', money(price, cur), listed, dualSub(price, cur, 'money')) +
     kv('× diluted shares', big(shares), tagLine(sh)) +
-    kv('= market capitalisation', big(mc, cur)) +
-    kv('+ net debt', big(nd, cur), ndSub) +
-    kv('= enterprise value (EV)', big(ev, cur)) +
+    kv('= market capitalisation', big(mc, cur), '', dualSub(mc, cur)) +
+    kv('+ net debt', big(nd, cur), ndSub, dualSub(nd, cur)) +
+    kv('= enterprise value (EV)', big(ev, cur), '', dualSub(ev, cur)) +
     kv(rdi.fcf_basis === 'median_5y' ? 'Free cash flow, median of FY ' + esc((rdi.fcf_years || []).join(', ')) : 'Free cash flow, FY ' + (fy || 'N/D'), big(fcf, cur), (rdi.fcf_basis === 'median_5y' ? 'Last year\'s free cash flow was negative: the reverse DCF uses the median of the last years, from the same filings. Last year: ' : '') + 'operating cash flow ' + esc(big(fv('ocf'))) + ' − capex ' + esc(big(fv('capex'))) +
-      ' − stock-based pay ' + (fv('sbc') === null ? '<span class="sa-nd">N/D</span> (not filed: nothing deducted)' : esc(big(fv('sbc')))) + (sm.ocf ? ' · ' + tagLine(sm.ocf) : '')) +
+      ' − stock-based pay ' + (fv('sbc') === null ? '<span class="sa-nd">N/D</span> (not filed: nothing deducted)' : esc(big(fv('sbc')))) + (sm.ocf ? ' · ' + tagLine(sm.ocf) : ''), dualSub(fcf, cur)) +
     kv('Discount rate (WACC)', pct(w, 2)) + '</dl>' +
     '<pre class="sa-formula">g = (WACC × EV − FCF) / (EV + FCF)\n  = (' + pct(w, 2) + ' × ' + big(ev) + ' − ' + big(fcf) + ') / (' + big(ev) + ' + ' + big(fcf) + ')\n  = ' + pct(g, 2) + '</pre>' +
     bandHTML([[-0.01, gw(-0.01)], [0, gw(0)], [0.01, gw(0.01)]]) +
@@ -644,10 +671,11 @@ function drillHTML(row, rep){
     kv('Operating income (EBIT) as filed, FY ' + (adj.fy || fy || 'N/D'), big(n_(adj.ebit_brut), cur), tagLine(sm.ebit)) +
     kv('One-off items removed', adjs.length ? String(adjs.length) : 'none',
       adjs.map(x => esc(String(x.item || '').replace(/_/g, ' ')) + ' ' + esc(big(n_(x.amount !== undefined ? x.amount : x.value)))).join(' · ')) +
-    kv('= EBIT used', big(ebit, cur), 'Normalisation: last fiscal year only, one-off items removed. No averaging over the business cycle.') +
+    kv('= EBIT used', big(ebit, cur), 'Normalisation: last fiscal year only, one-off items removed. No averaging over the business cycle.', dualSub(ebit, cur)) +
     kv('Tax rate', pct(tax), taxNote(objOf(dd.tax_detail)) + (sm.tax_expense ? ' · ' + tagLine(sm.tax_expense) : '')) + '</dl>' +
     '<pre class="sa-formula">EPV = EBIT × (1 − t) / WACC − net debt\n    = ' + big(ebit) + ' × (1 − ' + pct(tax) + ') / ' + pct(ew, 2) + ' − (' + big(nd) + ')\n    = ' +
-      big(n_(E.epv_equity)) + '\n÷ ' + big(shares) + ' shares = ' + money(n_(E.epv_per_share), cur) + '   (price ' + money(price, cur) + ')</pre></div>';
+      big(n_(E.epv_equity)) + '\n÷ ' + big(shares) + ' shares = ' + money(n_(E.epv_per_share), cur) + '   (price ' + money(price, cur) + ')</pre>' +
+    '<dl class="sa-kv">' + kv('EPV per share', money(n_(E.epv_per_share), cur), '', dualSub(n_(E.epv_per_share), cur, 'money')) + '</dl></div>';
   h += '<div class="sa-dsec"><h4>Sustainable growth</h4><dl class="sa-kv">' +
     kv('ROIC, FY ' + (fy || 'N/D'), pct(n_(S.roic))) +
     kv('Net reinvestment rate', pct(n_(S.rr)), '(capex − depreciation + change in working capital) / after-tax operating profit') +
@@ -722,20 +750,20 @@ function buildSpecs(row, rep){
   const roicL = lastOf((rep.bloc_D_trends || {}).roic_10y), fcfL = lastOf((rep.bloc_D_trends || {}).fcf_adj_10y);
   const sh = f('shares_diluted') || f('shares_outstanding');
   return {
-    price: {k: 'Market input', t: 'Share price', v: money(meta.price_in_reporting_currency, cur),
+    price: {k: 'Market input', t: 'Share price', v: money(meta.price_in_reporting_currency, cur), d: [meta.price_in_reporting_currency, 'money'],
       formula: 'Daily close on ' + (rep.as_of || 'N/D') + ', converted to the currency of the accounts' + (meta.adr_ratio && meta.adr_ratio !== 1 ? '\nand to one ordinary share (ADR ratio ' + meta.adr_ratio + ')' : ''),
       inputs: [{l: 'Listing price', v: money(meta.price_listing, meta.listing_currency)},
                {l: 'FX listing → accounts', v: num(meta.fx_listing_to_reporting, 4), m: meta.listing_currency && meta.listing_currency !== cur ? fxLine(meta.listing_currency, cur) : 'same currency: no conversion'},
                {l: 'ADR ratio', v: num(meta.adr_ratio, 0)}],
       note: 'Source: Yahoo Finance daily close (free source). Not a filed figure.'},
-    epv: {k: 'Computed', t: 'Earnings power value per share', v: money(E.epv_per_share, cur),
+    epv: {k: 'Computed', t: 'Earnings power value per share', v: money(E.epv_per_share, cur), d: [E.epv_per_share, 'money'],
       formula: 'EPV = [EBIT_adj × (1 − t) / WACC − net debt] / diluted shares\nValue of today\'s earnings with zero growth (Greenwald).',
       inputs: [{l: 'Adjusted EBIT', v: big(ei.ebit_adj, cur), fact: f('ebit'), m: adj.length ? adj.length + ' adjustment(s) applied' : 'no adjustment'},
                {l: 'Effective tax rate t', v: pct(ei.tax), fact: f('tax_expense'), m: (objOf(dd.tax_detail).source === 'median' ? 'this year outside the normal range: median of the normal years ' + (objOf(dd.tax_detail).years || []).join(', ') : 'tax expense / pre-tax income')},
                {l: 'WACC', v: pct(ei.wacc), open: 'wacc'},
                {l: 'Net debt', v: big(ei.net_debt, cur), open: 'debt', m: 'debt + leases − cash − short-term investments'},
                {l: 'Diluted shares', v: big(sh && sh.value), fact: sh}]},
-    re: {k: 'Computed', t: 'Residual-earnings value per share', v: money(R.re_value_per_share, cur),
+    re: {k: 'Computed', t: 'Residual-earnings value per share', v: money(R.re_value_per_share, cur), d: [R.re_value_per_share, 'money'],
       formula: 'V₀ = B₀ + Σ(t=1..5) RE / (1+ke)^t + [RE × (1+g) / (ke − g)] / (1+ke)^5\nRE = adjusted net income − ke × B₀ (held constant)',
       inputs: [{l: 'Book equity B₀', v: big(ri.B0, cur), fact: f('equity')},
                {l: 'Residual earnings RE', v: big(ri.RE, cur), fact: f('net_income')},
@@ -774,18 +802,18 @@ function buildSpecs(row, rep){
                {l: 'Cash', v: big((f('cash') || {}).value, cur), fact: f('cash')},
                {l: 'Long-term debt', v: big((f('lt_debt') || {}).value, cur), fact: f('lt_debt')},
                {l: 'D&A', v: big((f('dep_amort') || {}).value, cur), fact: f('dep_amort')}]},
-    fcf: {k: 'Computed', t: 'Free cash flow, adjusted', v: fcfL ? big(fcfL[1], cur) + ' (FY ' + fcfL[0] + ')' : 'N/D',
+    fcf: {k: 'Computed', t: 'Free cash flow, adjusted', v: fcfL ? big(fcfL[1], cur) + ' (FY ' + fcfL[0] + ')' : 'N/D', d: [fcfL && fcfL[1]],
       formula: 'FCF_adj = operating cash flow − capital expenditure − stock-based compensation\nSBC is a real cost paid in shares: SAINHE values on FCF after SBC only.',
       inputs: [{l: 'Operating cash flow', v: big((f('ocf') || {}).value, cur), fact: f('ocf')},
                {l: 'CapEx', v: big((f('capex') || {}).value, cur), fact: f('capex')},
                {l: 'Stock-based compensation', v: big((f('sbc') || {}).value, cur), fact: f('sbc')}]},
-    revenue: {k: 'Filed figure', t: 'Revenue', v: big((f('revenue') || {}).value, cur), inputs: [{l: 'Revenue', v: big((f('revenue') || {}).value, cur), fact: f('revenue')}]},
+    revenue: {k: 'Filed figure', t: 'Revenue', v: big((f('revenue') || {}).value, cur), d: [(f('revenue') || {}).value], inputs: [{l: 'Revenue', v: big((f('revenue') || {}).value, cur), fact: f('revenue')}]},
     shares: {k: 'Filed figure', t: 'Diluted shares', v: big(sh && sh.value), inputs: [{l: 'Weighted diluted shares', v: big(sh && sh.value), fact: sh}]},
-    consensus: {k: 'External context', t: 'Analyst price targets (median)', v: C.available ? money(C.target_median, cur) : 'N/D',
+    consensus: {k: 'External context', t: 'Analyst price targets (median)', v: C.available ? money(C.target_median, cur) : 'N/D', d: [C.available ? C.target_median : null, 'money'],
       formula: 'Median of published analyst targets, converted from the listing currency to the currency of the accounts (and to one ordinary share for ADRs).\nShown as external context only: not a SAINHE estimate.',
       inputs: C.available ? [{l: 'Analysts', v: num(C.n_analysts)}, {l: 'Range', v: money(C.target_low, cur) + ' – ' + money(C.target_high, cur)},
                              {l: 'Dispersion (high − low) / median', v: pct(C.dispersion, 0)}] : [],
-      note: 'Source: Yahoo Finance consensus. ' + (C.warning_few_analysts ? 'Few analysts: low reliability.' : '')}
+      note: 'Source: Yahoo Finance consensus. Sell-side targets are structurally optimistic and lag the price — treat as sentiment, not truth. ' + (C.warning_few_analysts ? 'Few analysts: low reliability.' : '')}
   };
 }
 function factHTML(fc){
@@ -800,28 +828,33 @@ function factHTML(fc){
     ' · FY ' + esc(fc.fiscal_year) + ' (period end ' + esc(fc.end_date || 'N/D') + ') · ' + esc(fc.filing_form || '') + ' · ' + esc(accTxt) +
     (/^https:\/\//.test(url) ? '<br><a href="' + esc(url) + '" target="_blank" rel="noopener">Open the filing ↗</a>' : '') + '</div>';
 }
-let drawerOpener = null;
+let drawerOpener = null, drawerState = null;
 function openDrawer(kicker, title, html, opener){
   drawerOpener = opener || document.activeElement;
   $('#sa-dr-kicker').textContent = kicker; $('#sa-dr-title').textContent = title; $('#sa-dr-body').innerHTML = html;
   $('#sa-drawer').classList.add('open'); $('#sa-drawer-scrim').classList.add('open');
+  document.documentElement.classList.add('sa-sheet-open');        // mobile: full-screen sheet, site header hidden
   $('#sa-drawer').setAttribute('aria-hidden', 'false'); $('#sa-dr-body').scrollTop = 0;
   $('#sa-dr-close').focus();
 }
 function closeDrawer(){
   if(!$('#sa-drawer').classList.contains('open')) return;
+  drawerState = null; document.documentElement.classList.remove('sa-sheet-open');
   $('#sa-drawer').classList.remove('open'); $('#sa-drawer-scrim').classList.remove('open');
   $('#sa-drawer').setAttribute('aria-hidden', 'true');
   if(drawerOpener && drawerOpener.focus && document.contains(drawerOpener)) drawerOpener.focus();
 }
 function openSource(key){
   const s = SPECS[key]; if(!s) return;
-  openDrawer(s.k + ' · ' + (selected || ''), s.t, '<div class="sa-dr-v">' + H(s.v) + '</div>' +
+  const acc = ((curRep || {}).meta || {}).reporting_currency || 'USD';
+  const wasOpen = $('#sa-drawer').classList.contains('open');
+  openDrawer(s.k + ' · ' + (selected || ''), s.t, (s.d ? curLine(acc) : '') + '<div class="sa-dr-v">' + H(s.v) + (s.d ? dualSub(s.d[0], acc, s.d[1]) : '') + '</div>' +
     (s.formula ? '<pre class="sa-formula">' + esc(s.formula) + '</pre>' : '') +
     (s.inputs || []).map(i => '<div class="sa-in"><div class="sa-in-h"><span>' + esc(i.l) + '</span><span>' +
       (i.open ? '<button class="sa-src" data-srckey="' + i.open + '">' + H(i.v) + '</button>' : H(i.v)) + '</span></div>' +
       (i.m ? '<div class="sa-in-m">' + esc(i.m) + '</div>' : '') + (i.fact !== undefined ? factHTML(i.fact) : '') + '</div>').join('') +
-    (s.note ? '<p class="sa-note" style="margin-top:10px">' + esc(s.note) + '</p>' : ''), drawerOpener && $('#sa-drawer').classList.contains('open') ? drawerOpener : document.activeElement);
+    (s.note ? '<p class="sa-note" style="margin-top:10px">' + esc(s.note) + '</p>' : ''), drawerOpener && wasOpen ? drawerOpener : document.activeElement);
+  drawerState = {kind: 'source', key};
 }
 document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-srckey]'); if(b){ e.preventDefault(); openSource(b.dataset.srckey); } });
 $('#sa-dr-close').addEventListener('click', closeDrawer);
@@ -856,6 +889,13 @@ function fxLine(from, to){
   const fx = fxRate(FX, from, to);
   if(!fx) return to + ' per ' + from + ': N/D (no rate published, nothing converted)';
   return to + ' per ' + from + ' ' + num(fx.r, fx.r < 0.01 ? 6 : 4) + ' · ' + (fx.date || 'N/D') + ' · ' + (fx.source || 'N/D') + (fx.peg ? ' · ' + fx.peg : '');
+}
+/* header of every panel that shows amounts: which currency computes, which one is only shown */
+function curLine(accountsCurrency){
+  const d = displayCurrency(), same = d === accountsCurrency || (accountsCurrency === 'GBp' && d === 'GBP');
+  return '<p class="sa-curline">' + (same
+    ? 'Computed in <strong>' + esc(accountsCurrency) + '</strong>, the currency of the accounts — also the site currency: nothing converted.'
+    : 'Computed in <strong>' + esc(accountsCurrency) + '</strong>, the currency of the accounts · ' + esc(d) + ' shown for reference.<span class="sa-co">' + esc(fxLine(accountsCurrency, d)) + '</span>') + '</p>';
 }
 /* accounts-currency figure in large, display-currency equivalent in small underneath (only if different) */
 function dualSub(v, accountsCurrency, fmt){
@@ -939,7 +979,7 @@ function renderHead(row, rep){
     '<span class="badge sa-badge-info" tabindex="0" data-tt="' + esc('Figures from the accounts are in ' + cur + ' and are never converted in a calculation. The WACC uses the ' + cur + ' risk-free rate. Absolute levels also show a ' + displayCurrency() + ' equivalent underneath (header selector).') + '">accounts in ' + esc(cur) + '</span>' +
     '<button class="sa-btn" data-onmap="' + esc(row.ticker) + '">Show on the map ↑</button>' +
     (/^https:\/\//.test(idx || '') ? '<a class="sa-btn" href="' + esc(idx) + '" target="_blank" rel="noopener">All filings ↗</a>' : '') + '</div></div>' +
-    '<p class="sa-lede" style="margin-top:12px">' + lede + '</p>' +
+    curLine(cur) + '<p class="sa-lede" style="margin-top:12px">' + lede + '</p>' +
     '<div class="sa-tiles sa-keys">' +
       key('Price (' + esc((rep.meta || {}).price_date || rep.as_of || 'N/D') + ')', '<button class="sa-src" data-srckey="price">' + H(money(price, cur)) + '</button>', dualSub(price, cur, 'money')) +
       key('Market value', '<button class="sa-src" data-srckey="price">' + H(big(mc, cur)) + '</button>', dualSub(mc, cur)) +
@@ -969,14 +1009,21 @@ function valuationBar(row, rep){
     '<div class="sa-vbar-t">' + ok.map(p => '<span class="sa-vbar-m' + (p[0] === 'Price' ? ' price' : '') + '" style="left:' + x(p[1]) + '%"></span>').join('') + '</div>' +
     '<ul class="sa-vbar-l">' + ok.map(p => '<li><button class="sa-src" data-srckey="' + p[3] + '">' + esc(p[0]) + '</button> <b>' + esc(money(p[1], cur)) + '</b>' +
       (p[0] !== 'Price' ? ' <span class="sa-co">' + esc(pctS(p[1] / P - 1, 0)) + ' vs price</span>' : '') + ' — ' + esc(p[2]) + '</li>').join('') + '</ul>' +
-    (note ? '<p class="sa-note">' + note + '</p>' : '') + '</div>';
+    (note ? '<p class="sa-note">' + note + '</p>' : '') +
+    (C.available ? '<p class="sa-note sa-caveat">Analyst median: sell-side targets are structurally optimistic and lag the price — treat as sentiment, not truth.</p>' : '') + '</div>';
 }
 document.addEventListener('click', e => {
   const b = e.target.closest && e.target.closest('[data-onmap]'); if(!b) return;
   const t = b.dataset.onmap; st.hover = t; const sec = $('#sa-sec-map'); if(sec) sec.scrollIntoView({behavior: 'smooth', block: 'start'});
   renderMap(); hlRow(true);
 });
-document.addEventListener('sainhe:currency', () => { if(curRep && selected){ renderHead(ROW[selected], curRep); renderFacts(ROW[selected], curRep, (curRep.meta || {}).reporting_currency || 'USD'); updateSim(); } });
+document.addEventListener('sainhe:currency', () => {
+  if(curRep && selected){ renderHead(ROW[selected], curRep); renderFacts(ROW[selected], curRep, (curRep.meta || {}).reporting_currency || 'USD'); updateSim(); }
+  if(drawerState && $('#sa-drawer').classList.contains('open')){
+    if(drawerState.kind === 'drill' && ROW[drawerState.t]) report(drawerState.t).then(rep => { if(drawerState && drawerState.kind === 'drill') $('#sa-dr-body').innerHTML = drillHTML(ROW[drawerState.t], rep); }).catch(() => {});
+    else if(drawerState.kind === 'source'){ const k = drawerState.key, b = $('#sa-dr-body'), y = b.scrollTop; openSource(k); b.scrollTop = y; }
+  }
+});
 
 function renderFacts(row, rep, cur){
   const tile = (key, label, sub, tt, dual) => { const s = SPECS[key];
@@ -1013,8 +1060,32 @@ function simInputs(rep){
   return {price, shares, nd, cur: meta.reporting_currency || 'USD', asOf: rep.as_of, priceDate: meta.price_date,
     fcf: {last: fcfLast, ttm: t4.available ? t4.fcf_adj : null, med: last5.length >= 3 ? median(last5) : null},
     ttm: t4, n5: last5.length, wacc: isNum(wd.wacc) ? wd.wacc : rdi.wacc, sgr: (A.SGR || {}).sgr, rf: wd.rf,
-    rfCur: wd.rf_currency || meta.reporting_currency, fy: fs.length ? fs[fs.length - 1][0] : null};
+    rfCur: wd.rf_currency || meta.reporting_currency, fy: fs.length ? fs[fs.length - 1][0] : null,
+    sgrOk: (A.SGR || {}).status !== 'n/m' && isNum((A.SGR || {}).sgr),
+    hist5: cagr((rep.bloc_D_trends || {}).fcf_adj_10y, 5),            // N/D when either end is ≤ 0 or missing
+    target: (A.consensus || {}).available && isNum(A.consensus.target_median) ? A.consensus.target_median : null};
 }
+/* growth that a given price per share implies, with the same model, base and WACC as the slider */
+function impliedFor(price){
+  if(!sim || !isNum(price) || price <= 0) return null;
+  const S = sim.S, fcf = S.fcf[sim.basis], S2 = Object.assign({}, S, {price});
+  return sim.mode === 'fade' ? fadeImplied(S2, sim.gT, sim.N, sim.w, fcf) : impliedAt(S, price, fcf, sim.w);
+}
+/* "your view": kept per company for the session, and encodable in the URL */
+let pendingView = null;
+const viewKey = t => 'sa_view_' + t;
+function viewString(){
+  // percent with 3 decimals: a perpetuity is steep near WACC, one decimal would move the value by several %
+  return 'g=' + (sim.g * 100).toFixed(3) + (Math.abs(sim.w - sim.S.wacc) >= 0.00005 ? ';w=' + (sim.w * 100).toFixed(3) : '') +
+    ';m=' + sim.mode + ';b=' + sim.basis + (sim.mode === 'fade' ? ';n=' + sim.N + ';t=' + (sim.gT * 100).toFixed(3) : '');
+}
+function parseView(s){
+  const o = {}; String(s || '').split(';').forEach(kv_ => { const i = kv_.indexOf('='); if(i > 0) o[kv_.slice(0, i)] = kv_.slice(i + 1); });
+  const n = k => { const v = parseFloat(o[k]); return isFinite(v) ? v : null; };
+  return {g: n('g') !== null ? n('g') / 100 : null, w: n('w') !== null ? n('w') / 100 : null, m: o.m === 'fade' ? 'fade' : 'single',
+          b: /^(last|ttm|med)$/.test(o.b) ? o.b : null, n: n('n'), t: n('t') !== null ? n('t') / 100 : null};
+}
+function atPrice(){ const imp = curImplied(); return !isNum(imp) || (Math.abs(sim.g - imp) < 0.0005 && Math.abs(sim.w - sim.S.wacc) < 0.0005); }
 function initSim(rep, cur){
   const S = simInputs(rep), box = $('#sa-sim');
   const okB = b => isNum(S.fcf[b]) && S.fcf[b] > 0;
@@ -1039,13 +1110,14 @@ function initSim(rep, cur){
         fb('ttm', 'Last four quarters', t4.available ? '' : 'Not available: ' + (t4.reason || 'no quarterly filing')) + fb('med', S.n5 + '-year median') + '</span></div>' +
     '<div class="sa-sim-out" id="sim-out"></div>' +
     '<div class="sa-ctl"><div class="sa-ctl-h"><label for="sim-g" id="sim-g-l">Perpetual growth you believe</label><output id="sim-go" for="sim-g">—</output></div>' +
-      '<div class="sa-zone-wrap"><span class="sa-zone" id="sim-zone"></span><input type="range" class="sa-range" id="sim-g" step="0.1"></div><div class="sa-pins" id="sim-pins" aria-hidden="true"></div></div>' +
+      '<div class="sa-zone-wrap"><span class="sa-zone" id="sim-zone"></span><input type="range" class="sa-range" id="sim-g" step="0.1"></div>' +
+      '<div class="sa-pins" id="sim-pins" role="group" aria-label="Reference growth rates: choose one to set the slider"></div><p class="sa-note" id="sim-pins-nd"></p></div>' +
     '<div class="sa-ctl" id="sim-fade" hidden>' +
       '<div class="sa-ctl-h"><label for="sim-n">Years of fade to the terminal rate</label><output id="sim-no" for="sim-n">—</output></div><input type="range" class="sa-range" id="sim-n" min="2" max="25" step="1" value="10">' +
       '<div class="sa-ctl-h" style="margin-top:12px"><label for="sim-gt">Terminal growth (default: ' + esc(S.rfCur) + ' risk-free)</label><output id="sim-gto" for="sim-gt">—</output></div><input type="range" class="sa-range" id="sim-gt" min="-1" step="0.1"></div>' +
     '<div class="sa-ctl"><div class="sa-ctl-h"><label for="sim-w">Discount rate (WACC)</label><output id="sim-wo" for="sim-w">—</output></div>' +
       '<input type="range" class="sa-range" id="sim-w" step="0.1"></div>' +
-    '<div style="text-align:right"><button class="sa-btn" id="sim-reset">Back to the price</button></div>' +
+    '<div class="sa-view" id="sim-view" role="status"></div>' +
     '<div class="sa-curve"><canvas id="sim-curve" role="img" aria-label="Value per share for each growth rate at your discount rate, against the price"></canvas></div>' +
     '<p class="sa-note sa-imposs">Above the ' + esc(S.rfCur) + ' risk-free rate (' + esc(pct(S.rf)) + ', the market\'s proxy for long-run nominal growth in that currency) a perpetual rate is not literally possible — read it as relative intensity, not a forecast. The shaded zone marks it; you can still go there.</p>' +
     '<p class="sa-note" id="sim-foot"></p>';
@@ -1062,7 +1134,28 @@ function initSim(rep, cur){
     sim.mode = b.dataset.m; $$('#sim-mode button').forEach(x => x.classList.toggle('on', x === b)); $('#sim-fade').hidden = sim.mode !== 'fade';
     $('#sim-g-l').textContent = sim.mode === 'fade' ? 'Growth in year 1 (then fading)' : 'Perpetual growth you believe';
     sim.g = curImplied(); if(!isNum(sim.g)) sim.g = sim.gT; updateSim(true); });
-  $('#sim-reset').addEventListener('click', () => { sim.w = S.wacc; wR.value = (S.wacc * 100).toFixed(1); sim.g = curImplied(); updateSim(true); });
+  $('#sim-pins').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if(!b) return; sim.g = +b.dataset.g; updateSim(); });
+  $('#sim-view').addEventListener('click', e => {
+    if(e.target.closest('#sim-reset')){ sim.w = S.wacc; wR.value = (S.wacc * 100).toFixed(1); sim.g = curImplied(); updateSim(true); return; }
+    const cp = e.target.closest('#sim-copy'); if(!cp) return;
+    const hs = '#file=' + encodeURIComponent(selected) + '&view=' + viewString(), url = location.origin + location.pathname + hs;
+    try{ history.replaceState(null, '', hs); }catch(err){}
+    const done = t => { cp.textContent = t; setTimeout(() => { cp.textContent = 'Copy link'; }, 1800); };
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => done('Link copied'), () => done('Link in address bar'));
+    else done('Link in address bar');
+  });
+  // restore a view: from the link first, else from this session
+  let v = null;
+  if(pendingView && pendingView.t === selected){ v = pendingView.v; pendingView = null; }
+  else { try{ const raw = sessionStorage.getItem(viewKey(selected)); if(raw) v = parseView(raw); }catch(e){} }
+  if(v){
+    if(v.b && okB(v.b)){ sim.basis = v.b; $$('#sim-basis button').forEach(x => x.classList.toggle('on', x.dataset.b === v.b)); }
+    if(isNum(v.w) && v.w >= 0.03 && v.w <= 0.3){ sim.w = v.w; wR.value = (v.w * 100).toFixed(1); }
+    if(v.m === 'fade'){ sim.mode = 'fade'; $$('#sim-mode button').forEach(x => x.classList.toggle('on', x.dataset.m === 'fade')); $('#sim-fade').hidden = false;
+      $('#sim-g-l').textContent = 'Growth in year 1 (then fading)'; if(isNum(v.n) && v.n >= 2 && v.n <= 25){ sim.N = v.n; nR.value = v.n; }
+      if(isNum(v.t)){ sim.gT = v.t; tR.value = (v.t * 100).toFixed(1); } }
+    sim.g = isNum(v.g) ? v.g : curImplied();
+  }
   updateSim(true);
 }
 function curImplied(){
@@ -1088,15 +1181,39 @@ function updateSim(rescale){
   $('#sim-out').innerHTML =
     big_('The price requires', H(pct(imp1)), 'single stage: FCF growth a year, forever') +
     (sim.mode === 'fade' ? big_('…or, with a fade', H(pct(impF)), 'in year 1, falling to ' + esc(pct(sim.gT)) + ' over ' + sim.N + ' years') : '') +
-    big_('You believe', esc(pct(sim.g)), isNum(gap) ? (Math.abs(gap) < 0.0005 ? 'exactly what the price requires' : esc(pts(Math.abs(gap)).replace(/^[+±]/, '')) + (gap > 0 ? ' above' : ' below') + ' what the price requires') : '') +
+    big_('You believe', esc(pct(sim.g)), isNum(gap) ? (Math.abs(gap) < 0.0005 ? 'exactly what the price requires' : esc(pts(Math.abs(gap)).replace(/^[+±]/, '')) + (gap > 0 ? ' more' : ' less') + ' than the price requires — your disagreement with the market') : '') +
     big_('Arithmetic value at your inputs', H(money(val, cur)) + dualSub(val, cur, 'money'), (isNum(val) ? esc(pctS(val / S.price - 1, 0)) : 'N/D') + ' vs price ' + esc(money(S.price, cur)) + ' (' + esc(S.priceDate || S.asOf || 'N/D') + ')');
   $('#sim-go').textContent = pct(sim.g); $('#sim-wo').textContent = pct(w); $('#sim-no').textContent = sim.N + ' years'; $('#sim-gto').textContent = pct(sim.gT);
-  const pins = [[imp, sim.mode === 'fade' ? 'price (year 1)' : 'price', 'p-imp'], [S.sgr, 'SGR', ''], [S.rf, 'risk-free', '']];
-  $('#sim-pins').innerHTML = pins.filter(p => isNum(p[0])).map(p => {
-    const raw = (p[0] - gmin) / (gmax - gmin), out = raw > 1 ? ' →' : raw < 0 ? ' ←' : '';
-    const left = Math.min(Math.max(raw, 0), 1) * 100;
-    return '<span class="sa-pin ' + p[2] + '" style="left:' + left.toFixed(1) + '%;' + (left > 88 ? 'transform:translateX(-100%)' : left < 8 ? 'transform:none' : '') + '">' + p[1] + ' ' + pct(p[0]) + out + '</span>';
-  }).join('');
+  // anchors on the growth slider — every one in the same model, base and WACC as the slider
+  const gA = impliedFor(S.target);
+  const pins = [[S.rf, 'risk-free', '', 'risk-free rate (' + S.rfCur + ')'],
+                [S.hist5, '5-yr FCF growth', '', '5-year historical FCF growth'],
+                [imp, sim.mode === 'fade' ? 'price (year 1)' : 'price', 'p-imp', 'growth the price implies'],
+                [gA, 'analyst target', 'p-an', 'growth implied by the analyst median target (' + money(S.target, cur) + '), same model inverted on the target'],
+                [S.sgrOk ? S.sgr : null, 'SGR', '', 'sustainable growth rate']];
+  const pe = $('#sim-pins'), W = pe.clientWidth || 600, lanes = [];
+  const placed = pins.filter(p => isNum(p[0])).map(p => { const raw = (p[0] - gmin) / (gmax - gmin); return {p, raw, x: Math.min(Math.max(raw, 0), 1) * W, txt: p[1] + ' ' + pct(p[0]) + (raw > 1 ? ' →' : raw < 0 ? ' ←' : '')}; })
+    .sort((a, b) => a.x - b.x);
+  placed.forEach(q => { const w_ = q.txt.length * 5.7 + 14, x0 = Math.min(Math.max(q.x - w_ / 2, 0), W - w_);
+    let lane = lanes.findIndex(r => r < x0 - 4); if(lane < 0){ lane = lanes.length; lanes.push(0); } lanes[lane] = x0 + w_; q.lane = lane; q.x0 = x0; });
+  pe.style.height = (Math.max(1, lanes.length) * 26 + 4) + 'px';
+  pe.innerHTML = placed.map(q => '<button type="button" class="sa-pin ' + q.p[2] + '" data-g="' + q.p[0] + '" style="left:' + q.x0.toFixed(0) + 'px;top:' + (q.lane * 26) + 'px" title="' + esc(q.p[3]) + '" aria-label="' + esc('Set growth to ' + pct(q.p[0]) + ': ' + q.p[3]) + '">' +
+    '<i style="left:' + Math.min(Math.max(q.x - q.x0, 0), 999).toFixed(0) + 'px"></i>' + esc(q.txt) + '</button>').join('');
+  const nd = [];
+  if(!isNum(S.hist5)) nd.push('5-year FCF growth N/D (free cash flow missing or not positive at one end)');
+  if(!isNum(S.target)) nd.push('analyst target N/D (no published consensus)');
+  else if(!isNum(gA)) nd.push('analyst target growth N/D in this model');
+  if(!S.sgrOk) nd.push('SGR n/m or N/D this year');
+  $('#sim-pins-nd').textContent = nd.length ? 'Not on the slider: ' + nd.join(' · ') + '. Nothing is estimated in their place.' : '';
+  // your view
+  const vEl = $('#sim-view'), here = atPrice();
+  try{ if(here) sessionStorage.removeItem(viewKey(selected)); else sessionStorage.setItem(viewKey(selected), viewString()); }catch(e){}
+  vEl.innerHTML = here
+    ? '<p class="sa-note">At the price-implied rate the value equals the price by construction. <strong>Move a slider, or pick an anchor above, to state your view</strong> — the gap with the market appears here.</p>'
+    : '<p class="sa-view-l"><strong>Your view:</strong> ' + H(money(val, cur)) + ' per share · ' + H(isNum(val) ? pctS(val / S.price - 1, 0) : 'N/D') + ' vs price (' + esc(S.priceDate || S.asOf || 'N/D') + ')' +
+        (isNum(gap) ? ' <span class="sa-co">expectations gap ' + esc(pts(gap)) + ' of growth a year' + (Math.abs(sim.w - S.wacc) >= 0.0005 ? ', WACC ' + esc(pts(sim.w - S.wacc)) : '') + '</span>' : '') + '</p>' +
+      '<p class="sa-note">This measures the size of the disagreement, not who is right.</p>' +
+      '<div class="sa-view-b"><button class="sa-btn" id="sim-reset">Reset to the price</button><button class="sa-btn" id="sim-copy">Copy link</button></div>';
   const z = $('#sim-zone'); if(z){ const zl = isNum(S.rf) ? Math.min(Math.max((S.rf - gmin) / (gmax - gmin), 0), 1) * 100 : 100; z.style.left = zl.toFixed(1) + '%'; }
   $('#sim-foot').innerHTML = '<strong>Not an estimate by SAINHE:</strong> arithmetic on your inputs — ' + esc(basisTxt) + ', ' +
     (sim.mode === 'fade' ? 'growth falling linearly from year 1 to the terminal rate over ' + sim.N + ' years, then the terminal rate forever.' : 'Gordon formula; it explodes as growth nears the discount rate.') +
@@ -1161,7 +1278,7 @@ function renderTrends(rep, cur){
     }}));
   });
   $('#sa-trend-note').innerHTML = 'Same window for every series (' + esc(years[0] || 'N/D') + '–' + esc(years[years.length - 1] || 'N/D') + '; a missing year is a gap, not a zero). ' +
-    '<strong>Historical series shown in accounts currency — not converted:</strong> converting ten years at today\'s rate would fabricate growth. ' +
+    '<strong>Historical series in accounts currency — not converted.</strong> Converting ten years at today\'s rate would fabricate growth. ' +
     'The dashed line is today\'s WACC applied to every year — past WACCs are not reconstructed, so "ROIC > WACC" compares past returns with today\'s cost of capital.';
 }
 restyle.push(() => { if(curRep && selected) renderTrends(curRep, (curRep.meta || {}).reporting_currency || 'USD'); });
@@ -1179,10 +1296,23 @@ restyle.push(() => { if(curRep && selected) renderTrends(curRep, (curRep.meta ||
 
 /* ═════════════ 4 · ALLOCATION LAB ═════════════ */
 let LAB = null;
-const lab = {cur: 'USD', pts: {}, swap: {}, preset: 'equal'};
-let growthChart = null, crisisChart = null, crisisSel = 'GFC_2008';
-const CRISES = [['GFC_2008', 'Financial crisis 2008'], ['Taper_Tantrum_2013', 'Taper tantrum 2013'], ['Volmageddon_2018', 'Volmageddon 2018'],
-                ['COVID_2020', 'Covid crash 2020'], ['Hike_Cycle_2022', 'Rate-hike cycle 2022']];
+const lab = {cur: 'USD', pts: {}, swap: {}, preset: 'equal', fit: null};
+let growthChart = null, crisisChart = null, crisisSel = 'DotCom_2000';
+const CRISES = [['DotCom_2000', 'Dot-com bust 2000–02'], ['GFC_2008', 'Financial crisis 2008–09'],
+                ['COVID_2020', 'Covid crash 2020'], ['Rate_Shock_2022', 'Rate shock 2022']];
+const PRESET_TXT = {
+  equal: 'The same amount in every company. Use it when you have no view on which is better; it is the honest starting point and hard to beat.',
+  invvol: 'More money in the calm companies, less in the jumpy ones. Use it for a smoother ride without picking favourites.',
+  hrp: 'Groups companies that move together, then splits risk between the groups. Use it when your list holds several companies doing the same thing and you do not want to bet on that theme by accident.',
+  maxsharpe: 'The mix that gave the most return per unit of wobble in the past. The most fitted to history, and the most likely to disappoint.',
+  minvol: 'The mix that moved the least. Use it when sleeping well matters more than the last point of return.',
+  lowbeta: 'Like Best Sharpe, but penalising companies that simply follow the index. Use it when you want returns that do not come from owning the market.',
+  mine: 'The weights you saved in this browser.'};
+const PRESET_NAME = {equal: 'Equal weight', invvol: 'Inverse volatility', hrp: 'Risk clusters (HRP)', maxsharpe: 'Best Sharpe', minvol: 'Lowest volatility', lowbeta: 'Best Sharpe, low market beta', mine: 'My saved mix'};
+function renderPresetDesc(){
+  const el = $('#sa-preset-desc'); if(!el) return;
+  el.innerHTML = PRESET_TXT[lab.preset] ? '<strong>' + esc(PRESET_NAME[lab.preset]) + '</strong> — ' + esc(PRESET_TXT[lab.preset]) : '<strong>Your own weights</strong> — moved by hand from a preset.';
+}
 function positions(){   // current rows → [{t, cur, name, sector, base, w}]
   const tot = LAB.holdings.reduce((s, h) => s + (lab.pts[h.t] || 0), 0) || 1;
   return LAB.holdings.map(h => {
@@ -1190,7 +1320,10 @@ function positions(){   // current rows → [{t, cur, name, sector, base, w}]
     return {t: c ? c.t : h.t, cur: (c ? c.cur : h.cur) || 'USD', name: c ? c.name : h.name, sector: h.sector, base: h.t, w: (lab.pts[h.t] || 0) / tot};
   });
 }
-function benchSeries(B, R){ return refSeries(B, B.r.ACWI ? 'ACWI' : 'SPY', 'USD', R); }
+/* market reference: MSCI ACWI where it traded for the whole window, else the S&P 500 (dot-com, early 2008) */
+const benchT = B => B.bench || (B.r.ACWI ? 'ACWI' : 'SPY');
+const benchName = B => benchT(B) === 'ACWI' ? 'MSCI ACWI (ETF)' : 'S&P 500 (ETF) — not world';
+function benchSeries(B, R){ return refSeries(B, benchT(B), 'USD', R); }
 /* risk-free of the measuring currency: the 10-year yield the valuation map uses for it
  * (HKD is pegged to the dollar → USD) */
 function rfFor(cur){
@@ -1201,6 +1334,7 @@ function rfFor(cur){
 
 function presetWeights(name){
   const H = LAB.holdings; let w = {};
+  if(name !== 'maxsharpe' && name !== 'minvol' && name !== 'lowbeta') lab.fit = null;
   if(name === 'hrp') H.forEach(h => { w[h.t] = Math.max(0, +(LAB.presets.hrp || {})[h.t] || 0); });
   else if(name === 'invvol'){
     const pos = positions();
@@ -1213,7 +1347,8 @@ function presetWeights(name){
   const mx = Math.max.apply(null, H.map(h => w[h.t] || 0)) || 1;
   H.forEach(h => { lab.pts[h.t] = name === 'mine' ? Math.round(w[h.t] || 0) : Math.round((w[h.t] || 0) / mx * 50); });
   lab.preset = name;
-  $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => b.classList.toggle('on', b.dataset.preset === name));
+  $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => { const on = b.dataset.preset === name; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  renderPresetDesc();
 }
 /* Optimiser on the companies the user keeps (weight > 0): long-only, at most OPT_CAP per name,
  * fitted on the days all of them have prices. In-sample by construction, so an out-of-sample
@@ -1233,9 +1368,12 @@ function optimisedWeights(name){
   const wFit = optimize(moments(S, fitRows, bench), {mode, rf: RF.rf, cap: Math.max(OPT_CAP, 1 / S.length), betaCap});
   const eqW = S.map(() => 1 / S.length), tOpt = evaluate(S, testRows, wFit, RF.rf), tEq = evaluate(S, testRows, eqW, RF.rf);
   const d = i => B.dates[i], beta = m.beta ? m.beta.reduce((s, b, i) => s + b * wv[i], 0) : null;
+  const firstIdx = S.map(sr => { for(let i = 1; i < sr.length; i++) if(isFinite(sr[i])) return i; return sr.length; });
+  lab.fit = {i0: rows[0], i1: rows[rows.length - 1], n: rows.length,
+    late: ok.filter((x, k) => firstIdx[k] >= rows[0] - 5 && rows[0] > 5).map(x => x.q.t)};
   const label = {maxsharpe: 'Best Sharpe ratio', minvol: 'Lowest volatility', lowbeta: 'Best Sharpe with market beta ≤ ' + OPT_LOWBETA}[name];
   lab.optNote = '<strong>' + esc(label) + '</strong> on the ' + S.length + ' companies you kept, at most ' + pct(Math.max(OPT_CAP, 1 / S.length), 0) +
-    ' each, fitted on ' + esc(d(rows[0])) + ' → ' + esc(d(rows[rows.length - 1])) + ' (' + rows.length + ' days, in ' + esc(R) + ')' +
+    ' each, fitted on ' + esc(d(rows[0])) + ' → ' + esc(d(rows[rows.length - 1])) + ' (' + rows.length.toLocaleString('en-US') + ' days, in ' + esc(R) + ')' +
     (isNum(beta) ? ', beta vs ACWI ' + esc(num(beta, 2)) : '') + '. Fitted on the past, it looks better than it will. ' +
     '<strong>Out-of-sample check:</strong> fitted on ' + esc(d(fitRows[0])) + ' → ' + esc(d(fitRows[fitRows.length - 1])) + ', then held ' +
     esc(d(testRows[0])) + ' → ' + esc(d(testRows[testRows.length - 1])) + ': Sharpe ' + H(isNum(tOpt.sharpe) ? num(tOpt.sharpe, 2) : 'N/D') +
@@ -1248,11 +1386,15 @@ function renderLens(){
   const el = $('#sa-lens'); if(!el) return;
   const list = (LAB && LAB.currencies_display) || window.SAINHE_CURRENCIES || ['USD'];
   el.innerHTML = list.map(c => '<button data-cur="' + esc(c) + '"' + (c === lab.cur ? ' class="on" aria-pressed="true"' : ' aria-pressed="false"') + '>' + esc(c) + '</button>').join('');
+  const sy = $('#sa-lens-sync'), site = window.SAINHE_CUR || 'USD'; if(!sy) return;
+  sy.textContent = lab.cur === site ? '= site currency' : (list.indexOf(site) < 0 ? 'site currency ' + site + ' not offered here' : 'site currency: ' + site);
+  sy.classList.toggle('on', lab.cur === site);
 }
+/* the header sets the default; the local control overrides it for this panel only (never the site) */
 function setLens(c, fromHeader){
-  if(!LAB || LAB.currencies_display.indexOf(c) < 0) return;
+  if(!LAB) return;
+  if(LAB.currencies_display.indexOf(c) < 0){ renderLens(); return; }
   lab.cur = c; renderLens();
-  if(!fromHeader && window._sainheSetCurrency && window.SAINHE_CUR !== c) window._sainheSetCurrency(c);
   if(lab.preset === 'invvol') presetWeights('invvol'), syncSliders();
   scheduleLab();
 }
@@ -1267,15 +1409,20 @@ function buildLab(){
       '<div class="sa-row-w">—</div>' +
       '<button class="sa-swap" aria-pressed="false"' + (c ? ' title="Swap for ' + esc(c.name) + ' — ' + esc(c.market) + '"' : ' disabled title="No listed direct rival"') + ' aria-label="Swap ' + esc(h.name) + ' for its rival">⇄</button></div>'; }).join('');
   const excl = (LAB.excluded || []).map(x => esc(x.t)).join(', ');
+  const nonCo = LAB.holdings.filter(h => !ROW[h.t]).map(h => h.t);
+  const andList = a => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
   el.innerHTML = '<div class="sa-lab-grid">' +
-    '<div class="sa-lab-l"><div class="sa-rows" id="sa-rows">' + rows + '</div>' +
-      '<p class="sa-note" style="padding:10px 20px 14px">Weights are rescaled to 100%. ⇄ swaps a holding for its largest listed rival on one common market (editorial pairing).' +
-      (excl ? ' Not in the Lab (price history too short or no live quote): ' + excl + '.' : '') + '</p></div>' +
+    '<div class="sa-lab-l"><div class="sa-lab-li"><div class="sa-rows" id="sa-rows">' + rows + '</div>' +
+      '<p class="sa-note sa-lab-foot">Weights are rescaled to 100%. ⇄ swaps a holding for its largest listed rival on one common market (editorial pairing).' +
+      (nonCo.length ? ' ' + esc(andList(nonCo)) + (nonCo.length > 1 ? ' have' : ' has') + ' no company accounts, so ' + (nonCo.length > 1 ? 'they appear' : 'it appears') + ' here but not in the Quality × Price map.' : '') +
+      (excl ? ' Not in the Lab (price history too short or no live quote): ' + excl + '.' : '') + '</p></div></div>' +
     '<div class="sa-lab-r sa-body">' +
-      '<div class="sa-h3"><span>Five years, measured in <span id="sa-lab-cur">—</span></span><em id="sa-lab-period">—</em></div>' +
+      '<div class="sa-h3"><span id="sa-lab-h">Five years, measured in <span id="sa-lab-cur">—</span></span><em id="sa-lab-period">—</em></div>' +
+      '<p class="sa-note sa-fitnote" id="sa-fit-note" hidden></p>' +
       '<div class="sa-metrics" id="sa-metrics"></div>' +
+      '<p class="sa-note" id="sa-lab-fx" style="margin-top:8px"></p>' +
       '<p class="sa-note" id="sa-opt-note" style="margin-top:10px"></p>' +
-      '<div class="sa-h3">Growth of 100<em>your allocation · equal weight · MSCI ACWI</em></div>' +
+      '<div class="sa-h3">Growth of 100<em id="sa-growth-em">your allocation · equal weight · MSCI ACWI</em></div>' +
       '<div class="sa-growth"><canvas id="sa-growth" role="img" aria-label="Growth of 100 over five years for your allocation, equal weight and MSCI ACWI"></canvas></div>' +
       '<div class="sa-h3">Where the risk comes from<em>bar = share of capital · gold = share of risk</em></div>' +
       '<div class="sa-bars" id="sa-risk"></div>' +
@@ -1284,8 +1431,8 @@ function buildLab(){
         '<div><div class="sa-h3">Currencies</div><div class="sa-bars" id="sa-expo-c"></div></div></div>' +
     '</div></div>';
   $('#sa-rows').addEventListener('input', e => { const inp = e.target.closest('input[type=range]'); if(!inp) return;
-    lab.pts[inp.closest('.sa-row').dataset.t] = +inp.value; lab.preset = 'custom'; lab.optNote = '';
-    $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => b.classList.remove('on')); scheduleLab(); });
+    lab.pts[inp.closest('.sa-row').dataset.t] = +inp.value; lab.preset = 'custom'; lab.optNote = ''; lab.fit = null;
+    $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); }); renderPresetDesc(); scheduleLab(); });
   $('#sa-rows').addEventListener('click', e => { const b = e.target.closest('.sa-swap'); if(!b || b.disabled) return;
     const t = b.closest('.sa-row').dataset.t; lab.swap[t] = !lab.swap[t]; if(!lab.swap[t]) delete lab.swap[t];
     if(lab.preset === 'invvol'){ presetWeights('invvol'); } syncSliders(); scheduleLab(); });
@@ -1317,25 +1464,52 @@ function renderLabStats(){
   const st = stats(B, port.p, bench, RF.rf), sl = stats(B, loc.p, null), se = stats(B, eq.p, bench, RF.rf);
   const bp = new Float64Array(B.dates.length); for(let i = 1; i < bp.length; i++) bp[i] = bench && isFinite(bench[i]) ? bench[i] : 0;
   const sb = stats(B, bp, bench, RF.rf);
-  $('#sa-lab-cur').textContent = R;
-  $('#sa-lab-period').textContent = B.dates[0] + ' → ' + B.dates[B.dates.length - 1];
+  // look-ahead: optimised weights exist only from the first day of their fit window
+  const F = lab.fit && lab.fit.i0 > 5 ? lab.fit : null;
+  const win = (p, b) => stats({dates: B.dates.slice(F.i0)}, p.slice(F.i0), b ? b.slice(F.i0) : null, RF.rf);
+  const H_ = F ? win(port.p, bench) : st, HL = F ? win(loc.p, null) : sl, HE = F ? win(eq.p, bench) : se, HB = F ? win(bp, bench) : sb;
+  $('#sa-lab-h').innerHTML = (F ? 'Fit window, measured in ' : 'Five years, measured in ') + '<span id="sa-lab-cur">' + esc(R) + '</span>';
+  $('#sa-lab-period').textContent = F ? B.dates[F.i0] + ' → ' + B.dates[B.dates.length - 1] + ' · five-year figures underneath' : B.dates[0] + ' → ' + B.dates[B.dates.length - 1];
+  const fn = $('#sa-fit-note');
+  fn.hidden = !F;
+  if(F) fn.innerHTML = 'The optimiser can only weigh companies on days when all of them have prices' + (F.late.length ? ': <strong>' + esc(F.late.join(', ')) + '</strong> ' + (F.late.length > 1 ? 'were' : 'was') + ' listed only from ' + esc(B.dates[F.i0]) : '') +
+    ', so the weights were fitted on ' + esc(B.dates[F.i0]) + ' → ' + esc(B.dates[F.i1]) + ' (' + F.n.toLocaleString('en-US') + ' days), not on five years. Before that date the weights did not exist yet: the line is grey, and the headline figures cover the fit window only.';
+  const five = (v, f) => F ? '<span class="sa-m-5y">5 yrs ' + H(f(v)) + ' <em>· weights fitted later</em></span>' : '';
   const tile = (l, v, c) => '<div class="sa-m"><div class="sa-m-l">' + esc(l) + '</div><div class="sa-m-v">' + H(v) + '</div><div class="sa-m-c">' + c + '</div></div>';
+  const bn = benchT(B) === 'ACWI' ? 'ACWI' : 'S&P 500';
   $('#sa-metrics').innerHTML =
-    tile('Return a year', pct(st.cagr), 'ACWI ' + H(pct(sb.cagr)) + ' · equal ' + H(pct(se.cagr))) +
-    tile('Volatility', pct(st.vol), 'ACWI ' + H(pct(sb.vol))) +
-    tile('Worst drawdown', pct(st.mdd), 'ACWI ' + H(pct(sb.mdd))) +
-    tile('1-day loss, 95%', pct(st.var95, 2), 'average beyond (CVaR) ' + H(pct(st.cvar95, 2))) +
-    tile('Beta vs ACWI', isNum(st.beta) ? num(st.beta, 2) : 'N/D', 'both measured in ' + esc(R)) +
-    tile('Currency effect', pts(st.vol - sl.vol), 'on volatility · ' + H(pts(isNum(st.cagr) && isNum(sl.cagr) ? st.cagr - sl.cagr : null)) + ' on return') +
-    tile('Sharpe ratio', isNum(st.sharpe) ? num(st.sharpe, 2) : 'N/D', 'ACWI ' + H(isNum(sb.sharpe) ? num(sb.sharpe, 2) : 'N/D') + ' · risk-free ' + esc(RF.cur) + ' ' + H(pct(RF.rf))) +
-    tile('Sortino ratio', isNum(st.sortino) ? num(st.sortino, 2) : 'N/D', 'like Sharpe, counting only falls');
+    tile('Return a year', pct(H_.cagr), bn + ' ' + H(pct(HB.cagr)) + ' · equal ' + H(pct(HE.cagr)) + five(st.cagr, pct)) +
+    tile('Volatility', pct(H_.vol), bn + ' ' + H(pct(HB.vol)) + five(st.vol, pct)) +
+    tile('Worst drawdown', pct(H_.mdd), bn + ' ' + H(pct(HB.mdd)) + five(st.mdd, pct)) +
+    tile('1-day loss, 95%', pct(H_.var95, 2), 'average beyond (CVaR) ' + H(pct(H_.cvar95, 2)) + five(st.var95, v => pct(v, 2))) +
+    tile('Beta vs ' + bn, isNum(H_.beta) ? num(H_.beta, 2) : 'N/D', 'both measured in ' + esc(R) + five(st.beta, v => isNum(v) ? num(v, 2) : 'N/D')) +
+    tile('Currency effect', pts(H_.vol - HL.vol), 'on volatility · ' + H(pts(isNum(H_.cagr) && isNum(HL.cagr) ? H_.cagr - HL.cagr : null)) + ' on return') +
+    tile('Sharpe ratio', isNum(H_.sharpe) ? num(H_.sharpe, 2) : 'N/D', bn + ' ' + H(isNum(HB.sharpe) ? num(HB.sharpe, 2) : 'N/D') + ' · risk-free ' + esc(RF.cur) + ' ' + H(pct(RF.rf)) + five(st.sharpe, v => isNum(v) ? num(v, 2) : 'N/D')) +
+    tile('Sortino ratio', isNum(H_.sortino) ? num(H_.sortino, 2) : 'N/D', 'like Sharpe, counting only falls' + five(st.sortino, v => isNum(v) ? num(v, 2) : 'N/D'));
+  // FX provenance for every conversion this panel makes
+  const curs = Array.from(new Set(pos.filter(q => q.w > 0).map(q => q.cur).concat(['USD']))).filter(c => c !== R).sort();
+  const last = c => { if(c === 'USD') return 1; const a = B.fx[c]; if(!a) return null; for(let i = a.length - 1; i >= 0; i--) if(isFinite(a[i])) return a[i]; return null; };
+  const rate = c => { const a = last(c), b = last(R); return isNum(a) && isNum(b) ? a / b : null; };
+  const prov = c => ((LAB.fx_provenance || {})[c] || {}).source || 'N/D';
+  const fxEl = $('#sa-lab-fx');
+  fxEl.innerHTML = curs.length ? 'Converted to ' + esc(R) + ' every day at that day\'s rate (latest ' + esc(B.dates[B.dates.length - 1]) + '): ' + curs.map(c => {
+      const r = rate(c); return '<span class="sa-dual" tabindex="0" data-tt="' + esc(c + ': ' + prov(c) + (R !== 'USD' ? ' · ' + R + ': ' + prov(R) : '')) + '">' + esc(R) + ' per ' + esc(c) + ' ' + (isNum(r) ? esc(num(r, r < 0.01 ? 6 : 4)) : '<span class="sa-nd">N/D</span>') + '</span>'; }).join(' · ') +
+    '. Sources: Yahoo Finance daily closes; before Yahoo\'s history and on days it lacks, the Federal Reserve H.10 series via FRED; SAR at its official peg.' : 'No conversion: every holding is quoted in ' + esc(R) + '.';
   const on = $('#sa-opt-note'); if(on) on.innerHTML = lab.optNote || '';
   // growth chart
   const step = Math.max(1, Math.floor(B.dates.length / 400)), lab_ = [], a = [], e = [], b = [];
-  for(let i = 0; i < B.dates.length; i += step){ lab_.push(B.dates[i]); a.push(st.path[i]); e.push(se.path[i]); b.push(sb.path[i]); }
-  const ds = [{label: 'Your allocation', data: a, borderColor: P.s1, backgroundColor: P.s1, borderWidth: 2.2, pointRadius: 0, tension: 0},
+  const pre = [];
+  for(let i = 0; i < B.dates.length; i += step){
+    const k = Math.min(i, B.dates.length - 1); lab_.push(B.dates[k]); e.push(se.path[k]); b.push(sb.path[k]);
+    a.push(!F || k >= F.i0 ? st.path[k] : null); pre.push(F && k <= F.i0 + step ? st.path[k] : null);
+  }
+  const ds = [{label: 'Your allocation', data: a, borderColor: P.s1, backgroundColor: P.s1, borderWidth: 2.2, pointRadius: 0, tension: 0, spanGaps: false},
               {label: 'Equal weight', data: e, borderColor: P.s3, backgroundColor: P.s3, borderWidth: 1.6, pointRadius: 0, tension: 0},
-              {label: 'MSCI ACWI (ETF)', data: b, borderColor: P.s2, backgroundColor: P.s2, borderWidth: 1.6, pointRadius: 0, tension: 0}];
+              {label: benchName(B), data: b, borderColor: P.s2, backgroundColor: P.s2, borderWidth: 1.6, pointRadius: 0, tension: 0}];
+  if(F) ds.splice(1, 0, {label: 'Weights not yet known — fitted later', data: pre, borderColor: P.muted, backgroundColor: P.muted, borderDash: [4, 4], borderWidth: 1.6, pointRadius: 0, tension: 0, spanGaps: false});
+  $('#sa-growth-em').textContent = F ? 'grey before ' + B.dates[F.i0] + ': weights not yet known — fitted later' : 'your allocation · equal weight · ' + benchName(B);
+  $('#sa-growth').setAttribute('aria-label', 'Growth of 100 over five years for your allocation, equal weight and ' + benchName(B) + '. Your allocation ' + pct(st.total) + ', equal weight ' + pct(se.total) + ', market ' + pct(sb.total) + ' over the period.');
+  if(growthChart && growthChart.data.datasets.length !== ds.length){ growthChart.destroy(); growthChart = null; }
   if(growthChart){ growthChart.data.labels = lab_; growthChart.data.datasets = ds; growthChart.update('none'); }
   else growthChart = lineChart($('#sa-growth'), lab_, ds, R);
   // risk contributions (top 8 by risk share)
@@ -1376,7 +1550,7 @@ function readHash(){
   const c = decodeURIComponent(m[1]); if(LAB.currencies_display.indexOf(c) >= 0) lab.cur = c;
   m[2].split(',').forEach(x => { const i = x.lastIndexOf('~'); if(i > 0){ const t = decodeURIComponent(x.slice(0, i)); if(LAB.holdings.some(h => h.t === t)) lab.pts[t] = Math.max(0, Math.min(100, +x.slice(i + 1) || 0)); } });
   (m[3] || '').split(',').filter(Boolean).forEach(t => { t = decodeURIComponent(t); if(LAB.competitors[t]) lab.swap[t] = true; });
-  lab.preset = 'custom'; return true;
+  lab.preset = 'custom'; lab.fit = null; return true;
 }
 $('#sa-lab-share').addEventListener('click', e => {
   if(!LAB) return; const btn = e.currentTarget, url = location.origin + location.pathname + '#' + hashState();
@@ -1394,14 +1568,16 @@ $('#sa-lab-save').addEventListener('click', e => {
 $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => b.addEventListener('click', () => {
   if(!LAB) return;
   if(b.dataset.preset === 'mine'){ try{ const s = JSON.parse(localStorage.getItem('sainhe_lab_mix') || '{}'); lab.swap = s.swap || {}; }catch(e){} }
-  if(!/^(maxsharpe|minvol|lowbeta)$/.test(b.dataset.preset)) lab.optNote = '';
+  if(!/^(maxsharpe|minvol|lowbeta)$/.test(b.dataset.preset)){ lab.optNote = ''; lab.fit = null; }
   presetWeights(b.dataset.preset); syncSliders(); scheduleLab();
 }));
 try{ if(localStorage.getItem('sainhe_lab_mix')) $('#sa-preset-mine').hidden = false; }catch(e){}
 
 /* ═════════════ 4b · RANGE OF OUTCOMES (Monte Carlo) ═════════════ */
 const mc = {amount: 10000, years: 5};
-const MC_PATHS = 2000, MC_BLOCK = 21, MC_SEED = 20261122;
+const MC_PATHS = 2000, MC_BLOCK = 21, MC_SEED = 20261122, MC_TAIL_Q = 0.95;
+/* an event absent from 2,000 paths is not impossible: never print "0%" */
+function probTxt(n, N){ return n === 0 ? 'none in ' + N.toLocaleString('en-US') + ' paths' : n / N < 0.01 ? n + ' in ' + N.toLocaleString('en-US') : pct(n / N, 0); }
 let mcChart = null, mcT = 0;
 function scheduleMC(){ clearTimeout(mcT); mcT = setTimeout(renderMC, 120); }
 function fmtMoney(v, cur){ return isNum(v) ? cur + ' ' + Math.round(v).toLocaleString('en-US') : 'N/D'; }
@@ -1410,22 +1586,30 @@ function renderMC(){
   const B = LAB.M, R = lab.cur, P = pal(), pos = positions(), A = mc.amount, Y = mc.years;
   const ret = Array.from(portfolio(B, pos, R).p).slice(1).filter(isFinite);
   const bench = benchSeries(B, R), bret = bench ? Array.from(bench).slice(1).map(v => isFinite(v) ? v : 0) : null;
-  const o = {days: Y * 252, paths: MC_PATHS, block: MC_BLOCK, step: 21, seed: MC_SEED};
-  const res = bootstrap(ret, o), bres = bret ? bootstrap(bret, o) : null, f = res.final;
+  const o = {days: Y * 252, paths: MC_PATHS, block: MC_BLOCK, step: 21, seed: MC_SEED, stationary: true};
+  const mu = avg(ret), sdP = Math.sqrt(avg(ret.map(v => (v - mu) * (v - mu))));
+  const TL = LAB.TAIL ? tailFor(LAB.TAIL, sdP, MC_TAIL_Q) : null;
+  const res = bootstrap(ret, o), resT = TL ? bootstrap(ret, Object.assign({}, o, {tail: TL})) : null, bres = bret ? bootstrap(bret, o) : null, f = res.final, fT = resT ? resT.final : null;
+  const N = MC_PATHS, Ns = N.toLocaleString('en-US');
   $('#sa-mc-cur').textContent = R;
   $('#sa-mc-lede').innerHTML = 'If the next <strong>' + Y + (Y > 1 ? ' years' : ' year') + '</strong> looked like a reshuffled version of the last five, half of the ' +
-    MC_PATHS.toLocaleString('en-US') + ' paths would end above <strong>' + esc(fmtMoney(A * f.p50, R)) + '</strong>, and 9 in 10 between <strong>' +
-    esc(fmtMoney(A * f.p5, R)) + '</strong> and <strong>' + esc(fmtMoney(A * f.p95, R)) + '</strong>. In <strong>' + esc(pct(res.probLoss, 0)) +
-    '</strong> of them you would end with less than the ' + esc(fmtMoney(A, R)) + ' you put in.';
+    Ns + ' paths would end above <strong>' + esc(fmtMoney(A * f.p50, R)) + '</strong>, and 9 in 10 between <strong>' +
+    esc(fmtMoney(A * f.p5, R)) + '</strong> and <strong>' + esc(fmtMoney(A * f.p95, R)) + '</strong>. ' +
+    (res.nLoss === 0 ? 'Not one of them ends below the ' + esc(fmtMoney(A, R)) + ' you put in — because the five years replayed contain no loss that long, not because it cannot happen.'
+                     : 'In <strong>' + esc(probTxt(res.nLoss, N)) + '</strong> of them you would end with less than the ' + esc(fmtMoney(A, R)) + ' you put in.') +
+    (resT ? ' With crash-sized days grafted onto the tail (<em>tail-adjusted</em>), the bad case is <strong>' + esc(fmtMoney(A * fT.p5, R)) + '</strong> and ' +
+      (resT.nLoss === 0 ? 'still none of the paths ends below your money.' : '<strong>' + esc(probTxt(resT.nLoss, N)) + '</strong> end below your money.') : '');
   const tile = (l, v, c) => '<div class="sa-m"><div class="sa-m-l">' + esc(l) + '</div><div class="sa-m-v">' + H(v) + '</div><div class="sa-m-c">' + c + '</div></div>';
-  const vs = (k, fm) => bres ? 'MSCI ACWI ' + H(fm(bres, k)) : '';
+  const tail = (fm) => resT ? '<span class="sa-m-5y">tail-adjusted ' + H(fm(resT)) + '</span>' : '';
+  const vs = fm => bres ? H(benchT(B) === 'ACWI' ? 'MSCI ACWI ' : 'S&P 500 ') + H(fm(bres)) : '';
+  const why = n => n === 0 ? '<span class="sa-m-5y"><em>absent from the five years replayed — not impossible</em></span>' : '';
   $('#sa-mc-tiles').innerHTML =
-    tile('Middle outcome', fmtMoney(A * f.p50, R), vs('p50', (r, k) => fmtMoney(A * r.final[k], R))) +
-    tile('Bad case, 1 in 20', fmtMoney(A * f.p5, R), vs('p5', (r, k) => fmtMoney(A * r.final[k], R))) +
-    tile('Good case, 1 in 20', fmtMoney(A * f.p95, R), vs('p95', (r, k) => fmtMoney(A * r.final[k], R))) +
-    tile('Chance to end below your money', pct(res.probLoss, 0), vs('', r => pct(r.probLoss, 0))) +
-    tile('Typical worst fall on the way', pct(res.medianMdd, 0), vs('', r => pct(r.medianMdd, 0))) +
-    tile('Chance of a fall of 30% or more', pct(res.probDD30, 0), vs('', r => pct(r.probDD30, 0)));
+    tile('Middle outcome', fmtMoney(A * f.p50, R), vs(r => fmtMoney(A * r.final.p50, R)) + tail(r => fmtMoney(A * r.final.p50, R))) +
+    tile('Bad case, 1 in 20', fmtMoney(A * f.p5, R), vs(r => fmtMoney(A * r.final.p5, R)) + tail(r => fmtMoney(A * r.final.p5, R))) +
+    tile('Good case, 1 in 20', fmtMoney(A * f.p95, R), vs(r => fmtMoney(A * r.final.p95, R)) + tail(r => fmtMoney(A * r.final.p95, R))) +
+    tile('Chance to end below your money', probTxt(res.nLoss, N), vs(r => probTxt(r.nLoss, N)) + tail(r => probTxt(r.nLoss, N)) + why(res.nLoss)) +
+    tile('Typical worst fall on the way', pct(res.medianMdd, 0), vs(r => pct(r.medianMdd, 0)) + tail(r => pct(r.medianMdd, 0))) +
+    tile('Chance of a fall of 30% or more', probTxt(res.nDD30, N), vs(r => probTxt(r.nDD30, N)) + tail(r => probTxt(r.nDD30, N)) + why(res.nDD30));
   const labels = res.bands.p50.map((_, i) => i % 12 === 0 ? 'Year ' + (i / 12) : '');
   const mk = k => res.bands[k].map(v => A * v);
   const ds = [
@@ -1434,7 +1618,10 @@ function renderMC(){
     {label: '25th percentile', data: mk('p25'), borderColor: 'rgba(0,0,0,0)', pointRadius: 0, fill: false},
     {label: '25–75% of paths', data: mk('p75'), borderColor: 'rgba(0,0,0,0)', backgroundColor: alpha(P.s1, .3), pointRadius: 0, fill: 2},
     {label: 'Middle path (median)', data: mk('p50'), borderColor: P.s1, borderWidth: 2.2, pointRadius: 0, fill: false}];
-  if(bres) ds.push({label: 'MSCI ACWI median', data: bres.bands.p50.map(v => A * v), borderColor: P.s2, borderDash: [5, 4], borderWidth: 1.6, pointRadius: 0, fill: false});
+  if(resT) ds.push({label: 'Bad case, tail-adjusted (1 in 20)', data: resT.bands.p5.map(v => A * v), borderColor: P.s3, borderDash: [2, 3], borderWidth: 1.6, pointRadius: 0, fill: false});
+  if(bres) ds.push({label: (benchT(B) === 'ACWI' ? 'MSCI ACWI' : 'S&P 500') + ' median', data: bres.bands.p50.map(v => A * v), borderColor: P.s2, borderDash: [5, 4], borderWidth: 1.6, pointRadius: 0, fill: false});
+  $('#sa-mc').setAttribute('aria-label', 'Range of simulated values over ' + Y + ' years in ' + R + ': median ' + fmtMoney(A * f.p50, R) + ', 5th percentile ' + fmtMoney(A * f.p5, R) +
+    (resT ? ' (tail-adjusted ' + fmtMoney(A * fT.p5, R) + ')' : '') + ', 95th percentile ' + fmtMoney(A * f.p95, R) + '. The figures are also given above.');
   if(mcChart) mcChart.destroy();
   mcChart = new Chart($('#sa-mc'), {type: 'line', data: {labels, datasets: ds}, options: {
     responsive: true, maintainAspectRatio: false, animation: false, interaction: {mode: 'index', intersect: false},
@@ -1444,9 +1631,16 @@ function renderMC(){
       tooltip: Object.assign(tip(P), {filter: it => !/percentile/.test(it.dataset.label), callbacks: {
         title: it => 'Month ' + it[0].dataIndex, label: it => it.dataset.label + '  ' + fmtMoney(it.raw, R)}})}
   }});
-  $('#sa-mc-note').innerHTML = 'Built by drawing one-month blocks at random from this allocation\'s ' + res.sample.toLocaleString('en-US') +
-    ' daily returns since ' + esc(B.dates[0]) + ', in ' + esc(R) + ', rebalanced every day to your weights. Blocks keep the clustering of real markets: a bad week tends to follow a bad week. ' +
-    '<strong>This is the spread recent history implies, not a forecast.</strong> The last five years include the 2022 rate shock but not a 2008-style crash — see the crisis replay below: the real bad case can be worse than any path here.';
+  const tl = TL ? '<strong>Tail-adjusted.</strong> Every simulated day that loses more than ' + esc(pct(TL.thr, 2)) + ' is redrawn from a generalised Pareto distribution — extreme-value theory, peaks over threshold — fitted by probability-weighted moments (Hosking &amp; Wallis, 1987) on the worst ' +
+      esc(pct(1 - MC_TAIL_Q, 0)) + ' of S&amp;P 500 days ' + esc((LAB.long_ref || {}).from || '') + ' → ' + esc((LAB.long_ref || {}).to || '') + ': ' + TL.n.toLocaleString('en-US') + ' tail days out of ' + TL.N.toLocaleString('en-US') +
+      ', threshold ' + esc(num(TL.u, 2)) + ' daily standard deviations, shape ξ = ' + esc(num(TL.xi, 3)) + ', scale ' + esc(num(TL.beta / TL.scale / TL.sdRef, 3)) + ' standard deviations. The tail is rescaled to this allocation\'s daily volatility (' + esc(pct(sdP, 2)) +
+      ' vs ' + esc(pct(TL.sdRef, 2)) + ' for the S&amp;P 500) and any day is floored at −' + esc(pct(TL.cap, 0)) + ' (twice the worst S&amp;P 500 day of that history, in volatility units). Only the tail days change: the blocks are the same ' + Ns + ' paths. ' +
+      'Assumption to keep in mind: this allocation\'s extreme days are shaped like the market\'s, in proportion to its volatility. ' : '<strong>Tail-adjusted</strong>: <span class="sa-nd">N/D</span> (long reference series unavailable). ';
+  $('#sa-mc-note').innerHTML = '<strong>Method.</strong> Stationary block bootstrap (Politis &amp; Romano, 1994): blocks of random length — on average ' + MC_BLOCK + ' trading days, geometrically distributed, wrapping around the end of the sample — drawn from this allocation\'s ' + res.sample.toLocaleString('en-US') +
+    ' daily returns from ' + esc(B.dates[0]) + ' to ' + esc(B.dates[B.dates.length - 1]) + ', in ' + esc(R) + ', rebalanced every day to your weights. ' + Ns + ' paths, fixed seed ' + MC_SEED + ': the same paths on every reload. Blocks keep the clustering of real markets: a bad week tends to follow a bad week. ' +
+    '<strong>Limit:</strong> a bootstrap can only reshuffle the days it was given, so it cannot produce a fall deeper than its sample allows; the last five years include the 2022 rate shock but not a 2008-style crash, so the raw tail is too thin. ' + tl +
+    (lab.fit && lab.fit.i0 > 5 ? '<strong>Look-ahead:</strong> the weights were fitted on ' + esc(B.dates[lab.fit.i0]) + ' → ' + esc(B.dates[lab.fit.i1]) + ', but the paths draw from all five years, including days before those weights existed — this spread flatters the optimised mix. ' : '') +
+    '<strong>This is a spread, not a forecast</strong> — and the crisis replay below shows real falls, which can be worse than any path here.';
 }
 $$('#sa-mc-card .sa-chip[data-yrs]').forEach(b => b.addEventListener('click', () => {
   mc.years = +b.dataset.yrs; $$('#sa-mc-card .sa-chip[data-yrs]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); }); renderMC();
@@ -1465,7 +1659,23 @@ function crisisRun(B, pos, R){
   const e = portfolio(B, eqList.map(q => Object.assign({}, q, {w: 1})), R);
   const bench = benchSeries(B, R), bp = new Float64Array(n); for(let i = 1; i < n; i++) bp[i] = bench && isFinite(bench[i]) ? bench[i] : 0;
   return {a: stats(B, a.p, null), e: stats(B, e.p, null), b: stats(B, bp, null), nInc: inc.length, nPos: pos.filter(q => q.w > 0).length, covW,
-    missing: pos.filter((q, k) => !avail[k] && q.w > 0).map(q => q.t)};
+    missing: pos.filter((q, k) => !avail[k] && q.w > 0).map(q => q.t), turb: turbFor(B, inc, R)};
+}
+/* turbulence (Kritzman & Li 2010): how unusual each day's moves AND co-moves of the companies
+ * replayed were, against their mean and covariance over the Lab's five years. Memoised per set. */
+const turbMemo = {};
+function turbFor(BC, inc, R){
+  const ks = inc.map(q => q.t).sort(), key = BC.start + '|' + R + '|' + ks.join(',');
+  if(key in turbMemo) return turbMemo[key];
+  let out = null;
+  if(ks.length >= 2){
+    const sh = inc.map(q => refSeries(LAB.M, q.t, q.cur, R)), sc = inc.map(q => refSeries(BC, q.t, q.cur, R));
+    if(sh.every(Boolean) && sc.every(Boolean)){
+      const hist = aligned(sh).map(i => sh.map(s => s[i])), test = aligned(sc).map(i => sc.map(s => s[i]));
+      out = turbulence(hist, test); if(out) out.k = ks.length;
+    }
+  }
+  return (turbMemo[key] = out);
 }
 function renderCrisis(){
   if(!LAB) return;
@@ -1473,45 +1683,77 @@ function renderCrisis(){
   const res = {};
   CRISES.forEach(([k]) => { if(LAB.C[k]) res[k] = crisisRun(LAB.C[k], pos, R); });
   tb.innerHTML = CRISES.filter(([k]) => res[k]).map(([k, l]) => { const r = res[k], B = LAB.C[k];
+    const tb_ = r.turb ? '<span tabindex="0" data-tt="' + esc('Kritzman & Li (2010) turbulence on the ' + r.turb.k + ' companies replayed: ' + pct(r.turb.share, 0) + ' of the days were more unusual — in size and in how the companies moved together — than 95% of the days of the last five years (5% by construction in normal times).' + (k === 'Rate_Shock_2022' ? ' The five-year reference contains 2022 itself, so this understates it.' : '')) + '">' + esc(pct(r.turb.share, 0)) + '</span>' : NDH;
     return '<tr data-c="' + k + '"' + (k === crisisSel ? ' class="sel"' : '') + ' tabindex="0"><td class="l">' + esc(l) + '</td><td>' + esc(B.start) + ' → ' + esc(B.end) + '</td>' +
-      '<td>' + H(pctS(r.a.total)) + '</td><td>' + H(pct(r.a.mdd)) + '</td><td>' + H(pctS(r.e.total)) + '</td><td>' + H(pctS(r.b.total)) + '</td>' +
+      '<td>' + H(pctS(r.a.total)) + '</td><td>' + H(pct(r.a.mdd)) + '</td><td>' + H(pctS(r.e.total)) + '</td><td>' + H(pctS(r.b.total)) +
+      (benchT(B) === 'SPY' ? '<span class="sa-co">S&amp;P 500, not world</span>' : '<span class="sa-co">MSCI ACWI</span>') + '</td><td>' + tb_ + '</td>' +
       '<td class="l" title="' + esc(r.missing.length ? 'Not listed then: ' + r.missing.join(', ') : 'All holdings listed') + '">' + r.nInc + '/' + r.nPos + ' holdings · ' + pct(r.covW, 0) + ' of weight' +
       (r.missing.length ? ' <span class="sa-co">missing ' + esc(r.missing.slice(0, 4).join(', ')) + (r.missing.length > 4 ? '…' : '') + '</span>' : '') + '</td></tr>'; }).join('');
   const pick = $('#sa-crisis-pick');
   pick.innerHTML = '<span class="sa-kicker">Replay</span>' + CRISES.filter(([k]) => res[k]).map(([k, l]) => '<button class="sa-chip' + (k === crisisSel ? ' on' : '') + '" data-c="' + k + '" aria-pressed="' + (k === crisisSel) + '">' + esc(l) + '</button>').join('') +
-    '<span class="sa-sep" aria-hidden="true"></span><span class="sa-note">measured in ' + esc(R) + ' · window starts one week before the shock</span>';
+    '<span class="sa-sep" aria-hidden="true"></span><span class="sa-note">measured in ' + esc(R) + ' · S&amp;P 500 peak to trough, from one week before the peak</span>';
   const B = LAB.C[crisisSel], r = res[crisisSel]; if(!B || !r) return;
   const ds = [{label: 'Your allocation', data: r.a.path, borderColor: P.s1, backgroundColor: P.s1, borderWidth: 2.2, pointRadius: 0, tension: 0},
               {label: 'Equal weight', data: r.e.path, borderColor: P.s3, backgroundColor: P.s3, borderWidth: 1.6, pointRadius: 0, tension: 0},
-              {label: 'MSCI ACWI (ETF)', data: r.b.path, borderColor: P.s2, backgroundColor: P.s2, borderWidth: 1.6, pointRadius: 0, tension: 0}];
+              {label: benchName(B), data: r.b.path, borderColor: P.s2, backgroundColor: P.s2, borderWidth: 1.6, pointRadius: 0, tension: 0}];
+  $('#sa-crisis').setAttribute('aria-label', 'Value of 100 invested from ' + B.start + ' to ' + B.end + ': your allocation (companies listed then) ' + pctS(r.a.total) + ', equal weight ' + pctS(r.e.total) + ', ' + benchName(B) + ' ' + pctS(r.b.total) + '. The table below gives the figures.');
+  const cov = $('#sa-crisis-cov');
+  if(cov) cov.innerHTML = 'Replayed with <strong>' + r.nInc + ' of your ' + r.nPos + ' holdings</strong> (' + esc(pct(r.covW, 0)) + ' of your weight) — the companies listed on ' + esc(B.start) + '. ' +
+    'Their weights are rescaled to 100%; the others are left out, never proxied. This is not the history of your portfolio, which did not exist then: it is how today\'s choice of companies, among those already listed, went through the crisis.' +
+    (benchT(B) === 'SPY' ? ' No world ETF traded then: the market line is the S&amp;P 500.' : '');
   if(crisisChart){ crisisChart.data.labels = B.dates; crisisChart.data.datasets = ds; crisisChart.update('none'); }
   else { crisisChart = lineChart($('#sa-crisis'), B.dates, ds, R); crisisChart.options.scales.x.ticks.callback = function(v){ return String(this.getLabelForValue(v)).slice(0, 10); }; crisisChart.update('none'); }
 }
 $('#sa-crisis-pick').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if(b){ crisisSel = b.dataset.c; renderCrisis(); } });
 $('#sa-crisis-tbl tbody').addEventListener('click', e => { const tr = e.target.closest('tr[data-c]'); if(tr){ crisisSel = tr.dataset.c; renderCrisis(); } });
 
+/* ═════════════ 6 · METHOD NOTES — live figures ═════════════ */
+(function(){
+  const e = VM.erp || {}, el = $('#sa-mn-erp');
+  if(el && isNum(e.erp)) el.innerHTML = esc(e.source || 'Damodaran implied ERP') + ', ' + esc(pct(e.erp, 2)) + ' as of ' + esc(e.date || 'N/D') +
+    (/^https:\/\//.test(e.url || '') ? ' (<a href="' + esc(e.url) + '" target="_blank" rel="noopener">source ↗</a>)' : '');
+  const ic = $('#sa-mn-ic'); if(ic && isNum(TH.ic_nm_min_share_of_assets)) ic.textContent = pct(TH.ic_nm_min_share_of_assets, 0);
+  const btn = $('#sa-mn-yf-btn'); if(!btn) return;
+  btn.addEventListener('click', () => {
+    const yf = ROWS.filter(r => r.src_kind === 'YF').map(r => r.ticker).sort(), box = $('#sa-mn-yf-list');
+    box.textContent = 'Reading ' + yf.length + ' reports…';
+    Promise.all(yf.map(t => report(t).then(rep => ({t, rep})).catch(() => ({t, rep: null})))).then(list => {
+      const noSbc = [], noSti = [], na = [];
+      list.forEach(({t, rep}) => { if(!rep){ na.push(t); return; }
+        const sm = ((rep.drill_down || {}).source_map_per_tag) || {}, nd = ((rep.drill_down || {}).net_debt_detail) || {};
+        if(!sm.sbc || !isNum(sm.sbc.value)) noSbc.push(t);
+        if(!nd.st_investments_deducted) noSti.push(t); });
+      box.innerHTML = '<strong>Companies on Yahoo statements:</strong> ' + esc(yf.join(', ')) + '. ' +
+        '<strong>Stock-based pay N/D</strong> (FCF not reduced): ' + esc(noSbc.join(', ') || 'none') + '. ' +
+        '<strong>Short-term investments N/D</strong> (not deducted from net debt): ' + esc(noSti.join(', ') || 'none') + '.' +
+        (na.length ? ' Report unavailable: ' + esc(na.join(', ')) + '.' : '');
+    });
+  });
+})();
+
 /* ═════════════ BOOT ═════════════ */
 buildPicker();
 renderS1(true);
 bindBrush();
-const hf = /^#file=(.+)$/.exec(location.hash);
+const hf = /^#file=([^&]+)(?:&view=(.*))?$/.exec(location.hash);
 const first = hf && ROW[decodeURIComponent(hf[1])] ? decodeURIComponent(hf[1]) : (ROW.NVDA ? 'NVDA' : (ROWS[0] || {}).ticker);
-if(first) openFile(first, false, !hf);
+if(hf && hf[2] && first === decodeURIComponent(hf[1])){ let raw = hf[2]; try{ raw = decodeURIComponent(raw); }catch(e){} pendingView = {t: first, v: parseView(raw)}; }
+if(first) openFile(first, false, !hf || !!hf[2]);   // a shared view keeps its link in the address bar
 if(hf){ const s = $('#sa-sec-file'); if(s) setTimeout(() => s.scrollIntoView({block: 'start'}), 50); }
 
 getJSON('lab_data.json').then(d => {
   LAB = d; LAB.M = decode(d.main); LAB.C = {};
+  LAB.TAIL = d.long_ref && d.long_ref.r ? d.long_ref.r.filter(v => v != null).map(v => v / 1e5) : null;
   Object.keys(d.crises || {}).forEach(k => { LAB.C[k] = decode(d.crises[k]); });
   lab.cur = LAB.currencies_display.indexOf(window.SAINHE_CUR) >= 0 ? window.SAINHE_CUR : 'USD';
   const fromHash = readHash();
   if(!fromHash) presetWeights('equal');
   else $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => b.classList.remove('on'));
-  renderLens(); buildLab(); syncSliders(); renderLabStats(); renderCrisis(); renderMC();
-  if(fromHash && window._sainheSetCurrency && window.SAINHE_CUR !== lab.cur) window._sainheSetCurrency(lab.cur);
+  renderLens(); buildLab(); syncSliders(); renderPresetDesc(); renderLabStats(); renderCrisis(); renderMC();
   if(fromHash){ const s = $('#sa-sec-lab'); if(s) setTimeout(() => s.scrollIntoView({block: 'start'}), 50); }
 }).catch(err => {
   const m = '<div class="sa-loading">Lab data unavailable (' + esc(err.message) + ').</div>';
-  $('#sa-lab').innerHTML = m; const t = $('#sa-crisis-tbl tbody'); if(t) t.innerHTML = '<tr><td colspan="7" class="l">' + m + '</td></tr>';
+  $('#sa-lab').innerHTML = m; const t = $('#sa-crisis-tbl tbody'); if(t) t.innerHTML = '<tr><td colspan="8" class="l">' + m + '</td></tr>';
 });
 })();
 </script>

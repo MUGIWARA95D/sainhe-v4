@@ -108,14 +108,29 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   carte Qualité × Prix (croissance implicite × années ROIC > WACC), simulateur « ce qu'il faut croire »
   (DCF inverse sur les curseurs de l'utilisateur, jamais une estimation SAINHE), tiroir des sources (formule,
   entrées, tag XBRL, lien du dépôt), Portfolio Lab (poids, ⇄ concurrent, objectif de devise synchronisé avec
-  l'en-tête via l'événement `sainhe:currency`, lien partageable `#lab=`), rejeu des 5 crises. Tout est
+  l'en-tête via l'événement `sainhe:currency` — le sélecteur local du Labo surcharge sans jamais changer
+  la devise du site —, lien partageable `#lab=`), rejeu de 4 crises. Tout est
   calculé dans le navigateur depuis `data/stock/*_report.json` et `lab_data.json` (écrit par
   `portfolio_runner.export_lab_data` : rendements journaliers en 1e-5, change « USD pour 1 unité »).
+- **Labo / Monte Carlo / crises (22 nov.)** : `lab_data.json` porte `LAB_CRISES` (pic→creux du S&P 500 :
+  dot-com 2000-03-24→2002-10-09, GFC 2007-10-09→2009-03-09, Covid, 2022 ; `stress.SCENARIOS` reste pour le
+  backend), `listed` et `bench` par crise (SPY tant qu'ACWI ne cote pas), `fx_provenance`, et `long_ref`
+  (SPY depuis 1993, forme de la queue EVT). Change : Yahoo d'abord, FRED H.10 (DEXUSEU, DEXSZUS…) avant
+  2004 et les jours manquants, jamais de bfill. Monte Carlo = bootstrap stationnaire (Politis-Romano,
+  blocs moyens 21 j, graine 20261122) brut + « tail-adjusted » (GPD par PWM, Hosking-Wallis, sur les 5 %
+  pires jours SPY standardisés, remis à la volatilité du portefeuille). Jamais « 0 % » : « none in 2,000
+  paths ». Optimiseurs : fenêtre de calage ≠ fenêtre affichée (look-ahead) → ligne grise avant calage,
+  stats de tête sur la fenêtre de calage. Turbulence Kritzman-Li par crise. Section 02 : ancrages du
+  curseur (rf, croissance FCF 5 ans, prix, cible analystes inversée, SGR), « your view » en session et
+  dans l'URL `#file=T&view=g=…`.
   Parité vérifiée avec le backend (vol 5 ans, max drawdown). Palette des graphiques validée (dataviz).
   Le site est en anglais : les libellés `COMPETITORS` (config.py racine) le sont aussi.
   L'ancienne interface du 14 juin (46a4550, b355862) n'a PAS été reprise.
 - **Reste à faire** : parsing XML des Forms 4, univers de pairs SIC, TTM via 10-Q, matrice de sensibilité
   `bloc_H` dégénérée (axe g écrasé par le plafond de croissance terminale), statut FINMA avant mise en ligne.
+  Reportés par l'utilisateur : avis juridique / FINMA / licence Yahoo ; prime de risque pays (CRP) ; audit
+  des autres sections ; mise en ligne seulement après revue complète de la page. Données : FCF ajusté de
+  NVIDIA N/D avant 2022 (ancrage « 5-yr FCF growth » N/D).
 - `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → exclu de Portfolio Sim (< 400 jours) ;
   pas de 10-K avant 2027 → hors couverture Stock Analysis.
 
