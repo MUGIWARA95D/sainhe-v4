@@ -782,7 +782,7 @@ function buildSpecs(row, rep){
   const sh = f('shares_diluted') || f('shares_outstanding');
   return {
     price: {k: 'Market input', t: 'Share price', v: money(meta.price_in_reporting_currency, cur), d: [meta.price_in_reporting_currency, 'money'],
-      formula: 'Daily close on ' + (rep.as_of || 'N/D') + ', converted to the currency of the accounts' + (meta.adr_ratio && meta.adr_ratio !== 1 ? '\nand to one ordinary share (ADR ratio ' + meta.adr_ratio + ')' : ''),
+      formula: 'Daily close on ' + (meta.price_date || rep.as_of || 'N/D') + ', converted to the currency of the accounts' + (meta.adr_ratio && meta.adr_ratio !== 1 ? '\nand to one ordinary share (ADR ratio ' + meta.adr_ratio + ')' : ''),
       inputs: [{l: 'Listing price' + (meta.quote_ticker && meta.quote_ticker !== rep.ticker ? ' (' + meta.quote_ticker + ', main listing)' : ''), v: money(meta.price_listing, meta.listing_currency)},
                {l: 'FX listing → accounts', v: num(meta.fx_listing_to_reporting, 4), m: meta.listing_currency && meta.listing_currency !== cur ? fxLine(meta.listing_currency, cur) : 'same currency: no conversion'},
                {l: 'ADR ratio', v: num(meta.adr_ratio, 0)}],
