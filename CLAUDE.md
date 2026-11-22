@@ -147,6 +147,14 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   pousser sur la branche `preview` → https://preview.sainhe.pages.dev (job deploy, étapes production sautées),
   puis, après son accord, `git merge preview` dans dev et push. Les (i) « Read more » de Stock Analysis
   pointent vers `/learn.html#open-lrn-sa-…` (sujet ouvert directement).
+- **Audit du 22 nov. 2026** (`G:\Mon Drive\PROJET SAINHE\AUDIT_SAINHE_2026-11-22.md`, hors dépôt) : 0 valeur inventée.
+  Corrigé : Bund = Bundesbank (stooq renvoie une page HTML aux robots ; repli BCE AAA puis FRED, journalisés) ;
+  prix de valorisation sur la cotation principale (`sainhe_backend/config.HOME_LISTING` : ASML.AS, RACE.MI,
+  2330.TW ; ADR en repli) ; indices du Dashboard en points natifs (jamais convertis) ; « Earnings yield gap »
+  au Dashboard ≠ ERP implicite Damodaran de Stock Analysis ; portefeuille limité à `config.WATCHLIST` ;
+  brèves TV/radio filtrées (`news_filter.py`, motifs dans `config.NEWS_EXCLUDE_PATTERNS`).
+  **Contrôle hebdomadaire** : `scripts/verify_live.py` (valeurs publiées vs FRED, BCE, Bundesbank, Damodaran,
+  SEC, Yahoo) lancé par `verify-live.yml` sur main le lundi 07:30 UTC → issue en cas d'écart ou de source muette.
 - NVIDIA : capex des exercices ≤ 2021 sous `nvda:PurchasesOfPropertyAndEquipmentAndIntangibleAssets`
   (lu dans 8 rapports annuels, pages d'index EDGAR archivées comprises).
 - `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → exclu de Portfolio Sim (< 400 jours) ;
