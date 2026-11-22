@@ -448,6 +448,7 @@ PAGES = [
             {"href": "#ct-story",   "label": "Story"},
             {"href": "#ct-reach",   "label": "Reach"},
             {"href": "#ct-roadmap", "label": "Roadmap"},
+            {"href": "#ct-legal",   "label": "Legal"},
         ],
     },
 ]
