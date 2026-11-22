@@ -143,6 +143,10 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   `_sa_js` numérote ses visites (`window._saGen`) : les écouteurs d'une visite précédente se taisent.
 - **Mise en ligne** : `STOCK_ANALYSIS_LIVE` du rendu production dans `sainhe.yml` sur dev ET main (les jobs
   planifiés lisent le fichier de main et redéploient sainhe.com plusieurs fois par jour).
+- **Relecture avant mise en ligne** : tout push sur `dev` part sur sainhe.com. Pour faire relire l'utilisateur,
+  pousser sur la branche `preview` → https://preview.sainhe.pages.dev (job deploy, étapes production sautées),
+  puis, après son accord, `git merge preview` dans dev et push. Les (i) « Read more » de Stock Analysis
+  pointent vers `/learn.html#open-lrn-sa-…` (sujet ouvert directement).
 - NVIDIA : capex des exercices ≤ 2021 sous `nvda:PurchasesOfPropertyAndEquipmentAndIntangibleAssets`
   (lu dans 8 rapports annuels, pages d'index EDGAR archivées comprises).
 - `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → exclu de Portfolio Sim (< 400 jours) ;
