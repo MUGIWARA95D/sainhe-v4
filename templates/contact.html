@@ -485,11 +485,7 @@
         var btn = wrap.querySelector('.lrn-toc-link[data-tab="' + m[1] + '"]'); if(!btn) return;
         activate(btn); goTo(3);
       }
-      function goTo(tries){                            // the intro / welcome bar may reset the scroll: retry
-        var top = Math.max(0, wrap.getBoundingClientRect().top + window.scrollY - 96);
-        window.scrollTo({top: top, behavior: 'smooth'});
-        if(tries > 0) setTimeout(function(){ if(Math.abs(window.scrollY - top) > 120) goTo(tries - 1); }, 900);
-      }
+      function goTo(tries){ window._sainheGoTo(wrap, {tries: tries}); }   // retries if the intro resets the scroll (_head.html)
       setTimeout(deepLink, 950);                       // after the page-load intro
       window.addEventListener('hashchange', deepLink);
     })();

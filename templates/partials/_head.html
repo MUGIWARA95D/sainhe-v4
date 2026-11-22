@@ -1321,6 +1321,70 @@ a.news-hl:hover{color:var(--gold)}
   };
   </script>
 
+  <!-- Same-page anchor scrolling — one scroll at a time, shared by every page (persists through swipe navigation) -->
+  <script>
+  (function(){
+    if(window._sainheGoTo) return;
+    /* Each new scroll gets a number; a retry of an older one sees it is stale and stops.
+       Before this, a second header click while the first smooth scroll was still running
+       let the first one's retry pull the page back to its own target (the up-and-down jump). */
+    var gen = 0, iv = 0, root = document.documentElement;
+    function stop(){ gen++; clearInterval(iv); delete root.dataset.navScroll; }
+    window.addEventListener('wheel', stop, {passive: true});          /* the reader takes over: cancel */
+    window.addEventListener('touchstart', stop, {passive: true});
+    window.addEventListener('keydown', function(e){ if(/^(ArrowUp|ArrowDown|PageUp|PageDown|Home|End| )$/.test(e.key)) stop(); });
+    function offset(el, center){
+      if(center) return window.innerHeight / 2 - 40;
+      var m = parseFloat(getComputedStyle(el).scrollMarginTop);
+      return m > 0 ? m : (window.innerWidth <= 700 ? 78 : 96);
+    }
+    /* runs cb once the page has stopped moving for 180 ms (at most 3 s) */
+    function settled(g, cb){
+      var last = -1, still = 0, t0 = Date.now();
+      clearInterval(iv);
+      iv = setInterval(function(){
+        if(g !== gen){ clearInterval(iv); return; }
+        var y = window.scrollY;
+        if(y === last) still += 60; else { still = 0; last = y; }
+        if(still >= 180 || Date.now() - t0 > 3000){ clearInterval(iv); cb(); }
+      }, 60);
+    }
+    /* el: target · o.center: put it mid-screen · o.tries: retries if the layout moved under it
+       (the page-load intro resets the scroll, a chart above it renders late) */
+    window._sainheGoTo = function(el, o){
+      o = o || {};
+      stop();
+      var g = gen, tries = o.tries == null ? 1 : o.tries;
+      var smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(o.id) root.dataset.navScroll = o.id;      /* the header highlight waits for the end of the scroll */
+      function top(){ return Math.max(0, Math.round(el.getBoundingClientRect().top + window.scrollY - offset(el, o.center))); }
+      function go(){
+        if(g !== gen || !document.contains(el)) return;
+        window.scrollTo({top: top(), behavior: smooth ? 'smooth' : 'instant'});
+        settled(g, function(){
+          if(g !== gen) return;
+          if(tries-- > 0 && Math.abs(window.scrollY - top()) > 40) go();
+          else delete root.dataset.navScroll;
+        });
+      }
+      go();
+    };
+    /* header anchors (#nav-…): handled here instead of by the browser, so they share the guard above.
+       The address keeps the #anchor without adding a history step. */
+    document.addEventListener('click', function(e){
+      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('.hdr-nav a[href^="#"]:not(.hdr-nav-menu)');
+      if(!a) return;
+      var id = a.getAttribute('href').slice(1), el = id && document.getElementById(id);
+      if(!el) return;
+      e.preventDefault();
+      document.querySelectorAll('.hdr-nav a:not(.hdr-nav-menu)').forEach(function(x){ x.classList.toggle('active', x === a); });
+      try{ history.replaceState(history.state, '', location.pathname + location.search + '#' + id); }catch(_){}
+      window._sainheGoTo(el, {id: id});
+    });
+  })();
+  </script>
+
   <!-- CI toggle + tooltip — shared across all pages and persists through swipe navigation -->
   <script>
   document.addEventListener('DOMContentLoaded',function(){

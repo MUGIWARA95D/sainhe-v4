@@ -176,11 +176,16 @@
 #sa-drawer.open{transform:none}
 #sa-drawer-scrim{position:fixed;inset:0;z-index:7999;background:rgba(20,12,6,.28);opacity:0;pointer-events:none;transition:opacity .2s}
 #sa-drawer-scrim.open{opacity:1;pointer-events:auto}
+/* while the drawer is open the page underneath does not scroll: the wheel and the finger scroll the drawer */
+html.sa-sheet-open, html.sa-sheet-open body{overflow:hidden}
+html.sa-sheet-open body{padding-right:var(--sa-sbw,0px)}
+html.sa-sheet-open #hdr{margin-left:calc(var(--sa-sbw,0px) / -2)}
+#sa-drawer-scrim{touch-action:none}
 .sa-dr-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:20px 22px 14px;border-bottom:1px solid var(--border-lt)}
 .sa-dr-t{font-family:var(--serif);font-size:18px;color:var(--h);line-height:1.25}
 .sa-dr-x{background:none;border:1px solid var(--border);border-radius:50%;width:28px;height:28px;cursor:pointer;color:var(--muted);font-size:14px;flex-shrink:0}
 .sa-dr-x:hover{border-color:var(--gold);color:var(--gold)}
-.sa-dr-b{padding:16px 22px 28px;overflow-y:auto;flex:1}
+.sa-dr-b{padding:16px 22px 28px;overflow-y:auto;flex:1;overscroll-behavior:contain}
 .sa-dr-v{font-family:var(--serif);font-size:28px;color:var(--h);margin-bottom:12px}
 .sa-formula{font-family:'SF Mono',Consolas,monospace;font-size:11.5px;line-height:1.6;background:var(--gold-bg);
   color:var(--p);border-radius:8px;padding:10px 12px;margin:0 0 14px;white-space:pre-wrap}
@@ -198,6 +203,23 @@
 .sa-lab-li .sa-rows{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto}
 .sa-lab-foot{margin:0;padding:10px 20px 14px;border-top:1px solid var(--border-lt);background:var(--card)}
 .sa-lab-r{min-width:0}
+/* Monte Carlo recomputing (in a worker): the previous figures dim until the new ones arrive */
+#sa-mc-card #sa-mc-tiles, #sa-mc-card #sa-mc-lede, #sa-mc-card .sa-growth{transition:opacity .15s}
+#sa-mc-card.sa-mc-busy #sa-mc-tiles, #sa-mc-card.sa-mc-busy #sa-mc-lede, #sa-mc-card.sa-mc-busy .sa-growth{opacity:.5}
+/* 100% budget line above the sliders */
+.sa-alloc{padding:10px 20px;border-bottom:1px solid var(--border-lt);background:var(--card);display:grid;gap:7px}
+.sa-alloc-h{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:28px}
+.sa-alloc-t{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--p)}
+.sa-alloc-t strong{font-family:var(--serif);font-size:14px;font-weight:400;color:var(--h)}
+.sa-alloc-s{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sa-alloc.under .sa-alloc-t strong{color:var(--orange)}
+.sa-alloc.over .sa-alloc-t strong{color:var(--red)}
+.sa-alloc.ok .sa-alloc-t strong::before{content:"✓ ";color:var(--green)}
+.sa-alloc-bar{position:relative;height:5px;border-radius:3px;background:var(--bg2);overflow:hidden}
+.sa-alloc-bar span{position:absolute;left:0;top:0;bottom:0;background:var(--gold);border-radius:3px;transition:width .12s}
+.sa-alloc.ok .sa-alloc-bar span{background:var(--green)}
+.sa-alloc-bar i{position:absolute;right:0;top:0;bottom:0;background:var(--red);opacity:.8}
+@media(max-width:700px){.sa-alloc{padding:10px 12px}}
 @media(max-width:1000px){.sa-lab-grid{grid-template-columns:minmax(0,1fr)}.sa-lab-l{border-right:none;border-bottom:1px solid var(--border-lt);min-height:0}
   .sa-lab-li{position:static}.sa-lab-li .sa-rows{max-height:420px}}
 .sa-lab-desc{padding:10px 28px 12px;border-bottom:1px solid var(--border-lt);display:grid;gap:2px}
@@ -419,6 +441,5 @@
   .sa-dr-x{width:44px;height:44px;font-size:16px}
   .sa-dr-b{padding:14px 16px 32px}
   html.sa-sheet-open #hdr, html.sa-sheet-open #page-dots{visibility:hidden}
-  html.sa-sheet-open, html.sa-sheet-open body{overflow:hidden}
 }
 </style>

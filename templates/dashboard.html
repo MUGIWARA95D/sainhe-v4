@@ -270,7 +270,7 @@ if(_TB) _TB.addEventListener("click",function(){setTheme(_H.dataset.theme==="dar
 
   const obs = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting) setActive(e.target.id);
+      if(e.isIntersecting && !document.documentElement.dataset.navScroll) setActive(e.target.id);
     });
   }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
 

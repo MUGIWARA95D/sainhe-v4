@@ -16,6 +16,12 @@ const GEN = window._saGen = (window._saGen || 0) + 1;
 const onDoc = (type, fn, opt) => document.addEventListener(type, e => { if(GEN === window._saGen) fn(e); }, opt);
 const onWin = (type, fn, opt) => window.addEventListener(type, e => { if(GEN === window._saGen) fn(e); }, opt);
 { const old = document.getElementById('sa-tt'); if(old) old.remove(); }
+/* the audit drawer lives on <body>, not in <main>: #main is its own stacking layer (z-index 1),
+   so inside it the drawer stayed under the site header whatever its z-index (the ✕ sat under "Menu").
+   A previous visit's copy is dropped first; the swipe engine also removes it when leaving the page. */
+{ const fresh = document.querySelector('#main #sa-drawer');
+  if(fresh){ document.querySelectorAll('body > [data-sa-portal]').forEach(x => x.remove());
+    [document.getElementById('sa-drawer-scrim'), fresh].forEach(x => { if(x){ x.setAttribute('data-sa-portal', ''); document.body.appendChild(x); } }); } }
 const {derive, simImplied, simValue, impliedAt, fadeValue, fadeImplied, fxRate, decode, refSeries, portfolio, stats, riskContrib, bootstrap, tailFor, turbulence, quantile, aligned, moments, optimize, evaluate} = window.SACALC;
 const VM = JSON.parse((document.getElementById('sa-vmap')||{}).textContent || '{}') || {};
 const ROWS = (VM.rows || []).slice();
@@ -841,7 +847,9 @@ function openDrawer(kicker, title, html, opener){
   drawerOpener = opener || document.activeElement;
   $('#sa-dr-kicker').textContent = kicker; $('#sa-dr-title').textContent = title; $('#sa-dr-body').innerHTML = html;
   $('#sa-drawer').classList.add('open'); $('#sa-drawer-scrim').classList.add('open');
-  document.documentElement.classList.add('sa-sheet-open');        // mobile: full-screen sheet, site header hidden
+  const sbw = window.innerWidth - document.documentElement.clientWidth;   // scrollbar width, kept as padding so the page does not shift
+  document.documentElement.style.setProperty('--sa-sbw', sbw > 0 ? sbw + 'px' : '0px');
+  document.documentElement.classList.add('sa-sheet-open');        // page scroll locked; mobile: full-screen sheet, site header hidden
   $('#sa-drawer').setAttribute('aria-hidden', 'false'); $('#sa-dr-body').scrollTop = 0;
   $('#sa-dr-close').focus();
 }
@@ -1342,6 +1350,13 @@ function rfFor(cur){
   return {rf: isNum(v) ? v : pick('USD'), cur: isNum(v) ? (cur === 'HKD' ? 'USD (HKD peg)' : cur) : 'USD'};
 }
 
+/* weights {t: >=0} -> shares of the portfolio in %, summing to 100 (kept unrounded: equal weight stays exactly equal) */
+function to100(w){
+  const H = LAB.holdings, s = H.reduce((a, h) => a + Math.max(0, +w[h.t] || 0), 0), out = {};
+  H.forEach(h => { out[h.t] = s > 0 ? Math.max(0, +w[h.t] || 0) / s * 100 : 0; });
+  return out;
+}
+const allocSum = () => LAB.holdings.reduce((a, h) => a + (lab.pts[h.t] || 0), 0);
 function presetWeights(name){
   const H = LAB.holdings; let w = {};
   if(name !== 'maxsharpe' && name !== 'minvol' && name !== 'lowbeta') lab.fit = null;
@@ -1351,11 +1366,14 @@ function presetWeights(name){
     H.forEach((h, k) => { const q = pos[k], r = refSeries(LAB.M, q.t, q.cur, lab.cur); if(!r){ w[h.t] = 0; return; }
       const a = Array.from(r).filter(isFinite), m = avg(a), sd = Math.sqrt(avg(a.map(v => (v - m) * (v - m))));
       w[h.t] = sd > 0 ? 1 / sd : 0; });
-  } else if(name === 'mine'){ try{ w = JSON.parse(localStorage.getItem('sainhe_lab_mix') || '{}').pts || {}; }catch(e){ w = {}; } }
+  } else if(name === 'mine'){ try{ w = JSON.parse(localStorage.getItem('sainhe_lab_mix') || '{}').pts || {}; }catch(e){ w = {}; }
+    const s = H.reduce((a, h) => a + Math.max(0, +w[h.t] || 0), 0);
+    if(s > 0 && s <= 100.05){ H.forEach(h => { lab.pts[h.t] = Math.max(0, +w[h.t] || 0); }); lab.preset = name;
+      $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => { const on = b.dataset.preset === name; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+      renderPresetDesc(); return; } }
   else if(name === 'maxsharpe' || name === 'minvol' || name === 'lowbeta'){ w = optimisedWeights(name); if(!w) return; }
   else H.forEach(h => { w[h.t] = 1; });
-  const mx = Math.max.apply(null, H.map(h => w[h.t] || 0)) || 1;
-  H.forEach(h => { lab.pts[h.t] = name === 'mine' ? Math.round(w[h.t] || 0) : Math.round((w[h.t] || 0) / mx * 50); });
+  Object.assign(lab.pts, to100(w));   // each slider shows the holding's real share; the presets fill exactly 100%
   lab.preset = name;
   $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => { const on = b.dataset.preset === name; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
   renderPresetDesc();
@@ -1415,15 +1433,15 @@ function buildLab(){
   const el = $('#sa-lab'); const P = pal();
   const rows = LAB.holdings.map(h => { const c = LAB.competitors[h.t];
     return '<div class="sa-row" data-t="' + esc(h.t) + '"><div class="sa-row-n"><span class="sa-tk">' + esc(h.t) + '</span><span>' + esc(h.name) + '</span></div>' +
-      '<input type="range" class="sa-range" min="0" max="100" step="1" aria-label="Weight of ' + esc(h.name) + '">' +
+      '<input type="range" class="sa-range" min="0" max="100" step="0.1" aria-label="Share of the portfolio in ' + esc(h.name) + ', in %">' +
       '<div class="sa-row-w">—</div>' +
       '<button class="sa-swap" aria-pressed="false"' + (c ? ' title="Swap for ' + esc(c.name) + ' — ' + esc(c.market) + '"' : ' disabled title="No listed direct rival"') + ' aria-label="Swap ' + esc(h.name) + ' for its rival">⇄</button></div>'; }).join('');
   const excl = (LAB.excluded || []).map(x => esc(x.t)).join(', ');
   const nonCo = LAB.holdings.filter(h => !ROW[h.t]).map(h => h.t);
   const andList = a => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
   el.innerHTML = '<div class="sa-lab-grid">' +
-    '<div class="sa-lab-l"><div class="sa-lab-li"><div class="sa-rows" id="sa-rows">' + rows + '</div>' +
-      '<p class="sa-note sa-lab-foot">Weights are rescaled to 100%. ⇄ swaps a holding for its largest listed rival on one common market (editorial pairing).' +
+    '<div class="sa-lab-l"><div class="sa-lab-li"><div class="sa-alloc" id="sa-alloc" aria-live="polite"></div><div class="sa-rows" id="sa-rows">' + rows + '</div>' +
+      '<p class="sa-note sa-lab-foot">Each slider is a share of the portfolio. While the total is not 100%, the figures spread the gap in proportion to the weights you set. ⇄ swaps a holding for its largest listed rival on one common market (editorial pairing).' +
       (nonCo.length ? ' ' + esc(andList(nonCo)) + (nonCo.length > 1 ? ' have' : ' has') + ' no company accounts, so ' + (nonCo.length > 1 ? 'they appear' : 'it appears') + ' here but not in the Quality × Price map.' : '') +
       (excl ? ' Not in the Lab (price history too short or no live quote): ' + excl + '.' : '') + '</p></div></div>' +
     '<div class="sa-lab-r sa-body">' +
@@ -1443,6 +1461,8 @@ function buildLab(){
   $('#sa-rows').addEventListener('input', e => { const inp = e.target.closest('input[type=range]'); if(!inp) return;
     lab.pts[inp.closest('.sa-row').dataset.t] = +inp.value; lab.preset = 'custom'; lab.optNote = ''; lab.fit = null;
     $$('#sa-lab-card .sa-chip[data-preset]').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); }); renderPresetDesc(); scheduleLab(); });
+  $('#sa-alloc').addEventListener('click', e => { if(!e.target.closest('#sa-alloc-fit')) return;
+    Object.assign(lab.pts, to100(lab.pts)); lab.preset = 'custom'; lab.optNote = ''; lab.fit = null; renderPresetDesc(); scheduleLab(); });
   $('#sa-rows').addEventListener('click', e => { const b = e.target.closest('.sa-swap'); if(!b || b.disabled) return;
     const t = b.closest('.sa-row').dataset.t; lab.swap[t] = !lab.swap[t]; if(!lab.swap[t]) delete lab.swap[t];
     if(lab.preset === 'invvol'){ presetWeights('invvol'); } syncSliders(); scheduleLab(); });
@@ -1455,7 +1475,20 @@ function syncSliders(){
     row.querySelector('.sa-swap').setAttribute('aria-pressed', sw);
     row.querySelector('.sa-tk').textContent = q.t;
     row.querySelector('.sa-row-n span:last-child').textContent = sw ? q.name + ' · instead of ' + h.name : h.name;
-    row.querySelector('.sa-row-w').textContent = (q.w * 100).toFixed(1) + '%'; });
+    row.querySelector('.sa-row-w').textContent = (lab.pts[t] || 0).toFixed(1) + '%'; });
+  renderAlloc();
+}
+/* the 100% budget: how much is left to place, or how far over it the sliders are */
+function renderAlloc(){
+  const el = $('#sa-alloc'); if(!el) return;
+  const s = allocSum(), gap = 100 - s, ok = Math.abs(gap) < 0.05;
+  const fill = Math.min(100, s), over = Math.max(0, Math.min(100, s - 100));
+  el.className = 'sa-alloc' + (ok ? ' ok' : gap > 0 ? ' under' : ' over');
+  el.innerHTML = '<div class="sa-alloc-h"><span class="sa-alloc-t">' +
+    (ok ? '<strong>100% allocated</strong>' : gap > 0 ? '<strong>' + gap.toFixed(1) + '% left to allocate</strong>' : '<strong>' + (-gap).toFixed(1) + '% over 100%</strong>') +
+    '<span class="sa-alloc-s">total ' + s.toFixed(1) + '%</span></span>' +
+    (ok ? '' : '<button class="sa-btn" id="sa-alloc-fit" title="Keep the proportions, bring the total to 100%">Scale to 100%</button>') + '</div>' +
+    '<div class="sa-alloc-bar" aria-hidden="true"><span style="width:' + fill.toFixed(1) + '%"></span>' + (over > 0 ? '<i style="width:' + over.toFixed(1) + '%"></i>' : '') + '</div>';
 }
 let labRaf = 0;
 function scheduleLab(){ cancelAnimationFrame(labRaf); labRaf = requestAnimationFrame(() => { if(GEN !== window._saGen || !$('#sa-metrics')) return; syncSliders(); renderLabStats(); renderCrisis(); scheduleMC(); saveHash(); }); }
@@ -1549,7 +1582,7 @@ restyle.push(() => { if(growthChart){ growthChart.destroy(); growthChart = null;
 
 /* share / save */
 function hashState(){
-  return 'lab=' + encodeURIComponent(lab.cur) + '|' + LAB.holdings.map(h => h.t + '~' + (lab.pts[h.t] || 0)).join(',') + '|' + Object.keys(lab.swap).join(',');
+  return 'lab=' + encodeURIComponent(lab.cur) + '|' + LAB.holdings.map(h => h.t + '~' + +(lab.pts[h.t] || 0).toFixed(2)).join(',') + '|' + Object.keys(lab.swap).join(',');
 }
 let hashT = 0;
 function saveHash(){ clearTimeout(hashT); hashT = setTimeout(() => { if(/^#lab=|^#$|^$/.test(location.hash) || lab.preset === 'custom' || Object.keys(lab.swap).length){
@@ -1560,6 +1593,7 @@ function readHash(){
   const c = decodeURIComponent(m[1]); if(LAB.currencies_display.indexOf(c) >= 0) lab.cur = c;
   m[2].split(',').forEach(x => { const i = x.lastIndexOf('~'); if(i > 0){ const t = decodeURIComponent(x.slice(0, i)); if(LAB.holdings.some(h => h.t === t)) lab.pts[t] = Math.max(0, Math.min(100, +x.slice(i + 1) || 0)); } });
   (m[3] || '').split(',').filter(Boolean).forEach(t => { t = decodeURIComponent(t); if(LAB.competitors[t]) lab.swap[t] = true; });
+  if(allocSum() > 100.05) Object.assign(lab.pts, to100(lab.pts));   // links made before the 100% budget (relative scores)
   lab.preset = 'custom'; lab.fit = null; return true;
 }
 $('#sa-lab-share').addEventListener('click', e => {
@@ -1585,12 +1619,45 @@ try{ if(localStorage.getItem('sainhe_lab_mix')) $('#sa-preset-mine').hidden = fa
 
 /* ═════════════ 4b · RANGE OF OUTCOMES (Monte Carlo) ═════════════ */
 const mc = {amount: 10000, years: 5};
-const MC_PATHS = 2000, MC_BLOCK = 21, MC_SEED = 20261122, MC_TAIL_Q = 0.95;
-/* an event absent from 2,000 paths is not impossible: never print "0%" */
+const MC_PATHS = 5000, MC_BLOCK = 21, MC_SEED = 20261122, MC_TAIL_Q = 0.95;
+/* an event absent from 5,000 paths is not impossible: never print "0%" */
 function probTxt(n, N){ return n === 0 ? 'none in ' + N.toLocaleString('en-US') + ' paths' : n / N < 0.01 ? n + ' in ' + N.toLocaleString('en-US') : pct(n / N, 0); }
 let mcChart = null, mcT = 0;
 function scheduleMC(){ clearTimeout(mcT); mcT = setTimeout(renderMC, 120); }
 function fmtMoney(v, cur){ return isNum(v) ? cur + ' ' + Math.round(v).toLocaleString('en-US') : 'N/D'; }
+/* The 5,000-path runs (raw, tail-adjusted, market) take ~0.7 s: they run in a Web Worker built from
+ * the very same SACALC source (no second copy of the arithmetic), so the page never freezes.
+ * A newer run replaces a pending one; without Worker support they run here, as before. */
+if(window._saMCWorker) try{ window._saMCWorker.terminate(); }catch(e){}
+window._saMCWorker = undefined;
+let mcJob = 0, mcBusy = false, mcLast = null;
+function mcWorker(){
+  if(window._saMCWorker !== undefined) return window._saMCWorker;
+  let w = null;
+  try{
+    const src = Array.from(document.scripts).map(s => s.textContent).find(t => t.indexOf('window.SACALC = (function') >= 0);
+    if(src && window.Worker && window.Blob && window.URL){
+      const code = 'self.window = self;\n' + src + '\nself.onmessage = function(e){ var d = e.data;' +
+        ' try{ self.postMessage({id: d.id, out: d.jobs.map(function(j){ return j ? self.SACALC.bootstrap(j.ret, j.o) : null; })}); }' +
+        ' catch(err){ self.postMessage({id: d.id, err: String(err)}); } };';
+      const url = URL.createObjectURL(new Blob([code], {type: 'text/javascript'}));
+      w = new Worker(url); URL.revokeObjectURL(url);
+    }
+  }catch(e){ w = null; }
+  window._saMCWorker = w; return w;
+}
+function mcRun(jobs, done){
+  const id = ++mcJob, sync = () => done(jobs.map(j => j ? bootstrap(j.ret, j.o) : null));
+  if(mcBusy && window._saMCWorker){ try{ window._saMCWorker.terminate(); }catch(e){} window._saMCWorker = undefined; }   // drop the stale run
+  const w = mcWorker();
+  if(!w){ sync(); return; }
+  mcBusy = true;
+  w.onmessage = e => { if(!e.data || e.data.id !== id) return; mcBusy = false;
+    if(id !== mcJob || GEN !== window._saGen) return;
+    if(e.data.err) sync(); else done(e.data.out); };
+  w.onerror = () => { mcBusy = false; window._saMCWorker = null; if(id === mcJob && GEN === window._saGen) sync(); };   // no worker from now on
+  w.postMessage({id, jobs});
+}
 function renderMC(){
   if(!LAB || GEN !== window._saGen || !$('#sa-mc')) return;
   const B = LAB.M, R = lab.cur, P = pal(), pos = positions(), A = mc.amount, Y = mc.years;
@@ -1599,8 +1666,13 @@ function renderMC(){
   const o = {days: Y * 252, paths: MC_PATHS, block: MC_BLOCK, step: 21, seed: MC_SEED, stationary: true};
   const mu = avg(ret), sdP = Math.sqrt(avg(ret.map(v => (v - mu) * (v - mu))));
   const TL = LAB.TAIL ? tailFor(LAB.TAIL, sdP, MC_TAIL_Q) : null;
-  const res = bootstrap(ret, o), resT = TL ? bootstrap(ret, Object.assign({}, o, {tail: TL})) : null, bres = bret ? bootstrap(bret, o) : null, f = res.final, fT = resT ? resT.final : null;
   const N = MC_PATHS, Ns = N.toLocaleString('en-US');
+  /* same weights, currency and horizon → same paths (fixed seed): the amount or the theme only redraws */
+  const key = [Y, R, N, pos.map(q => q.t + ':' + q.w.toFixed(8)).join(','), !!TL].join('|');
+  const card = $('#sa-mc-card');
+  const draw = out => {
+  const res = out[0], resT = out[1], bres = out[2], f = res.final, fT = resT ? resT.final : null;
+  mcLast = {key, out};
   $('#sa-mc-cur').textContent = R;
   $('#sa-mc-lede').innerHTML = 'If the next <strong>' + Y + (Y > 1 ? ' years' : ' year') + '</strong> looked like a reshuffled version of the last five, half of the ' +
     Ns + ' paths would end above <strong>' + esc(fmtMoney(A * f.p50, R)) + '</strong>, and 9 in 10 between <strong>' +
@@ -1651,6 +1723,14 @@ function renderMC(){
     '<strong>Limit:</strong> a bootstrap can only reshuffle the days it was given, so it cannot produce a fall deeper than its sample allows; the last five years include the 2022 rate shock but not a 2008-style crash, so the raw tail is too thin. ' + tl +
     (lab.fit && lab.fit.i0 > 5 ? '<strong>Look-ahead:</strong> the weights were fitted on ' + esc(B.dates[lab.fit.i0]) + ' → ' + esc(B.dates[lab.fit.i1]) + ', but the paths draw from all five years, including days before those weights existed — this spread flatters the optimised mix. ' : '') +
     '<strong>This is a spread, not a forecast</strong> — and the crisis replay below shows real falls, which can be worse than any path here.';
+  };
+  if(mcLast && mcLast.key === key){ draw(mcLast.out); return; }
+  if(card) card.classList.add('sa-mc-busy');
+  mcRun([{ret, o}, TL ? {ret, o: Object.assign({}, o, {tail: TL})} : null, bret ? {ret: bret, o} : null], out => {
+    if(GEN !== window._saGen || !$('#sa-mc')) return;
+    if(card) card.classList.remove('sa-mc-busy');
+    draw(out);
+  });
 }
 $$('#sa-mc-card .sa-chip[data-yrs]').forEach(b => b.addEventListener('click', () => {
   mc.years = +b.dataset.yrs; $$('#sa-mc-card .sa-chip[data-yrs]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); }); renderMC();

@@ -1257,7 +1257,7 @@ window.addEventListener('resize', function() {
             </div>
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">The five sections</div>
-              <div class="lrn-panel-row-val"><strong>01 Quality × Price</strong> — every company on one map: the growth its price assumes against the returns its accounts show.<br><strong>02 Company file</strong> — one company in depth, with a simulator to state your own view and an audit trail behind every number.<br><strong>03 Allocation Lab</strong> — weight the companies, swap one for its rival, change the currency you measure in.<br><strong>04 Range of outcomes</strong> — your mix replayed 2,000 times from its own history.<br><strong>05 Crisis replay</strong> — the same companies through 2000–02, 2008–09, 2020 and 2022.</div>
+              <div class="lrn-panel-row-val"><strong>01 Quality × Price</strong> — every company on one map: the growth its price assumes against the returns its accounts show.<br><strong>02 Company file</strong> — one company in depth, with a simulator to state your own view and an audit trail behind every number.<br><strong>03 Allocation Lab</strong> — weight the companies, swap one for its rival, change the currency you measure in.<br><strong>04 Range of outcomes</strong> — your mix replayed 5,000 times from its own history.<br><strong>05 Crisis replay</strong> — the same companies through 2000–02, 2008–09, 2020 and 2022.</div>
             </div>
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">How to read it</div>
@@ -1378,7 +1378,7 @@ window.addEventListener('resize', function() {
           <div class="lrn-panel-rows">
             <div class="lrn-panel-row lrn-row-plain">
               <div class="lrn-panel-row-lbl">In plain words</div>
-              <div class="lrn-panel-row-val">Here you build a basket of companies and see how it would have behaved over five years. Each company has a slider: move it to give it more or less weight. You can start from six ready-made mixes, from the simplest (the same amount everywhere) to ones calculated on past data. The calculated mixes always look good on the past, because they were made to fit it. That is why the page tests them on a period they did not see. The ⇄ button swaps a company for its closest rival to compare. You can choose the currency you measure in: a European holding US shares also lives with the dollar's moves. The tiles give the yearly return, how bumpy the ride was, the worst fall, and the return per unit of risk. Bars show which companies carry most of the risk — often not the biggest weights. It is history, not a forecast.</div>
+              <div class="lrn-panel-row-val">Here you build a basket of companies and see how it would have behaved over five years. Each company has a slider: its share of the portfolio, in %. A line above the sliders shows how much is left to allocate (or how far over 100% you are), with a button to bring the total back to 100%. You can start from six ready-made mixes, from the simplest (the same amount everywhere) to ones calculated on past data. The calculated mixes always look good on the past, because they were made to fit it. That is why the page tests them on a period they did not see. The ⇄ button swaps a company for its closest rival to compare. You can choose the currency you measure in: a European holding US shares also lives with the dollar's moves. The tiles give the yearly return, how bumpy the ride was, the worst fall, and the return per unit of risk. Bars show which companies carry most of the risk — often not the biggest weights. It is history, not a forecast.</div>
             </div>
             <div class="lrn-panel-row lrn-row-example">
               <div class="lrn-panel-row-lbl">Example</div>
@@ -1388,7 +1388,7 @@ window.addEventListener('resize', function() {
 
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">What it is</div>
-              <div class="lrn-panel-row-val">The SAINHE watchlist with a weight slider per holding, recomputed in your browser from five years of daily prices. ⇄ swaps a holding for its largest listed rival on one common market (an editorial pairing, not a full peer group). Weights are rescaled to 100%.</div>
+              <div class="lrn-panel-row-val">The SAINHE watchlist with a weight slider per holding, recomputed in your browser from five years of daily prices. ⇄ swaps a holding for its largest listed rival on one common market (an editorial pairing, not a full peer group). Each slider is a share of the portfolio; while the total is not 100%, the figures spread the gap in proportion to the weights set.</div>
             </div>
             <div class="lrn-panel-row" id="lrn-row-sa-presets">
               <div class="lrn-panel-row-lbl">The six starting points</div>
@@ -1415,21 +1415,21 @@ window.addEventListener('resize', function() {
           <div class="lrn-panel-rows">
             <div class="lrn-panel-row lrn-row-plain">
               <div class="lrn-panel-row-lbl">In plain words</div>
-              <div class="lrn-panel-row-val">Nobody knows the future, but we can look at many possible versions of it. This section takes your basket's own past days and reshuffles them, in chunks of about a month, into 2,000 possible futures. Chunks keep bad weeks together, as in real markets. The result is a range: a middle outcome, a bad case and a good case. It also tells you how often you would end below what you put in, and how deep the falls on the way could be. Five calm years cannot produce a crash they never contained, so the page also runs a “tail-adjusted” version. That version adds crash-sized days, taken from 30 years of the US market, scaled to your basket. When an event never appears, the page says “none in 2,000 paths”, never 0%. Read it as the width of the road, not the destination.</div>
+              <div class="lrn-panel-row-val">Nobody knows the future, but we can look at many possible versions of it. This section takes your basket's own past days and reshuffles them, in chunks of about a month, into 5,000 possible futures. Chunks keep bad weeks together, as in real markets. The result is a range: a middle outcome, a bad case and a good case. It also tells you how often you would end below what you put in, and how deep the falls on the way could be. Five calm years cannot produce a crash they never contained, so the page also runs a “tail-adjusted” version. That version adds crash-sized days, taken from 30 years of the US market, scaled to your basket. When an event never appears, the page says “none in 5,000 paths”, never 0%. Read it as the width of the road, not the destination.</div>
             </div>
             <div class="lrn-panel-row lrn-row-example">
               <div class="lrn-panel-row-lbl">Example</div>
-              <div class="lrn-panel-row-val">You invest 10,000. Half of the 2,000 futures end above 21,000; one in twenty ends below 11,700. With crash-sized days added, that bad case drops to 10,800. The gap between the two tells you how much the calm of the last five years flatters the picture.</div>
+              <div class="lrn-panel-row-val">You invest 10,000. Half of the 5,000 futures end above 21,000; one in twenty ends below 11,700. With crash-sized days added, that bad case drops to 10,800. The gap between the two tells you how much the calm of the last five years flatters the picture.</div>
             </div>
             <div class="lrn-panel-subhdr">In detail</div>
 
             <div class="lrn-panel-row" id="lrn-row-sa-bootstrap">
               <div class="lrn-panel-row-lbl">Stationary block bootstrap</div>
-              <div class="lrn-panel-row-val">Your allocation's own daily returns over five years are cut into blocks of random length — 21 trading days on average — and reshuffled into 2,000 possible futures (Politis &amp; Romano, 1994). Blocks keep the clustering of real markets: a bad week tends to follow a bad week. The seed is fixed, so the same paths come back on every visit. It shows how wide the range of outcomes is and how deep the falls on the way can be — not what will happen.</div>
+              <div class="lrn-panel-row-val">Your allocation's own daily returns over five years are cut into blocks of random length — 21 trading days on average — and reshuffled into 5,000 possible futures (Politis &amp; Romano, 1994). Blocks keep the clustering of real markets: a bad week tends to follow a bad week. The seed is fixed, so the same paths come back on every visit. It shows how wide the range of outcomes is and how deep the falls on the way can be — not what will happen.</div>
             </div>
             <div class="lrn-panel-row" id="lrn-row-sa-none">
-              <div class="lrn-panel-row-lbl">"None in 2,000 paths"</div>
-              <div class="lrn-panel-row-val">A bootstrap can only reuse the days it was given. Five years without a systemic crash cannot produce one, so an event can be absent from every path without being impossible. The page then says "none in 2,000 paths", never 0%.</div>
+              <div class="lrn-panel-row-lbl">"None in 5,000 paths"</div>
+              <div class="lrn-panel-row-val">A bootstrap can only reuse the days it was given. Five years without a systemic crash cannot produce one, so an event can be absent from every path without being impossible. The page then says "none in 5,000 paths", never 0%.</div>
             </div>
             <div class="lrn-panel-row" id="lrn-row-sa-tail">
               <div class="lrn-panel-row-lbl">Tail-adjusted</div>
@@ -1578,13 +1578,9 @@ window.addEventListener('resize', function() {
         activate(wrap, null);                       // nothing open by default
       });
       function flash(el, cls){ if(!el) return; setTimeout(function(){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); setTimeout(function(){ el.classList.remove(cls); }, 3200); }, 650); }   // once the scroll has arrived
-      function goTo(el, center, tries){
-        var top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - (center ? window.innerHeight / 2 - 40 : 96));
-        window.scrollTo({top: top, behavior: 'smooth'});
-        // the intro or the welcome bar may reset the scroll right after load: check, then retry
-        tries = tries === undefined ? 3 : tries;
-        if(tries > 0) setTimeout(function(){ if(Math.abs(window.scrollY - top) > 120) goTo(el, center, tries - 1); }, 900);
-      }
+      // the intro or the welcome bar may reset the scroll right after load: the shared helper retries,
+      // and a newer click cancels an older scroll instead of fighting it (_head.html)
+      function goTo(el, center){ window._sainheGoTo(el, {center: !!center, tries: 3}); }
       function deepLink(){
         var h = location.hash || ''; try{ h = decodeURIComponent(h); }catch(e){}
         if(h.length < 2) return;
@@ -1713,7 +1709,7 @@ if(_TB) _TB.addEventListener("click",function(){setTheme(_H.dataset.theme==="dar
 
   const obs = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting) setActive(e.target.dataset.navId || e.target.id);
+      if(e.isIntersecting && !document.documentElement.dataset.navScroll) setActive(e.target.dataset.navId || e.target.id);
     });
   }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
 

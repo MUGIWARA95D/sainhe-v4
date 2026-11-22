@@ -182,6 +182,7 @@
 
       if (cached && cached.dom) {
         document.documentElement.classList.remove('sa-sheet-open');   /* its sheet is gone with the page */
+        document.querySelectorAll('body > [data-sa-portal]').forEach(function(x){ x.remove(); });   /* Stock Analysis drawer, moved to <body> */
         main.innerHTML = cached.dom.innerHTML;
 
         var meta = cached.meta || {};
@@ -228,6 +229,10 @@
     var node = el;
     while (node && node !== document.body) {
       var id = node.id;
+      /* Controls and charts own their drag: sliders, fields, Chart.js canvases (crosshair), opt-out zones */
+      if (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA' || node.tagName === 'SELECT' ||
+          node.tagName === 'CANVAS' || node.isContentEditable ||
+          (node.hasAttribute && node.hasAttribute('data-no-swipe'))) return true;
       /* Mindmap: D3 applies its own pan/zoom/drag — never steal those touches */
       if (id === 'mm-wrap' || id === 'mm-svg' || id === 'mm-bar') return true;
       /* Named carousels (class-based) */
@@ -251,9 +256,14 @@
     touchY = e.touches[0].clientY;
     touchTarget = e.target;
   }, { passive: true });
+  /* a finger that drags selection handles is selecting text, not changing page */
+  function hasSelection() {
+    var s = window.getSelection && window.getSelection();
+    return !!(s && !s.isCollapsed && String(s).trim());
+  }
   document.addEventListener('touchend', function(e) {
     /* Ignore swipe that started inside a horizontally-interactive zone */
-    if (inSwipeExclude(touchTarget)) return;
+    if (inSwipeExclude(touchTarget) || hasSelection()) return;
     var dx = e.changedTouches[0].clientX - touchX;
     var dy = e.changedTouches[0].clientY - touchY;
     /* horizontal must be ≥50px and > 1.5× vertical to avoid conflict with scroll */
@@ -262,25 +272,10 @@
     }
   }, { passive: true });
 
-  /* ── Mouse drag (desktop) ───────────────────────────── */
-  var mStartX = 0, mStartTarget = null, mDown = false, mDragged = false;
-  document.addEventListener('mousedown', function(e) {
-    if (e.button !== 0) return;
-    mStartX      = e.clientX;
-    mStartTarget = e.target;
-    mDown        = true;
-    mDragged     = false;
-  });
-  document.addEventListener('mousemove', function(e) {
-    if (mDown && Math.abs(e.clientX - mStartX) > 10) mDragged = true;
-  });
-  document.addEventListener('mouseup', function(e) {
-    if (mDown && mDragged && !inSwipeExclude(mStartTarget)) {
-      var dx = e.clientX - mStartX;
-      if (Math.abs(dx) >= 80) navigate(currentPage + (dx > 0 ? -1 : 1));
-    }
-    mDown = false; mDragged = false;
-  });
+  /* ── No mouse drag on desktop ───────────────────────── */
+  /* A mouse drag is how people select text and move sliders: turning it into a page change
+     made both impossible. On a computer the page changes with ← →, the dots and the header;
+     the finger swipe stays on touch screens. */
 
   /* ── Keyboard (← →) ────────────────────────────────── */
   document.addEventListener('keydown', function(e) {
