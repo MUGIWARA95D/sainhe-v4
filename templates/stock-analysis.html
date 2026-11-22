@@ -47,6 +47,21 @@
   {% include "partials/stock/_sa_sections.html" %}
   {# scripts inside <main>: the swipe engine swaps <main> and re-runs only what it contains #}
   {% include "partials/stock/_sa_calc.html" %}{% include "partials/stock/_sa_js.html" %}
+  <script>
+  /* header anchors: highlight the section in view (each whole band is watched, like Learn) */
+  (function(){
+    var links = document.querySelectorAll(".hdr-nav a:not(.hdr-nav-menu)");
+    if(!links.length || !window.IntersectionObserver) return;
+    function setActive(id){ links.forEach(function(a){ a.classList.toggle("active", a.getAttribute("href") === "#" + id); }); }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting) setActive(e.target.dataset.navId); });
+    }, {rootMargin: "-40% 0px -55% 0px", threshold: 0});
+    ["nav-sa-map","nav-sa-file","nav-sa-lab","nav-sa-mc","nav-sa-crisis","nav-sa-method"].forEach(function(id){
+      var el = document.getElementById(id); if(!el) return;
+      var band = el.closest(".sec-band") || el; band.dataset.navId = id; obs.observe(band);
+    });
+  })();
+  </script>
   {% else %}
   <div class="sec-band sec-choc">
     <div class="shell-placeholder" style="padding:4rem 1rem;text-align:center">

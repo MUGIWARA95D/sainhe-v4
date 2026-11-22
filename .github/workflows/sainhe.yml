@@ -33,6 +33,7 @@ on:
   push:
     branches:
       - dev
+      - preview   # → preview.sainhe.pages.dev only, never sainhe.com (to review before going live)
 
   schedule:
     # News — 4H 10H 14H 18H 22H Paris (CEST UTC+2)
@@ -70,7 +71,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/preview')
 
     steps:
       - uses: actions/checkout@v5
@@ -143,15 +144,16 @@ jobs:
         env:
           STOCK_ANALYSIS_LIVE: "true"
 
-      - name: Deploy to Cloudflare Pages (dev preview)
+      - name: Deploy to Cloudflare Pages (dev preview, or preview.sainhe.pages.dev from the preview branch)
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           wranglerVersion: "3.99.0"
-          command: pages deploy output --project-name=sainhe --branch=dev
+          command: pages deploy output --project-name=sainhe --branch=${{ github.ref_name }}
 
       - name: Render HTML — production (STOCK_ANALYSIS_LIVE=true, live since 2026-11-22)
+        if: github.ref == 'refs/heads/dev'
         run: python render_html.py
         env:
           STOCK_ANALYSIS_LIVE: "true"
@@ -169,6 +171,7 @@ jobs:
           GDRIVE_FILE_ID: ${{ secrets.GDRIVE_FILE_ID }}
 
       - name: Deploy to Cloudflare Pages (main → sainhe.com)
+        if: github.ref == 'refs/heads/dev'
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}

@@ -1332,7 +1332,8 @@ a.news-hl:hover{color:var(--gold)}
       try{localStorage.setItem('sainhe_ci',next);}catch(e){}
     });
     /* ── CI tooltip (floating, event-delegated) ────── */
-    if(document.getElementById('ci-tip')) return;
+    /* a page script may already have built it: then only the tooltip is skipped, not the popovers below */
+    if(!document.getElementById('ci-tip')) (function(){
     var tip=document.createElement('div');
     tip.id='ci-tip';
     var _txt=document.createElement('span');
@@ -1384,8 +1385,10 @@ a.news-hl:hover{color:var(--gold)}
         window.location.href=_learnUrl(_tab,_row);
       }
     });
+    })();
     /* ── Box info popovers (delegated — survives swipe nav) ───── */
-    (function(){
+    if(!window._sainheBip) (function(){
+      window._sainheBip = true;
       var _bipLocked=null,_bipTimer=null;
       function _bipCloseAll(){
         clearTimeout(_bipTimer);

@@ -416,7 +416,14 @@ PAGES = [
         "path"       : "/stock-analysis.html",
         "title"      : "Stock Analysis",
         "description": "Deep-dive stock analysis: fundamentals, technicals, and valuation context.",
-        "nav"        : [],
+        "nav"        : [
+            {"href": "#nav-sa-map",    "label": "Quality × Price"},
+            {"href": "#nav-sa-file",   "label": "Company file"},
+            {"href": "#nav-sa-lab",    "label": "Lab"},
+            {"href": "#nav-sa-mc",     "label": "Outcomes"},
+            {"href": "#nav-sa-crisis", "label": "Crises"},
+            {"href": "#nav-sa-method", "label": "Method"},
+        ],
     },
     {
         "id"         : "learn",
