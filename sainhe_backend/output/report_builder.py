@@ -121,8 +121,18 @@ def build_report(cd: CompanyData, price: float | None, yf_info: dict | None,
         flags.append({"id": "tax_rate_abnormal", "severity": "info",
                       "message": ("Taux d'impôt de l'exercice hors de [0 %, 50 %] ou perte avant impôt : "
                                   + ("médiane des exercices normaux retenue" if tax_info["source"] == "median"
+                                     else "impôt payé en trésorerie / résultat avant impôt retenu" if tax_info["source"] == "cash"
                                      else "aucun exercice normal → N/D")),
                       "details": tax_info})
+    eb = (cd.series.get("ebit") or {}).get(fy)
+    if eb is not None and str(eb.tag).startswith("proxy:"):
+        flags.append({"id": "ebit_proxy", "severity": "info",
+                      "message": "EBIT non balisé cet exercice : résultat avant impôt utilisé (proxy prudent)",
+                      "details": {"fy": fy, "tag": eb.tag}})
+    for f_, d_ in (getattr(cd, "secondary_fields", None) or {}).items():
+        flags.append({"id": "secondary_field", "severity": "info",
+                      "message": f"{f_} absent du dépôt : repris de Yahoo Finance, contrôlé contre EBITDA − EBIT",
+                      "details": {"field": f_, **d_}})
     if w.get("rf_proxy"):
         peg = w.get("rf_proxy_reason") == "usd_peg"
         flags.append({"id": "rf_currency_proxy", "severity": "info" if peg else "medium",

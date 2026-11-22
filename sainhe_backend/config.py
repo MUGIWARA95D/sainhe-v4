@@ -75,13 +75,12 @@ EDGAR_CACHE_DAYS_TICKER_MAP   = 30
 # (nouveau rapport annuel publié ?) ; chaque rapport, immuable, est caché sans expiration.
 ESEF_CACHE_DAYS_FILINGS = float(os.environ.get("SAINHE_ESEF_CACHE_DAYS") or 6)   # CI : 120 j les jours « prix », 1 j aux trimestres
 # Ticker SAINHE → LEI (GLEIF). Vérifié le 2026-11-20 sur filings.xbrl.org :
-#   RMS.PA Hermès 2020-2025 ✓ · LDO.MI Leonardo 2021-2024 ✓ (tagging partiel) · COA.L Coats 2021-2025 ✓
+#   RMS.PA Hermès 2020-2025 ✓ · LDO.MI Leonardo 2021-2024 ✓ (tagging partiel)
 # Non couverts : SAF.PA (aucun rapport indexé), RHM.DE (entité sans rapport : l'Allemagne
 # publie via le Bundesanzeiger), ROP/NESN/GEBN (la Suisse n'impose pas l'ESEF).
 ESEF_ENTITIES = {
     "RMS.PA": "969500Y4IJGHJE2MTJ13",
     "LDO.MI": "529900X4EEX1U9LN3U39",
-    "COA.L":  "2138003SPYWGAITNFY17",
 }
 
 # Ratio ADR : 1 titre coté = N actions ordinaires (les comptes XBRL sont par action ordinaire).
@@ -115,8 +114,11 @@ PORTFOLIO_TICKERS = [
     "ASML", "TSM", "RACE",
     # ✗ Pas de données EDGAR (étranger pur / ETF / crypto) — sautés par le pipeline
     "6954.T", "ROP.SW", "2222.SR", "SAF.PA", "RHM.DE", "LDO.MI",
-    "RMS.PA", "GEBN.SW", "NESN.SW", "COA.L", "600111.SS",
+    "RMS.PA", "GEBN.SW", "NESN.SW", "600111.SS",
     "GLD", "KAP.IL", "BTC-USD",
+    # pas de comptes exploitables par machine : SpaceX (cotée 2026-06-12, pas encore de 10-K),
+    # Gazprom (comptes IFRS en PDF seulement)
+    "SPCX", "GAZP",
 ]
 
 # Sous-ensemble exploitable par EDGAR (US 10-K) — sert de défaut sûr au pipeline
@@ -169,7 +171,9 @@ REVERSE_DCF_MEDIAN_FCF_YEARS = 5
 SECONDARY_CRITICAL_FIELDS = ("revenue", "ebit", "ocf", "capex", "pretax_income", "equity", "cash")
 # Hors périmètre (pas de comptes de société) — affiché tel quel sur la page
 OUT_OF_SCOPE = {"GLD": "gold ETF: no company accounts", "BTC-USD": "crypto-asset: no company accounts",
-                "ANT": "listed on 19 Nov 2026: no annual report filed yet"}
+                "ANT": "listed on 19 Nov 2026: no annual report filed yet",
+                "SPCX": "SpaceX, listed on Nasdaq on 12 Jun 2026: first annual report (10-K) due in early 2027",
+                "GAZP": "Gazprom, listed in Moscow: IFRS accounts published as PDF only, no XBRL feed"}
 
 # Couverture complète du job CI hebdomadaire : US 10-K + 20-F + ESEF + source secondaire
 COVERAGE_TICKERS = EDGAR_TICKERS + ADR_TICKERS + list(ESEF_ENTITIES) + list(YAHOO_STATEMENTS_TICKERS)
@@ -259,6 +263,18 @@ DISPLAY_CURRENCIES = ("USD", "EUR", "CHF", "HKD")   # sélecteur de l'en-tête d
 TAX_RATE_VALID_RANGE = (0.0, 0.6)   # borne haute 60 % : fiscalité pétrolière saoudienne ≈ 50 % (Aramco)
 TAX_RATE_MEDIAN_YEARS = 5
 TAX_RATE_MIN_YEARS = 2
+# Dernier recours, toujours tiré du MÊME dépôt : impôt payé en trésorerie / résultat avant impôt
+# de l'exercice (IncomeTaxesPaidNet). GEV 2025 : 830 M$ / 2 828 M$ = 29,3 % (le taux comptable de
+# −72,5 % vient d'une reprise de provision sur impôts différés). Jamais de taux légal.
+TAX_RATE_CASH_FALLBACK = True
+# EBIT non publié pour les derniers exercices d'une société qui le publiait (proxy tracé, signalé).
+# Deere : OperatingIncomeLoss absent du 10-K 2025 ; résultat avant impôt = proxy prudent
+# (historique 2008-2024 : OperatingIncomeLoss / résultat avant impôt entre 0,98 et 1,20).
+EBIT_GAP_PROXY = {"DE": "pretax_income"}
+# Champ manquant dans le dépôt primaire pour TOUS les exercices → repris de Yahoo seulement si la
+# valeur concorde avec EBITDA − EBIT de Yahoo (± SECONDARY_FILL_TOL). Hermès : D&A non balisé en ESEF.
+SECONDARY_FILL_FIELDS = ("dep_amort",)
+SECONDARY_FILL_TOL = 0.05
 
 SGR_NM_RR_MIN = 0.0
 SGR_NM_RR_MAX = 1.0

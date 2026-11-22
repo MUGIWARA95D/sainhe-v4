@@ -930,9 +930,6 @@ a.news-hl:hover{color:var(--gold)}
 /* ══════ Golden Rules grid ═══════════════════════════════ */
 .gr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media(max-width:680px){.gr-grid{grid-template-columns:1fr}}
-/* fifth rule: centred under the 2×2, one card wide */
-.gr-card-last{grid-column:1 / -1;justify-self:center;width:calc(50% - 8px)}
-@media(max-width:680px){.gr-card-last{width:auto;justify-self:stretch}}
 .gr-card{border:1px solid rgba(62,32,12,.12);border-radius:12px;padding:22px 22px 20px;
   display:flex;flex-direction:column;gap:10px;
   background:rgba(62,32,12,.03);transition:border-color .18s,background .18s}

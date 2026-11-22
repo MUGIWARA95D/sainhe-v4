@@ -646,6 +646,7 @@ function taxNote(td){
   const rng = Array.isArray(TH.tax_rate_valid_range) ? pct(TH.tax_rate_valid_range[0], 0) + '–' + pct(TH.tax_rate_valid_range[1], 0) : 'the normal range';
   if(td.source === 'median') return 'This year\'s rate (' + esc(pct(n_(td.raw))) + ') is outside ' + esc(rng) + ' (tax credit, one-off or loss): median of the normal years ' +
     esc((td.years || []).join(', ')) + ' used, from the same filings.';
+  if(td.source === 'cash') return 'This year\'s rate (' + esc(pct(n_(td.raw))) + ') is outside ' + esc(rng) + ' and fewer than two earlier years are normal: tax paid in cash / pre-tax income (' + esc(pct(n_(td.rate))) + ') used, from the same filing.';
   if(td.source === 'N/D') return 'This year\'s rate (' + esc(pct(n_(td.raw))) + ') is outside ' + esc(rng) + ' and fewer than two earlier years are normal: <span class="sa-nd">N/D</span>, so the EPV is not computed.';
   return 'tax expense / pre-tax income, fiscal year ' + esc((td.years || [])[0] || '');
 }
@@ -736,7 +737,11 @@ const FLAG_EN = {
   sgr_not_meaningful: ['Sustainable growth not meaningful', d => esc(NM_TXT[d.reason] || '') + ' Net reinvestment rate ' + pct(d.rr, 0) + '.'],
   fcf_basis_median: ['Free cash flow negative last year', d => 'The reverse DCF uses the median free cash flow of fiscal years ' + esc((d.years || []).join(', ')) + ' (' + esc(big(d.fcf)) + ') instead of last year\'s negative figure.'],
   tax_rate_abnormal: ['Tax rate out of the normal range', d => 'This year\'s effective rate is ' + pct(d.raw) + ': ' +
-    (d.source === 'median' ? 'the median of the normal years ' + esc((d.years || []).join(', ')) + ' (' + pct(d.rate) + ') is used instead.' : 'fewer than two normal earlier years (' + esc(String((d.years || []).length)) + '), so the tax rate is N/D.')],
+    (d.source === 'median' ? 'the median of the normal years ' + esc((d.years || []).join(', ')) + ' (' + pct(d.rate) + ') is used instead.'
+      : d.source === 'cash' ? 'fewer than two normal earlier years, so the tax actually paid in cash that year is used: ' + pct(d.rate) + ' of pre-tax income, from the same filing.'
+      : 'fewer than two normal earlier years (' + esc(String((d.years || []).length)) + '), so the tax rate is N/D.')],
+  secondary_field: ['Figure taken from a second source', d => esc(d.field === 'dep_amort' ? 'Depreciation and amortisation' : d.field) + ' is not tagged in the filing; it comes from Yahoo Finance for ' + esc((d.years || []).join(', ')) + ', kept only where it matches Yahoo\'s own EBITDA − EBIT.'],
+  ebit_proxy: ['Operating income not tagged this year', d => 'The ' + esc(String(d.fy)) + ' filing does not tag operating income; pre-tax income is used instead (' + esc(d.tag || '') + '). In earlier years operating income was 0–20% higher, so returns are, if anything, understated.'],
   rf_currency_proxy: ['Risk-free rate proxy', d => d.reason === 'usd_peg' ? esc(d.currency) + ' is pegged to the US dollar: the US 10-year (' + pct(d.rf, 2) + ') is used.'
     : 'No free 10-year government yield in ' + esc(d.currency) + ': the US 10-year (' + pct(d.rf, 2) + ') is used instead, so the discount rate is not in the currency of the accounts.']
 };
@@ -1456,11 +1461,13 @@ function buildLab(){
   const excl = (LAB.excluded || []).map(x => esc(x.t)).join(', ');
   const nonCo = LAB.holdings.filter(h => !ROW[h.t]).map(h => h.t);
   const andList = a => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+  const rub = LAB.holdings.filter(h => h.cur === 'RUB').map(h => h.name);   // Moscow Exchange feed: no dividend adjustment
   el.innerHTML = '<div class="sa-lab-grid">' +
     '<div class="sa-lab-l"><div class="sa-lab-li"><div class="sa-alloc" id="sa-alloc" aria-live="polite"></div><div class="sa-rows" id="sa-rows">' + rows + '</div>' +
       '<p class="sa-note sa-lab-foot">Each slider is a share of the portfolio. While the total is not 100%, the figures spread the gap in proportion to the weights you set. <strong>Selection bias:</strong> these companies are on the list today, partly because they did well; replaying the last five years of a list chosen now flatters it. ⇄ swaps a holding for its largest listed rival on one common market (editorial pairing).' +
       (nonCo.length ? ' ' + esc(andList(nonCo)) + (nonCo.length > 1 ? ' have' : ' has') + ' no company accounts, so ' + (nonCo.length > 1 ? 'they appear' : 'it appears') + ' here but not in the Quality × Price map.' : '') +
-      (excl ? ' Not in the Lab (price history too short or no live quote): ' + excl + '.' : '') + '</p></div></div>' +
+      (excl ? ' Not in the Lab (price history too short or no live quote): ' + excl + '.' : '') +
+      (rub.length ? ' ' + esc(andList(rub)) + ': Moscow Exchange prices in roubles, price only (dividends not included).' : '') + '</p></div></div>' +
     '<div class="sa-lab-r sa-body">' +
       '<div class="sa-h3"><span id="sa-lab-h">Five years, measured in <span id="sa-lab-cur">—</span></span><em id="sa-lab-period">—</em></div>' +
       '<p class="sa-note sa-fitnote" id="sa-fit-note" hidden></p>' +

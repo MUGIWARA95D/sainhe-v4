@@ -73,14 +73,19 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   `py tests/test_pipeline.py` (119) et `py tests/test_full.py` (61, Portfolio Sim). `$env:PYTHONUTF8='1'` sous Windows.
   Lancer : `py pipeline.py --coverage`, `py portfolio_runner.py`, `py quality_check.py` (dans cet ordre).
   Dépendances : `sainhe_backend/requirements.txt` (scipy inclus). Email SEC : `EDGAR_CONTACT_EMAIL` (`.env` / secret).
-- **Couverture (21 nov.) : 29 sociétés.** Primaire : 14 US (10-K) + ASML/TSM/RACE (20-F) + Hermès (ESEF).
+- **Couverture (22 nov.) : 28 sociétés** (Coats retiré le 22 nov.). Primaire : 14 US (10-K) + ASML/TSM/RACE (20-F) + Hermès (ESEF).
   Secondaire Yahoo (`secondary/yahoo_statements.py`, `config.YAHOO_STATEMENTS_TICKERS`) : ROP/NESN/GEBN.SW
   (Suisse, pas d'ESEF), 6954.T (EDINET : clé API), 2222.SR, 600111.SS, KAP.IL, SAF.PA et RHM.DE (ESEF non indexé
-  sur filings.xbrl.org) ; LDO.MI et COA.L basculent automatiquement (ESEF incomplet : `pipeline.secondary_reason`).
-  Secondaire = valeurs de l'agrégateur, gris sur la carte, pas de recoupement qualité. Hors périmètre : GLD, BTC, ANT.
+  sur filings.xbrl.org) ; LDO.MI bascule automatiquement (ESEF incomplet : `pipeline.secondary_reason`).
+  Secondaire = valeurs de l'agrégateur, gris sur la carte, pas de recoupement qualité. Hors périmètre (affichés avec la raison, `config.OUT_OF_SCOPE`) : GLD, BTC, ANT,
+  SPCX (SpaceX, cotée Nasdaq le 2026-06-12, pas encore de 10-K), GAZP (Gazprom, comptes IFRS en PDF).
+  Prix Gazprom : Bourse de Moscou (`moex.py`, `config.PRICE_SOURCES`), en roubles, sans dividendes.
   companyfacts SEC en retard sur un dépôt (TSM 20-F 2025) → instance XBRL du dépôt lue (`edgar/instance.py`).
   Rf sans champ macro.json : FRED OCDE (CHF) ; devise ancrée au dollar (SAR) → US 10Y signalé.
-  Impôt effectif hors [0 %, 60 %] → médiane des exercices normaux, sinon N/D (`metrics.effective_tax`).
+  Impôt effectif hors [0 %, 60 %] → médiane des exercices normaux, sinon impôt payé en trésorerie / résultat
+  avant impôt (même dépôt, GEV 2025), sinon N/D (`metrics.effective_tax`) ; jamais de taux légal.
+  D&A non balisé dans le dépôt → repris de Yahoo seulement s'il concorde avec EBITDA − EBIT (`SECONDARY_FILL_FIELDS`,
+  Hermès) ; EBIT non balisé les derniers exercices → proxy explicite par société (`EBIT_GAP_PROXY`, Deere : avant impôt).
   Éléments XBRL propres à une société (jamais dans companyfacts) : `config.CUSTOM_XBRL_TAGS`, lus dans les
   instances des 4 derniers rapports (Deere : dette LT). DCF inverse : FCF du dernier exercice ≤ 0 → médiane
   5 ans si positive (flag `fcf_basis_median`). Les tests n'écrivent plus dans un fichier suivi (tests/out/).

@@ -4,8 +4,8 @@
     {
       "ticker": "NVDA",
       "prix": 125.53,
-      "epv_per_share": 41.979083,
-      "re_per_share": 61.151244,
+      "epv_per_share": 41.97908,
+      "re_per_share": 61.151234,
       "ecart_pct": -0.6656,
       "implied_growth": 0.081224,
       "sgr": 0.256005,
@@ -53,8 +53,8 @@
     {
       "ticker": "AAPL",
       "prix": 342.56,
-      "epv_per_share": 98.375827,
-      "re_per_share": 100.806846,
+      "epv_per_share": 98.375853,
+      "re_per_share": 100.806872,
       "ecart_pct": -0.7128,
       "implied_growth": 0.063414,
       "sgr": -0.02856,
@@ -104,8 +104,8 @@
     {
       "ticker": "MSFT",
       "prix": 484.52,
-      "epv_per_share": 186.152466,
-      "re_per_share": 325.591914,
+      "epv_per_share": 186.152452,
+      "re_per_share": 325.591863,
       "ecart_pct": -0.6158,
       "implied_growth": 0.072204,
       "sgr": 0.155972,
@@ -155,8 +155,8 @@
     {
       "ticker": "ISRG",
       "prix": 399.05,
-      "epv_per_share": 90.655302,
-      "re_per_share": 102.96098,
+      "epv_per_share": 90.655291,
+      "re_per_share": 102.960955,
       "ecart_pct": -0.7728,
       "implied_growth": 0.081691,
       "sgr": 0.043704,
@@ -206,8 +206,8 @@
     {
       "ticker": "ZTS",
       "prix": 79.11,
-      "epv_per_share": 77.648505,
-      "re_per_share": 137.297417,
+      "epv_per_share": 77.648502,
+      "re_per_share": 137.297406,
       "ecart_pct": -0.0185,
       "implied_growth": 0.016665,
       "sgr": 0.047477,
@@ -252,8 +252,8 @@
     {
       "ticker": "XOM",
       "prix": 159.99,
-      "epv_per_share": 97.920844,
-      "re_per_share": 99.657651,
+      "epv_per_share": 97.920851,
+      "re_per_share": 99.657658,
       "ecart_pct": -0.388,
       "implied_growth": 0.032668,
       "sgr": 0.009673,
@@ -298,8 +298,8 @@
     {
       "ticker": "LMT",
       "prix": 565.5,
-      "epv_per_share": 347.912145,
-      "re_per_share": 328.370848,
+      "epv_per_share": 347.91201,
+      "re_per_share": 328.370722,
       "ecart_pct": -0.3848,
       "implied_growth": 0.021748,
       "sgr": 0.006337,
@@ -344,7 +344,7 @@
     {
       "ticker": "TSLA",
       "prix": 345.82,
-      "epv_per_share": 19.219967,
+      "epv_per_share": 19.219966,
       "re_per_share": 3.739274,
       "ecart_pct": -0.9444,
       "implied_growth": 0.104715,
@@ -395,41 +395,47 @@
     {
       "ticker": "GEV",
       "prix": 699.33,
-      "epv_per_share": "N/D",
-      "re_per_share": 191.45231,
-      "ecart_pct": "N/D",
+      "epv_per_share": 71.602082,
+      "re_per_share": 191.452244,
+      "ecart_pct": -0.8976,
       "implied_growth": 0.076529,
-      "sgr": "N/D",
+      "sgr": 1.457132,
       "roic_years_above_wacc": "N/D",
       "roic_by_year": {
-        "2024": 0.1763
+        "2024": 0.1763,
+        "2025": 0.3671
       },
       "roic_nm_years": [
-        "2024"
+        "2024",
+        "2025"
       ],
       "wacc": 0.098175,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
-      "sgr_status": "N/D",
-      "sgr_nm_reason": null,
-      "sgr_rr": "N/D",
+      "sgr_status": "n/m",
+      "sgr_nm_reason": "invested_capital_near_zero",
+      "sgr_rr": 3.968874,
       "rdcf": {
         "ev": 184508080000.0,
         "fcf_adj": 3710000000.0,
         "market_cap": 193015080000.0,
-        "net_debt": null,
+        "net_debt": -8507000000.0,
         "fiscal_year": 2025,
         "fcf_basis": "last_year"
       },
       "flags": [
         {
+          "id": "invested_capital_near_zero",
+          "severity": "medium"
+        },
+        {
           "id": "tax_rate_abnormal",
           "severity": "info"
         }
       ],
-      "score": 55.0,
-      "n_flags": 1,
+      "score": 40.0,
+      "n_flags": 2,
       "consensus_median": 1200.0,
       "currency": "USD",
       "source": "SEC EDGAR 10-K",
@@ -439,38 +445,48 @@
     {
       "ticker": "DE",
       "prix": 609.25,
-      "epv_per_share": "N/D",
-      "re_per_share": 220.803017,
-      "ecart_pct": "N/D",
+      "epv_per_share": 69.413695,
+      "re_per_share": 220.803088,
+      "ecart_pct": -0.8861,
       "implied_growth": 0.044629,
-      "sgr": "N/D",
-      "roic_years_above_wacc": "4/5",
+      "sgr": -0.007412,
+      "roic_years_above_wacc": "4/6",
       "roic_by_year": {
         "2020": 0.0657,
         "2021": 0.1154,
         "2022": 0.1203,
         "2023": 0.1428,
-        "2024": 0.0966
+        "2024": 0.0966,
+        "2025": 0.0666
       },
       "roic_nm_years": [],
       "wacc": 0.073583,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
-      "sgr_status": "N/D",
-      "sgr_nm_reason": null,
-      "sgr_rr": "N/D",
+      "sgr_status": "n/m",
+      "sgr_nm_reason": "negative_net_reinvestment",
+      "sgr_rr": -0.111244,
       "rdcf": {
         "ev": 214597225000.0,
         "fcf_adj": 5948000000.0,
         "market_cap": 165533225000.0,
-        "net_debt": null,
+        "net_debt": 49064000000.0,
         "fiscal_year": 2025,
         "fcf_basis": "last_year"
       },
-      "flags": [],
-      "score": 54.0,
-      "n_flags": 0,
+      "flags": [
+        {
+          "id": "sgr_not_meaningful",
+          "severity": "info"
+        },
+        {
+          "id": "ebit_proxy",
+          "severity": "info"
+        }
+      ],
+      "score": 30.2,
+      "n_flags": 2,
       "consensus_median": 728.0,
       "currency": "USD",
       "source": "SEC EDGAR 10-K",
@@ -485,8 +501,9 @@
       "ecart_pct": "N/D",
       "implied_growth": "N/D",
       "sgr": "N/D",
-      "roic_years_above_wacc": "1/5",
+      "roic_years_above_wacc": "1/6",
       "roic_by_year": {
+        "2020": 0.0215,
         "2021": 0.084,
         "2022": 0.0551,
         "2023": 0.0461,
@@ -534,8 +551,8 @@
     {
       "ticker": "ECL",
       "prix": 294.7,
-      "epv_per_share": 69.478036,
-      "re_per_share": 89.561504,
+      "epv_per_share": 69.478025,
+      "re_per_share": 89.561492,
       "ecart_pct": -0.7642,
       "implied_growth": 0.061592,
       "sgr": 0.012707,
@@ -585,8 +602,8 @@
     {
       "ticker": "KO",
       "prix": 96.99,
-      "epv_per_share": 32.052364,
-      "re_per_share": 44.543399,
+      "epv_per_share": 32.052356,
+      "re_per_share": 44.543389,
       "ecart_pct": -0.6695,
       "implied_growth": 0.054769,
       "sgr": 0.003574,
@@ -631,8 +648,8 @@
     {
       "ticker": "CAT",
       "prix": 510.45,
-      "epv_per_share": 148.173801,
-      "re_per_share": 335.010366,
+      "epv_per_share": 148.173784,
+      "re_per_share": 335.010313,
       "ecart_pct": -0.7097,
       "implied_growth": 0.056399,
       "sgr": 0.046521,
@@ -677,8 +694,8 @@
     {
       "ticker": "ASML",
       "prix": 1168.0,
-      "epv_per_share": 295.281729,
-      "re_per_share": 280.272014,
+      "epv_per_share": 295.281672,
+      "re_per_share": 280.271956,
       "ecart_pct": -0.7472,
       "implied_growth": 0.061608,
       "sgr": -0.03516,
@@ -728,11 +745,11 @@
     {
       "ticker": "TSM",
       "prix": 2000.0,
-      "epv_per_share": 805.985568,
-      "re_per_share": 744.784203,
+      "epv_per_share": 805.985728,
+      "re_per_share": 1231.447536,
       "ecart_pct": -0.597,
       "implied_growth": 0.066135,
-      "sgr": "N/D",
+      "sgr": 0.211493,
       "roic_years_above_wacc": "6/6",
       "roic_by_year": {
         "2020": 0.3907,
@@ -747,9 +764,9 @@
       "rf": 0.04912,
       "rf_currency": "TWD",
       "rf_proxy": true,
-      "sgr_status": "N/D",
-      "sgr_nm_reason": null,
-      "sgr_rr": "N/D",
+      "sgr_status": "ok",
+      "sgr_nm_reason": "N/D",
+      "sgr_rr": 0.363647,
       "rdcf": {
         "ev": 49267892649854.9,
         "fcf_adj": 1001319000000.0,
@@ -764,7 +781,7 @@
           "severity": "medium"
         }
       ],
-      "score": 42.8,
+      "score": 47.8,
       "n_flags": 1,
       "consensus_median": 3320.0,
       "currency": "TWD",
@@ -775,8 +792,8 @@
     {
       "ticker": "RACE",
       "prix": 363.1,
-      "epv_per_share": 139.245685,
-      "re_per_share": 127.941011,
+      "epv_per_share": 139.245634,
+      "re_per_share": 127.940961,
       "ecart_pct": -0.6165,
       "implied_growth": 0.039398,
       "sgr": -0.019111,
@@ -830,11 +847,11 @@
     {
       "ticker": "RMS.PA",
       "prix": 1225.5,
-      "epv_per_share": 656.119997,
-      "re_per_share": 558.337007,
+      "epv_per_share": 656.119884,
+      "re_per_share": 558.33689,
       "ecart_pct": -0.4646,
       "implied_growth": 0.04069,
-      "sgr": "N/D",
+      "sgr": -0.001055,
       "roic_years_above_wacc": "7/7",
       "roic_by_year": {
         "2019": 0.7006,
@@ -850,9 +867,9 @@
       "rf": 0.0337,
       "rf_currency": "EUR",
       "rf_proxy": false,
-      "sgr_status": "N/D",
-      "sgr_nm_reason": null,
-      "sgr_rr": "N/D",
+      "sgr_status": "n/m",
+      "sgr_nm_reason": "negative_net_reinvestment",
+      "sgr_rr": -0.0016,
       "rdcf": {
         "ev": 116519448572.09193,
         "fcf_adj": 4081000000.0,
@@ -861,9 +878,18 @@
         "fiscal_year": 2025,
         "fcf_basis": "last_year"
       },
-      "flags": [],
-      "score": 39.0,
-      "n_flags": 0,
+      "flags": [
+        {
+          "id": "sgr_not_meaningful",
+          "severity": "info"
+        },
+        {
+          "id": "secondary_field",
+          "severity": "info"
+        }
+      ],
+      "score": 44.0,
+      "n_flags": 2,
       "consensus_median": 1500.0,
       "currency": "EUR",
       "source": "ESEF (filings.xbrl.org)",
@@ -873,8 +899,8 @@
     {
       "ticker": "LDO.MI",
       "prix": 47.83,
-      "epv_per_share": 41.323543,
-      "re_per_share": 51.360133,
+      "epv_per_share": 41.32355,
+      "re_per_share": 51.360153,
       "ecart_pct": -0.136,
       "implied_growth": 0.029742,
       "sgr": 0.115456,
@@ -911,59 +937,10 @@
       "stale_financials": false
     },
     {
-      "ticker": "COA.L",
-      "prix": 0.951702,
-      "epv_per_share": 1.37562,
-      "re_per_share": 0.729487,
-      "ecart_pct": 0.4454,
-      "implied_growth": -0.015685,
-      "sgr": -0.028819,
-      "roic_years_above_wacc": "4/4",
-      "roic_by_year": {
-        "2022": 0.1367,
-        "2023": 0.15,
-        "2024": 0.2034,
-        "2025": 0.1273
-      },
-      "roic_nm_years": [],
-      "wacc": 0.060426,
-      "rf": 0.04912,
-      "rf_currency": "USD",
-      "rf_proxy": false,
-      "sgr_status": "n/m",
-      "sgr_nm_reason": "negative_net_reinvestment",
-      "sgr_rr": -0.226454,
-      "rdcf": {
-        "ev": 2490837513.414979,
-        "fcf_adj": 192600000.0,
-        "market_cap": 1676137513.414979,
-        "net_debt": 814700000.0,
-        "fiscal_year": 2025,
-        "fcf_basis": "last_year"
-      },
-      "flags": [
-        {
-          "id": "altman_distress",
-          "severity": "high"
-        },
-        {
-          "id": "sgr_not_meaningful",
-          "severity": "info"
-        }
-      ],
-      "score": 71.5,
-      "n_flags": 2,
-      "consensus_median": 1.57044,
-      "currency": "USD",
-      "source": "Yahoo Finance statements (secondary) — ESEF 2025 incomplete (capex not tagged)",
-      "fiscal_year_end": "2025-12-31",
-      "stale_financials": false
-    },
-    {
       "ticker": "ROP.SW",
       "prix": 396.8,
-      "epv_per_share": 624.317564,
-      "re_per_share": 664.951898,
+      "epv_per_share": 624.317858,
+      "re_per_share": 664.952311,
       "ecart_pct": 0.5734,
       "implied_growth": -0.007199,
       "sgr": 0.048016,
@@ -1002,8 +979,8 @@
     {
       "ticker": "NESN.SW",
       "prix": 85.55,
-      "epv_per_share": 152.854893,
-      "re_per_share": 153.018704,
+      "epv_per_share": 152.854895,
+      "re_per_share": 153.018707,
       "ecart_pct": 0.7867,
       "implied_growth": -0.02231,
       "sgr": 0.027865,
@@ -1042,8 +1019,8 @@
     {
       "ticker": "GEBN.SW",
       "prix": 575.0,
-      "epv_per_share": 443.04691,
-      "re_per_share": 472.875846,
+      "epv_per_share": 443.046911,
+      "re_per_share": 472.875849,
       "ecart_pct": -0.2295,
       "implied_growth": 0.004869,
       "sgr": 0.012875,
@@ -1082,8 +1059,8 @@
     {
       "ticker": "6954.T",
       "prix": 5047.0,
-      "epv_per_share": 3011.037302,
-      "re_per_share": 2681.400728,
+      "epv_per_share": 3011.037508,
+      "re_per_share": 2681.400979,
       "ecart_pct": -0.4034,
       "implied_growth": 0.008023,
       "sgr": -0.031795,
@@ -1172,8 +1149,8 @@
     {
       "ticker": "600111.SS",
       "prix": 31.91,
-      "epv_per_share": 24.004458,
-      "re_per_share": 23.603053,
+      "epv_per_share": 24.004473,
+      "re_per_share": 23.603079,
       "ecart_pct": -0.2477,
       "implied_growth": 0.031649,
       "sgr": 0.102769,
@@ -1217,8 +1194,8 @@
     {
       "ticker": "KAP.IL",
       "prix": 25286.47854,
-      "epv_per_share": 32804.604186,
-      "re_per_share": 29062.239646,
+      "epv_per_share": 32804.601847,
+      "re_per_share": 29062.237443,
       "ecart_pct": 0.2973,
       "implied_growth": -0.015155,
       "sgr": "N/D",
@@ -1262,8 +1239,8 @@
     {
       "ticker": "SAF.PA",
       "prix": 292.7,
-      "epv_per_share": 120.497123,
-      "re_per_share": 397.988682,
+      "epv_per_share": 120.497131,
+      "re_per_share": 397.988736,
       "ecart_pct": -0.5883,
       "implied_growth": 0.034997,
       "sgr": 0.12519,
@@ -1300,8 +1277,8 @@
     {
       "ticker": "RHM.DE",
       "prix": 693.4,
-      "epv_per_share": 440.83134,
-      "re_per_share": 348.944135,
+      "epv_per_share": 440.831391,
+      "re_per_share": 348.944225,
       "ecart_pct": -0.3642,
       "implied_growth": 0.018576,
       "sgr": 0.207868,
@@ -1342,7 +1319,9 @@
   "out_of_scope": {
     "GLD": "gold ETF: no company accounts",
     "BTC-USD": "crypto-asset: no company accounts",
-    "ANT": "listed on 19 Nov 2026: no annual report filed yet"
+    "ANT": "listed on 19 Nov 2026: no annual report filed yet",
+    "SPCX": "SpaceX, listed on Nasdaq on 12 Jun 2026: first annual report (10-K) due in early 2027",
+    "GAZP": "Gazprom, listed in Moscow: IFRS accounts published as PDF only, no XBRL feed"
   },
   "thresholds": {
     "sgr_nm_rr_min": 0.0,
@@ -1380,12 +1359,6 @@
       "source": "Yahoo Finance daily close EURUSD=X",
       "peg": null
     },
-    "GBP": {
-      "usd_per_unit": 1.3081814050674438,
-      "date": "2026-11-22",
-      "source": "Yahoo Finance daily close GBPUSD=X",
-      "peg": null
-    },
     "HKD": {
       "usd_per_unit": 0.12757380306720734,
       "date": "2026-11-22",
@@ -1393,8 +1366,8 @@
       "peg": "Hong Kong dollar pegged to the dollar"
     },
     "JPY": {
-      "usd_per_unit": 0.006261466071009636,
-      "date": "2026-11-20",
+      "usd_per_unit": 0.006304176524281502,
+      "date": "2026-11-22",
       "source": "Yahoo Finance daily close JPYUSD=X",
       "peg": null
     },

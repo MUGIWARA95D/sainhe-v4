@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 399.05,
     "EPV": {
-      "epv_ev": 26945778066.332733,
-      "epv_equity": 32880678066.332733,
-      "epv_per_share": 90.655302,
+      "epv_ev": 26945774176.911976,
+      "epv_equity": 32880674176.911976,
+      "epv_per_share": 90.655291,
       "inputs": {
         "ebit_adj": 2945500000.0,
         "tax": 0.131304,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 30.966573,
-      "high": 51.480497,
+      "low": 30.96657,
+      "high": 51.480491,
       "fcf_p25": 581550000.0,
       "fcf_p75": 966800000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 99.399778,
-      "central": 90.655302,
-      "plus_100bps": 83.577091
+      "minus_100bps": 99.399765,
+      "central": 90.655291,
+      "plus_100bps": 83.577083
     },
     "RE_valuation": {
-      "re_value_equity": 37343947428.62567,
-      "re_value_per_share": 102.96098,
+      "re_value_equity": 37343938204.714,
+      "re_value_per_share": 102.960955,
       "inputs": {
         "B0": 17824000000.0,
-        "RE": 1163450792.631937,
+        "RE": 1163450548.325131,
         "ke": 0.094959,
         "g": 0.043704,
         "g_sgr": 0.043704,
@@ -227,12 +227,8 @@
     "note": "rempli par peer_batch.build_peer_blocks() sur l'univers complet"
   },
   "bloc_G_smart_money": {
-    "n_insider_filings_6m": 30,
+    "n_insider_filings_6m": 29,
     "recent": [
-      {
-        "form": "4",
-        "date": "2026-11-20"
-      },
       {
         "form": "4",
         "date": "2026-11-18"
@@ -308,6 +304,10 @@
       {
         "form": "4",
         "date": "2026-08-12"
+      },
+      {
+        "form": "4",
+        "date": "2026-08-11"
       }
     ],
     "note": "détail buy/sell = Phase 6 (parsing Form 4 XML)"
@@ -396,8 +396,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.209472,
-      "beta_raw": 1.312645,
+      "beta": 1.209473,
+      "beta_raw": 1.312646,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -534,6 +534,18 @@
         "2023": 141600000.0,
         "2024": 336300000.0,
         "2025": 434800000.0
+      },
+      "income_taxes_paid": {
+        "2016": 138400000.0,
+        "2017": 147500000.0,
+        "2018": 179200000.0,
+        "2019": 158600000.0,
+        "2020": 34400000.0,
+        "2021": 180000000.0,
+        "2022": 444200000.0,
+        "2023": 447800000.0,
+        "2024": 466500000.0,
+        "2025": 537900000.0
       },
       "pretax_income": {
         "2016": 985300000.0,
@@ -944,6 +956,16 @@
         "accession": "0001035267-26-000010",
         "filing_form": "10-K",
         "xbrl_tag": "IncomeTaxExpenseBenefit",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000010/"
+      },
+      "income_taxes_paid": {
+        "value": 537900000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001035267-26-000010",
+        "filing_form": "10-K",
+        "xbrl_tag": "IncomeTaxesPaidNet",
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000010/"
       },

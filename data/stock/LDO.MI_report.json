@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 47.83,
     "EPV": {
-      "epv_ev": 24477262396.548122,
-      "epv_equity": 23834262396.548122,
-      "epv_per_share": 41.323543,
+      "epv_ev": 24477266802.940117,
+      "epv_equity": 23834266802.940117,
+      "epv_per_share": 41.32355,
       "inputs": {
         "ebit_adj": 1710000000.0,
         "tax": 0.191025,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 22.153698,
-      "high": 40.084962,
+      "low": 22.153702,
+      "high": 40.08497,
       "fcf_p25": 393500000.0,
       "fcf_p75": 712000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 50.44701,
-      "central": 41.323543,
-      "plus_100bps": 34.943331
+      "minus_100bps": 50.447021,
+      "central": 41.32355,
+      "plus_100bps": 34.943337
     },
     "RE_valuation": {
-      "re_value_equity": 29623086405.804077,
-      "re_value_per_share": 51.360133,
+      "re_value_equity": 29623098173.401432,
+      "re_value_per_share": 51.360153,
       "inputs": {
         "B0": 9560000000.0,
-        "RE": 634614524.26891,
+        "RE": 634614635.214795,
         "ke": 0.061651,
         "g": 0.0337,
         "g_sgr": 0.115456,
@@ -251,7 +251,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.737499,
+      "beta": 0.737498,
       "beta_raw": 0.608207,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
@@ -843,7 +843,7 @@
   "score_composite": {
     "value_0_100": 54.6,
     "pillars": {
-      "valuation": 22.793405,
+      "valuation": 22.793437,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,

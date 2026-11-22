@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 79.11,
     "EPV": {
-      "epv_ev": 41200124435.055214,
-      "epv_equity": 34463124435.055214,
-      "epv_per_share": 77.648505,
+      "epv_ev": 41200123099.71852,
+      "epv_equity": 34463123099.71852,
+      "epv_per_share": 77.648502,
       "inputs": {
         "ebit_adj": 3631000000.0,
         "tax": 0.204464,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 42.971389,
-      "high": 63.830601,
+      "low": 42.971387,
+      "high": 63.830599,
       "fcf_p25": 1217500000.0,
       "fcf_p75": 1808500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 93.091147,
-      "central": 77.648505,
-      "plus_100bps": 66.061166
+      "minus_100bps": 93.091143,
+      "central": 77.648502,
+      "plus_100bps": 66.061163
     },
     "RE_valuation": {
-      "re_value_equity": 60937398956.73157,
-      "re_value_per_share": 137.297417,
+      "re_value_equity": 60937394183.30519,
+      "re_value_per_share": 137.297406,
       "inputs": {
         "B0": 3331000000.0,
-        "RE": 2435020454.312533,
+        "RE": 2435020444.792506,
         "ke": 0.083146,
         "g": 0.047477,
         "g_sgr": 0.047477,
@@ -204,9 +204,9 @@
     "ocf_ni": 1.08642,
     "accruals_pct_rev": -0.024401,
     "retained_earnings_test": {
-      "ratio": -1.668159,
+      "ratio": -1.66816,
       "retained_5y": 11654000000.0,
-      "delta_mcap": -19440729853.637695,
+      "delta_mcap": -19440733239.830017,
       "passes": false,
       "window": [
         2020,
@@ -509,6 +509,18 @@
         "2023": 596000000.0,
         "2024": 637000000.0,
         "2025": 687000000.0
+      },
+      "income_taxes_paid": {
+        "2016": 408000000.0,
+        "2017": 455000000.0,
+        "2018": 336000000.0,
+        "2019": 418000000.0,
+        "2020": 418000000.0,
+        "2021": 548000000.0,
+        "2022": 638000000.0,
+        "2023": 754000000.0,
+        "2024": 892000000.0,
+        "2025": 715000000.0
       },
       "pretax_income": {
         "2016": 1228000000.0,
@@ -943,6 +955,16 @@
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000011/"
       },
+      "income_taxes_paid": {
+        "value": 715000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001555280-26-000011",
+        "filing_form": "10-K",
+        "xbrl_tag": "IncomeTaxesPaidNet",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000011/"
+      },
       "pretax_income": {
         "value": 3360000000.0,
         "fiscal_year": 2025,
@@ -1279,7 +1301,7 @@
   "score_composite": {
     "value_0_100": 55.1,
     "pillars": {
-      "valuation": 46.305159,
+      "valuation": 46.305151,
       "balance_sheet_health": 75,
       "earnings_quality": 50,
       "smart_money": 50,

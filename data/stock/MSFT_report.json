@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 484.52,
     "EPV": {
-      "epv_ev": 1417439329455.8108,
-      "epv_equity": 1387394329455.8108,
-      "epv_per_share": 186.152466,
+      "epv_ev": 1417439226820.1514,
+      "epv_equity": 1387394226820.1514,
+      "epv_per_share": 186.152452,
       "inputs": {
         "ebit_adj": 155237000000.0,
         "tax": 0.193963,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 110.10491,
-      "high": 198.302409,
+      "low": 110.104902,
+      "high": 198.302394,
       "fcf_p25": 32284000000.0,
       "fcf_p75": 58144500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 210.448816,
-      "central": 186.152466,
-      "plus_100bps": 166.800596
+      "minus_100bps": 210.448799,
+      "central": 186.152452,
+      "plus_100bps": 166.800585
     },
     "RE_valuation": {
-      "re_value_equity": 2426636534732.0825,
-      "re_value_per_share": 325.591914,
+      "re_value_equity": 2426636152167.73,
+      "re_value_per_share": 325.591863,
       "inputs": {
         "B0": 442387000000.0,
-        "RE": 94339794410.98242,
+        "RE": 94339791499.52475,
         "ke": 0.089083,
         "g": 0.04912,
         "g_sgr": 0.155972,
@@ -213,9 +213,9 @@
     "ocf_ni": 1.367749,
     "accruals_pct_rev": -0.148222,
     "retained_earnings_test": {
-      "ratio": 3.22297,
+      "ratio": 3.222971,
       "retained_5y": 358583000000.0,
-      "delta_mcap": 1155702361663.8184,
+      "delta_mcap": 1155702593841.5527,
       "passes": true,
       "window": [
         2021,
@@ -396,7 +396,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.054435,
+      "beta": 1.054436,
       "beta_raw": 1.081247,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
@@ -533,6 +533,18 @@
         "2024": 19651000000.0,
         "2025": 21795000000.0,
         "2026": 32185000000.0
+      },
+      "income_taxes_paid": {
+        "2017": 2400000000.0,
+        "2018": 5500000000.0,
+        "2019": 8400000000.0,
+        "2020": 12500000000.0,
+        "2021": 13400000000.0,
+        "2022": 16000000000.0,
+        "2023": 23100000000.0,
+        "2024": 23400000000.0,
+        "2025": 28700000000.0,
+        "2026": 21188000000.0
       },
       "pretax_income": {
         "2017": 29901000000.0,
@@ -991,6 +1003,16 @@
         "accession": "0001193125-26-323660",
         "filing_form": "10-K",
         "xbrl_tag": "IncomeTaxExpenseBenefit",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/"
+      },
+      "income_taxes_paid": {
+        "value": 21188000000.0,
+        "fiscal_year": 2026,
+        "end_date": "2026-06-30",
+        "accession": "0001193125-26-323660",
+        "filing_form": "10-K",
+        "xbrl_tag": "IncomeTaxesPaidNet",
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/"
       },

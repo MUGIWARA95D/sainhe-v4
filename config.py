@@ -111,8 +111,8 @@ WATCHLIST = {
     "SAF.PA"    : {"nom": "Safran",             "secteur": "Defense & Aerospace", "devise": "EUR"},
     "RHM.DE"    : {"nom": "Rheinmetall",        "secteur": "Defense & Aerospace", "devise": "EUR"},
     "LDO.MI"    : {"nom": "Leonardo",           "secteur": "Defense & Aerospace", "devise": "EUR"},
-    # SpaceX — privé, pas de données marché. Dans DB actif=1 pour affichage "—"
-    # "SPACEX"  : {"nom": "SpaceX",             "secteur": "Defense & Aerospace"},
+    # SpaceX — cotée au Nasdaq depuis le 12 juin 2026 (SPCX)
+    "SPCX"      : {"nom": "SpaceX",             "secteur": "Defense & Aerospace"},
 
     # ── EV & Clean Energy ──────────────────────────────────────────────────────
     "TSLA"      : {"nom": "Tesla",              "secteur": "EV & Clean Energy"},
@@ -138,7 +138,6 @@ WATCHLIST = {
     "KO"        : {"nom": "Coca-Cola",          "secteur": "Consumer Staples"},
 
     # ── Industrials ────────────────────────────────────────────────────────────────
-    "COA.L"     : {"nom": "Coats Group",        "secteur": "Industrials",         "devise": "GBP"},
     "CAT"       : {"nom": "Caterpillar",         "secteur": "Industrials"},
 
     # ── Strategic Materials ──────────────────────────────────────────────────────
@@ -150,17 +149,19 @@ WATCHLIST = {
     "BTC-USD"   : {"nom": "Bitcoin",             "secteur": "Digital Assets"},
 
     # ── Energy ────────────────────────────────────────────────────────────────
-    # Gazprom — sanctionné/suspendu (MOEX). Dans DB actif=1 pour affichage "—".
-    # Décommenter ici quand les données seront de nouveau disponibles :
-    # "GAZP"    : {"nom": "Gazprom",             "secteur": "Energy",              "devise": "RUB"},
+    # Gazprom — cotée à Moscou ; plus aucune cotation occidentale depuis 2022 → prix de la
+    # Bourse de Moscou (moex.py, API ISS officielle), en roubles
+    "GAZP"      : {"nom": "Gazprom",             "secteur": "Energy",              "devise": "RUB"},
 }
+
+# Source de prix autre que Yahoo, par ticker : "moex" = Bourse de Moscou (moex.py)
+PRICE_SOURCES = {"GAZP": "moex"}
 
 # ============================================================
 #  4b. TICKERS RETIRÉS — désactivés en base (ticker_info.actif = 0) par db_init.py
 #  db_init fait INSERT OR IGNORE : sans cette liste, un ticker retiré de config.py
 #  reste actif et s'affiche avec ses dernières données (périmées).
-#  Liste explicite (pas "tout ce qui n'est plus dans config") : SpaceX et Gazprom
-#  restent volontairement actifs en base pour s'afficher "—".
+#  Liste explicite (pas "tout ce qui n'est plus dans config").
 #  Pour réactiver un ticker : le retirer d'ici ET le remettre dans config.
 # ============================================================
 RETIRED_TICKERS = {
@@ -175,6 +176,9 @@ RETIRED_TICKERS = {
     "CHIM"    : "Global X China Materials, liquidé",
     "CHIS"    : "Global X China Consumer Staples, liquidé",
     "CHII"    : "Global X China Industrials, liquidé",
+    # 2026-11-22
+    "COA.L"   : "Coats Group retiré de la watchlist",
+    "SPACEX"  : "ancien ticker d'attente → SPCX (cotation Nasdaq depuis le 2026-06-12)",
 }
 
 # ============================================================
@@ -211,7 +215,6 @@ COMPETITORS = {
     "ECL"      : ("VIE.PA",    "Veolia",              "water treatment (partial overlap)"),
     "NESN.SW"  : ("BN.PA",     "Danone",              "nutrition, dairy, bottled water"),
     "KO"       : ("PEP",       "PepsiCo",             "soft drinks"),
-    "COA.L"    : None,                                 # fil industriel : concurrents non cotés
     "CAT"      : ("6301.T",    "Komatsu",             "construction and mining machinery"),
     "600111.SS": ("MP",        "MP Materials",        "rare earths"),
     "GLD"      : ("IAU",       "iShares Gold Trust",  "same gold exposure, lower fees"),
@@ -340,7 +343,7 @@ FX_SOURCES = {
     "USD_HKD": "USDHKD=X",
     # ── Indices globaux ──────────────────────────────────────────────────────────────
     "USD_JPY": "USDJPY=X",   # ^N225 (Nikkei), 6954.T (Fanuc)
-    "USD_GBP": "USDGBP=X",   # ^FTSE (FTSE 100), COA.L
+    "USD_GBP": "USDGBP=X",   # ^FTSE (FTSE 100)
     "USD_CNY": "USDCNY=X",   # 000001.SS (Shanghai), 600111.SS
     "USD_INR": "USDINR=X",   # ^NSEI (Nifty 50)
     "USD_CAD": "USDCAD=X",   # ^GSPTSE (TSX)
@@ -348,6 +351,7 @@ FX_SOURCES = {
     # ── Devises portefeuille exotiques ────────────────────────────────────────────────
     # USD_ILS supprimé (ancienne ligne Elbit Systems). NB : KAP.IL est Kazatomprom, pas Elbit.
     "USD_SAR": "USDSAR=X",   # 2222.SR (Saudi Aramco)
+    "USD_RUB": "USDRUB=X",   # GAZP (Gazprom) — la BCE ne publie plus le rouble : repli Yahoo
 }
 
 # ============================================================

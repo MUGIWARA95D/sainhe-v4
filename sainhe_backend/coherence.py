@@ -5,7 +5,7 @@
    ventes, résultat net ≈ BPA dilué × actions diluées, trésorerie ≤ actif courant ≤ actif total.
    C'est le seul contrôle possible pour les sociétés en source secondaire (Suisse, Japon…).
    Une identité calculée à partir de la valeur qu'elle teste (tag « derived: ») est sautée.
-2. esef_cross_check : quand une société ESEF incomplète bascule sur Yahoo (Leonardo, Coats),
+2. esef_cross_check : quand une société ESEF incomplète bascule sur Yahoo (Leonardo),
    les chiffres ESEF des mêmes exercices sont gardés et comparés : vraie seconde source.
 3. net_debt_tag_audit : chaque composante de la dette nette — publiée pour le dernier exercice ?
    avec quel tag ? Une composante publiée les années précédentes mais pas la dernière signale une

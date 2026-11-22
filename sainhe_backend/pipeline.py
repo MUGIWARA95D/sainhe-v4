@@ -282,7 +282,7 @@ def _beta_vs_world(ticker: str, listing_currency: str | None) -> dict | None:
 def _pricing_context(ticker: str, cd, info: dict | None, adr_ratio: float | None = None) -> dict:
     """Facteur prix de cotation → prix par action ORDINAIRE dans la devise des COMPTES.
 
-    Avant : le prix (USD pour ASML/TSM/RACE, pence pour COA.L) était comparé tel quel à des
+    Avant : le prix (USD pour ASML/TSM/RACE, pence pour les cotations londoniennes) était comparé tel quel à des
     valeurs par action en EUR/TWD → marges de sécurité fausses, et TSM ignorait 1 ADR = 5 actions.
     factor_now s'applique au prix et aux objectifs analystes ; factors_by_year au prix
     historique annuel (test du dollar retenu), au taux de change de chaque fin d'année.
@@ -335,8 +335,31 @@ def _load_company(client: EdgarClient, esef, ticker: str):
     return cd, subs, f"SEC EDGAR {forms[0]}"
 
 
+def _fill_secondary_fields(cd, ticker: str) -> None:
+    """Champs (config.SECONDARY_FILL_FIELDS) absents du dépôt primaire pour tous les exercices :
+    repris de Yahoo s'ils passent le contrôle de cohérence ; tracés (tag) et signalés (flag)."""
+    if ticker in config.YAHOO_STATEMENTS_TICKERS:
+        return
+    for f in getattr(config, "SECONDARY_FILL_FIELDS", ()):
+        if cd.series.get(f):
+            continue
+        try:
+            rev = cd.series.get("revenue") or {}
+            got = yahoo_statements.checked_field(config.HOME_LISTING.get(ticker, ticker), f, _yf_session(),
+                                                 config.SECONDARY_FILL_TOL,
+                                                 next(iter(rev.values())).unit if rev else "")
+        except Exception as e:
+            log.warning("%s : %s Yahoo indisponible (%s)", ticker, f, e)
+            continue
+        if got:
+            cd.series[f] = got
+            cd.secondary_fields = {**(getattr(cd, "secondary_fields", None) or {}), f: {"years": sorted(got)}}
+            log.info("%s : %s repris de Yahoo (contrôlé), exercices %s", ticker, f, sorted(got))
+
+
 def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
     cd, subs, source = _load_company(client, esef, ticker)
+    _fill_secondary_fields(cd, ticker)
     meta = metadata_flags(subs)
     meta["_submissions_raw"] = subs
 

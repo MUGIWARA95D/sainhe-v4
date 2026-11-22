@@ -45,6 +45,7 @@ from config import (
     ALL_SECTOR_ETFS,
     ALL_INDEX_TICKERS,
     WATCHLIST,
+    PRICE_SOURCES,
 )
 
 # ============================================================
@@ -187,6 +188,20 @@ def _maybe_update_devise(con: sqlite3.Connection, ticker: str, currency: str) ->
                  ticker, row[0], currency)
 
 
+def _fetch_moex(ticker: str, period1: int, period2: int) -> tuple[list[tuple] | None, str | None]:
+    """Bourse de Moscou (moex.py) : pas de dividende ajusté dans l'ISS → adj_close = close."""
+    import moex
+    start = datetime.fromtimestamp(period1, tz=timezone.utc).strftime("%Y-%m-%d")
+    end = datetime.fromtimestamp(period2, tz=timezone.utc).strftime("%Y-%m-%d")
+    try:
+        hist = moex.history(ticker, start, end)
+    except Exception as exc:
+        log.error("%s — MOEX indisponible : %s", ticker, exc)
+        return None, None
+    rows = [(ticker, h["date"], h["open"], h["high"], h["low"], h["close"], h["close"], h["volume"]) for h in hist]
+    return (rows or None), "RUB"
+
+
 def fetch_one(ticker: str, period1: int, period2: int) -> tuple[list[tuple] | None, str | None]:
     """
     Télécharge l'historique OHLCV pour un ticker via Yahoo Finance v8.
@@ -195,6 +210,8 @@ def fetch_one(ticker: str, period1: int, period2: int) -> tuple[list[tuple] | No
       - currency: devise native détectée dans meta.currency (ex: "JPY", "USD"…)
     Retourne (None, None) sur échec.
     """
+    if PRICE_SOURCES.get(ticker) == "moex":
+        return _fetch_moex(ticker, period1, period2)
     url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
     params = {
         "period1"  : period1,

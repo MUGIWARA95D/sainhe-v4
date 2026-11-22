@@ -194,10 +194,29 @@ def macro_rates() -> dict:
         return {}
 
 
+def _moex_close(t: str, sess) -> pd.Series:
+    """Cours de clôture de la Bourse de Moscou (moex.py à la racine), en roubles."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("moex", ROOT / "moex.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    h = mod.history(t, LAB_HISTORY_START, session=sess)
+    s = pd.Series({pd.Timestamp(x["date"]): x["close"] for x in h}, dtype=float).sort_index()
+    return s
+
+
 def fetch(tickers: list[str], sess):
     import yfinance as yf
     closes, infos = {}, {}
+    sources = _root_config_value("PRICE_SOURCES")
     for t in tickers:
+        if sources.get(t) == "moex":
+            try:
+                closes[t] = _moex_close(t, sess)
+                infos[t] = {"currency": "RUB", "country": "Russia"}
+            except Exception as e:
+                log.warning("%s : prix MOEX indisponibles (%s)", t, e)
+            continue
         try:
             tk = yf.Ticker(t, session=sess)
             h = tk.history(period="max", auto_adjust=True)["Close"].dropna()

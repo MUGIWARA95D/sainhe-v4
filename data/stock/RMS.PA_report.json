@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 1225.5,
     "EPV": {
-      "epv_ev": 56712735470.37514,
-      "epv_equity": 68917735470.37514,
-      "epv_per_share": 656.119997,
+      "epv_ev": 56712723594.843895,
+      "epv_equity": 68917723594.8439,
+      "epv_per_share": 656.119884,
       "inputs": {
         "ebit_adj": 6569000000.0,
         "tax": 0.334022,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 244.634204,
-      "high": 631.843075,
+      "low": 244.634162,
+      "high": 631.842966,
       "fcf_p25": 1521600000.0,
       "fcf_p75": 3930000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 736.537926,
-      "central": 656.119997,
-      "plus_100bps": 594.159291
+      "minus_100bps": 736.537777,
+      "central": 656.119884,
+      "plus_100bps": 594.159203
     },
     "RE_valuation": {
-      "re_value_equity": 58646775441.08099,
-      "re_value_per_share": 558.337007,
+      "re_value_equity": 58646763160.56575,
+      "re_value_per_share": 558.33689,
       "inputs": {
         "B0": 18840000000.0,
-        "RE": 3070686337.67209,
+        "RE": 3070686033.351107,
         "ke": 0.07714,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -63,13 +63,41 @@
       }
     },
     "SGR": {
-      "sgr": "N/D",
-      "rr": "N/D",
-      "note": "inputs manquants"
+      "sgr": -0.001055,
+      "rr": -0.0016,
+      "roic": 0.659353,
+      "status": "n/m",
+      "nm_reason": "negative_net_reinvestment",
+      "invested_capital_share_of_assets": 0.272798
     },
     "flag_growth_unfinanceable": "N/D"
   },
-  "bloc_B_flags": [],
+  "bloc_B_flags": [
+    {
+      "id": "sgr_not_meaningful",
+      "severity": "info",
+      "message": "SGR non significatif (negative_net_reinvestment) : taux de réinvestissement -0%",
+      "details": {
+        "reason": "negative_net_reinvestment",
+        "rr": -0.0016,
+        "sgr": -0.001055
+      }
+    },
+    {
+      "id": "secondary_field",
+      "severity": "info",
+      "message": "dep_amort absent du dépôt : repris de Yahoo Finance, contrôlé contre EBITDA − EBIT",
+      "details": {
+        "field": "dep_amort",
+        "years": [
+          2022,
+          2023,
+          2024,
+          2025
+        ]
+      }
+    }
+  ],
   "bloc_C_dupont": {
     "available": true,
     "fy": 2025,
@@ -138,7 +166,12 @@
       "2024": 0.2657,
       "2025": 0.2401
     },
-    "owner_earnings_10y": {},
+    "owner_earnings_10y": {
+      "2022": 3399000000.0,
+      "2023": 3452000000.0,
+      "2024": 4153000000.0,
+      "2025": 4316000000.0
+    },
     "revenue_10y": {
       "2019": 6883400000.0,
       "2020": 6389000000.0,
@@ -150,7 +183,7 @@
     }
   },
   "bloc_E_health": {
-    "net_debt_ebitda": "N/D",
+    "net_debt_ebitda": -1.628419,
     "interest_coverage": "N/D",
     "lt_debt_payback": {
       "years": 0.007515,
@@ -169,9 +202,9 @@
     "ocf_ni": 1.187887,
     "accruals_pct_rev": -0.053118,
     "retained_earnings_test": {
-      "ratio": 12.058254,
+      "ratio": 12.058253,
       "retained_5y": 11021000000.0,
-      "delta_mcap": 132894017866.70644,
+      "delta_mcap": 132894011467.4868,
       "passes": true,
       "window": [
         2020,
@@ -207,7 +240,7 @@
         465.69,
         496.27,
         536.79,
-        593.03
+        593.02
       ],
       [
         446.64,
@@ -271,7 +304,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 1.146169,
-      "beta_raw": 1.218162,
+      "beta_raw": 1.218163,
       "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -565,6 +598,12 @@
         "2023": 5244000000.0,
         "2024": 5750000000.0,
         "2025": 5476000000.0
+      },
+      "dep_amort": {
+        "2022": 730000000.0,
+        "2023": 772000000.0,
+        "2024": 844000000.0,
+        "2025": 926000000.0
       }
     },
     "source_map_per_tag": {
@@ -847,15 +886,25 @@
         "xbrl_tag": "derived:assets-equity_total",
         "unit": "EUR",
         "edgar_filing_url": "https://filings.xbrl.org/969500Y4IJGHJE2MTJ13/2026-12-31/ESEF/FR/0/hermes-2025-12-31-1/reports/ixbrlviewer.html"
+      },
+      "dep_amort": {
+        "value": 926000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RMS.PA",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Depreciation And Amortization (checked: EBITDA − EBIT)",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RMS.PA/financials"
       }
     },
     "edgar_filings_index": "https://filings.xbrl.org/api/entities/969500Y4IJGHJE2MTJ13/filings"
   },
   "score_composite": {
-    "value_0_100": 39.0,
+    "value_0_100": 44.0,
     "pillars": {
       "valuation": 0,
-      "balance_sheet_health": 50,
+      "balance_sheet_health": 70,
       "earnings_quality": 70,
       "smart_money": 50,
       "momentum": 50

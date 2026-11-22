@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 1168.0,
     "EPV": {
-      "epv_ev": 106326464232.44061,
-      "epv_equity": 114835064232.44061,
-      "epv_per_share": 295.281729,
+      "epv_ev": 106326442399.83267,
+      "epv_equity": 114835042399.83267,
+      "epv_per_share": 295.281672,
       "inputs": {
         "ebit_adj": 11301400000.0,
         "tax": 0.17652,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 59.231492,
-      "high": 248.31656,
+      "low": 59.23148,
+      "high": 248.316513,
       "fcf_p25": 2182975000.0,
       "fcf_p75": 9151700000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 330.547068,
-      "central": 295.281729,
-      "plus_100bps": 267.248271
+      "minus_100bps": 330.546997,
+      "central": 295.281672,
+      "plus_100bps": 267.248225
     },
     "RE_valuation": {
-      "re_value_equity": 108997786236.46332,
-      "re_value_per_share": 280.272014,
+      "re_value_equity": 108997763800.68796,
+      "re_value_per_share": 280.271956,
       "inputs": {
         "B0": 19612200000.0,
-        "RE": 7880360528.765736,
+        "RE": 7880360172.865396,
         "ke": 0.088161,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -318,7 +318,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 1.436977,
-      "beta_raw": 1.652204,
+      "beta_raw": 1.652205,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -467,6 +467,18 @@
         "2023": 1435800000.0,
         "2024": 1680600000.0,
         "2025": 2013400000.0
+      },
+      "income_taxes_paid": {
+        "2016": 115900000.0,
+        "2017": 475000000.0,
+        "2018": 554400000.0,
+        "2019": 678700000.0,
+        "2020": 650200000.0,
+        "2021": 1235000000.0,
+        "2022": 1734600000.0,
+        "2023": 2568300000.0,
+        "2024": 1098000000.0,
+        "2025": 1621400000.0
       },
       "pretax_income": {
         "2016": 1792200000.0,
@@ -927,6 +939,16 @@
         "accession": "0001628280-26-011378",
         "filing_form": "20-F",
         "xbrl_tag": "IncomeTaxExpenseBenefit",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/"
+      },
+      "income_taxes_paid": {
+        "value": 1621400000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001628280-26-011378",
+        "filing_form": "20-F",
+        "xbrl_tag": "IncomeTaxesPaidNet",
         "unit": "EUR",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/"
       },

@@ -95,6 +95,7 @@
   },
   "bloc_D_trends": {
     "roic_10y": {
+      "2020": 0.0215,
       "2021": 0.084,
       "2022": 0.0551,
       "2023": 0.0461,
@@ -102,6 +103,7 @@
       "2025": 0.06
     },
     "invested_capital_share_10y": {
+      "2020": 0.518981,
       "2021": 0.518515,
       "2022": 0.546577,
       "2023": 0.576426,
@@ -109,6 +111,7 @@
       "2025": 0.518007
     },
     "rnoa_10y": {
+      "2020": 0.0213,
       "2021": 0.0831,
       "2022": 0.0545,
       "2023": 0.0456,
@@ -186,9 +189,9 @@
     "ocf_ni": 3.113346,
     "accruals_pct_rev": -0.132866,
     "retained_earnings_test": {
-      "ratio": 0.783097,
+      "ratio": 0.783098,
       "retained_5y": 3455000000.0,
-      "delta_mcap": 2705601564.788818,
+      "delta_mcap": 2705602148.05603,
       "passes": false,
       "window": [
         2020,
@@ -320,7 +323,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.807171,
+      "beta": 0.80717,
       "beta_raw": 0.712195,
       "mode": "fallback all-equity (prix ou shares indisponible)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
@@ -440,6 +443,16 @@
         "2023": 152000000.0,
         "2024": 412000000.0,
         "2025": 484000000.0
+      },
+      "income_taxes_paid": {
+        "2018": 961000000.0,
+        "2019": 234000000.0,
+        "2020": 229000000.0,
+        "2021": 341000000.0,
+        "2022": 467000000.0,
+        "2023": 535000000.0,
+        "2024": 707000000.0,
+        "2025": 750000000.0
       },
       "pretax_income": {
         "2018": -6806000000.0,
@@ -846,6 +859,16 @@
         "accession": "0001755672-26-000004",
         "filing_form": "10-K",
         "xbrl_tag": "IncomeTaxExpenseBenefit",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/"
+      },
+      "income_taxes_paid": {
+        "value": 750000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001755672-26-000004",
+        "filing_form": "10-K",
+        "xbrl_tag": "IncomeTaxesPaidNet",
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/"
       },

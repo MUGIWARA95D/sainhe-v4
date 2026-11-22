@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 345.82,
     "EPV": {
-      "epv_ev": 32125043578.862167,
-      "epv_equity": 67808043578.86217,
-      "epv_per_share": 19.219967,
+      "epv_ev": 32125041361.94402,
+      "epv_equity": 67808041361.944016,
+      "epv_per_share": 19.219966,
       "inputs": {
         "ebit_adj": 4745000000.0,
         "tax": 0.26961,
@@ -18,21 +18,21 @@
     },
     "EPV_confidence_range": {
       "low": -5.653976,
-      "high": 17.09275,
+      "high": 17.092749,
       "fcf_p25": -998714000.0,
       "fcf_p75": 3019250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 20.150248,
-      "central": 19.219967,
+      "minus_100bps": 20.150247,
+      "central": 19.219966,
       "plus_100bps": 18.447519
     },
     "RE_valuation": {
-      "re_value_equity": 13192158171.507004,
+      "re_value_equity": 13192157891.915756,
       "re_value_per_share": 3.739274,
       "inputs": {
         "B0": 82137000000.0,
-        "RE": -4825980074.326937,
+        "RE": -4825980690.019135,
         "ke": 0.108414,
         "g": 0.04912,
         "g_sgr": 0.067443,
@@ -505,6 +505,18 @@
         "2024": 1837000000.0,
         "2025": 1423000000.0
       },
+      "income_taxes_paid": {
+        "2016": 16385000.0,
+        "2017": 66000000.0,
+        "2018": 35000000.0,
+        "2019": 54000000.0,
+        "2020": 115000000.0,
+        "2021": 561000000.0,
+        "2022": 1203000000.0,
+        "2023": 1120000000.0,
+        "2024": 1330000000.0,
+        "2025": 1232000000.0
+      },
       "pretax_income": {
         "2016": -746348000.0,
         "2017": -2209000000.0,
@@ -959,6 +971,16 @@
         "accession": "0001628280-26-003952",
         "filing_form": "10-K",
         "xbrl_tag": "IncomeTaxExpenseBenefit",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/"
+      },
+      "income_taxes_paid": {
+        "value": 1232000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001628280-26-003952",
+        "filing_form": "10-K",
+        "xbrl_tag": "IncomeTaxesPaidNet",
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/"
       },

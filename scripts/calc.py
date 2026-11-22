@@ -68,8 +68,7 @@ def load_fx_series(con: sqlite3.Connection, devise: str) -> pd.Series | None:
     """
     if not devise or devise == "USD":
         return None
-    # Cotations en pence (Coats : GBp / GBX) : 1 USD = rate(USD_GBP) × 100 pence.
-    # Avant : paire USD_GBp inexistante → rendements de Coats en N/D sur le dashboard.
+    # Cotations en pence (GBp / GBX) : 1 USD = rate(USD_GBP) × 100 pence.
     pence = devise in ("GBp", "GBX")
     pair = "USD_GBP" if pence else f"USD_{devise}"
     rows = con.execute(

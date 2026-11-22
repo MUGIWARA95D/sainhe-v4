@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 294.7,
     "EPV": {
-      "epv_ev": 27405235802.601444,
-      "epv_equity": 19815135802.601444,
-      "epv_per_share": 69.478036,
+      "epv_ev": 27405232814.070045,
+      "epv_equity": 19815132814.070045,
+      "epv_per_share": 69.478025,
       "inputs": {
         "ebit_adj": 2737600000.0,
         "tax": 0.178421,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 44.156304,
-      "high": 63.877187,
+      "low": 44.156298,
+      "high": 63.877178,
       "fcf_p25": 1123450000.0,
       "fcf_p75": 1625200000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 82.811047,
-      "central": 69.478036,
-      "plus_100bps": 59.041295
+      "minus_100bps": 82.811033,
+      "central": 69.478025,
+      "plus_100bps": 59.041287
     },
     "RE_valuation": {
-      "re_value_equity": 25542940802.129265,
-      "re_value_per_share": 89.561504,
+      "re_value_equity": 25542937497.214603,
+      "re_value_per_share": 89.561492,
       "inputs": {
         "B0": 9770800000.0,
-        "RE": 1224372492.864738,
+        "RE": 1224372396.849485,
         "ke": 0.08712,
         "g": 0.012707,
         "g_sgr": 0.012707,
@@ -215,7 +215,7 @@
     "retained_earnings_test": {
       "ratio": 3.337817,
       "retained_5y": 4577500000.0,
-      "delta_mcap": 15278855221.557617,
+      "delta_mcap": 15278859495.544434,
       "passes": true,
       "window": [
         2020,
@@ -534,6 +534,18 @@
         "2023": 362500000.0,
         "2024": 439300000.0,
         "2025": 454600000.0
+      },
+      "income_taxes_paid": {
+        "2016": 359100000.0,
+        "2017": 402800000.0,
+        "2018": 365100000.0,
+        "2019": 337400000.0,
+        "2020": 366900000.0,
+        "2021": 275700000.0,
+        "2022": 308900000.0,
+        "2023": 469200000.0,
+        "2024": 647400000.0,
+        "2025": 548100000.0
       },
       "pretax_income": {
         "2016": 1649400000.0,
@@ -991,6 +1003,16 @@
         "accession": "0001104659-26-018357",
         "filing_form": "10-K",
         "xbrl_tag": "IncomeTaxExpenseBenefit",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/31462/000110465926018357/"
+      },
+      "income_taxes_paid": {
+        "value": 548100000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001104659-26-018357",
+        "filing_form": "10-K",
+        "xbrl_tag": "IncomeTaxesPaidNet",
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/31462/000110465926018357/"
       },

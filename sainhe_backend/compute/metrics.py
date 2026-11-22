@@ -17,7 +17,8 @@ def effective_tax(cd: CompanyData, fy: int | None) -> dict:
     """Taux d'impôt retenu pour l'exercice fy : {rate, source, raw, years}.
     source = "year" (taux de l'exercice, dans TAX_RATE_VALID_RANGE), "median" (médiane des
     exercices normaux précédents : le taux de l'année est aberrant ou la société est en perte)
-    ou "N/D". Jamais de taux légal ni de moyenne sectorielle : uniquement les dépôts de la société."""
+    , "cash" (impôt payé en trésorerie / résultat avant impôt, même dépôt, si aucun exercice
+    normal ne suffit) ou "N/D". Jamais de taux légal ni de moyenne sectorielle : uniquement les dépôts de la société."""
     lo, hi = config.TAX_RATE_VALID_RANGE
 
     def rate(y):
@@ -39,6 +40,10 @@ def effective_tax(cd: CompanyData, fy: int | None) -> dict:
         m = len(vals) // 2
         med = vals[m] if len(vals) % 2 else (vals[m - 1] + vals[m]) / 2
         return {"rate": med, "source": "median", "raw": raw, "years": [y for y, _ in ok]}
+    paid = cd.value("income_taxes_paid", fy)
+    if getattr(config, "TAX_RATE_CASH_FALLBACK", False) and paid is not None and pre and pre > 0 \
+            and lo <= paid / pre <= hi:
+        return {"rate": paid / pre, "source": "cash", "raw": raw, "years": [fy], "paid": paid}
     return {"rate": None, "source": "N/D", "raw": raw, "years": []}
 
 

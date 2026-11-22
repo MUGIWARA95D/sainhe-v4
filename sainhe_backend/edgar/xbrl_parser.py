@@ -27,6 +27,7 @@ TAG_MAP: dict[str, list[str]] = {
     "interest_expense": ["InterestExpense", "InterestExpenseDebt",
                          "InterestExpenseNonoperating", "InterestAndDebtExpense"],
     "tax_expense": ["IncomeTaxExpenseBenefit"],
+    "income_taxes_paid": ["IncomeTaxesPaidNet", "IncomeTaxesPaid"],
     "pretax_income": ["IncomeLossFromContinuingOperationsBeforeIncomeTaxes"
                       "ExtraordinaryItemsNoncontrollingInterest",
                       "IncomeLossFromContinuingOperationsBeforeIncomeTaxes"
@@ -110,6 +111,11 @@ IFRS_TAG_MAP: dict[str, list[str]] = {
                   "RecognisedInProfitOrLoss",
                   "DepreciationAndAmortisationExpense",
                   "AdjustmentsForDepreciationAndAmortisationExpense"],
+    # composants sans total publié (TSMC) → additionnés par _compose_da, tags tracés
+    "_depreciation": ["DepreciationExpense", "DepreciationPropertyPlantAndEquipment"],
+    "_amort_intangibles": ["AmortisationExpense", "AmortisationIntangibleAssetsOtherThanGoodwill"],
+    "income_taxes_paid": ["IncomeTaxesPaidRefundClassifiedAsOperatingActivities",
+                          "IncomeTaxesPaidClassifiedAsOperatingActivities"],
     "interest_expense": ["FinanceCosts", "InterestExpense"],
     "tax_expense": ["IncomeTaxExpenseContinuingOperations", "IncomeTaxExpense"],
     "pretax_income": ["ProfitLossBeforeTax"],
@@ -199,7 +205,7 @@ class CompanyData:
 
     def reporting_currency(self) -> str | None:
         """Devise des comptes (unité du chiffre d'affaires, à défaut du résultat net).
-        Ex. ASML/RACE → EUR, TSM → TWD, Coats → USD. Nécessaire pour comparer les valeurs
+        Ex. ASML/RACE → EUR, TSM → TWD. Nécessaire pour comparer les valeurs
         par action au prix de cotation (qui peut être dans une autre devise)."""
         for name in ("revenue", "net_income", "total_assets"):
             dp = self.latest(name)
@@ -403,6 +409,7 @@ def _derive_ebit(cd: "CompanyData") -> None:
     de deux tags publiés (pas une interpolation) ; tag 'derived:pretax+interest' tracé.
     Inclut les autres produits/charges non opérationnels → approximation, signalée."""
     if cd.series.get("ebit"):
+        _ebit_gap_proxy(cd)
         return
     pre, intr = cd.series.get("pretax_income", {}), cd.series.get("interest_expense", {})
     derived = {y: DataPoint(value=pre[y].value + intr[y].value, fy=y, end=pre[y].end,
@@ -410,3 +417,19 @@ def _derive_ebit(cd: "CompanyData") -> None:
                for y in pre if y in intr}
     if derived:
         cd.series["ebit"] = derived
+
+
+def _ebit_gap_proxy(cd: "CompanyData") -> None:
+    """Exercices les plus récents sans EBIT publié alors que la société le publiait avant
+    (Deere : OperatingIncomeLoss absent du 10-K 2025). Proxy explicite par société
+    (config.EBIT_GAP_PROXY), jamais pour combler un trou au milieu de l'historique ; tag tracé."""
+    import config
+    proxy = getattr(config, "EBIT_GAP_PROXY", {}).get(cd.ticker)
+    ebit = cd.series.get("ebit", {})
+    if not proxy or not ebit:
+        return
+    last = max(ebit)
+    for y, dp in cd.series.get(proxy, {}).items():
+        if y > last and y not in ebit:
+            ebit[y] = DataPoint(value=dp.value, fy=y, end=dp.end, accn=dp.accn, form=dp.form,
+                                tag=f"proxy:{dp.tag} (OperatingIncomeLoss not tagged this year)", unit=dp.unit)

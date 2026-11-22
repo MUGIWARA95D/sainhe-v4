@@ -1188,376 +1188,6 @@
       ],
       "issues": []
     },
-    "COA.L": {
-      "source": "Yahoo Finance statements (secondary) — ESEF 2025 incomplete (capex not tagged)",
-      "filled_fields": [
-        "EPV/action",
-        "RE/action",
-        "SGR",
-        "WACC",
-        "croissance implicite",
-        "dette nette/EBITDA"
-      ],
-      "missing_fields": [],
-      "cross_checked": [
-        "cash",
-        "net_income",
-        "revenue",
-        "total_assets"
-      ],
-      "checks": [
-        {
-          "field": "revenue",
-          "fiscal_end": "2022",
-          "xbrl": 1537600000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "revenue",
-          "second_value": 1537600000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "revenue",
-          "fiscal_end": "2023",
-          "xbrl": 1394200000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "revenue",
-          "second_value": 1394200000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "revenue",
-          "fiscal_end": "2024",
-          "xbrl": 1433000000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "revenue",
-          "second_value": 1433000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "revenue",
-          "fiscal_end": "2025",
-          "xbrl": 1464900000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "revenue",
-          "second_value": 1464900000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "net_income",
-          "fiscal_end": "2022",
-          "xbrl": -14700000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "net_income",
-          "second_value": -14700000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "net_income",
-          "fiscal_end": "2023",
-          "xbrl": 56500000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "net_income",
-          "second_value": 56500000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "net_income",
-          "fiscal_end": "2024",
-          "xbrl": 80100000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "net_income",
-          "second_value": 80100000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "net_income",
-          "fiscal_end": "2025",
-          "xbrl": 103400000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "net_income",
-          "second_value": 103400000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "total_assets",
-          "fiscal_end": "2022",
-          "xbrl": 1888800000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "total_assets",
-          "second_value": 1888800000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "total_assets",
-          "fiscal_end": "2023",
-          "xbrl": 1714300000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "total_assets",
-          "second_value": 1714300000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "total_assets",
-          "fiscal_end": "2024",
-          "xbrl": 1610700000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "total_assets",
-          "second_value": 1610700000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "total_assets",
-          "fiscal_end": "2025",
-          "xbrl": 2586700000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "total_assets",
-          "second_value": 2586700000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "cash",
-          "fiscal_end": "2022",
-          "xbrl": 172400000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "cash",
-          "second_value": 172400000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "cash",
-          "fiscal_end": "2023",
-          "xbrl": 132400000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "cash",
-          "second_value": 132400000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "cash",
-          "fiscal_end": "2024",
-          "xbrl": 146000000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "cash",
-          "second_value": 146000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        },
-        {
-          "field": "cash",
-          "fiscal_end": "2025",
-          "xbrl": 232000000.0,
-          "xbrl_tag": "ESEF",
-          "second_source": "Yahoo statements",
-          "second_source_row": "cash",
-          "second_value": 232000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 3.0,
-          "status": "ok"
-        }
-      ],
-      "secondary_source": true,
-      "coherence": [
-        {
-          "check": "assets = liabilities + equity",
-          "year": "2023",
-          "lhs": 1714300000.0,
-          "rhs": 1714300000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 10.0,
-          "status": "ok",
-          "note": "gap up to the tolerance = minority interests and mezzanine items"
-        },
-        {
-          "check": "gross profit = revenue − cost of revenue",
-          "year": "2023",
-          "lhs": 465100000.0,
-          "rhs": 465100000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 2.0,
-          "status": "ok",
-          "note": ""
-        },
-        {
-          "check": "net income ≈ diluted EPS × diluted shares",
-          "year": "2023",
-          "lhs": 56424719.99999999,
-          "rhs": 56500000.0,
-          "gap_pct": 0.13,
-          "tolerance_pct": 5.0,
-          "status": "ok",
-          "note": ""
-        },
-        {
-          "check": "cash ≤ current assets ≤ total assets",
-          "year": "2023",
-          "lhs": 132400000.0,
-          "rhs": 1714300000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 0.0,
-          "status": "ok",
-          "note": ""
-        },
-        {
-          "check": "assets = liabilities + equity",
-          "year": "2024",
-          "lhs": 1610700000.0,
-          "rhs": 1610700000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 10.0,
-          "status": "ok",
-          "note": "gap up to the tolerance = minority interests and mezzanine items"
-        },
-        {
-          "check": "gross profit = revenue − cost of revenue",
-          "year": "2024",
-          "lhs": 528000000.0,
-          "rhs": 528000000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 2.0,
-          "status": "ok",
-          "note": ""
-        },
-        {
-          "check": "net income ≈ diluted EPS × diluted shares",
-          "year": "2024",
-          "lhs": 80092780.0,
-          "rhs": 80100000.0,
-          "gap_pct": 0.01,
-          "tolerance_pct": 5.0,
-          "status": "ok",
-          "note": ""
-        },
-        {
-          "check": "cash ≤ current assets ≤ total assets",
-          "year": "2024",
-          "lhs": 146000000.0,
-          "rhs": 1610700000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 0.0,
-          "status": "ok",
-          "note": ""
-        },
-        {
-          "check": "assets = liabilities + equity",
-          "year": "2025",
-          "lhs": 2586700000.0,
-          "rhs": 2586700000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 10.0,
-          "status": "ok",
-          "note": "gap up to the tolerance = minority interests and mezzanine items"
-        },
-        {
-          "check": "gross profit = revenue − cost of revenue",
-          "year": "2025",
-          "lhs": 573800000.0,
-          "rhs": 573800000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 2.0,
-          "status": "ok",
-          "note": ""
-        },
-        {
-          "check": "net income ≈ diluted EPS × diluted shares",
-          "year": "2025",
-          "lhs": 103382440.0,
-          "rhs": 103400000.0,
-          "gap_pct": 0.02,
-          "tolerance_pct": 5.0,
-          "status": "ok",
-          "note": ""
-        },
-        {
-          "check": "cash ≤ current assets ≤ total assets",
-          "year": "2025",
-          "lhs": 232000000.0,
-          "rhs": 2586700000.0,
-          "gap_pct": 0.0,
-          "tolerance_pct": 0.0,
-          "status": "ok",
-          "note": ""
-        }
-      ],
-      "net_debt_audit": [
-        {
-          "component": "lt_debt",
-          "fiscal_year": "2025",
-          "value": 1046200000.0,
-          "tag": "yahoo:Long Term Debt",
-          "last_filed_year": "2025",
-          "status": "ok"
-        },
-        {
-          "component": "st_debt",
-          "fiscal_year": "2025",
-          "value": 500000.0,
-          "tag": "yahoo:Current Debt",
-          "last_filed_year": "2025",
-          "status": "ok"
-        },
-        {
-          "component": "cash",
-          "fiscal_year": "2025",
-          "value": 232000000.0,
-          "tag": "yahoo:Cash And Cash Equivalents",
-          "last_filed_year": "2025",
-          "status": "ok"
-        },
-        {
-          "component": "st_investments",
-          "fiscal_year": "2025",
-          "value": null,
-          "tag": "",
-          "last_filed_year": null,
-          "status": "never_filed"
-        }
-      ],
-      "issues": []
-    },
     "CTVA": {
       "source": "SEC EDGAR 10-K",
       "filled_fields": [
@@ -1736,15 +1366,14 @@
     "DE": {
       "source": "SEC EDGAR 10-K",
       "filled_fields": [
-        "RE/action",
-        "WACC",
-        "croissance implicite"
-      ],
-      "missing_fields": [
         "EPV/action",
+        "RE/action",
         "SGR",
+        "WACC",
+        "croissance implicite",
         "dette nette/EBITDA"
       ],
+      "missing_fields": [],
       "cross_checked": [
         "revenue",
         "net_income",
@@ -2287,15 +1916,14 @@
     "GEV": {
       "source": "SEC EDGAR 10-K",
       "filled_fields": [
+        "EPV/action",
         "RE/action",
+        "SGR",
         "WACC",
         "croissance implicite",
         "dette nette/EBITDA"
       ],
-      "missing_fields": [
-        "EPV/action",
-        "SGR"
-      ],
+      "missing_fields": [],
       "cross_checked": [
         "revenue",
         "net_income",
@@ -4647,13 +4275,12 @@
       "filled_fields": [
         "EPV/action",
         "RE/action",
-        "WACC",
-        "croissance implicite"
-      ],
-      "missing_fields": [
         "SGR",
+        "WACC",
+        "croissance implicite",
         "dette nette/EBITDA"
       ],
+      "missing_fields": [],
       "cross_checked": [
         "revenue",
         "net_income",
@@ -5407,13 +5034,12 @@
       "filled_fields": [
         "EPV/action",
         "RE/action",
-        "WACC",
-        "croissance implicite"
-      ],
-      "missing_fields": [
         "SGR",
+        "WACC",
+        "croissance implicite",
         "dette nette/EBITDA"
       ],
+      "missing_fields": [],
       "cross_checked": [
         "revenue",
         "net_income",
@@ -5988,15 +5614,15 @@
   },
   "pipeline_failures": {},
   "summary": {
-    "n_tickers": 29,
-    "n_cross_checks": 80,
+    "n_tickers": 28,
+    "n_cross_checks": 76,
     "n_issues": 0,
     "n_cross_source_gaps": 0,
     "n_nd_regressions": 0,
     "n_stale": 0,
     "n_pipeline_failures": 0,
-    "n_secondary_source": 11,
-    "n_coherence_checks": 300,
+    "n_secondary_source": 10,
+    "n_coherence_checks": 288,
     "n_coherence_gaps": 1,
     "n_net_debt_tag_gaps": 0,
     "note": "n_issues compte les anomalies à corriger (écarts de sources, régressions N/D, échecs) ; la fraîcheur est informative (dépend de la date de publication)."

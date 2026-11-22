@@ -5,7 +5,7 @@ Pour les sociétés sans XBRL accessible gratuitement :
   - Japon (Fanuc) : EDINET exige une clé d'API ;
   - Arabie saoudite, Chine, Kazakhstan : pas de dépôt XBRL public exploitable ;
   - ESEF non indexé sur filings.xbrl.org (Safran, Rheinmetall) ;
-  - ESEF périmé ou incomplet (pipeline.secondary_reason : Leonardo, Coats).
+  - ESEF périmé ou incomplet (pipeline.secondary_reason : Leonardo).
 Chaque valeur garde la ligne Yahoo comme « tag » (yahoo:Total Revenue) et la page Yahoo comme
 URL : la traçabilité s'arrête à l'agrégateur, pas au dépôt — d'où le badge « secondary source »
 sur la page, et l'absence de recoupement qualité (la seconde source serait la même).
@@ -116,3 +116,33 @@ def fetch(ticker: str, session=None) -> tuple[CompanyData, dict]:
     log.info("%s : %d séries Yahoo, exercices %s, devise %s", ticker, len(cd.series),
              cd.years("revenue"), cur)
     return cd, info
+
+
+def checked_field(ticker: str, field: str, session=None, tol: float = 0.05, unit: str = "") -> dict:
+    """Un seul champ repris de Yahoo pour une société à source primaire (ESEF, 20-F) qui ne le
+    publie pour aucun exercice. Aujourd'hui : dep_amort, gardé seulement pour les exercices où
+    Yahoo est cohérent avec lui-même (|D&A − (EBITDA − EBIT)| ≤ tol × D&A). Kazatomprom : D&A Yahoo
+    2,2 Md KZT contre EBITDA − EBIT 248 Md → rejeté. Retourne {année: DataPoint}."""
+    if field != "dep_amort":
+        return {}
+    import yfinance as yf
+    tk = yf.Ticker(ticker, session=session)
+    cf, inc = tk.cashflow, tk.income_stmt
+    out = {}
+    if cf is None or inc is None or getattr(cf, "empty", True) or getattr(inc, "empty", True):
+        return out
+    rows = [r for r in ("Depreciation And Amortization", "Depreciation Amortization Depletion") if r in cf.index]
+    if not rows or "EBITDA" not in inc.index or "EBIT" not in inc.index:
+        return out
+    for col in cf.columns:
+        try:
+            da = abs(float(cf.loc[rows[0], col]))
+            gap = float(inc.loc["EBITDA", col]) - float(inc.loc["EBIT", col])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if math.isnan(da) or math.isnan(gap) or da <= 0 or abs(da - gap) > tol * da:
+            continue
+        end = str(col)[:10]
+        out[int(end[:4])] = DataPoint(value=da, fy=int(end[:4]), end=end, accn=f"YAHOO|{ticker}", form=FORM,
+                                      tag=f"yahoo:{rows[0]} (checked: EBITDA − EBIT)", unit=unit)
+    return out

@@ -6,27 +6,33 @@
   "bloc_A_verdict": {
     "prix": 699.33,
     "EPV": {
-      "epv_ev": "N/D",
-      "epv_equity": "N/D",
-      "epv_per_share": "N/D",
-      "note": "EBIT ajusté, WACC ou taux d'impôt N/D"
+      "epv_ev": 11255174730.616354,
+      "epv_equity": 19762174730.616356,
+      "epv_per_share": 71.602082,
+      "inputs": {
+        "ebit_adj": 1564000000.0,
+        "tax": 0.293494,
+        "wacc": 0.098175,
+        "net_debt": -8507000000.0
+      }
     },
     "EPV_confidence_range": {
-      "low": "N/D",
-      "high": "N/D",
-      "fallback": "moins de 4 ans de FCF → plage = EPV central (growth 0%)"
+      "low": -6.943086,
+      "high": 61.903957,
+      "fcf_p25": -359750000.0,
+      "fcf_p75": 3207500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": "N/D",
-      "central": "N/D",
-      "plus_100bps": "N/D"
+      "minus_100bps": 76.226937,
+      "central": 71.602082,
+      "plus_100bps": 67.832298
     },
     "RE_valuation": {
-      "re_value_equity": 52840837508.301056,
-      "re_value_per_share": 191.45231,
+      "re_value_equity": 52840819301.64345,
+      "re_value_per_share": 191.452244,
       "inputs": {
         "B0": 11178000000.0,
-        "RE": 4090244611.259474,
+        "RE": 4090244233.143328,
         "ke": 0.098175,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -57,37 +63,66 @@
       }
     },
     "SGR": {
-      "sgr": "N/D",
-      "rr": "N/D",
-      "note": "inputs manquants"
+      "sgr": 1.457132,
+      "rr": 3.968874,
+      "roic": 0.36714,
+      "status": "n/m",
+      "nm_reason": "invested_capital_near_zero",
+      "invested_capital_share_of_assets": 0.042386
     },
     "flag_growth_unfinanceable": "N/D"
   },
   "bloc_B_flags": [
     {
+      "id": "invested_capital_near_zero",
+      "severity": "medium",
+      "message": "Capital investi = 4% de l'actif (< 10%) : ROIC et SGR non significatifs",
+      "details": {
+        "invested_capital_share_of_assets": 0.042386,
+        "roic": 0.36714,
+        "sgr": 1.457132
+      }
+    },
+    {
       "id": "tax_rate_abnormal",
       "severity": "info",
-      "message": "Taux d'impôt de l'exercice hors de [0 %, 50 %] ou perte avant impôt : aucun exercice normal → N/D",
+      "message": "Taux d'impôt de l'exercice hors de [0 %, 50 %] ou perte avant impôt : impôt payé en trésorerie / résultat avant impôt retenu",
       "details": {
-        "rate": "N/D",
-        "source": "N/D",
+        "rate": 0.293494,
+        "source": "cash",
         "raw": -0.725248,
-        "years": []
+        "years": [
+          2025
+        ],
+        "paid": 830000000.0
       }
     }
   ],
   "bloc_C_dupont": {
-    "available": false
+    "available": true,
+    "fy": 2025,
+    "RNOA": 0.25881,
+    "FLEV": -0.761048,
+    "NBC": -0.0,
+    "SPREAD": 0.25881,
+    "leverage_gain": -0.196967,
+    "ROE_dupont": 0.061843,
+    "ROE_direct": 0.43693,
+    "coherence_gap": -0.3751,
+    "net_cash_position": true
   },
   "bloc_D_trends": {
     "roic_10y": {
-      "2024": 0.1763
+      "2024": 0.1763,
+      "2025": 0.3671
     },
     "invested_capital_share_10y": {
-      "2024": 0.032378
+      "2024": 0.032378,
+      "2025": 0.042386
     },
     "rnoa_10y": {
-      "2024": 0.1083
+      "2024": 0.1083,
+      "2025": 0.2588
     },
     "gross_margin_10y": {
       "2022": 0.1166,
@@ -180,7 +215,7 @@
       "wacc": 0.098175,
       "ke": 0.098175,
       "kd": "N/D",
-      "tax_rate": 0.0,
+      "tax_rate": 0.293494,
       "E": 193015080000.0,
       "D": 341000000.0,
       "rf": 0.04912,
@@ -192,8 +227,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.294324,
-      "beta_raw": 1.43929,
+      "beta": 1.294325,
+      "beta_raw": 1.439291,
       "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 138 weeks"
     },
@@ -235,10 +270,13 @@
       "net_debt": -8507000000.0
     },
     "tax_detail": {
-      "rate": "N/D",
-      "source": "N/D",
+      "rate": 0.293494,
+      "source": "cash",
       "raw": -0.725248,
-      "years": []
+      "years": [
+        2025
+      ],
+      "paid": 830000000.0
     },
     "three_statement_10y": {
       "revenue": {
@@ -282,6 +320,12 @@
         "2023": 344000000.0,
         "2024": 939000000.0,
         "2025": -2051000000.0
+      },
+      "income_taxes_paid": {
+        "2022": 91000000.0,
+        "2023": 2000000.0,
+        "2024": 623000000.0,
+        "2025": 830000000.0
       },
       "pretax_income": {
         "2022": -2474000000.0,
@@ -498,6 +542,16 @@
         "accession": "0001996810-26-000015",
         "filing_form": "10-K",
         "xbrl_tag": "IncomeTaxExpenseBenefit",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/"
+      },
+      "income_taxes_paid": {
+        "value": 830000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001996810-26-000015",
+        "filing_form": "10-K",
+        "xbrl_tag": "IncomeTaxesPaidNet",
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000015/"
       },
@@ -775,9 +829,9 @@
     "edgar_filings_index": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001996810&type=10-K&dateb=&owner=include&count=40"
   },
   "score_composite": {
-    "value_0_100": 55.0,
+    "value_0_100": 40.0,
     "pillars": {
-      "valuation": 50,
+      "valuation": 0,
       "balance_sheet_health": 70,
       "earnings_quality": 50,
       "smart_money": 50,

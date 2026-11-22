@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 2000.0,
     "EPV": {
-      "epv_ev": 18307702083432.344,
-      "epv_equity": 20898798283432.344,
-      "epv_per_share": 805.985568,
+      "epv_ev": 18307706251358.72,
+      "epv_equity": 20898802451358.72,
+      "epv_per_share": 805.985728,
       "inputs": {
         "ebit_adj": 1936091700000.0,
         "tax": 0.16973,
@@ -17,25 +17,25 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 196.39726,
-      "high": 493.37849,
+      "low": 196.397299,
+      "high": 493.378589,
       "fcf_p25": 243994825000.0,
       "fcf_p75": 612950500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 896.734396,
-      "central": 805.985568,
-      "plus_100bps": 733.79413
+      "minus_100bps": 896.734601,
+      "central": 805.985728,
+      "plus_100bps": 733.79426
     },
     "RE_valuation": {
-      "re_value_equity": 19311877828314.51,
-      "re_value_per_share": 744.784203,
+      "re_value_equity": 31930812020120.72,
+      "re_value_per_share": 1231.447536,
       "inputs": {
         "B0": 5355038700000.0,
-        "RE": 1226871158890.8755,
+        "RE": 1226871266299.2092,
         "ke": 0.087905,
-        "g": 0.0,
-        "g_sgr": "N/D",
+        "g": 0.04912,
+        "g_sgr": 0.211493,
         "g_cap": 0.04912
       }
     },
@@ -63,11 +63,14 @@
       }
     },
     "SGR": {
-      "sgr": "N/D",
-      "rr": "N/D",
-      "note": "inputs manquants"
+      "sgr": 0.211493,
+      "rr": 0.363647,
+      "roic": 0.581589,
+      "status": "ok",
+      "nm_reason": "N/D",
+      "invested_capital_share_of_assets": 0.348418
     },
-    "flag_growth_unfinanceable": "N/D"
+    "flag_growth_unfinanceable": false
   },
   "bloc_B_flags": [
     {
@@ -159,7 +162,18 @@
       "2024": 0.2729,
       "2025": 0.317
     },
-    "owner_earnings_10y": {},
+    "owner_earnings_10y": {
+      "2016": 316006200000.0,
+      "2017": 325175500000.0,
+      "2018": 281408000000.0,
+      "2019": 328251700000.0,
+      "2020": 490935000000.0,
+      "2021": 689758000000.0,
+      "2022": 1173042500000.0,
+      "2023": 709293400000.0,
+      "2024": 1162137800000.0,
+      "2025": 1585633100000.0
+    },
     "revenue_10y": {
       "2016": 947938300000.0,
       "2017": 977447200000.0,
@@ -174,7 +188,7 @@
     }
   },
   "bloc_E_health": {
-    "net_debt_ebitda": "N/D",
+    "net_debt_ebitda": -0.98739,
     "interest_coverage": 156.510032,
     "lt_debt_payback": {
       "years": 0.023465,
@@ -193,9 +207,9 @@
     "ocf_ni": 1.34011,
     "accruals_pct_rev": -0.151579,
     "retained_earnings_test": {
-      "ratio": 7.575535,
+      "ratio": 7.575536,
       "retained_5y": 3620429900000.0,
-      "delta_mcap": 27426695190351.77,
+      "delta_mcap": 27426695981553.29,
       "passes": true,
       "window": [
         2020,
@@ -341,7 +355,7 @@
         776.48,
         858.65,
         980.33,
-        1179.06
+        1179.07
       ]
     ]
   },
@@ -376,8 +390,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.023342,
-      "beta_raw": 1.034839,
+      "beta": 1.023341,
+      "beta_raw": 1.034838,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 252 weeks"
     },
@@ -490,6 +504,18 @@
         "2023": 128288800000.0,
         "2024": 248316100000.0,
         "2025": 346529800000.0
+      },
+      "income_taxes_paid": {
+        "2016": 45943300000.0,
+        "2017": 63620400000.0,
+        "2018": 45382500000.0,
+        "2019": 52044100000.0,
+        "2020": 51362400000.0,
+        "2021": 83497900000.0,
+        "2022": 86561200000.0,
+        "2023": 159875100000.0,
+        "2024": 183640100000.0,
+        "2025": 267557500000.0
       },
       "pretax_income": {
         "2016": 385921700000.0,
@@ -734,6 +760,18 @@
         "2024": 59857900000.0,
         "2025": 136925700000.0
       },
+      "dep_amort": {
+        "2016": 223828400000.0,
+        "2017": 260142700000.0,
+        "2018": 292546300000.0,
+        "2019": 286884200000.0,
+        "2020": 331724600000.0,
+        "2021": 422394900000.0,
+        "2022": 437254300000.0,
+        "2023": 532190900000.0,
+        "2024": 662796600000.0,
+        "2025": 688096400000.0
+      },
       "shares_diluted": {
         "2016": 25935394839.718533,
         "2017": 25939721804.511276,
@@ -805,6 +843,16 @@
         "accession": "0001628280-26-025362",
         "filing_form": "20-F",
         "xbrl_tag": "IncomeTaxExpenseContinuingOperations",
+        "unit": "TWD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/"
+      },
+      "income_taxes_paid": {
+        "value": 267557500000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001628280-26-025362",
+        "filing_form": "20-F",
+        "xbrl_tag": "IncomeTaxesPaidRefundClassifiedAsOperatingActivities",
         "unit": "TWD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/"
       },
@@ -1018,6 +1066,16 @@
         "unit": "",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/"
       },
+      "dep_amort": {
+        "value": 688096400000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001628280-26-025362",
+        "filing_form": "20-F",
+        "xbrl_tag": "DepreciationExpense+AmortisationExpense",
+        "unit": "",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1046179/000162828026025362/"
+      },
       "shares_diluted": {
         "value": 25929494424.92745,
         "fiscal_year": 2025,
@@ -1032,10 +1090,10 @@
     "edgar_filings_index": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001046179&type=10-K&dateb=&owner=include&count=40"
   },
   "score_composite": {
-    "value_0_100": 42.8,
+    "value_0_100": 47.8,
     "pillars": {
       "valuation": 0,
-      "balance_sheet_health": 65,
+      "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,
       "momentum": 50
