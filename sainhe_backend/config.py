@@ -73,7 +73,7 @@ EDGAR_CACHE_DAYS_TICKER_MAP   = 30
 
 # ESEF (XBRL européen, filings.xbrl.org) : la LISTE des rapports est relue chaque semaine
 # (nouveau rapport annuel publié ?) ; chaque rapport, immuable, est caché sans expiration.
-ESEF_CACHE_DAYS_FILINGS = 6
+ESEF_CACHE_DAYS_FILINGS = float(os.environ.get("SAINHE_ESEF_CACHE_DAYS") or 6)   # CI : 120 j les jours « prix », 1 j aux trimestres
 # Ticker SAINHE → LEI (GLEIF). Vérifié le 2026-11-20 sur filings.xbrl.org :
 #   RMS.PA Hermès 2020-2025 ✓ · LDO.MI Leonardo 2021-2024 ✓ (tagging partiel) · COA.L Coats 2021-2025 ✓
 # Non couverts : SAF.PA (aucun rapport indexé), RHM.DE (entité sans rapport : l'Allemagne

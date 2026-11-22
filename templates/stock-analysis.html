@@ -45,6 +45,8 @@
   {% if stock_analysis_live and stock_vmap %}
   {% include "partials/stock/_sa_style.html" %}
   {% include "partials/stock/_sa_sections.html" %}
+  {# scripts inside <main>: the swipe engine swaps <main> and re-runs only what it contains #}
+  {% include "partials/stock/_sa_calc.html" %}{% include "partials/stock/_sa_js.html" %}
   {% else %}
   <div class="sec-band sec-choc">
     <div class="shell-placeholder" style="padding:4rem 1rem;text-align:center">
@@ -210,7 +212,6 @@ if(_TB) _TB.addEventListener("click",function(){setTheme(_H.dataset.theme==="dar
 })();
 </script>
 
-{% if stock_analysis_live and stock_vmap %}{% include "partials/stock/_sa_calc.html" %}{% include "partials/stock/_sa_js.html" %}{% endif %}
 {% include "partials/_swipe_nav.html" %}
 </body>
 </html>

@@ -1241,6 +1241,16 @@ window.addEventListener('resize', function() {
         <div class="lrn-tab-panel" id="lrn-sa-overview">
           <div class="lrn-panel-hdr"><div class="lrn-panel-title">What the Stock Analysis page does</div></div>
           <div class="lrn-panel-rows">
+            <div class="lrn-panel-row lrn-row-plain">
+              <div class="lrn-panel-row-lbl">In plain words</div>
+              <div class="lrn-panel-row-val">A share price is a bet on the future. This page asks two simple questions about each company. First: what future does today's price take for granted? Second: what has the company actually achieved, year after year, in its own accounts? When the two agree, the price is easy to explain. When they disagree, you have found something worth thinking about. The first section puts every company on one map to spot those disagreements. The second opens one company and lets you type in your own belief. The last three test a group of companies together: how it moved, how wide its future could be, how it went through past crashes. Everything comes from official filings and market prices, and every number can be traced to its source. Nothing here tells you to buy or sell.</div>
+            </div>
+            <div class="lrn-panel-row lrn-row-example">
+              <div class="lrn-panel-row-lbl">Example</div>
+              <div class="lrn-panel-row-val">A company trades at 100. The page finds that this price only makes sense if its cash flow grows 9% a year, forever. Its accounts show it earned more than its cost of money in only 3 years out of 10. Price and record disagree: the price expects a lot, the record has not proven it. That is not a sell signal — it is a question you now know to ask.</div>
+            </div>
+            <div class="lrn-panel-subhdr">In detail</div>
+
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">In one sentence</div>
               <div class="lrn-panel-row-val">It reads the annual accounts of about thirty companies and asks two questions side by side: <strong>what does today's price require you to believe</strong>, and <strong>what have the accounts already proven</strong>? Then it lets you combine the companies and see how that mix would have behaved.</div>
@@ -1267,7 +1277,7 @@ window.addEventListener('resize', function() {
             </div>
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">Updates</div>
-              <div class="lrn-panel-row-val">Accounts, prices and valuations are rebuilt every week (Tuesday, 05:30 UTC), with the quality checks. The date of the price used is shown next to it; the date of the accounts is shown in each company's badges.</div>
+              <div class="lrn-panel-row-val">Prices, exchange rates, rates and everything that depends on them — implied growth, the Lab, the range of outcomes — are refreshed every weekday after the US close. Annual and quarterly filings are re-read four times a year, after each filing season (early March, mid-May, mid-August, mid-November). The date of the price used is shown next to it; the date of the accounts is shown in each company's badges.</div>
             </div>
           </div>
         </div>
@@ -1276,6 +1286,16 @@ window.addEventListener('resize', function() {
         <div class="lrn-tab-panel" id="lrn-sa-map">
           <div class="lrn-panel-hdr"><div class="lrn-panel-title">01 · Quality × Price</div></div>
           <div class="lrn-panel-rows">
+            <div class="lrn-panel-row lrn-row-plain">
+              <div class="lrn-panel-row-lbl">In plain words</div>
+              <div class="lrn-panel-row-val">Each dot is one company. Going right, the price assumes faster growth: the further right, the more the market already expects. Going up, the company has more often earned more than its money costs: the higher, the more it has proven. Top left is the comfortable corner: a solid record, modest expectations. Bottom right is the demanding corner: high expectations, a record that does not back them. A bigger dot means a longer record, so a dot at the top that is small rests on fewer years. The dashed vertical lines mark each currency's risk-free rate: growth beyond it cannot last forever. The slider moves everyone's cost of money to test how fragile a position is. The table below lists the same companies with the exact numbers. Click any dot or row to see every input behind it.</div>
+            </div>
+            <div class="lrn-panel-row lrn-row-example">
+              <div class="lrn-panel-row-lbl">Example</div>
+              <div class="lrn-panel-row-val">Two companies sit at the same height, 100%: both beat their cost of money every year. One is a large dot (10 years out of 10), the other a small one (4 out of 4). Switch the vertical axis to “Median ROIC − WACC spread”: the first earns 25 points above its cost of money in a typical year, the second only 3. Same height at first glance, very different proof.</div>
+            </div>
+            <div class="lrn-panel-subhdr">In detail</div>
+
             <div class="lrn-panel-row" id="lrn-row-sa-x">
               <div class="lrn-panel-row-lbl">Horizontal: what the price assumes</div>
               <div class="lrn-panel-row-val">The growth of free cash flow, every year, forever, that makes today's price fair — a <strong>reverse DCF</strong>. Instead of guessing a growth rate to get a value, it starts from the price and solves for the growth: g = (WACC × EV − FCF) / (EV + FCF). Further right = the price already assumes more. <strong>Nominal</strong> shows it in the company's own currency; <strong>Above risk-free</strong> subtracts that currency's risk-free rate, so that companies reporting in francs, dollars or yen become comparable.</div>
@@ -1311,6 +1331,16 @@ window.addEventListener('resize', function() {
         <div class="lrn-tab-panel" id="lrn-sa-file">
           <div class="lrn-panel-hdr"><div class="lrn-panel-title">02 · Company file</div></div>
           <div class="lrn-panel-rows">
+            <div class="lrn-panel-row lrn-row-plain">
+              <div class="lrn-panel-row-lbl">In plain words</div>
+              <div class="lrn-panel-row-val">This is one company in depth. At the top: its price, its size and the growth its price assumes. Below, four ways to value one share, shown side by side and never averaged: what today's profits are worth with no growth, what its accounts plus its extra profits are worth, the market price, and what analysts expect. The simulator is the heart of the page. You move a slider to the growth you find believable, and the page tells you what a share would be worth if you were right. Small marks on the slider give you reference points: the risk-free rate, the past five years, the price, the analysts, the growth the company can fund itself. As soon as you leave the price's own assumption, “Your view” shows your gap with the market. You can copy a link that keeps your assumptions. Every underlined number opens the formula and the filing it comes from.</div>
+            </div>
+            <div class="lrn-panel-row lrn-row-example">
+              <div class="lrn-panel-row-lbl">Example</div>
+              <div class="lrn-panel-row-val">The price of Company B implies 8% growth a year. You believe 6% is more realistic, because its five-year history was 6%. You click that mark on the slider: “Your view” shows a value of 70 per share against a price of 100, −30%. That is the size of your disagreement with the market — not proof that you are right.</div>
+            </div>
+            <div class="lrn-panel-subhdr">In detail</div>
+
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">The header</div>
               <div class="lrn-panel-row-val">The price and its date, the market value, the growth the price implies and the record of ROIC above WACC. Badges give the source of the accounts and their freshness: amber when the company has grown fast since its last annual report, red when the accounts are older than 15 months.</div>
@@ -1346,6 +1376,16 @@ window.addEventListener('resize', function() {
         <div class="lrn-tab-panel" id="lrn-sa-lab">
           <div class="lrn-panel-hdr"><div class="lrn-panel-title">03 · Allocation Lab</div></div>
           <div class="lrn-panel-rows">
+            <div class="lrn-panel-row lrn-row-plain">
+              <div class="lrn-panel-row-lbl">In plain words</div>
+              <div class="lrn-panel-row-val">Here you build a basket of companies and see how it would have behaved over five years. Each company has a slider: move it to give it more or less weight. You can start from six ready-made mixes, from the simplest (the same amount everywhere) to ones calculated on past data. The calculated mixes always look good on the past, because they were made to fit it. That is why the page tests them on a period they did not see. The ⇄ button swaps a company for its closest rival to compare. You can choose the currency you measure in: a European holding US shares also lives with the dollar's moves. The tiles give the yearly return, how bumpy the ride was, the worst fall, and the return per unit of risk. Bars show which companies carry most of the risk — often not the biggest weights. It is history, not a forecast.</div>
+            </div>
+            <div class="lrn-panel-row lrn-row-example">
+              <div class="lrn-panel-row-lbl">Example</div>
+              <div class="lrn-panel-row-val">You put 20% in each of five tech companies. The return looks great, but the risk bars show that four of them move together: 90% of the risk comes from one theme. Click “Risk clusters (HRP)”: the weights spread across groups that move differently, and the worst fall shrinks.</div>
+            </div>
+            <div class="lrn-panel-subhdr">In detail</div>
+
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">What it is</div>
               <div class="lrn-panel-row-val">The SAINHE watchlist with a weight slider per holding, recomputed in your browser from five years of daily prices. ⇄ swaps a holding for its largest listed rival on one common market (an editorial pairing, not a full peer group). Weights are rescaled to 100%.</div>
@@ -1373,6 +1413,16 @@ window.addEventListener('resize', function() {
         <div class="lrn-tab-panel" id="lrn-sa-mc">
           <div class="lrn-panel-hdr"><div class="lrn-panel-title">04 · Range of outcomes</div></div>
           <div class="lrn-panel-rows">
+            <div class="lrn-panel-row lrn-row-plain">
+              <div class="lrn-panel-row-lbl">In plain words</div>
+              <div class="lrn-panel-row-val">Nobody knows the future, but we can look at many possible versions of it. This section takes your basket's own past days and reshuffles them, in chunks of about a month, into 2,000 possible futures. Chunks keep bad weeks together, as in real markets. The result is a range: a middle outcome, a bad case and a good case. It also tells you how often you would end below what you put in, and how deep the falls on the way could be. Five calm years cannot produce a crash they never contained, so the page also runs a “tail-adjusted” version. That version adds crash-sized days, taken from 30 years of the US market, scaled to your basket. When an event never appears, the page says “none in 2,000 paths”, never 0%. Read it as the width of the road, not the destination.</div>
+            </div>
+            <div class="lrn-panel-row lrn-row-example">
+              <div class="lrn-panel-row-lbl">Example</div>
+              <div class="lrn-panel-row-val">You invest 10,000. Half of the 2,000 futures end above 21,000; one in twenty ends below 11,700. With crash-sized days added, that bad case drops to 10,800. The gap between the two tells you how much the calm of the last five years flatters the picture.</div>
+            </div>
+            <div class="lrn-panel-subhdr">In detail</div>
+
             <div class="lrn-panel-row" id="lrn-row-sa-bootstrap">
               <div class="lrn-panel-row-lbl">Stationary block bootstrap</div>
               <div class="lrn-panel-row-val">Your allocation's own daily returns over five years are cut into blocks of random length — 21 trading days on average — and reshuffled into 2,000 possible futures (Politis &amp; Romano, 1994). Blocks keep the clustering of real markets: a bad week tends to follow a bad week. The seed is fixed, so the same paths come back on every visit. It shows how wide the range of outcomes is and how deep the falls on the way can be — not what will happen.</div>
@@ -1392,6 +1442,16 @@ window.addEventListener('resize', function() {
         <div class="lrn-tab-panel" id="lrn-sa-crisis">
           <div class="lrn-panel-hdr"><div class="lrn-panel-title">05 · Crisis replay</div></div>
           <div class="lrn-panel-rows">
+            <div class="lrn-panel-row lrn-row-plain">
+              <div class="lrn-panel-row-lbl">In plain words</div>
+              <div class="lrn-panel-row-val">This section replays your basket through four real market crashes: 2000–02, 2008–09, 2020 and 2022. Each window runs from the market's peak to its lowest point. Many of today's companies did not exist in 2000, so only the ones already listed are kept. The page always shows how much of your basket that covers. It never invents a stand-in for a missing company. The line is therefore not your portfolio's history — it is how your choice of companies, among those that existed, went through the storm. Next to it you see the same companies in equal amounts and the market as a whole. A last column counts the “unusual days”: days when the companies moved in ways the last five years never showed. Those are the days when spreading your money helps least.</div>
+            </div>
+            <div class="lrn-panel-row lrn-row-example">
+              <div class="lrn-panel-row-lbl">Example</div>
+              <div class="lrn-panel-row-val">In the 2008–09 crash, the market fell 55%. Your basket — 23 of its 31 companies existed then, 74% of its weight — fell 40%. One in three days was unusual: companies that normally move independently all fell together.</div>
+            </div>
+            <div class="lrn-panel-subhdr">In detail</div>
+
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">Four windows</div>
               <div class="lrn-panel-row-val">The dot-com bust (2000–02), the financial crisis (2008–09), the Covid crash (2020) and the 2022 rate shock, each from the S&amp;P 500's peak to its trough, starting one week before the peak. The dot-com bust matters most for a list heavy in highly valued technology companies.</div>
@@ -1411,6 +1471,16 @@ window.addEventListener('resize', function() {
         <div class="lrn-tab-panel" id="lrn-sa-method">
           <div class="lrn-panel-hdr"><div class="lrn-panel-title">06 · Method notes</div></div>
           <div class="lrn-panel-rows">
+            <div class="lrn-panel-row lrn-row-plain">
+              <div class="lrn-panel-row-lbl">In plain words</div>
+              <div class="lrn-panel-row-val">These are the rules behind every number, for when you want to check how the page thinks. Each company is valued in the currency of its own accounts; your currency only adds a converted figure underneath. The cost of money (WACC) is built from a government bond rate, the company's sensitivity to the market and a standard premium for owning shares. Return on capital measures the profit made on the money invested in the business. Some ratios stop making sense in special cases, for example when a company has bought back most of its shares: they are then marked n/m with the reason. European and US accounting rules treat research costs differently, so compare such companies with care. A growth rate above the risk-free rate cannot last forever: read it as how much is expected, not as a forecast. Missing numbers stay N/D: nothing is guessed.</div>
+            </div>
+            <div class="lrn-panel-row lrn-row-example">
+              <div class="lrn-panel-row-lbl">Example</div>
+              <div class="lrn-panel-row-val">A company has bought back so many shares that its book capital is almost zero. Its return on capital comes out at 300% — meaningless, because the denominator is close to nothing. The page marks that year n/m instead of counting it as proof of quality.</div>
+            </div>
+            <div class="lrn-panel-subhdr">In detail</div>
+
             <div class="lrn-panel-row" id="lrn-row-sa-currency">
               <div class="lrn-panel-row-lbl">Three currencies, one rule</div>
               <div class="lrn-panel-row-val"><strong>accountsCurrency</strong>, the currency of the filing, is the one every valuation is computed in, never converted. <strong>discountCurrency</strong> is always the same. <strong>displayCurrency</strong>, the header selector, only adds an equivalent under absolute amounts, with rate, date and source (N/D when no rate is published). Ratios and rates carry no currency.</div>
@@ -1437,7 +1507,7 @@ window.addEventListener('resize', function() {
             </div>
             <div class="lrn-panel-row" id="lrn-row-sa-netdebt">
               <div class="lrn-panel-row-lbl">Net debt</div>
-              <div class="lrn-panel-row-val">Long- and short-term debt + finance leases − cash − short-term investments. Short-term investments are deducted only when filed for that year; otherwise net debt is overstated, never understated. Each component's tag is audited every week for migrations.</div>
+              <div class="lrn-panel-row-val">Long- and short-term debt + finance leases − cash − short-term investments. Short-term investments are deducted only when filed for that year; otherwise net debt is overstated, never understated. Each component's tag is audited for migrations at every refresh.</div>
             </div>
           </div>
         </div>
@@ -1446,6 +1516,16 @@ window.addEventListener('resize', function() {
         <div class="lrn-tab-panel" id="lrn-sa-data">
           <div class="lrn-panel-hdr"><div class="lrn-panel-title">Sources &amp; checks</div></div>
           <div class="lrn-panel-rows">
+            <div class="lrn-panel-row lrn-row-plain">
+              <div class="lrn-panel-row-lbl">In plain words</div>
+              <div class="lrn-panel-row-val">Every number starts in an official document. US companies publish their annual accounts with the SEC; European companies publish them in a standard digital format called ESEF. The page reads those files directly, line by line, with the exact label each figure was filed under. A few companies publish nothing machine-readable for free; for them the page uses Yahoo Finance statements, drawn in grey. Prices, exchange rates and interest rates come from free public sources and are refreshed every weekday. The accounts are re-read four times a year, after each filing season. Every day the page also checks itself: each figure against a second source, and each company's accounts against basic accounting identities. Every gap found is published, not hidden.</div>
+            </div>
+            <div class="lrn-panel-row lrn-row-example">
+              <div class="lrn-panel-row-lbl">Example</div>
+              <div class="lrn-panel-row-val">Assets must always equal liabilities plus equity. If a company's figures break that rule by more than the tolerance, the check flags it and the gap appears in the quality list above the coverage table — with the company, the year and the size of the gap.</div>
+            </div>
+            <div class="lrn-panel-subhdr">In detail</div>
+
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">Filings</div>
               <div class="lrn-panel-row-val">US companies: annual 10-K; foreign issuers listed in the US: 20-F — both read as XBRL from SEC EDGAR. European companies: ESEF annual reports from filings.xbrl.org. When a company files a figure under its own element instead of the standard one (Deere's long-term debt, NVIDIA's capital expenditure before 2022 and short-term investments since 2026), the filing itself is read.</div>
@@ -1460,7 +1540,7 @@ window.addEventListener('resize', function() {
             </div>
             <div class="lrn-panel-row" id="lrn-row-sa-quality">
               <div class="lrn-panel-row-lbl">Quality checks</div>
-              <div class="lrn-panel-row-val">Every week: four filed figures per company (revenue, net income, total assets, cash) are compared with an independent second source; accounting identities are tested on the last three years (assets = liabilities + equity, gross profit, EPS × shares, cash ≤ assets); every net-debt tag is audited. The badge above the coverage table opens the full list, with every gap published.</div>
+              <div class="lrn-panel-row-val">At every refresh: four filed figures per company (revenue, net income, total assets, cash) are compared with an independent second source; accounting identities are tested on the last three years (assets = liabilities + equity, gross profit, EPS × shares, cash ≤ assets); every net-debt tag is audited. The badge above the coverage table opens the full list, with every gap published.</div>
             </div>
           </div>
         </div>

@@ -1,6 +1,13 @@
-name: SAINHE — Stock Analysis (hebdo)
+name: SAINHE — Stock Analysis (prix quotidiens · dépôts trimestriels)
 
-# Régénère chaque semaine les analyses fondamentales et la simulation de portefeuille :
+# Deux régimes (étape « Régime ») :
+#   - CHAQUE JOUR OUVRÉ, après la clôture US : prix, change, taux, bêtas, consensus, Labo,
+#     Monte Carlo et crises recalculés ; les dépôts EDGAR/ESEF sont relus depuis le cache
+#     (TTL 120 j) — aucun nouveau téléchargement de rapports ;
+#   - CHAQUE TRIMESTRE, après les saisons de dépôt (10-K début mars ; 10-Q et rapports ESEF
+#     mi-mai, mi-août, mi-novembre) : dépôts rafraîchis (TTL 1 j), cache réenregistré.
+#   Lancement manuel : case « filings » pour forcer le rafraîchissement des dépôts.
+# Chaque exécution :
 #   1. tests du backend (115 + 61 assertions, hermétiques) et du front (Node)
 #   2. sainhe_backend/pipeline.py --coverage : US 10-K + ADR 20-F (SEC EDGAR) + Europe ESEF
 #      (filings.xbrl.org) → un nouveau 10-K / 20-F / rapport ESEF est capté automatiquement
@@ -17,8 +24,15 @@ name: SAINHE — Stock Analysis (hebdo)
 
 on:
   schedule:
-    - cron: "30 5 * * 2"     # mardi 05:30 UTC
+    - cron: "45 22 * * 1-5"      # prix : chaque jour ouvré après la clôture US
+    - cron: "30 5 5 3 *"         # dépôts : après la saison des 10-K
+    - cron: "30 5 15 5,8,11 *"   # dépôts : après chaque saison de 10-Q / ESEF
   workflow_dispatch:
+    inputs:
+      filings:
+        description: "Rafraîchir aussi les dépôts EDGAR / ESEF"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -36,7 +50,6 @@ jobs:
     env:
       PYTHONIOENCODING: utf-8
       EDGAR_CONTACT_EMAIL: ${{ secrets.EDGAR_CONTACT_EMAIL }}
-      SAINHE_EDGAR_CACHE_DAYS: "6"
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REPO: ${{ github.repository }}
       ISSUE_TITLE: "[auto] Stock Analysis — anomalies de données"
@@ -63,10 +76,25 @@ jobs:
       - name: Install dependencies
         run: pip install -r sainhe_backend/requirements.txt
 
-      # Cache EDGAR + ESEF conservé d'une semaine à l'autre : les rapports ESEF (≈ 4 Mo
-      # chacun, immuables) ne sont téléchargés qu'une fois ; EDGAR est rafraîchi (TTL 6 j).
+      - name: Régime (prix quotidiens ou dépôts trimestriels)
+        id: mode
+        run: |
+          case "${{ github.event.schedule }}" in
+            "30 5 5 3 *"|"30 5 15 5,8,11 *") filings=true ;;
+            *) filings="${{ inputs.filings == true }}" ;;
+          esac
+          if [ "$filings" = "true" ]; then days=1; else days=120; fi
+          echo "filings=$filings" >> "$GITHUB_OUTPUT"
+          echo "SAINHE_EDGAR_CACHE_DAYS=$days" >> "$GITHUB_ENV"
+          echo "SAINHE_ESEF_CACHE_DAYS=$days" >> "$GITHUB_ENV"
+          echo "Dépôts rafraîchis : $filings (TTL cache $days j)"
+
+      # Cache EDGAR + ESEF : relu chaque jour, réenregistré seulement quand les dépôts sont
+      # rafraîchis (ou s'il n'existe pas encore). Les rapports ESEF (≈ 4 Mo, immuables) ne
+      # sont téléchargés qu'une fois.
       - name: Restore XBRL cache
-        uses: actions/cache@v4
+        id: xbrl
+        uses: actions/cache/restore@v4
         with:
           path: sainhe_backend/cache
           key: sainhe-xbrl-${{ github.run_id }}
@@ -84,6 +112,13 @@ jobs:
       - name: Stock Analysis (EDGAR 10-K/20-F + ESEF)
         working-directory: sainhe_backend
         run: python pipeline.py --coverage
+
+      - name: Save XBRL cache
+        if: steps.mode.outputs.filings == 'true' || steps.xbrl.outputs.cache-matched-key == ''
+        uses: actions/cache/save@v4
+        with:
+          path: sainhe_backend/cache
+          key: sainhe-xbrl-${{ github.run_id }}
 
       - name: Portfolio Sim (USD, EUR, CHF, HKD)
         working-directory: sainhe_backend
@@ -105,7 +140,8 @@ jobs:
           if git diff --cached --quiet; then
             echo "Aucun changement dans data/stock"
           else
-            git commit -m "data(stock): analyses hebdomadaires $(date -u +%F)"
+            if [ "${{ steps.mode.outputs.filings }}" = "true" ]; then what="dépôts et prix"; else what="prix du jour"; fi
+            git commit -m "data(stock): $what $(date -u +%F)"
             git pull --rebase --autostash origin dev
             git push origin HEAD:dev
           fi
@@ -129,8 +165,9 @@ jobs:
             body="Le contrôle hebdomadaire a trouvé **$n anomalie(s)** (écarts XBRL vs yfinance, régressions N/D ou échecs du pipeline).
 
           Détail : \`data/stock/quality_report.json\` sur la branche dev · exécution : $run_url"
+            # une issue ouverte n'est commentée qu'aux rafraîchissements de dépôts (pas chaque jour)
             if [ -z "$open" ]; then gh issue create -R "$REPO" --title "$ISSUE_TITLE" --body "$body"
-            else gh issue comment "$open" -R "$REPO" --body "$body"; fi
+            elif [ "${{ steps.mode.outputs.filings }}" = "true" ]; then gh issue comment "$open" -R "$REPO" --body "$body"; fi
           elif [ -n "$open" ]; then
             gh issue close "$open" -R "$REPO" --comment "Contrôle qualité propre ($run_url). Fermeture automatique."
           fi

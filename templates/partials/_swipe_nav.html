@@ -116,13 +116,19 @@
      immediately. Fix: collect external <script src> tags, wait for all to load
      (skipping ones whose global is already present), then run inline scripts. */
   function reRunScripts(container) {
-    var all = Array.from(container.querySelectorAll('script'));
+    /* Data blocks (<script type="application/json" id="…">) are not code: leave them in place,
+       with their id, so the page script can read them. Executing them as JavaScript threw
+       "Unexpected token ':'" and left Stock Analysis empty after a swipe. */
+    var isCode = function(s) { var t = (s.getAttribute('type') || '').trim().toLowerCase();
+      return t === '' || t === 'text/javascript' || t === 'application/javascript' || t === 'module'; };
+    var all = Array.from(container.querySelectorAll('script')).filter(isCode);
     var ext = all.filter(function(s) { return !!s.src; });
     var inl = all.filter(function(s) { return !s.src; });
 
     function runInline() {
       inl.forEach(function(old) {
         var s = document.createElement('script');
+        Array.from(old.attributes).forEach(function(a) { s.setAttribute(a.name, a.value); });
         s.textContent = old.textContent;
         if (old.parentNode) old.parentNode.replaceChild(s, old);
         else container.appendChild(s);

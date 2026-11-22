@@ -10,6 +10,12 @@
 (function(){
 'use strict';
 if(!window.Chart || !window.SACALC) return;
+/* one generation per visit: after a swipe rebuilds the page, listeners of the previous visit
+   (still attached to document/window) stand down instead of acting on the new page */
+const GEN = window._saGen = (window._saGen || 0) + 1;
+const onDoc = (type, fn, opt) => document.addEventListener(type, e => { if(GEN === window._saGen) fn(e); }, opt);
+const onWin = (type, fn, opt) => window.addEventListener(type, e => { if(GEN === window._saGen) fn(e); }, opt);
+{ const old = document.getElementById('sa-tt'); if(old) old.remove(); }
 const {derive, simImplied, simValue, impliedAt, fadeValue, fadeImplied, fxRate, decode, refSeries, portfolio, stats, riskContrib, bootstrap, tailFor, turbulence, quantile, aligned, moments, optimize, evaluate} = window.SACALC;
 const VM = JSON.parse((document.getElementById('sa-vmap')||{}).textContent || '{}') || {};
 const ROWS = (VM.rows || []).slice();
@@ -510,7 +516,9 @@ if(tbody){
   tbody.addEventListener('mouseleave', () => setHoverFromTable(null));
   tbody.addEventListener('focusin', e => { const tr = e.target.closest('tr[data-t]'); if(tr) setHoverFromTable(tr.dataset.t); });
   tbody.addEventListener('click', e => {
-    if(e.target.closest('.sa-cmp') || e.target.closest('.sa-td-cmp')) return;
+    if(e.target.closest('.sa-cmp')) return;
+    const cell = e.target.closest('.sa-td-cmp');      // the whole cell toggles the box (44 px target)
+    if(cell){ const c = cell.querySelector('.sa-cmp'); if(c && !c.disabled){ c.checked = !c.checked; toggleCompare(c.dataset.cmp, c.checked); } return; }
     const tr = e.target.closest('tr[data-t]'); if(tr) focusCompany(tr.dataset.t, tr);
   });
   tbody.addEventListener('keydown', e => {
@@ -524,7 +532,7 @@ if(tbody){
   tbody.addEventListener('change', e => { const c = e.target.closest('.sa-cmp'); if(c) toggleCompare(c.dataset.cmp, c.checked); });
 }
 $('#sa-compare').addEventListener('click', e => { const b = e.target.closest('[data-uncmp]'); if(b) toggleCompare(b.dataset.uncmp, false); });
-document.addEventListener('click', e => {
+onDoc('click', e => {
   const o = e.target.closest && e.target.closest('[data-open]'); if(o){ focusCompany(o.dataset.open, o); return; }
   const g = e.target.closest && e.target.closest('[data-gofile]'); if(g){ closeDrawer(); openFile(g.dataset.gofile, true); }
 });
@@ -539,9 +547,9 @@ function showTT(el){
   ttEl.style.left = x + 'px'; ttEl.style.top = y + 'px';
 }
 const hideTT = () => ttEl.classList.remove('on');
-document.addEventListener('mouseover', e => { const el = e.target.closest && e.target.closest('.sa [data-tt]'); if(el) showTT(el); else hideTT(); });
-document.addEventListener('focusin', e => { const el = e.target.closest && e.target.closest('.sa [data-tt]'); if(el) showTT(el); else hideTT(); });
-window.addEventListener('scroll', hideTT, {passive: true, capture: true});
+onDoc('mouseover', e => { const el = e.target.closest && e.target.closest('.sa [data-tt]'); if(el) showTT(el); else hideTT(); });
+onDoc('focusin', e => { const el = e.target.closest && e.target.closest('.sa [data-tt]'); if(el) showTT(el); else hideTT(); });
+onWin('scroll', hideTT, {passive: true, capture: true});
 
 /* quality badge → the list of every check performed */
 let QUAL = null;
@@ -582,7 +590,7 @@ function openChecks(opener){
   Object.keys(T).sort().forEach(t => (T[t].issues || []).forEach(i => { if(i.type !== 'cross_source_gap' && i.type !== 'coherence_gap' && i.type !== 'net_debt_tag_gap')
     other.push('<li><span class="sa-tk">' + esc(t) + '</span> ' + esc(i.type === 'stale_financials' ? 'accounts ' + i.months + ' months old (FY end ' + i.fiscal_year_end + ')' : i.type.replace(/_/g, ' ')) + '</li>'); }));
   openDrawer('Quality check', (s.n_cross_checks || 0) + ' cross-checks · ' + (s.n_issues || 0) + ' gaps',
-    '<p class="sa-note">Each week four filed figures per company (revenue, net income, total assets, cash) are compared with a second, independent source for the same fiscal year. A gap above ' +
+    '<p class="sa-note">Every day four filed figures per company (revenue, net income, total assets, cash) are compared with a second, independent source for the same fiscal year. A gap above ' +
     esc(tol) + ' is an issue. Valuation outputs are not cross-checked: they are computed from these figures. Secondary-source companies are compared with their ESEF report where one exists.</p>' +
     '<div class="sa-tbl-wrap"><table class="sa-tbl sa-chk"><thead><tr><th class="l" scope="col">Company · figure</th><th scope="col">Filed (XBRL)</th><th scope="col">Second source</th><th scope="col">Gap</th></tr></thead><tbody>' +
     rows.join('') + '</tbody></table></div>' + cohHTML +
@@ -856,10 +864,10 @@ function openSource(key){
     (s.note ? '<p class="sa-note" style="margin-top:10px">' + esc(s.note) + '</p>' : ''), drawerOpener && wasOpen ? drawerOpener : document.activeElement);
   drawerState = {kind: 'source', key};
 }
-document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-srckey]'); if(b){ e.preventDefault(); openSource(b.dataset.srckey); } });
+onDoc('click', e => { const b = e.target.closest && e.target.closest('[data-srckey]'); if(b){ e.preventDefault(); openSource(b.dataset.srckey); } });
 $('#sa-dr-close').addEventListener('click', closeDrawer);
 $('#sa-drawer-scrim').addEventListener('click', closeDrawer);
-document.addEventListener('keydown', e => { if(e.key === 'Escape' && $('#sa-drawer').classList.contains('open')) closeDrawer(); });
+onDoc('keydown', e => { if(e.key === 'Escape' && $('#sa-drawer').classList.contains('open')) closeDrawer(); });
 $('#sa-drawer').addEventListener('keydown', e => {   // focus trap (role=dialog, aria-modal)
   if(e.key !== 'Tab') return;
   const f = $$('#sa-drawer button, #sa-drawer a[href], #sa-drawer [tabindex="0"]').filter(x => x.offsetParent !== null);
@@ -1012,12 +1020,12 @@ function valuationBar(row, rep){
     (note ? '<p class="sa-note">' + note + '</p>' : '') +
     (C.available ? '<p class="sa-note sa-caveat">Analyst median: sell-side targets are structurally optimistic and lag the price — treat as sentiment, not truth.</p>' : '') + '</div>';
 }
-document.addEventListener('click', e => {
+onDoc('click', e => {
   const b = e.target.closest && e.target.closest('[data-onmap]'); if(!b) return;
   const t = b.dataset.onmap; st.hover = t; const sec = $('#sa-sec-map'); if(sec) sec.scrollIntoView({behavior: 'smooth', block: 'start'});
   renderMap(); hlRow(true);
 });
-document.addEventListener('sainhe:currency', () => {
+onDoc('sainhe:currency', () => {
   if(curRep && selected){ renderHead(ROW[selected], curRep); renderFacts(ROW[selected], curRep, (curRep.meta || {}).reporting_currency || 'USD'); updateSim(); }
   if(drawerState && $('#sa-drawer').classList.contains('open')){
     if(drawerState.kind === 'drill' && ROW[drawerState.t]) report(drawerState.t).then(rep => { if(drawerState && drawerState.kind === 'drill') $('#sa-dr-body').innerHTML = drillHTML(ROW[drawerState.t], rep); }).catch(() => {});
@@ -1197,8 +1205,9 @@ function updateSim(rescale){
     .sort((a, b) => a.x - b.x);
   placed.forEach(q => { const w_ = q.txt.length * 5.7 + 14, x0 = Math.min(Math.max(q.x - w_ / 2, 0), W - w_);
     let lane = lanes.findIndex(r => r < x0 - 4); if(lane < 0){ lane = lanes.length; lanes.push(0); } lanes[lane] = x0 + w_; q.lane = lane; q.x0 = x0; });
-  pe.style.height = (Math.max(1, lanes.length) * 26 + 4) + 'px';
-  pe.innerHTML = placed.map(q => '<button type="button" class="sa-pin ' + q.p[2] + '" data-g="' + q.p[0] + '" style="left:' + q.x0.toFixed(0) + 'px;top:' + (q.lane * 26) + 'px" title="' + esc(q.p[3]) + '" aria-label="' + esc('Set growth to ' + pct(q.p[0]) + ': ' + q.p[3]) + '">' +
+  const LH = matchMedia('(pointer:coarse)').matches ? 46 : 26;      // 44 px targets on touch screens
+  pe.style.height = (Math.max(1, lanes.length) * LH + 4) + 'px';
+  pe.innerHTML = placed.map(q => '<button type="button" class="sa-pin ' + q.p[2] + '" data-g="' + q.p[0] + '" style="left:' + q.x0.toFixed(0) + 'px;top:' + (q.lane * LH) + 'px" title="' + esc(q.p[3]) + '" aria-label="' + esc('Set growth to ' + pct(q.p[0]) + ': ' + q.p[3]) + '">' +
     '<i style="left:' + Math.min(Math.max(q.x - q.x0, 0), 999).toFixed(0) + 'px"></i>' + esc(q.txt) + '</button>').join('');
   const nd = [];
   if(!isNum(S.hist5)) nd.push('5-year FCF growth N/D (free cash flow missing or not positive at one end)');
@@ -1399,7 +1408,7 @@ function setLens(c, fromHeader){
   if(lab.preset === 'invvol') presetWeights('invvol'), syncSliders();
   scheduleLab();
 }
-document.addEventListener('sainhe:currency', e => setLens(e.detail, true));
+onDoc('sainhe:currency', e => setLens(e.detail, true));
 $('#sa-lens').addEventListener('click', e => { const b = e.target.closest('button[data-cur]'); if(b) setLens(b.dataset.cur, false); });
 
 function buildLab(){
@@ -1449,14 +1458,14 @@ function syncSliders(){
     row.querySelector('.sa-row-w').textContent = (q.w * 100).toFixed(1) + '%'; });
 }
 let labRaf = 0;
-function scheduleLab(){ cancelAnimationFrame(labRaf); labRaf = requestAnimationFrame(() => { syncSliders(); renderLabStats(); renderCrisis(); scheduleMC(); saveHash(); }); }
+function scheduleLab(){ cancelAnimationFrame(labRaf); labRaf = requestAnimationFrame(() => { if(GEN !== window._saGen || !$('#sa-metrics')) return; syncSliders(); renderLabStats(); renderCrisis(); scheduleMC(); saveHash(); }); }
 function bars(el, items, fmt){
   el.innerHTML = items.map(it => '<div class="sa-bar"><span class="sa-bar-l" title="' + esc(it.l) + '">' + esc(it.l) + '</span><span class="sa-bar-t">' +
     (isNum(it.w) ? '<span class="sa-bar-w" style="width:' + Math.min(100, it.w * 100 / (it.scale || 1)).toFixed(1) + '%"></span>' : '') +
     '<span class="sa-bar-r" style="width:' + Math.max(0, Math.min(100, it.r * 100 / (it.scale || 1))).toFixed(1) + '%"></span></span><span class="sa-bar-v">' + fmt(it) + '</span></div>').join('');
 }
 function renderLabStats(){
-  if(!LAB) return;
+  if(!LAB || GEN !== window._saGen || !$('#sa-metrics')) return;   // page left meanwhile
   const B = LAB.M, R = lab.cur, P = pal(), pos = positions();
   const port = portfolio(B, pos, R), loc = portfolio(B, pos, R, true);
   const eqPos = pos.map(q => Object.assign({}, q, {w: 1 / pos.length})), eq = portfolio(B, eqPos, R);
@@ -1583,7 +1592,7 @@ let mcChart = null, mcT = 0;
 function scheduleMC(){ clearTimeout(mcT); mcT = setTimeout(renderMC, 120); }
 function fmtMoney(v, cur){ return isNum(v) ? cur + ' ' + Math.round(v).toLocaleString('en-US') : 'N/D'; }
 function renderMC(){
-  if(!LAB || !$('#sa-mc')) return;
+  if(!LAB || GEN !== window._saGen || !$('#sa-mc')) return;
   const B = LAB.M, R = lab.cur, P = pal(), pos = positions(), A = mc.amount, Y = mc.years;
   const ret = Array.from(portfolio(B, pos, R).p).slice(1).filter(isFinite);
   const bench = benchSeries(B, R), bret = bench ? Array.from(bench).slice(1).map(v => isFinite(v) ? v : 0) : null;
@@ -1679,7 +1688,7 @@ function turbFor(BC, inc, R){
   return (turbMemo[key] = out);
 }
 function renderCrisis(){
-  if(!LAB) return;
+  if(!LAB || GEN !== window._saGen || !$('#sa-crisis-tbl')) return;
   const pos = positions(), R = lab.cur, P = pal(), tb = $('#sa-crisis-tbl tbody');
   const res = {};
   CRISES.forEach(([k]) => { if(LAB.C[k]) res[k] = crisisRun(LAB.C[k], pos, R); });

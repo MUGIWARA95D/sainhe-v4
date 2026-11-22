@@ -117,13 +117,13 @@
             <h4>Return on invested capital</h4>
             <p>ROIC = EBIT × (1 − effective tax rate) / (book equity + net debt); when a year's effective rate is outside 0–60% (tax credit, one-off, loss) the median of the company's normal years is used, or N/D. Goodwill is included, because it sits inside book equity, so companies built by acquisition show lower returns. R&amp;D is expensed as filed and not capitalised, so R&amp;D-heavy companies show higher returns than an economic measure would. Operating leases are excluded from debt; finance leases are included.</p>
             <h4>Net debt</h4>
-            <p>Long- and short-term debt + finance leases − cash − short-term investments. Short-term investments are deducted only when reported for that year — under a US GAAP tag, a company-specific XBRL element (NVIDIA since 2026, Deere's long-term debt since 2022), or the Yahoo line for secondary-source companies; otherwise they are not deducted and the audit trail says so. Every week each component's tag is audited for migrations. That can only overstate net debt, never understate it.</p>
+            <p>Long- and short-term debt + finance leases − cash − short-term investments. Short-term investments are deducted only when reported for that year — under a US GAAP tag, a company-specific XBRL element (NVIDIA since 2026, Deere's long-term debt since 2022), or the Yahoo line for secondary-source companies; otherwise they are not deducted and the audit trail says so. Each component's tag is audited for migrations at every refresh. That can only overstate net debt, never understate it.</p>
             <h4>ROIC above WACC, year by year</h4>
             <p>Each past year is compared with the WACC shown, not with that year's WACC: historical WACCs are not reconstructed. When rates were lower, past spreads were wider than shown. A year is marked n/m when invested capital was below the published share of total assets: ROIC is then the artefact of a near-zero denominator.</p>
           </div>
           <div>
             <h4>Secondary source</h4>
-            <p>Companies with no free machine-readable filing — Swiss issuers (no ESEF, no SEC filing), Fanuc (EDINET requires a key), Saudi Aramco, China Northern Rare Earth, Kazatomprom, and European reports not indexed on filings.xbrl.org (Safran, Rheinmetall) or incomplete there (Leonardo, Coats) — use Yahoo Finance annual statements: four to five years, standardised by the aggregator. They are drawn in grey and line definitions may differ from the filing. They are tested every week for accounting identities (assets = liabilities + equity, gross profit, EPS × shares), and Leonardo and Coats are also compared with their ESEF report.</p>
+            <p>Companies with no free machine-readable filing — Swiss issuers (no ESEF, no SEC filing), Fanuc (EDINET requires a key), Saudi Aramco, China Northern Rare Earth, Kazatomprom, and European reports not indexed on filings.xbrl.org (Safran, Rheinmetall) or incomplete there (Leonardo, Coats) — use Yahoo Finance annual statements: four to five years, standardised by the aggregator. They are drawn in grey and line definitions may differ from the filing. They are tested at every refresh for accounting identities (assets = liabilities + equity, gross profit, EPS × shares), and Leonardo and Coats are also compared with their ESEF report.</p>
             <h4>IFRS and US GAAP are not on the same basis</h4>
             <p>Under IAS 38, IFRS filers capitalise development costs that meet set criteria, while US GAAP expenses research and development. Ferrari, TSMC, Hermès, Leonardo and Coats report under IFRS: their EBIT and invested capital are not directly comparable with Apple's or Microsoft's.</p>
             <h4>EBIT used for the no-growth value (EPV)</h4>
@@ -301,7 +301,7 @@
     </div>
     <div class="card">
       <div class="sa-body">
-        <p class="sa-lede">Filed accounts, read as XBRL and valued in their own currency. Missing data stays N/D — nothing is imputed — and every gap found by the weekly checks is published. Every section is explained in plain language on <a href="/learn.html#lrn-sa-overview">Learn → Stock Analysis</a>.</p>
+        <p class="sa-lede">Filed accounts, read as XBRL and valued in their own currency. Missing data stays N/D — nothing is imputed — and every gap found by the daily checks is published. Prices are refreshed every weekday, filings four times a year. Every section is explained in plain language on <a href="/learn.html#lrn-sa-overview">Learn → Stock Analysis</a>.</p>
         <details class="sa-fold sa-fold-in"><summary aria-label="Method and limits in full"><span class="sa-fold-v" aria-hidden="true"></span><span class="sa-sr">Method and limits in full</span></summary><div class="sa-fold-b">
         <div class="sa-method">
           <div>
@@ -310,7 +310,7 @@
               <li>US companies: annual 10-K, foreign issuers: 20-F, both read directly from SEC EDGAR XBRL.</li>
               <li>European companies: ESEF annual reports from filings.xbrl.org; when a report is missing or incomplete, and for Swiss, Japanese, Saudi, Chinese and Kazakh issuers, Yahoo Finance statements (secondary source, in grey).</li>
               <li>Prices and FX: daily closes, free sources (Yahoo Finance; before 2004 and on days Yahoo lacks, the Federal Reserve H.10 rates via FRED). Figures are in the currency of the accounts and never converted in a calculation; absolute levels also show the header currency underneath, with the rate, its date and its source. Ten-year series are never converted.</li>
-              <li>Every week filed figures are cross-checked against a second source, every company's accounts are tested for accounting identities, and the gaps are published (click the quality badge).</li>
+              <li>Every day filed figures are cross-checked against a second source, every company's accounts are tested for accounting identities, and the gaps are published (click the quality badge).</li>
             </ul>
           </div>
           <div>

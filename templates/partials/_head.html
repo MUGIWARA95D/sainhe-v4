@@ -819,6 +819,7 @@ a.news-hl:hover{color:var(--gold)}
   .lrn-metric-label{border-right:none;border-bottom:1px solid rgba(196,149,90,.18)}
 }
 /* ── Learn panel section sub-header ─────────────────────── */
+.lrn-row-example .lrn-panel-row-val{border-left:2px solid rgba(196,149,90,.55);padding-left:12px;font-style:italic}
 .lrn-panel-subhdr{
   font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;
   color:rgba(196,149,90,.55);padding:6px 0 4px;margin-top:6px;
@@ -1083,6 +1084,9 @@ a.news-hl:hover{color:var(--gold)}
 .box-info-pop.bip-open{display:block;animation:bip-in .12s ease}
 @keyframes bip-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 .bip-desc{font-size:12px;line-height:1.65;color:var(--p);margin:0 0 10px}
+@media (pointer:coarse){.lrn-toc-link{min-height:44px}}
+/* (i) marks: 44 px hit area on touch screens, same 22 px drawing */
+@media (pointer:coarse){.box-info-btn{position:relative}.box-info-btn::after{content:"";position:absolute;inset:-11px;border-radius:50%}}
 .bip-link{font-size:11.5px;color:var(--gold);font-weight:600;letter-spacing:.3px;
   text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:opacity .15s}
 .bip-link:hover{opacity:.7}
@@ -1246,8 +1250,11 @@ a.news-hl:hover{color:var(--gold)}
     });
     var lbl = document.getElementById('pt-cur-label');
     if(lbl) lbl.textContent = c;
-    if(window._sainheRenderIndices)   window._sainheRenderIndices();
-    if(window._sainheRenderPortfolio) window._sainheRenderPortfolio();
+    /* each page renderer in isolation: after a swipe the Dashboard's renderers may still be
+       registered while their elements are gone — one failure must not block the others */
+    [window._sainheRenderIndices, window._sainheRenderPortfolio].forEach(function(fn){
+      if(typeof fn === 'function'){ try{ fn(); }catch(e){} }
+    });
     /* Stock Analysis (Allocation Lab, crisis replay) listens to this event */
     try{ document.dispatchEvent(new CustomEvent('sainhe:currency', {detail: c})); }catch(e){}
   };

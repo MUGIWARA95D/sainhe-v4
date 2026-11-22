@@ -34,7 +34,9 @@ sainhe_backend/        Stock Analysis + Portfolio Sim (edgar/, esef/, compute/, 
   quality_check.py     recoupement XBRL vs yfinance, régressions N/D, fraîcheur → data/stock/quality_report.json
 data/stock/            JSON versionnés (git = historique des analyses) ; publiés UNIQUEMENT en preview
 .github/workflows/sainhe.yml          pipeline -> Cloudflare Pages (preview dev : flag true ; prod : flag false)
-.github/workflows/stock-analysis.yml  hebdo (mardi 05:30 UTC, sur main) : tests → backend → qualité → commit dev → redéploiement → issue si anomalies
+.github/workflows/stock-analysis.yml  (sur main) prix chaque jour ouvré 22:45 UTC (cache EDGAR/ESEF relu, TTL 120 j) ;
+                                     dépôts rafraîchis 5 mars, 15 mai/août/nov 05:30 UTC (TTL 1 j) ou dispatch « filings » ;
+                                     tests → backend → qualité → commit dev → redéploiement → issue si anomalies
 .github/workflows/keepalive.yml       garde-fou quotidien (sur main) : réactive les workflows, alerte si données > 48 h
 ```
 
@@ -136,6 +138,11 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   profond attend la fin de l'intro (qui remet le scroll à 0) et réessaie. Page Stock Analysis : notes et
   méthodes repliées dans `.sa-fold` (filet + chevron seul) ; légendes et mises en garde restent visibles.
 - **Navigation par balayage** bloquée pendant la visite guidée et la feuille d'audit plein écran.
+- **Moteur de balayage** (`_swipe_nav.html`) : ne réexécute que le code (les blocs JSON gardent type et id) ;
+  les scripts d'une page DOIVENT être dans `<main>` (Stock Analysis : `_sa_calc` + `_sa_js` inclus dans main) ;
+  `_sa_js` numérote ses visites (`window._saGen`) : les écouteurs d'une visite précédente se taisent.
+- **Mise en ligne** : `STOCK_ANALYSIS_LIVE` du rendu production dans `sainhe.yml` sur dev ET main (les jobs
+  planifiés lisent le fichier de main et redéploient sainhe.com plusieurs fois par jour).
 - NVIDIA : capex des exercices ≤ 2021 sous `nvda:PurchasesOfPropertyAndEquipmentAndIntangibleAssets`
   (lu dans 8 rapports annuels, pages d'index EDGAR archivées comprises).
 - `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → exclu de Portfolio Sim (< 400 jours) ;
