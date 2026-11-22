@@ -1,7 +1,7 @@
 name: SAINHE — Stock Analysis (hebdo)
 
 # Régénère chaque semaine les analyses fondamentales et la simulation de portefeuille :
-#   1. tests du backend (62 + 61 assertions, hermétiques)
+#   1. tests du backend (115 + 61 assertions, hermétiques) et du front (Node)
 #   2. sainhe_backend/pipeline.py --coverage : US 10-K + ADR 20-F (SEC EDGAR) + Europe ESEF
 #      (filings.xbrl.org) → un nouveau 10-K / 20-F / rapport ESEF est capté automatiquement
 #      dans la semaine qui suit sa publication (automatisation annuelle du XBRL)
@@ -77,6 +77,9 @@ jobs:
         run: |
           python tests/test_pipeline.py
           python tests/test_full.py
+
+      - name: Front tests (Stock Analysis, Node)
+        run: node tests_front/test_calc.js
 
       - name: Stock Analysis (EDGAR 10-K/20-F + ESEF)
         working-directory: sainhe_backend
