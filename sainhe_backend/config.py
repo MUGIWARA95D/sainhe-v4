@@ -230,6 +230,7 @@ FRED_CSV_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}"
 RF_USD_PEGS = {"SAR": "riyal pegged to the dollar at 3.75", "HKD": "Hong Kong dollar pegged to the dollar",
                "AED": "dirham pegged to the dollar"}
 DEFAULT_RISK_FREE = 0.042
+DISPLAY_CURRENCIES = ("USD", "EUR", "CHF", "HKD")   # sélecteur de l'en-tête du site
 
 # Valeurs NON SIGNIFICATIVES (« n/m ») — SGR = ROIC × taux de réinvestissement net, avec
 # réinvestissement = (CapEx − D&A + ΔBFR) / NOPAT. La formule cesse de mesurer une croissance :
@@ -260,7 +261,12 @@ CROSS_CHECK_TOL = 0.03
 # balance_sheet 10 % : intérêts minoritaires et éléments « mezzanine » hors passif/capitaux propres.
 COHERENCE_YEARS = 3
 COHERENCE_TOL = {"balance_sheet": 0.10, "gross_profit": 0.02, "eps": 0.05}
-DEFAULT_ERP = 0.050
+DEFAULT_ERP = 0.050          # repli seulement : convention 5 % si la source ci-dessous est injoignable
+# Prime de risque actions : ERP implicite mensuelle de Damodaran (NYU Stern), colonne « ERP (T12m) »
+# — flux de trésorerie aux actionnaires des 12 derniers mois du S&P 500, début de mois. Une seule
+# prime « marché mature » pour toutes les devises (pas encore de prime de risque pays).
+ERP_SOURCE_URL = "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx"
+ERP_SOURCE_NAME = "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)"
 DEFAULT_BETA = 1.0
 # Bêta mesuré par SAINHE (22 nov. 2026) : rendements HEBDOMADAIRES en USD sur BETA_YEARS ans contre
 # l'ETF MSCI World (URTH). Avant : bêta Yahoo, mesuré contre le S&P 500 — incohérent pour Roche,

@@ -6,34 +6,34 @@
   "bloc_A_verdict": {
     "prix": 1154.286144,
     "EPV": {
-      "epv_ev": 83746697204.32002,
-      "epv_equity": 92255297204.32002,
-      "epv_per_share": 237.221129,
+      "epv_ev": 100572787571.43387,
+      "epv_equity": 109081387571.43387,
+      "epv_per_share": 280.486983,
       "inputs": {
         "ebit_adj": 11301400000.0,
         "tax": 0.17652,
-        "wacc": 0.111127,
+        "wacc": 0.092535,
         "net_debt": -8508600000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 47.584933,
-      "high": 199.490619,
+      "low": 56.263767,
+      "high": 235.874949,
       "fcf_p25": 2182975000.0,
       "fcf_p75": 9151700000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 258.515487,
-      "central": 237.221129,
-      "plus_100bps": 219.442823
+      "minus_100bps": 311.820237,
+      "central": 280.486983,
+      "plus_100bps": 255.26546
     },
     "RE_valuation": {
-      "re_value_equity": 85798380912.6979,
-      "re_value_per_share": 220.618105,
+      "re_value_equity": 103076967022.83667,
+      "re_value_per_share": 265.047485,
       "inputs": {
         "B0": 19612200000.0,
-        "RE": 7412837865.899073,
-        "ke": 0.112,
+        "RE": 7781043189.32428,
+        "ke": 0.093225,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.03442
@@ -50,12 +50,12 @@
       "dispersion": 0.920515
     },
     "reverse_dcf": {
-      "implied_g": 0.084332,
+      "implied_g": 0.066188,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 440393281413.30365,
         "fcf_adj": 10882600000.0,
-        "wacc": 0.111127,
+        "wacc": 0.092535,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -217,7 +217,7 @@
     "retained_earnings_test": {
       "ratio": 5.314871,
       "retained_5y": 36527400000.0,
-      "delta_mcap": 194138429985.19684,
+      "delta_mcap": 194138410369.99585,
       "passes": true,
       "window": [
         2020,
@@ -250,39 +250,39 @@
     ],
     "matrix": [
       [
-        165.0,
-        171.24,
-        178.6,
-        187.44,
-        198.24
+        198.23,
+        208.75,
+        221.66,
+        237.85,
+        258.79
       ],
       [
-        169.0,
-        175.45,
-        183.07,
-        192.22,
-        203.4
+        203.03,
+        213.89,
+        227.22,
+        243.94,
+        265.56
       ],
       [
-        191.23,
-        198.89,
-        207.95,
-        218.81,
-        232.08
+        229.74,
+        242.51,
+        258.16,
+        277.81,
+        303.22
       ],
       [
-        203.73,
-        212.08,
-        221.93,
-        233.76,
-        248.21
+        244.76,
+        258.59,
+        275.56,
+        296.86,
+        324.39
       ],
       [
-        228.89,
-        238.61,
-        250.08,
-        263.85,
-        280.68
+        274.99,
+        290.97,
+        310.58,
+        335.19,
+        367.01
       ]
     ]
   },
@@ -302,8 +302,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.111127,
-      "ke": 0.112,
+      "wacc": 0.092535,
+      "ke": 0.093225,
       "kd": 0.026942,
       "tax_rate": 0.17652,
       "E": 448901881413.30365,
@@ -313,7 +313,10 @@
       "rf_currency": "EUR",
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
-      "erp": 0.05,
+      "erp": 0.0379,
+      "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
+      "erp_date": "2026-11-01",
+      "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 1.551596,
       "beta_raw": 1.823277,
       "mode": "complet",
@@ -1274,11 +1277,16 @@
     "reporting_currency": "EUR",
     "price_listing": 1266.22,
     "price_in_reporting_currency": 1154.2861440300942,
+    "price_date": "2026-11-20",
     "fx_listing_to_reporting": 0.9115999937057495,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,
     "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  },
+  "ttm": {
+    "available": false,
+    "reason": "foreign private issuers file no 10-Q"
   }
 }

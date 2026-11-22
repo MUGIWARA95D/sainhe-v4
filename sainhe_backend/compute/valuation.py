@@ -21,7 +21,10 @@ def wacc(cd: CompanyData, price: float | None, beta: float | None = None,
         info = market_inputs.risk_free_info(currency)
         rf, rf_src, rf_proxy, rf_cur = info["rf"], info["source"], info["proxy"], info["currency"]
         rf_reason = info.get("proxy_reason")
-    erp = config.DEFAULT_ERP if erp is None else erp
+    erp_meta = {"source": "argument", "date": None, "url": None}
+    if erp is None:
+        e = market_inputs.erp_info()
+        erp, erp_meta = e["erp"], {"source": e["source"], "date": e["date"], "url": e["url"]}
     beta_raw = beta
     beta = config.DEFAULT_BETA if beta is None else market_inputs.blume_beta(beta)
 
@@ -48,7 +51,8 @@ def wacc(cd: CompanyData, price: float | None, beta: float | None = None,
         detail = "complet"
     return {"wacc": w, "ke": ke, "kd": kd, "tax_rate": t, "E": e, "D": d,
             "rf": rf, "rf_source": rf_src, "rf_currency": rf_cur, "rf_proxy": rf_proxy, "rf_proxy_reason": rf_reason,
-            "erp": erp, "beta": beta, "beta_raw": beta_raw, "mode": detail}
+            "erp": erp, "erp_source": erp_meta["source"], "erp_date": erp_meta["date"], "erp_url": erp_meta["url"],
+            "beta": beta, "beta_raw": beta_raw, "mode": detail}
 
 
 # ------------------------------------------------------------------ EPV (Greenwald)

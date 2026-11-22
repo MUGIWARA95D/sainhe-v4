@@ -68,7 +68,7 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
 - **Spécification (source de vérité)** : `G:\Mon Drive\PROJET SAINHE\sainhe reprise\SAINHE_stock_analysis_plan.txt`
   — en cas de conflit avec ce fichier ou un prompt, le plan gagne.
 - **Backend dans `sainhe_backend/`**. Tests hermétiques (sans réseau, `SAINHE_RF_LIVE=0`) depuis `sainhe_backend/` :
-  `py tests/test_pipeline.py` (104) et `py tests/test_full.py` (61, Portfolio Sim). `$env:PYTHONUTF8='1'` sous Windows.
+  `py tests/test_pipeline.py` (119) et `py tests/test_full.py` (61, Portfolio Sim). `$env:PYTHONUTF8='1'` sous Windows.
   Lancer : `py pipeline.py --coverage`, `py portfolio_runner.py`, `py quality_check.py` (dans cet ordre).
   Dépendances : `sainhe_backend/requirements.txt` (scipy inclus). Email SEC : `EDGAR_CONTACT_EMAIL` (`.env` / secret).
 - **Couverture (21 nov.) : 29 sociétés.** Primaire : 14 US (10-K) + ASML/TSM/RACE (20-F) + Hermès (ESEF).
@@ -82,6 +82,11 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   Éléments XBRL propres à une société (jamais dans companyfacts) : `config.CUSTOM_XBRL_TAGS`, lus dans les
   instances des 4 derniers rapports (Deere : dette LT). DCF inverse : FCF du dernier exercice ≤ 0 → médiane
   5 ans si positive (flag `fcf_basis_median`). Les tests n'écrivent plus dans un fichier suivi (tests/out/).
+- **Devises (22 nov.)** : accountsCurrency (comptes, jamais convertis dans un calcul) = discountCurrency (Rf du WACC) ;
+  displayCurrency (sélecteur) seulement pour les niveaux absolus, en second, avec taux/date/source (`valuation_map.fx`).
+  Ratios et taux sans devise. Séries 10 ans jamais converties. ERP = Damodaran implicite mensuelle (`market_inputs.erp_info`).
+  TTM des 10-Q (`edgar/ttm.py`) ; bêta hebdo 5 ans vs MSCI World (URTH). Front : calculs dans `_sa_calc.html`,
+  testés par `node tests_front/test_calc.js` (CI). Contrôles de cohérence : `coherence.py`.
 - **Devises** : prix ramené à la devise des COMPTES et à l'action ordinaire (`pipeline._pricing_context` :
   ASML/RACE EUR, TSM TWD + ADR ×5, COA.L pence→USD) ; devise dominante détectée par société (TSM : TWD
   prime sur la traduction de convenance USD). Parités fixes (SAR 3,75) plutôt que cotations Yahoo bruitées.

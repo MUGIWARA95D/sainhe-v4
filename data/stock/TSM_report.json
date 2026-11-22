@@ -6,34 +6,34 @@
   "bloc_A_verdict": {
     "prix": 2105.16232,
     "EPV": {
-      "epv_ev": 14401260791093.287,
-      "epv_equity": 16992356991093.287,
-      "epv_per_share": 655.329283,
+      "epv_ev": 16657370514765.533,
+      "epv_equity": 19248466714765.53,
+      "epv_per_share": 742.338682,
       "inputs": {
         "ebit_adj": 1936091700000.0,
         "tax": 0.16973,
-        "wacc": 0.111621,
+        "wacc": 0.096503,
         "net_debt": -2591096200000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 159.686327,
-      "high": 401.155288,
+      "low": 180.888205,
+      "high": 454.41749,
       "fcf_p25": 243994825000.0,
       "fcf_p75": 612950500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 709.983566,
-      "central": 655.329283,
-      "plus_100bps": 609.66266
+      "minus_100bps": 816.603544,
+      "central": 742.338682,
+      "plus_100bps": 682.019936
     },
     "RE_valuation": {
-      "re_value_equity": 15185106613225.91,
-      "re_value_per_share": 585.630648,
+      "re_value_equity": 17568646437345.008,
+      "re_value_per_share": 677.554531,
       "inputs": {
         "B0": 5355038700000.0,
-        "RE": 1098942736116.8108,
-        "ke": 0.111794,
+        "RE": 1180163163012.6401,
+        "ke": 0.096627,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.04912
@@ -50,12 +50,12 @@
       "dispersion": 0.954503
     },
     "reverse_dcf": {
-      "implied_g": 0.090618,
+      "implied_g": 0.075785,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 51994698451671.164,
         "fcf_adj": 1001319000000.0,
-        "wacc": 0.111621,
+        "wacc": 0.096503,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -193,9 +193,9 @@
     "ocf_ni": 1.34011,
     "accruals_pct_rev": -0.151579,
     "retained_earnings_test": {
-      "ratio": 9.494422,
+      "ratio": 9.494421,
       "retained_5y": 3620429900000.0,
-      "delta_mcap": 34373888209372.61,
+      "delta_mcap": 34373884375178.086,
       "passes": true,
       "window": [
         2020,
@@ -309,39 +309,39 @@
     ],
     "matrix": [
       [
-        418.71,
-        435.85,
-        457.81,
-        486.97,
-        527.55
+        484.43,
+        512.41,
+        549.92,
+        602.84,
+        683.12
       ],
       [
-        447.19,
-        466.63,
-        491.54,
-        524.61,
-        570.64
+        517.38,
+        548.68,
+        590.64,
+        649.83,
+        739.63
       ],
       [
-        483.55,
-        505.92,
-        534.59,
-        572.66,
-        625.64
+        559.45,
+        594.97,
+        642.61,
+        709.81,
+        811.76
       ],
       [
-        491.96,
-        515.02,
-        544.56,
-        583.78,
-        638.38
+        569.19,
+        605.69,
+        654.64,
+        723.7,
+        828.46
       ],
       [
-        564.0,
-        592.87,
-        629.87,
-        678.99,
-        747.37
+        652.53,
+        697.43,
+        757.63,
+        842.56,
+        971.39
       ]
     ]
   },
@@ -361,8 +361,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.111621,
-      "ke": 0.111794,
+      "wacc": 0.096503,
+      "ke": 0.096627,
       "kd": 0.069984,
       "tax_rate": 0.16973,
       "E": 54585794651671.164,
@@ -372,7 +372,10 @@
       "rf_currency": "TWD",
       "rf_proxy": true,
       "rf_proxy_reason": "no_source",
-      "erp": 0.05,
+      "erp": 0.0379,
+      "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
+      "erp_date": "2026-11-01",
+      "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 1.25348,
       "beta_raw": 1.378329,
       "mode": "complet",
@@ -1052,11 +1055,16 @@
     "reporting_currency": "TWD",
     "price_listing": 318.71,
     "price_in_reporting_currency": 2105.1623204498287,
+    "price_date": "2026-11-20",
     "fx_listing_to_reporting": 33.02629852294922,
     "adr_ratio": 5.0,
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,
     "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  },
+  "ttm": {
+    "available": false,
+    "reason": "foreign private issuers file no 10-Q"
   }
 }

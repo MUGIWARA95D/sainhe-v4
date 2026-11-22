@@ -10,7 +10,7 @@
 (function(){
 'use strict';
 if(!window.Chart || !window.SACALC) return;
-const {derive, simImplied, simValue, decode, refSeries, portfolio, stats, riskContrib, bootstrap, aligned, moments, optimize, evaluate} = window.SACALC;
+const {derive, simImplied, simValue, fadeValue, fadeImplied, fxRate, decode, refSeries, portfolio, stats, riskContrib, bootstrap, aligned, moments, optimize, evaluate} = window.SACALC;
 const VM = JSON.parse((document.getElementById('sa-vmap')||{}).textContent || '{}') || {};
 const ROWS = (VM.rows || []).slice();
 const BASE = '/data/stock/';
@@ -92,7 +92,7 @@ const asOf = $('#sa-asof'); if(asOf && VM.as_of) asOf.textContent = 'as of ' + V
  * `selected` (the company in focus) drives the audit drawer and section 02.
  * Every figure comes from valuation_map.json; recomputations are arithmetic only. */
 const TH = VM.thresholds || {};
-const st = {hover: null, brush: null, compare: [], dW: 0, src: 'all', hideStale: false, sort: {k: 'gap', dir: -1}};
+const st = {hover: null, brush: null, compare: [], dW: 0, src: 'all', hideStale: false, sort: {k: 'gap', dir: -1}, xmode: 'nominal', cmpMode: false};
 let mapChart = null, selected = null, drag = null, noClick = false, xRange = null;
 const SHAPE = {'10-K': 'circle', '20-F': 'triangle', 'ESEF': 'rectRot', 'YF': 'rect'};
 // secondary source: neutral ink, not a fourth categorical hue (the validated palette has three)
@@ -116,8 +116,8 @@ function rfLines(rows){
 }
 function computeXRange(rows){
   const xs = [];   // fixed over the whole slider range: points move, the axis does not
-  rows.forEach(r => [-0.02, 0, 0.02].forEach(d => { const g = derive(r, d).g; if(isNum(g)) xs.push(g); }));
-  rfLines(rows).forEach(l => xs.push(l.rf));
+  rows.forEach(r => [-0.02, 0, 0.02].forEach(d => { const x = xOf(r, derive(r, d).g); if(isNum(x)) xs.push(x); }));
+  if(st.xmode === 'excess') xs.push(0); else rfLines(rows).forEach(l => xs.push(l.rf));
   if(!xs.length) return [-0.02, 0.15];
   return [Math.floor((Math.min.apply(null, xs) - .01) * 100) / 100, Math.ceil((Math.max.apply(null, xs) + .01) * 100) / 100];
 }
@@ -185,12 +185,16 @@ const s1Plugin = {
     ctx.strokeRect(x, y, Math.abs(drag.x1 - drag.x0), Math.abs(drag.y1 - drag.y0)); ctx.restore();
   }
 };
+/* x-axis mode: 'nominal' (default) or 'excess' = implied growth − risk-free of the company's own currency.
+ * The risk-free rate embeds that currency's expected inflation, so the excess is comparable across
+ * currencies without an inflation series (which no free source publishes for most of them). */
+const xOf = (r, g) => st.xmode === 'excess' ? (isNum(g) && isNum(r.rf) ? g - r.rf : null) : g;
 function mapDatasets(rows){
   const P = pal(), out = [];
   const dim = t => st.brush && !st.brush.has(t), hot = t => t === st.hover || t === selected;
   ['10-K', '20-F', 'ESEF', 'YF'].forEach(k => {
     const col = P[SLOT[k]], set = rows.filter(r => r.src_kind === k);
-    const pt = (r, dW) => { const d = derive(r, dW); return isNum(d.g) && isNum(d.share) ? {x: d.g, y: d.share, t: r.ticker} : null; };
+    const pt = (r, dW) => { const d = derive(r, dW), x = xOf(r, d.g); return isNum(x) && isNum(d.share) ? {x, y: d.share, t: r.ticker} : null; };
     const cur = set.map(r => pt(r, st.dW)).filter(Boolean);
     out.push({label: SRC_NAME[k], kind: 'cur', data: cur, pointStyle: SHAPE[k], order: 1,
       pointRadius: cur.map(p => p.t === st.hover ? 10 : p.t === selected ? 8.5 : 6.5), pointHoverRadius: 10, pointHitRadius: 10,
@@ -209,8 +213,9 @@ function renderMap(rebuild){
   const cv = $('#sa-map'); if(!cv) return;
   const rows = filtered(), P = pal();
   if(rebuild || !xRange) xRange = computeXRange(rows);
-  const ds = mapDatasets(rows), lines = rfLines(rows);
-  const xTitle = 'Perpetual FCF growth implied by the price (reverse DCF)' + (st.dW ? ' — WACC ' + signed(st.dW, 2, ' pt') : '');
+  const ds = mapDatasets(rows), lines = st.xmode === 'excess' ? [{rf: 0, cur: new Set(['own currency']), proxy: new Set()}] : rfLines(rows);
+  const xTitle = (st.xmode === 'excess' ? 'Implied growth minus the risk-free rate of each company\'s currency' : 'Perpetual FCF growth implied by the price (reverse DCF)') +
+    (st.dW ? ' — WACC ' + signed(st.dW, 2, ' pt') : '');
   if(mapChart && !rebuild){
     mapChart.data.datasets = ds; mapChart.options.plugins.saS1.rf = lines;
     mapChart.options.scales.x.min = xRange[0]; mapChart.options.scales.x.max = xRange[1];
@@ -259,7 +264,11 @@ function renderMap(rebuild){
       plugins: [s1Plugin]
     });
   }
-  const un = rows.filter(r => { const d = derive(r, st.dW); return !(isNum(d.g) && isNum(d.share)); });
+  const un = rows.filter(r => { const d = derive(r, st.dW); return !(isNum(xOf(r, d.g)) && isNum(d.share)); });
+  const axn = $('#sa-axis-note');
+  if(axn) axn.textContent = st.xmode === 'excess'
+    ? 'Growth above the risk-free rate of each company\'s own currency: the risk-free rate carries that currency\'s expected inflation, so points are comparable across currencies. Above 0 = faster than the economy can grow forever.'
+    : 'Nominal growth in each company\'s accounts currency — not directly comparable across currencies (a Swiss franc rate near 0.5% and a dollar rate near 4.9% embed different inflation). Switch to "Above risk-free" to compare.';
   $('#sa-unplaced').innerHTML = un.length
     ? '<strong>Not placed (N/D):</strong> ' + un.map(r => '<button class="sa-src" data-open="' + esc(r.ticker) + '">' + esc(r.ticker) + '</button>').join(', ') +
       ' — implied growth needs positive free cash flow and a known net debt, and the vertical axis needs at least one meaningful ROIC year. Nothing is imputed.'
@@ -401,20 +410,22 @@ function renderBrushbar(){
   if(st.brush) $('#sa-brush-txt').textContent = st.brush.size + ' compan' + (st.brush.size > 1 ? 'ies' : 'y') + ' selected on the map (' +
     Array.from(st.brush).join(', ') + ') — the table is filtered.';
 }
-function renderCompare(){
-  const el = $('#sa-compare'); if(!el) return;
+function renderCompare(){ renderCompareInto($('#sa-compare')); renderCompareInto($('#sa-fcmp')); if(typeof syncPickChips === 'function' && st.cmpMode) syncPickChips(); }
+function renderCompareInto(el){
+  if(!el) return;
   const cols = st.compare.map(t => ROW[t]).filter(Boolean);
   if(!cols.length){ el.hidden = true; el.innerHTML = ''; return; }
   const D = cols.map(r => derive(r, st.dW));
   const defs = [
-    ['Implied growth', (r, d) => H(pct(d.g))],
+    ['Implied growth', (r, d) => H(pct(d.g)) + (cols.length > 1 && r !== cols[0] && isNum(d.g) && isNum(D[0].g) ? ' <span class="sa-co">' + esc(pts(d.g - D[0].g)) + ' vs ' + esc(cols[0].ticker) + '</span>' : '')],
+    ['Above risk-free', r => { const d = derive(r, st.dW), x = isNum(d.g) && isNum(r.rf) ? d.g - r.rf : null; return H(isNum(x) ? pts(x) : 'N/D'); }],
     ['Sustainable growth', (r, d) => sgrCell(r, d)],
     ['Gap (implied − sustainable)', (r, d) => gapCell(r, d)],
     ['ROIC > WACC', (r, d) => sparkHTML(d)],
     ['No-growth value (EPV) vs price', r => H(pctS(r.ecart_pct, 0))],
     ['WACC' + (st.dW ? ' (shifted ' + signed(st.dW, 2, ' pt') + ')' : ''), (r, d) => H(pct(d.w))],
     ['Risk-free', r => isNum(r.rf) ? esc((r.rf_currency || '') + ' ' + pct(r.rf)) + (r.rf_proxy ? ' <span class="sa-co">US proxy</span>' : '') : NDH],
-    ['Price (accounts currency)', r => H(money(r.prix, r.currency))],
+    ['Price (accounts currency)', r => H(money(r.prix, r.currency)) + dualSub(r.prix, r.currency, 'money')],
     ['Flags', r => (r.flags || []).length ? r.flags.map(f => esc(flagTitle(f.id))).join('<br>') : '—'],
     ['Accounts', r => esc(SRC_NAME[r.src_kind]) + '<br>FY end ' + esc(r.fiscal_year_end || 'N/D') + (r.stale_financials ? ' <span class="badge badge-red">old</span>' : '')]
   ];
@@ -448,6 +459,10 @@ $$('#sa-map-card .sa-chip[data-src]').forEach(b => b.addEventListener('click', (
   st.src = b.dataset.src;
   $$('#sa-map-card .sa-chip[data-src]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
   renderS1(true);
+}));
+$$('#sa-map-card .sa-chip[data-xm]').forEach(b => b.addEventListener('click', () => {
+  st.xmode = b.dataset.xm; $$('#sa-map-card .sa-chip[data-xm]').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+  renderMap(true);
 }));
 const hsEl = $('#sa-hide-stale'); if(hsEl) hsEl.addEventListener('change', () => { st.hideStale = hsEl.checked; renderS1(true); });
 const dwIn = $('#sa-dw');
@@ -599,7 +614,7 @@ function drillHTML(row, rep){
   const ndSub = 'long-term debt ' + esc(big(n_(ndd.lt_debt))) + ' + short-term debt ' + esc(big(n_(ndd.st_debt))) + ' + finance leases ' + esc(big(n_(ndd.finance_leases))) +
     ' − cash ' + esc(big(n_(ndd.cash))) + ' − short-term investments ' + (ndd.st_investments_deducted ? esc(big(n_(ndd.st_investments))) : '<span class="sa-nd">N/D</span> (not filed this year, not deducted)');
   let h = '<div class="sa-dsec"><h4>What the price implies (reverse DCF)</h4><dl class="sa-kv">' +
-    kv('Price (' + (rep.as_of || 'N/D') + ')', money(price, cur), listed) +
+    kv('Price (' + ((rep.meta || {}).price_date || rep.as_of || 'N/D') + ')', money(price, cur), listed) +
     kv('× diluted shares', big(shares), tagLine(sh)) +
     kv('= market capitalisation', big(mc, cur)) +
     kv('+ net debt', big(nd, cur), ndSub) +
@@ -609,13 +624,14 @@ function drillHTML(row, rep){
     kv('Discount rate (WACC)', pct(w, 2)) + '</dl>' +
     '<pre class="sa-formula">g = (WACC × EV − FCF) / (EV + FCF)\n  = (' + pct(w, 2) + ' × ' + big(ev) + ' − ' + big(fcf) + ') / (' + big(ev) + ' + ' + big(fcf) + ')\n  = ' + pct(g, 2) + '</pre>' +
     bandHTML([[-0.01, gw(-0.01)], [0, gw(0)], [0.01, gw(0.01)]]) +
-    (st.dW ? '<p class="sa-note">The map is shifted by ' + esc(signed(st.dW, 2, ' pt')) + ': implied growth there is ' + esc(pct(gw(st.dW))) + '.</p>' : '') + '</div>';
+    (st.dW ? '<p class="sa-note">The map is shifted by ' + esc(signed(st.dW, 2, ' pt')) + ': implied growth there is ' + esc(pct(gw(st.dW))) + '.</p>' : '') +
+    '<p class="sa-note">Above the ' + esc(wd.rf_currency || cur) + ' risk-free rate (' + esc(pct(wd.rf)) + ', the proxy for long-run nominal growth), a perpetual rate is not literally possible — read it as relative intensity, not a forecast.</p></div>';
   const ke = n_(wd.ke), kd = n_(wd.kd), t = n_(wd.tax_rate), eq = n_(wd.E), debt = n_(wd.D), V = isNum(eq) && isNum(debt) ? eq + debt : null;
   const full = wd.mode === 'complet' && V && isNum(ke) && isNum(kd) && isNum(t);
   h += '<div class="sa-dsec"><h4>Discount rate (WACC)</h4><dl class="sa-kv">' +
     kv('Risk-free rate (' + (wd.rf_currency || 'N/D') + ')', pct(wd.rf, 2), wd.rf_proxy ? '<strong>Proxy:</strong> no free 10-year government yield in this currency; the US 10-year is used instead.' : 'Ten-year government yield in the currency of the accounts.') +
     kv('Beta raw → adjusted', num(wd.beta_raw, 2) + ' → ' + num(wd.beta, 2), esc(wd.beta_source || 'N/D') + '; adjusted = 0.67 × raw + 0.33 (Blume)') +
-    kv('Equity risk premium', pct(wd.erp)) +
+    kv('Equity risk premium', pct(wd.erp, 2), esc(wd.erp_source || 'N/D') + (wd.erp_date ? ', ' + esc(wd.erp_date) : '') + (/^https:\/\//.test(wd.erp_url || '') ? ' · <a href="' + esc(wd.erp_url) + '" target="_blank" rel="noopener">source ↗</a>' : '') + ' — one mature-market premium for every currency') +
     kv('Cost of equity = rf + β × ERP', pct(ke, 2)) +
     kv('Cost of debt', pct(kd, 2), 'interest expense / debt' + (sm.interest_expense ? ' · ' + tagLine(sm.interest_expense) : '')) +
     kv('Tax rate', pct(t)) +
@@ -677,12 +693,6 @@ function flagsListHTML(rep){
 }
 let fileTok = 0, sim = null, simChart = null, trendCharts = [], SPECS = {}, curRep = null;
 
-function buildPicker(){
-  const el = $('#sa-pick'); if(!el) return;
-  el.innerHTML = ROWS.slice().sort((a, b) => a.ticker.localeCompare(b.ticker))
-    .map(r => '<button class="sa-chip" data-pick="' + esc(r.ticker) + '" title="' + esc(r.name) + '">' + esc(r.ticker) + '</button>').join('');
-  el.addEventListener('click', e => { const b = e.target.closest('[data-pick]'); if(b) openFile(b.dataset.pick, false); });
-}
 function openFile(t, scroll, quiet){
   if(!ROW[t]) return;
   selected = t;
@@ -700,37 +710,6 @@ function cagr(obj, years){
   const a = s[s.length - 1 - years][1], b = s[s.length - 1][1];
   return a > 0 && b > 0 ? Math.pow(b / a, 1 / years) - 1 : null;
 }
-function renderFile(row, rep){
-  curRep = rep;
-  const A = rep.bloc_A_verdict || {}, meta = rep.meta || {}, wd = (rep.drill_down || {}).wacc_detail || {};
-  const cur = meta.reporting_currency || row.currency || 'USD';
-  const ig = isNum((A.reverse_dcf || {}).implied_g) ? A.reverse_dcf.implied_g : null;
-  const rev5 = cagr((rep.bloc_D_trends || {}).revenue_10y, 5);
-  const idx = (rep.drill_down || {}).edgar_filings_index;
-  SPECS = buildSpecs(row, rep);
-  let lede;
-  if(isNum(ig)) lede = 'At <strong>' + esc(money(meta.price_in_reporting_currency, cur)) + '</strong>, the price implies free cash flow growing <strong>' +
-      esc(pct(ig)) + '</strong> a year, forever, discounted at a <strong>' + esc(pct(wd.wacc)) + '</strong> cost of capital. ' +
-      (isNum(rev5) ? 'Revenue grew ' + esc(pct(rev5)) + ' a year over the last five years' : 'Five-year revenue growth is N/D') +
-      ((A.SGR || {}).status === 'n/m' ? '; its sustainable growth rate is not meaningful this year (see flags).'
-        : isNum((A.SGR || {}).sgr) ? '; its sustainable growth rate (ROIC × reinvestment, last year) is ' + esc(pct(A.SGR.sgr)) + '.' : '.');
-  else lede = 'Implied growth is <strong>N/D</strong> for this company: the reverse DCF needs positive adjusted free cash flow and a known net debt. ' +
-      'The record below still applies; nothing is imputed.';
-  const flagsHTML_ = flagsListHTML(rep);
-  const listing = meta.listing_currency && meta.listing_currency !== cur
-    ? '<span class="badge badge-gold" title="Listing price converted to the currency of the accounts">listed in ' + esc(meta.listing_currency) + (meta.adr_ratio && meta.adr_ratio !== 1 ? ' · ADR ×' + num(meta.adr_ratio, 0) : '') + '</span>' : '';
-  $('#sa-head').innerHTML =
-    '<div class="sa-head"><div class="sa-name">' + esc(row.name) + '<small>' + esc(row.ticker) + ' · ' + esc(row.sector) + '</small></div>' +
-    '<div class="sa-badges"><span class="badge badge-gold">' + esc(meta.source || row.source) + '</span>' +
-    '<span class="badge ' + (meta.stale_financials ? 'badge-red' : 'badge-green') + '">FY end ' + esc(meta.fiscal_year_end || 'N/D') +
-      (isNum(meta.months_since_fiscal_year_end) ? ' · ' + meta.months_since_fiscal_year_end + ' months ago' : '') + '</span>' + listing +
-    (/^https:\/\//.test(idx || '') ? '<a class="sa-btn" href="' + esc(idx) + '" target="_blank" rel="noopener">All filings ↗</a>' : '') + '</div></div>' +
-    '<p class="sa-lede" style="margin-top:12px">' + lede + '</p>' +
-    '<div style="margin-top:14px">' + flagsHTML_ + '</div>';
-  renderFacts(row, rep, cur);
-  initSim(rep, cur);
-  renderTrends(rep, cur);
-}
 
 /* — source specs: formula + inputs + XBRL facts — */
 function fact(rep, tag){ return ((rep.drill_down || {}).source_map_per_tag || {})[tag] || null; }
@@ -746,7 +725,7 @@ function buildSpecs(row, rep){
     price: {k: 'Market input', t: 'Share price', v: money(meta.price_in_reporting_currency, cur),
       formula: 'Daily close on ' + (rep.as_of || 'N/D') + ', converted to the currency of the accounts' + (meta.adr_ratio && meta.adr_ratio !== 1 ? '\nand to one ordinary share (ADR ratio ' + meta.adr_ratio + ')' : ''),
       inputs: [{l: 'Listing price', v: money(meta.price_listing, meta.listing_currency)},
-               {l: 'FX listing → accounts', v: num(meta.fx_listing_to_reporting, 4)},
+               {l: 'FX listing → accounts', v: num(meta.fx_listing_to_reporting, 4), m: meta.listing_currency && meta.listing_currency !== cur ? fxLine(meta.listing_currency, cur) : 'same currency: no conversion'},
                {l: 'ADR ratio', v: num(meta.adr_ratio, 0)}],
       note: 'Source: Yahoo Finance daily close (free source). Not a filed figure.'},
     epv: {k: 'Computed', t: 'Earnings power value per share', v: money(E.epv_per_share, cur),
@@ -778,7 +757,7 @@ function buildSpecs(row, rep){
       formula: 'WACC = E/(D+E) × ke + D/(D+E) × kd × (1 − t)\nke = rf + β × ERP ; β adjusted (Blume) = 0.67 × β_raw + 0.33',
       inputs: [{l: 'Risk-free rf', v: pct(wd.rf, 2), m: wd.rf_source || ''},
                {l: 'β raw → adjusted', v: num(wd.beta_raw, 2) + ' → ' + num(wd.beta, 2), m: (wd.beta_source || 'N/D') + '; Blume: 0.67 × raw + 0.33'},
-               {l: 'Equity risk premium', v: pct(wd.erp)},
+               {l: 'Equity risk premium', v: pct(wd.erp, 2), m: (wd.erp_source || 'N/D') + (wd.erp_date ? ', ' + wd.erp_date : '') + ' — one mature-market premium for every currency'},
                {l: 'Cost of equity ke', v: pct(wd.ke)},
                {l: 'Cost of debt kd', v: pct(wd.kd), fact: f('interest_expense'), m: 'interest expense / debt'},
                {l: 'Market value of equity E', v: big(wd.E, cur), open: 'price'},
@@ -802,9 +781,9 @@ function buildSpecs(row, rep){
                {l: 'Stock-based compensation', v: big((f('sbc') || {}).value, cur), fact: f('sbc')}]},
     revenue: {k: 'Filed figure', t: 'Revenue', v: big((f('revenue') || {}).value, cur), inputs: [{l: 'Revenue', v: big((f('revenue') || {}).value, cur), fact: f('revenue')}]},
     shares: {k: 'Filed figure', t: 'Diluted shares', v: big(sh && sh.value), inputs: [{l: 'Weighted diluted shares', v: big(sh && sh.value), fact: sh}]},
-    consensus: {k: 'External context', t: 'Analyst price targets (median)', v: C.available ? money(C.target_median, meta.listing_currency) : 'N/D',
-      formula: 'Median of published analyst targets, in the listing currency.\nShown as external context only: not a SAINHE estimate.',
-      inputs: C.available ? [{l: 'Analysts', v: num(C.n_analysts)}, {l: 'Range', v: money(C.target_low, meta.listing_currency) + ' – ' + money(C.target_high, meta.listing_currency)},
+    consensus: {k: 'External context', t: 'Analyst price targets (median)', v: C.available ? money(C.target_median, cur) : 'N/D',
+      formula: 'Median of published analyst targets, converted from the listing currency to the currency of the accounts (and to one ordinary share for ADRs).\nShown as external context only: not a SAINHE estimate.',
+      inputs: C.available ? [{l: 'Analysts', v: num(C.n_analysts)}, {l: 'Range', v: money(C.target_low, cur) + ' – ' + money(C.target_high, cur)},
                              {l: 'Dispersion (high − low) / median', v: pct(C.dispersion, 0)}] : [],
       note: 'Source: Yahoo Finance consensus. ' + (C.warning_few_analysts ? 'Few analysts: low reliability.' : '')}
   };
@@ -857,47 +836,189 @@ $('#sa-drawer').addEventListener('keydown', e => {   // focus trap (role=dialog,
   else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
 });
 
-function renderFacts(row, rep, cur){
-  const tile = (key, label, sub) => { const s = SPECS[key];
-    return '<div class="sa-tile"><div class="sa-tile-l">' + esc(label) + '</div><div class="sa-tile-v"><button class="sa-src" data-srckey="' + key + '">' + H(s.v) + '</button></div>' +
-      (sub ? '<div class="sa-tile-s">' + sub + '</div>' : '') + '</div>'; };
-  const A = rep.bloc_A_verdict || {}, H5 = rep.bloc_E_health || {}, wd = (rep.drill_down || {}).wacc_detail || {};
-  const e = row.ecart_pct;
-  $('#sa-facts').innerHTML = '<div class="sa-tiles">' +
-    tile('price', 'Price (accounts currency)', esc(cur)) +
-    tile('implied', 'Implied growth', 'what the price assumes') +
-    tile('epv', 'No-growth value (EPV)', isNum(e) ? esc(pctS(e, 0)) + ' vs price' : 'per share') +
-    tile('re', 'Residual-earnings value', 'per share, growth capped') +
-    tile('wacc', 'Cost of capital', 'β ' + esc(num(wd.beta, 2)) + ' · rf ' + esc(pct(wd.rf)) ) +
-    tile('roic', 'ROIC', 'ROIC > WACC: ' + esc(row.roic_txt)) +
-    tile('sgr', 'Sustainable growth', 'self-financed') +
-    tile('debt', 'Net debt / EBITDA', 'interest cover ' + H(isNum(H5.interest_coverage) ? num(H5.interest_coverage, 1) + '×' : 'N/D')) +
-    tile('fcf', 'FCF after stock pay', 'latest year') +
-    tile('revenue', 'Revenue', 'latest year') +
-    tile('shares', 'Diluted shares', 'weighted average') +
-    tile('consensus', 'Analyst targets', 'external · median') +
-    '</div><p class="sa-note" style="margin-top:12px">Underlined figures open their source: formula, inputs, XBRL tag and filing.</p>';
-}
 
 /* — simulator — */
+restyle.push(() => { if(simChart){ simChart.destroy(); simChart = null; drawSimCurve(); } });
+
+/* — ten-year trends — */
+restyle.push(() => { if(curRep && selected) renderTrends(curRep, (curRep.meta || {}).reporting_currency || 'USD'); });
+restyle.push(() => renderMap(true));
+
+/* ─── currencies: three concepts, never mixed ───────────────────────────────
+ * accountsCurrency : currency of the filing — every figure from the accounts, never converted in a calculation
+ * discountCurrency : always = accountsCurrency (the WACC uses that currency's risk-free rate)
+ * displayCurrency  : the header selector — applied ONLY to absolute levels (price, market value, FCF,
+ *                    per-share values, analyst targets), shown under the accounts-currency figure.
+ * Ratios and rates (ROIC, margins, growth, WACC, risk-free, tax) carry no currency and are never converted. */
+const FX = VM.fx || {};
+const displayCurrency = () => window.SAINHE_CUR || 'USD';
+function fxLine(from, to){
+  const fx = fxRate(FX, from, to);
+  if(!fx) return to + ' per ' + from + ': N/D (no rate published, nothing converted)';
+  return to + ' per ' + from + ' ' + num(fx.r, fx.r < 0.01 ? 6 : 4) + ' · ' + (fx.date || 'N/D') + ' · ' + (fx.source || 'N/D') + (fx.peg ? ' · ' + fx.peg : '');
+}
+/* accounts-currency figure in large, display-currency equivalent in small underneath (only if different) */
+function dualSub(v, accountsCurrency, fmt){
+  const d = displayCurrency();
+  if(!isNum(v) || d === accountsCurrency || (accountsCurrency === 'GBp' && d === 'GBP')) return '';
+  const fx = fxRate(FX, accountsCurrency, d), f = fmt === 'money' ? money : big;
+  return '<span class="sa-dual" tabindex="0" data-tt="' + esc(fxLine(accountsCurrency, d)) + '">' + (fx ? '≈ ' + esc(f(v * fx.r, d)) : esc(d) + ' N/D') + '</span>';
+}
+
+function buildPicker(){
+  const el = $('#sa-pick'); if(!el) return;
+  const nSec = ROWS.filter(r => r.src_kind === 'YF').length;
+  el.innerHTML = '<button class="sa-chip sa-cmp-mode" id="sa-pick-cmp" aria-pressed="false" title="Pick 2 to 4 companies: side by side, same order, same scales">Compare up to 4</button><span class="sa-sep" aria-hidden="true"></span>' +
+    ROWS.slice().sort((a, b) => a.ticker.localeCompare(b.ticker))
+    .map(r => '<button class="sa-chip" data-pick="' + esc(r.ticker) + '" title="' + esc(r.name) + '">' + esc(r.ticker) + '</button>').join('') +
+    '<span class="sa-note sa-universe">' + ROWS.length + ' companies: ' + (ROWS.length - nSec) + ' read from their filings, ' + nSec +
+    ' from Yahoo Finance statements (secondary source, grey on the map) — the same universe as the coverage table.</span>';
+  el.addEventListener('click', e => {
+    if(e.target.closest('#sa-pick-cmp')){ st.cmpMode = !st.cmpMode; e.target.closest('#sa-pick-cmp').setAttribute('aria-pressed', st.cmpMode);
+      e.target.closest('#sa-pick-cmp').classList.toggle('on', st.cmpMode); syncPickChips(); return; }
+    const b = e.target.closest('[data-pick]'); if(!b) return;
+    if(st.cmpMode){ toggleCompare(b.dataset.pick, st.compare.indexOf(b.dataset.pick) < 0); syncPickChips(); }
+    else openFile(b.dataset.pick, false);
+  });
+}
+function syncPickChips(){
+  $$('#sa-pick .sa-chip[data-pick]').forEach(b => { const on = st.cmpMode ? st.compare.indexOf(b.dataset.pick) >= 0 : b.dataset.pick === selected;
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+}
+
+/* freshness: severity proportional to the growth the accounts do not yet contain */
+const FRESH_GROWTH = 0.15;      // revenue growth above which 6+ months of age matter (documented in the method note)
+function freshness(rep){
+  const m = rep.meta || {}, t = rep.ttm || {}, mo = m.months_since_fiscal_year_end;
+  const rev = series((rep.bloc_D_trends || {}).revenue_10y), yoy = rev.length >= 2 && rev[rev.length - 2][1] > 0 ? rev[rev.length - 1][1] / rev[rev.length - 2][1] - 1 : null;
+  const base = 'FY end ' + (m.fiscal_year_end || 'N/D') + (isNum(mo) ? ' · ' + mo + ' months ago' : '');
+  if(m.stale_financials) return {cls: 'badge-red', text: base, tip: 'Accounts older than 15 months.'};
+  if(t.available && isNum(t.revenue_growth_vs_fy) && t.revenue_growth_vs_fy > FRESH_GROWTH * t.quarters_after_fy / 4)
+    return {cls: 'badge-gold', text: base + ' · accounts predate ' + t.quarters_after_fy + ' quarter' + (t.quarters_after_fy > 1 ? 's' : '') + ' of reported growth',
+      tip: 'Revenue over the last four quarters (to ' + t.period_end + ') is ' + pctS(t.revenue_growth_vs_fy) + ' above the last fiscal year: use the "Last four quarters" base below.'};
+  if(isNum(mo) && mo >= 6 && isNum(yoy) && yoy > FRESH_GROWTH)
+    return {cls: 'badge-gold', text: base + ' · ' + Math.floor(mo / 3) + ' quarters of growth not in the accounts',
+      tip: 'Revenue grew ' + pctS(yoy) + ' in the last fiscal year; ' + mo + ' months have passed since, with no quarterly figures used here.'};
+  return {cls: 'badge-green', text: base, tip: 'Accounts recent relative to the company\'s growth.'};
+}
+
+function renderFile(row, rep){
+  curRep = rep;
+  SPECS = buildSpecs(row, rep);
+  renderHead(row, rep);
+  renderFacts(row, rep, (rep.meta || {}).reporting_currency || row.currency || 'USD');
+  initSim(rep, (rep.meta || {}).reporting_currency || 'USD');
+  renderTrends(rep, (rep.meta || {}).reporting_currency || 'USD');
+  syncPickChips();
+}
+function renderHead(row, rep){
+  const A = rep.bloc_A_verdict || {}, meta = rep.meta || {}, wd = (rep.drill_down || {}).wacc_detail || {};
+  const cur = meta.reporting_currency || row.currency || 'USD';
+  const ig = isNum((A.reverse_dcf || {}).implied_g) ? A.reverse_dcf.implied_g : null;
+  const rev5 = cagr((rep.bloc_D_trends || {}).revenue_10y, 5);
+  const idx = (rep.drill_down || {}).edgar_filings_index, fr = freshness(rep), d0 = derive(row, 0);
+  let lede;
+  if(isNum(ig)) lede = 'At <strong>' + esc(money(meta.price_in_reporting_currency, cur)) + '</strong>, the price implies free cash flow growing <strong>' +
+      esc(pct(ig)) + '</strong> a year, forever, discounted at a <strong>' + esc(pct(wd.wacc)) + '</strong> cost of capital. ' +
+      (isNum(rev5) ? 'Revenue grew ' + esc(pct(rev5)) + ' a year over the last five years' : 'Five-year revenue growth is N/D') +
+      ((A.SGR || {}).status === 'n/m' ? '; its sustainable growth rate is not meaningful this year (see flags).'
+        : isNum((A.SGR || {}).sgr) ? '; its sustainable growth rate (ROIC × reinvestment, last year) is ' + esc(pct(A.SGR.sgr)) + '.' : '.');
+  else lede = 'Implied growth is <strong>N/D</strong> for this company: the reverse DCF needs positive adjusted free cash flow and a known net debt. ' +
+      'The record below still applies; nothing is imputed.';
+  const listing = meta.listing_currency && meta.listing_currency !== cur
+    ? '<span class="badge badge-gold" tabindex="0" data-tt="' + esc('Quoted in ' + meta.listing_currency + (meta.adr_ratio && meta.adr_ratio !== 1 ? ' (1 ADR = ' + meta.adr_ratio + ' shares)' : '') +
+      ', accounts in ' + cur + '. Price converted to one ordinary share in ' + cur + ': ' + fxLine(meta.listing_currency, cur)) + '">listed in ' + esc(meta.listing_currency) +
+      (meta.adr_ratio && meta.adr_ratio !== 1 ? ' · ADR ×' + num(meta.adr_ratio, 0) : '') + '</span>' : '';
+  const peg = (FX[cur] || {}).peg ? '<span class="badge sa-badge-info">' + esc(FX[cur].peg) + '</span>' : '';
+  const price = meta.price_in_reporting_currency, mc = wd.E;
+  const key = (l, main, sub) => '<div class="sa-tile"><div class="sa-tile-l">' + l + '</div><div class="sa-tile-v">' + main + '</div>' + (sub ? '<div class="sa-tile-s">' + sub + '</div>' : '') + '</div>';
+  $('#sa-head').innerHTML =
+    '<div class="sa-head"><div class="sa-name">' + esc(row.name) + '<small>' + esc(row.ticker) + ' · ' + esc(row.sector) + '</small></div>' +
+    '<div class="sa-badges"><span class="badge badge-gold">' + esc(meta.source || row.source) + '</span>' +
+    '<span class="badge ' + fr.cls + '" tabindex="0" data-tt="' + esc(fr.tip) + '">' + esc(fr.text) + '</span>' + listing + peg +
+    '<span class="badge sa-badge-info" tabindex="0" data-tt="' + esc('Figures from the accounts are in ' + cur + ' and are never converted in a calculation. The WACC uses the ' + cur + ' risk-free rate. Absolute levels also show a ' + displayCurrency() + ' equivalent underneath (header selector).') + '">accounts in ' + esc(cur) + '</span>' +
+    '<button class="sa-btn" data-onmap="' + esc(row.ticker) + '">Show on the map ↑</button>' +
+    (/^https:\/\//.test(idx || '') ? '<a class="sa-btn" href="' + esc(idx) + '" target="_blank" rel="noopener">All filings ↗</a>' : '') + '</div></div>' +
+    '<p class="sa-lede" style="margin-top:12px">' + lede + '</p>' +
+    '<div class="sa-tiles sa-keys">' +
+      key('Price (' + esc((rep.meta || {}).price_date || rep.as_of || 'N/D') + ')', '<button class="sa-src" data-srckey="price">' + H(money(price, cur)) + '</button>', dualSub(price, cur, 'money')) +
+      key('Market value', '<button class="sa-src" data-srckey="price">' + H(big(mc, cur)) + '</button>', dualSub(mc, cur)) +
+      key('Implied growth, last year\'s FCF', '<button class="sa-src" data-srckey="implied">' + H(pct(ig)) + '</button>', 'nominal, in ' + esc(cur)) +
+      key('ROIC above WACC', sparkHTML(d0), 'years, vs today\'s WACC') +
+    '</div>' + valuationBar(row, rep) +
+    '<div style="margin-top:14px">' + flagsListHTML(rep) + '</div>';
+}
+/* EPV, residual earnings, price and analyst median on one per-share scale — never averaged */
+function valuationBar(row, rep){
+  const A = rep.bloc_A_verdict || {}, meta = rep.meta || {}, cur = meta.reporting_currency || 'USD', C = A.consensus || {};
+  const P = meta.price_in_reporting_currency;
+  const pts_ = [['EPV', (A.EPV || {}).epv_per_share, 'no growth: current earnings capitalised forever', 'epv'],
+                ['Residual earnings', (A.RE_valuation || {}).re_value_per_share, 'book value plus abnormal earnings, growth capped', 're'],
+                ['Price', P, 'what the market pays today', 'price'],
+                ['Analyst median', C.available ? C.target_median : null, 'external consensus, not computed here', 'consensus']];
+  const ok = pts_.filter(p => isNum(p[1]));
+  if(ok.length < 2 || !isNum(P)) return '';
+  const vals = ok.map(p => p[1]), lo = Math.min(0, Math.min.apply(null, vals)), hi = Math.max.apply(null, vals) * 1.08;
+  const x = v => ((v - lo) / (hi - lo) * 100).toFixed(1);
+  const epv = (A.EPV || {}).epv_per_share, re = (A.RE_valuation || {}).re_value_per_share;
+  const note = isNum(epv) && isNum(re) ? (re > epv
+      ? 'Residual earnings is above the EPV: book value and the returns earned above the cost of equity are worth more than today\'s earnings capitalised without growth — the accounts themselves point to value from returns, not only from growth.'
+      : 'Residual earnings is below the EPV: today\'s earnings capitalised are worth more than book value plus abnormal earnings — returns above the cost of equity are thin relative to the earnings level.') : '';
+  return '<div class="sa-vbar" role="img" aria-label="' + esc(ok.map(p => p[0] + ' ' + money(p[1], cur)).join(', ')) + '">' +
+    '<div class="sa-kicker" style="margin:16px 0 6px">Four answers to "what is a share worth?", per share in ' + esc(cur) + ' — not averaged</div>' +
+    '<div class="sa-vbar-t">' + ok.map(p => '<span class="sa-vbar-m' + (p[0] === 'Price' ? ' price' : '') + '" style="left:' + x(p[1]) + '%"></span>').join('') + '</div>' +
+    '<ul class="sa-vbar-l">' + ok.map(p => '<li><button class="sa-src" data-srckey="' + p[3] + '">' + esc(p[0]) + '</button> <b>' + esc(money(p[1], cur)) + '</b>' +
+      (p[0] !== 'Price' ? ' <span class="sa-co">' + esc(pctS(p[1] / P - 1, 0)) + ' vs price</span>' : '') + ' — ' + esc(p[2]) + '</li>').join('') + '</ul>' +
+    (note ? '<p class="sa-note">' + note + '</p>' : '') + '</div>';
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-onmap]'); if(!b) return;
+  const t = b.dataset.onmap; st.hover = t; const sec = $('#sa-sec-map'); if(sec) sec.scrollIntoView({behavior: 'smooth', block: 'start'});
+  renderMap(); hlRow(true);
+});
+document.addEventListener('sainhe:currency', () => { if(curRep && selected){ renderHead(ROW[selected], curRep); renderFacts(ROW[selected], curRep, (curRep.meta || {}).reporting_currency || 'USD'); updateSim(); } });
+
+function renderFacts(row, rep, cur){
+  const tile = (key, label, sub, tt, dual) => { const s = SPECS[key];
+    return '<div class="sa-tile"><div class="sa-tile-l"' + (tt ? ' tabindex="0" data-tt="' + esc(tt) + '"' : '') + '>' + esc(label) + (tt ? ' ⓘ' : '') + '</div>' +
+      '<div class="sa-tile-v"><button class="sa-src" data-srckey="' + key + '">' + H(s.v) + '</button></div>' + (dual || '') +
+      (sub ? '<div class="sa-tile-s">' + sub + '</div>' : '') + '</div>'; };
+  const H5 = rep.bloc_E_health || {}, wd = (rep.drill_down || {}).wacc_detail || {}, S = (rep.bloc_A_verdict || {}).SGR || {};
+  const sm = (rep.drill_down || {}).source_map_per_tag || {}, fcfL = lastOf((rep.bloc_D_trends || {}).fcf_adj_10y), revL = (sm.revenue || {}).value;
+  const ics = S.invested_capital_share_of_assets;
+  $('#sa-facts').innerHTML = '<div class="sa-tiles">' +
+    tile('wacc', 'Cost of capital', 'β ' + esc(num(wd.beta, 2)) + ' · risk-free ' + esc(wd.rf_currency || cur) + ' ' + esc(pct(wd.rf)) + ' · ERP ' + esc(pct(wd.erp, 2))) +
+    tile('roic', 'ROIC', 'ROIC > WACC: ' + esc(row.roic_txt) + (isNum(ics) && ics < 0.5 ? '<br>invested capital is ' + esc(pct(ics, 0)) +
+      ' of total assets — ROIC reflects capital structure (buybacks, net cash, expensed R&D) as well as operations' : '')) +
+    tile('sgr', 'Sustainable growth', S.status === 'n/m' ? 'n/m — computed value kept: ' + esc(pct(S.sgr)) : 'self-financed') +
+    tile('debt', 'Net debt / EBITDA', 'interest cover ' + H(isNum(H5.interest_coverage) ? num(H5.interest_coverage, 1) + '×' : 'N/D')) +
+    tile('fcf', 'FCF after stock pay', 'latest fiscal year', 'Operating cash flow − capital expenditure − stock-based compensation EXPENSE (the non-cash charge that operating cash flow adds back). Share buybacks are not deducted.', dualSub(fcfL && fcfL[1], cur)) +
+    tile('revenue', 'Revenue', 'latest fiscal year', '', dualSub(revL, cur)) +
+    tile('shares', 'Diluted shares', 'weighted average') +
+    tile('consensus', 'Analyst targets', 'external · median, converted to ' + esc(cur), '', dualSub(((rep.bloc_A_verdict || {}).consensus || {}).target_median, cur, 'money')) +
+    '</div><p class="sa-note" style="margin-top:12px">Underlined figures open their source: formula, inputs, XBRL tag and filing. Ratios and rates carry no currency.</p>';
+}
+
+/* — simulator: single stage (default) and two-stage fade — */
 function simInputs(rep){
   const A = rep.bloc_A_verdict || {}, dd = rep.drill_down || {}, wd = dd.wacc_detail || {}, meta = rep.meta || {};
-  const rd = A.reverse_dcf || {}, rdi = rd.inputs || {}, ei = (A.EPV || {}).inputs || {};
+  const rd = A.reverse_dcf || {}, rdi = rd.inputs || {}, ei = (A.EPV || {}).inputs || {}, t4 = rep.ttm || {};
   const price = isNum(meta.price_in_reporting_currency) ? meta.price_in_reporting_currency : (isNum(A.prix) ? A.prix : null);
   const sh = fact(rep, 'shares_diluted') || fact(rep, 'shares_outstanding');
   const shares = isNum(wd.E) && price ? wd.E / price : (sh && isNum(sh.value) ? sh.value : null);
   const nd = isNum(ei.net_debt) ? ei.net_debt : (isNum(rdi.ev) && isNum(wd.E) ? rdi.ev - wd.E : null);
   const fs = series((rep.bloc_D_trends || {}).fcf_adj_10y);
-  const fcfLast = isNum(rdi.fcf_adj) ? rdi.fcf_adj : (fs.length ? fs[fs.length - 1][1] : null);
+  const fcfLast = fs.length ? fs[fs.length - 1][1] : null;
   const last5 = fs.slice(-5).map(x => x[1]);
-  return {price, shares, nd, cur: meta.reporting_currency || 'USD',
-    fcf: {last: fcfLast, med: last5.length >= 3 ? median(last5) : null}, n5: last5.length,
-    wacc: isNum(wd.wacc) ? wd.wacc : rdi.wacc, sgr: (A.SGR || {}).sgr, rf: wd.rf,
-    fy: fs.length ? fs[fs.length - 1][0] : null};
+  return {price, shares, nd, cur: meta.reporting_currency || 'USD', asOf: rep.as_of, priceDate: meta.price_date,
+    fcf: {last: fcfLast, ttm: t4.available ? t4.fcf_adj : null, med: last5.length >= 3 ? median(last5) : null},
+    ttm: t4, n5: last5.length, wacc: isNum(wd.wacc) ? wd.wacc : rdi.wacc, sgr: (A.SGR || {}).sgr, rf: wd.rf,
+    rfCur: wd.rf_currency || meta.reporting_currency, fy: fs.length ? fs[fs.length - 1][0] : null};
 }
 function initSim(rep, cur){
   const S = simInputs(rep), box = $('#sa-sim');
-  const ok = isNum(S.price) && isNum(S.shares) && S.shares > 0 && isNum(S.nd) && isNum(S.wacc) && ((isNum(S.fcf.last) && S.fcf.last > 0) || (isNum(S.fcf.med) && S.fcf.med > 0));
+  const okB = b => isNum(S.fcf[b]) && S.fcf[b] > 0;
+  const ok = isNum(S.price) && isNum(S.shares) && S.shares > 0 && isNum(S.nd) && isNum(S.wacc) && (okB('last') || okB('med') || okB('ttm'));
   if(simChart){ simChart.destroy(); simChart = null; }
   if(!ok){
     sim = null;
@@ -905,124 +1026,156 @@ function initSim(rep, cur){
       '<p class="sa-note" style="margin-top:8px">For ' + esc(selected) + ' at least one of them is <span class="sa-nd">N/D</span> in the filings, so there is no implied growth to explore. SAINHE does not fill the gap with an estimate.</p>';
     return;
   }
-  const basis = isNum(S.fcf.last) && S.fcf.last > 0 ? 'last' : 'med';
-  sim = {S, basis, w: Math.max(0.03, S.wacc + st.dW), g: null};
+  const basis = okB('last') ? 'last' : okB('ttm') ? 'ttm' : 'med';
+  sim = {S, basis, w: Math.max(0.03, S.wacc + st.dW), g: null, mode: 'single', N: 10, gT: isNum(S.rf) ? S.rf : 0.03};
   sim.g = simImplied(S, S.fcf[basis], sim.w);
-  const fb = (b, l) => { const v = S.fcf[b]; const dis = !(isNum(v) && v > 0);
-    return '<button data-b="' + b + '"' + (b === basis ? ' class="on"' : '') + (dis ? ' disabled title="N/D or not positive"' : '') + '>' + l + ' · ' + esc(big(v, cur)) + '</button>'; };
+  const fb = (b, l, why) => { const v = S.fcf[b], dis = !okB(b);
+    return '<button data-b="' + b + '"' + (b === basis ? ' class="on"' : '') + (dis ? ' disabled data-tt="' + esc(why || 'N/D or not positive') + '" tabindex="0"' : '') + '>' + l + (isNum(v) ? ' · ' + esc(big(v, cur)) : '') + '</button>'; };
+  const t4 = S.ttm || {};
   box.innerHTML =
-    '<div class="sa-sim-out">' +
-      '<div><div class="sa-big-l">The price requires</div><div class="sa-big" id="sim-imp">—</div><div class="sa-tile-s">FCF growth a year, forever</div></div>' +
-      '<div><div class="sa-big-l">You believe</div><div class="sa-big" id="sim-gb">—</div><div class="sa-tile-s" id="sim-gap">—</div></div>' +
-      '<div><div class="sa-big-l">Arithmetic value at your inputs</div><div class="sa-big" id="sim-val">—</div><div class="sa-tile-s" id="sim-vs">—</div></div>' +
-    '</div>' +
-    '<div class="sa-ctl"><div class="sa-ctl-h"><label for="sim-g">Perpetual growth you believe</label><output id="sim-go" for="sim-g">—</output></div>' +
-      '<input type="range" class="sa-range" id="sim-g" step="0.1"><div class="sa-pins" id="sim-pins" aria-hidden="true"></div></div>' +
+    '<div class="sa-ctl" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:0">' +
+      '<span class="sa-seg" id="sim-mode" role="group" aria-label="Model"><button data-m="single" class="on">Single stage</button><button data-m="fade">Two-stage fade</button></span>' +
+      '<span class="sa-seg" id="sim-basis" role="group" aria-label="Cash-flow base">' + fb('last', 'Last year') +
+        fb('ttm', 'Last four quarters', t4.available ? '' : 'Not available: ' + (t4.reason || 'no quarterly filing')) + fb('med', S.n5 + '-year median') + '</span></div>' +
+    '<div class="sa-sim-out" id="sim-out"></div>' +
+    '<div class="sa-ctl"><div class="sa-ctl-h"><label for="sim-g" id="sim-g-l">Perpetual growth you believe</label><output id="sim-go" for="sim-g">—</output></div>' +
+      '<div class="sa-zone-wrap"><span class="sa-zone" id="sim-zone"></span><input type="range" class="sa-range" id="sim-g" step="0.1"></div><div class="sa-pins" id="sim-pins" aria-hidden="true"></div></div>' +
+    '<div class="sa-ctl" id="sim-fade" hidden>' +
+      '<div class="sa-ctl-h"><label for="sim-n">Years of fade to the terminal rate</label><output id="sim-no" for="sim-n">—</output></div><input type="range" class="sa-range" id="sim-n" min="2" max="25" step="1" value="10">' +
+      '<div class="sa-ctl-h" style="margin-top:12px"><label for="sim-gt">Terminal growth (default: ' + esc(S.rfCur) + ' risk-free)</label><output id="sim-gto" for="sim-gt">—</output></div><input type="range" class="sa-range" id="sim-gt" min="-1" step="0.1"></div>' +
     '<div class="sa-ctl"><div class="sa-ctl-h"><label for="sim-w">Discount rate (WACC)</label><output id="sim-wo" for="sim-w">—</output></div>' +
       '<input type="range" class="sa-range" id="sim-w" step="0.1"></div>' +
-    '<div class="sa-ctl" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">' +
-      '<span class="sa-seg" id="sim-basis" role="group" aria-label="Cash-flow base">' + fb('last', 'Last year') + fb('med', S.n5 + '-year median') + '</span>' +
-      '<button class="sa-btn" id="sim-reset">Back to the price</button></div>' +
+    '<div style="text-align:right"><button class="sa-btn" id="sim-reset">Back to the price</button></div>' +
     '<div class="sa-curve"><canvas id="sim-curve" role="img" aria-label="Value per share for each growth rate at your discount rate, against the price"></canvas></div>' +
-    '<p class="sa-note" style="margin-top:10px">The curve gives the value per share for every growth rate at your discount rate; it crosses the price at the implied growth. ' +
-    '<strong>Not an estimate by SAINHE:</strong> arithmetic on your inputs (Gordon formula on adjusted FCF, ' + esc(S.fy ? 'FY ' + S.fy : '') + '). It explodes as growth nears the discount rate.</p>';
-  const gR = $('#sim-g'), wR = $('#sim-w');
+    '<p class="sa-note sa-imposs">Above the ' + esc(S.rfCur) + ' risk-free rate (' + esc(pct(S.rf)) + ', the market\'s proxy for long-run nominal growth in that currency) a perpetual rate is not literally possible — read it as relative intensity, not a forecast. The shaded zone marks it; you can still go there.</p>' +
+    '<p class="sa-note" id="sim-foot"></p>';
+  const gR = $('#sim-g'), wR = $('#sim-w'), nR = $('#sim-n'), tR = $('#sim-gt');
   wR.min = 3; wR.max = Math.max(16, Math.ceil(S.wacc * 100 + 3)); wR.value = (sim.w * 100).toFixed(1);
+  tR.value = (sim.gT * 100).toFixed(1);
   gR.addEventListener('input', () => { sim.g = +gR.value / 100; updateSim(); });
   wR.addEventListener('input', () => { sim.w = +wR.value / 100; updateSim(true); });
+  nR.addEventListener('input', () => { sim.N = +nR.value; updateSim(); });
+  tR.addEventListener('input', () => { sim.gT = +tR.value / 100; updateSim(); });
   $('#sim-basis').addEventListener('click', e => { const b = e.target.closest('button[data-b]'); if(!b || b.disabled) return;
-    sim.basis = b.dataset.b; $$('#sim-basis button').forEach(x => x.classList.toggle('on', x === b)); updateSim(); });
-  $('#sim-reset').addEventListener('click', () => { sim.w = S.wacc; wR.value = (S.wacc * 100).toFixed(1); sim.g = simImplied(S, S.fcf[sim.basis], sim.w); updateSim(true); });
+    sim.basis = b.dataset.b; $$('#sim-basis button').forEach(x => x.classList.toggle('on', x === b)); sim.g = curImplied(); updateSim(); });
+  $('#sim-mode').addEventListener('click', e => { const b = e.target.closest('button[data-m]'); if(!b) return;
+    sim.mode = b.dataset.m; $$('#sim-mode button').forEach(x => x.classList.toggle('on', x === b)); $('#sim-fade').hidden = sim.mode !== 'fade';
+    $('#sim-g-l').textContent = sim.mode === 'fade' ? 'Growth in year 1 (then fading)' : 'Perpetual growth you believe';
+    sim.g = curImplied(); if(!isNum(sim.g)) sim.g = sim.gT; updateSim(true); });
+  $('#sim-reset').addEventListener('click', () => { sim.w = S.wacc; wR.value = (S.wacc * 100).toFixed(1); sim.g = curImplied(); updateSim(true); });
   updateSim(true);
+}
+function curImplied(){
+  const S = sim.S, fcf = S.fcf[sim.basis];
+  return sim.mode === 'fade' ? fadeImplied(S, sim.gT, sim.N, sim.w, fcf) : simImplied(S, fcf, sim.w);
+}
+function curValue(g){
+  const S = sim.S, fcf = S.fcf[sim.basis];
+  return sim.mode === 'fade' ? fadeValue(S, g, sim.gT, sim.N, sim.w, fcf) : simValue(S, g, sim.w, fcf);
 }
 function updateSim(rescale){
   if(!sim) return;
   const S = sim.S, cur = S.cur, fcf = S.fcf[sim.basis], w = sim.w, gR = $('#sim-g');
-  const gmin = -0.03, gmax = Math.round((w - 0.01) * 1000) / 1000;
+  const gmin = -0.03, gmax = sim.mode === 'fade' ? Math.max(0.6, (curImplied() || 0) + 0.1) : Math.round((w - 0.01) * 1000) / 1000;
+  const tR = $('#sim-gt'); tR.max = ((w - 0.01) * 100).toFixed(1); if(sim.gT > w - 0.01){ sim.gT = w - 0.01; tR.value = (sim.gT * 100).toFixed(1); }
   gR.min = (gmin * 100).toFixed(1); gR.max = (gmax * 100).toFixed(1);
-  if(sim.g > gmax) sim.g = gmax; if(sim.g < gmin) sim.g = gmin;
+  if(!isNum(sim.g)) sim.g = 0; if(sim.g > gmax) sim.g = gmax; if(sim.g < gmin) sim.g = gmin;
   gR.value = (sim.g * 100).toFixed(1);
-  const imp = simImplied(S, fcf, w), val = simValue(S, sim.g, w, fcf), gap = sim.g - imp;
-  $('#sim-imp').textContent = pct(imp);
-  $('#sim-gb').textContent = pct(sim.g);
-  $('#sim-gap').textContent = Math.abs(gap) < 0.0005 ? 'exactly what the price requires' : pts(Math.abs(gap)).replace(/^[+±]/, '') + (gap > 0 ? ' above' : ' below') + ' what the price requires';
-  $('#sim-val').textContent = money(val, cur);
-  $('#sim-vs').textContent = (isNum(val) ? pctS(val / S.price - 1, 0) : 'N/D') + ' vs price ' + money(S.price, cur);
-  $('#sim-go').textContent = pct(sim.g);
-  $('#sim-wo').textContent = pct(w);
-  const pins = [[imp, 'price', 'p-imp'], [S.sgr, 'SGR', ''], [S.rf, 'risk-free', '']];
+  const imp1 = simImplied(S, fcf, w), impF = fadeImplied(S, sim.gT, sim.N, w, fcf), imp = sim.mode === 'fade' ? impF : imp1;
+  const val = curValue(sim.g), gap = isNum(imp) ? sim.g - imp : null;
+  const big_ = (l, v, sub, id) => '<div><div class="sa-big-l">' + l + '</div><div class="sa-big"' + (id ? ' id="' + id + '"' : '') + '>' + v + '</div><div class="sa-tile-s">' + sub + '</div></div>';
+  const basisTxt = {last: 'FY ' + (S.fy || 'N/D') + ' FCF', ttm: 'FCF of the four quarters to ' + ((S.ttm || {}).period_end || 'N/D'), med: S.n5 + '-year median FCF'}[sim.basis];
+  $('#sim-out').innerHTML =
+    big_('The price requires', H(pct(imp1)), 'single stage: FCF growth a year, forever') +
+    (sim.mode === 'fade' ? big_('…or, with a fade', H(pct(impF)), 'in year 1, falling to ' + esc(pct(sim.gT)) + ' over ' + sim.N + ' years') : '') +
+    big_('You believe', esc(pct(sim.g)), isNum(gap) ? (Math.abs(gap) < 0.0005 ? 'exactly what the price requires' : esc(pts(Math.abs(gap)).replace(/^[+±]/, '')) + (gap > 0 ? ' above' : ' below') + ' what the price requires') : '') +
+    big_('Arithmetic value at your inputs', H(money(val, cur)) + dualSub(val, cur, 'money'), (isNum(val) ? esc(pctS(val / S.price - 1, 0)) : 'N/D') + ' vs price ' + esc(money(S.price, cur)) + ' (' + esc(S.priceDate || S.asOf || 'N/D') + ')');
+  $('#sim-go').textContent = pct(sim.g); $('#sim-wo').textContent = pct(w); $('#sim-no').textContent = sim.N + ' years'; $('#sim-gto').textContent = pct(sim.gT);
+  const pins = [[imp, sim.mode === 'fade' ? 'price (year 1)' : 'price', 'p-imp'], [S.sgr, 'SGR', ''], [S.rf, 'risk-free', '']];
   $('#sim-pins').innerHTML = pins.filter(p => isNum(p[0])).map(p => {
     const raw = (p[0] - gmin) / (gmax - gmin), out = raw > 1 ? ' →' : raw < 0 ? ' ←' : '';
     const left = Math.min(Math.max(raw, 0), 1) * 100;
     return '<span class="sa-pin ' + p[2] + '" style="left:' + left.toFixed(1) + '%;' + (left > 88 ? 'transform:translateX(-100%)' : left < 8 ? 'transform:none' : '') + '">' + p[1] + ' ' + pct(p[0]) + out + '</span>';
   }).join('');
+  const z = $('#sim-zone'); if(z){ const zl = isNum(S.rf) ? Math.min(Math.max((S.rf - gmin) / (gmax - gmin), 0), 1) * 100 : 100; z.style.left = zl.toFixed(1) + '%'; }
+  $('#sim-foot').innerHTML = '<strong>Not an estimate by SAINHE:</strong> arithmetic on your inputs — ' + esc(basisTxt) + ', ' +
+    (sim.mode === 'fade' ? 'growth falling linearly from year 1 to the terminal rate over ' + sim.N + ' years, then the terminal rate forever.' : 'Gordon formula; it explodes as growth nears the discount rate.') +
+    ' Figures in ' + esc(cur) + ', the currency of the accounts.';
   drawSimCurve(rescale);
 }
 function drawSimCurve(){
   const cv = $('#sim-curve'); if(!cv || !sim) return;
-  const S = sim.S, P = pal(), fcf = S.fcf[sim.basis], w = sim.w;
-  const gmin = -0.03, gmax = w - 0.01, xs = [], ys = [];
-  for(let g = gmin; g <= gmax + 1e-9; g += 0.001){ xs.push(g); ys.push(simValue(S, g, w, fcf)); }
-  const ymax = niceMax(Math.max(S.price * 2.6, simValue(S, sim.g, w, fcf) * 1.15));
+  const S = sim.S, P = pal(), w = sim.w;
+  const gmin = -0.03, gmax = sim.mode === 'fade' ? Math.max(0.6, (curImplied() || 0) + 0.1) : w - 0.01, xs = [], ys = [];
+  const step = (gmax - gmin) / 200;
+  for(let g = gmin; g <= gmax + 1e-9; g += step){ xs.push(g); ys.push(curValue(g)); }
+  const cv0 = curValue(sim.g), ymax = niceMax(Math.max(S.price * 2.6, isNum(cv0) ? cv0 * 1.15 : 0));
   const ymin = ys[0] < 0 ? -niceMax(-ys[0]) : 0;
-  const curve = xs.map((x, i) => ({x, y: ys[i]}));
   const ds = [
-    {label: 'Value per share', data: curve, borderColor: P.s1, borderWidth: 2, pointRadius: 0, tension: 0, clip: 4},
+    {label: 'Value per share', data: xs.map((x, i) => ({x, y: ys[i]})), borderColor: P.s1, borderWidth: 2, pointRadius: 0, tension: 0, clip: 4},
     {label: 'Price', data: [{x: gmin, y: S.price}, {x: gmax, y: S.price}], borderColor: P.muted, borderWidth: 1.2, borderDash: [5, 4], pointRadius: 0},
-    {label: 'Your belief', data: [{x: sim.g, y: simValue(S, sim.g, w, fcf)}], borderColor: P.card, backgroundColor: P.s1, borderWidth: 2, pointRadius: 6, pointHoverRadius: 7, showLine: false}
-  ];
-  if(simChart){
-    simChart.data.datasets = ds;
-    simChart.options.scales.x.min = gmin; simChart.options.scales.x.max = gmax;
-    simChart.options.scales.y.min = ymin; simChart.options.scales.y.max = ymax;
-    simChart.update('none'); return;
-  }
+    {label: 'Your belief', data: [{x: sim.g, y: cv0}], borderColor: P.card, backgroundColor: P.s1, borderWidth: 2, pointRadius: 6, pointHoverRadius: 7, showLine: false}];
+  const zonePlugin = {id: 'saZone', beforeDatasetsDraw(ch){ if(!isNum(S.rf) || sim.mode === 'fade') return; const {ctx, chartArea: a, scales: {x}} = ch;
+    const xp = Math.max(a.left, Math.min(a.right, x.getPixelForValue(S.rf))); ctx.save(); ctx.fillStyle = alpha(pal().gold, .08); ctx.fillRect(xp, a.top, a.right - xp, a.bottom - a.top);
+    ctx.fillStyle = pal().muted; ctx.font = '10px ' + FONT; ctx.textAlign = 'left'; if(a.right - xp > 120) ctx.fillText('above ' + S.rfCur + ' risk-free: not possible forever', xp + 6, a.top + 12); ctx.restore(); }};
+  if(simChart) simChart.destroy();
   simChart = new Chart(cv, {type: 'line', data: {datasets: ds}, options: {
     responsive: true, maintainAspectRatio: false, animation: false, parsing: true,
     interaction: {mode: 'nearest', axis: 'x', intersect: false},
     scales: {
-      x: axis(P, {type: 'linear', min: gmin, max: gmax, ticks: {color: P.muted, callback: v => (v * 100).toFixed(0) + '%'}, title: {display: true, text: 'Perpetual growth', color: P.muted}}),
+      x: axis(P, {type: 'linear', min: gmin, max: gmax, ticks: {color: P.muted, callback: v => (v * 100).toFixed(0) + '%'}, title: {display: true, text: sim.mode === 'fade' ? 'Growth in year 1' : 'Perpetual growth', color: P.muted}}),
       y: axis(P, {min: ymin, max: ymax, ticks: {color: P.muted, maxTicksLimit: 5, callback: v => big(v)}, title: {display: true, text: 'Value per share (' + S.cur + ')', color: P.muted}})
     },
     plugins: {legend: {display: false}, tooltip: Object.assign(tip(P), {filter: it => it.datasetIndex === 0,
       callbacks: {title: it => 'Growth ' + pct(it[0].parsed.x), label: it => 'Value ' + money(it.parsed.y, S.cur) + ' (' + pctS(it.parsed.y / S.price - 1, 0) + ' vs price)'}})}
-  }});
+  }, plugins: [zonePlugin]});
 }
 restyle.push(() => { if(simChart){ simChart.destroy(); simChart = null; drawSimCurve(); } });
 
-/* — ten-year trends — */
+/* — ten years of accounts: one window for every series, accounts currency, never converted — */
 function renderTrends(rep, cur){
   trendCharts.forEach(c => c.destroy()); trendCharts = [];
-  const D = rep.bloc_D_trends || {}, wacc = ((rep.drill_down || {}).wacc_detail || {}).wacc;
-  const P = pal();
-  $('#sa-trend-cur').textContent = 'figures in ' + cur;
+  const D = rep.bloc_D_trends || {}, wacc = ((rep.drill_down || {}).wacc_detail || {}).wacc, P = pal();
+  $('#sa-trend-cur').textContent = 'accounts currency: ' + cur;
   const defs = [
-    {k: 'revenue_10y', t: 'Revenue', type: 'bar', fmt: v => big(v, cur)},
-    {k: 'fcf_adj_10y', t: 'FCF after stock pay', type: 'bar', fmt: v => big(v, cur)},
-    {k: 'roic_10y', t: 'ROIC vs WACC', type: 'line', fmt: v => pct(v), ref: wacc},
-    {k: 'gross_margin_10y', t: 'Gross margin', type: 'line', fmt: v => pct(v)}
-  ];
+    {k: 'revenue_10y', t: 'Revenue (' + cur + ')', type: 'bar', fmt: v => big(v, cur)},
+    {k: 'fcf_adj_10y', t: 'FCF after stock pay (' + cur + ')', type: 'bar', fmt: v => big(v, cur)},
+    {k: 'roic_10y', t: 'ROIC vs today\'s WACC', type: 'line', fmt: v => pct(v), ref: wacc},
+    {k: 'gross_margin_10y', t: 'Gross margin', type: 'line', fmt: v => pct(v)}];
+  const years = Array.from(new Set([].concat.apply([], defs.map(d => Object.keys(D[d.k] || {}))))).sort();
   const el = $('#sa-trends');
   el.innerHTML = defs.map((d, i) => { const s = series(D[d.k]), l = s.length ? s[s.length - 1] : null;
     return '<div class="sa-trend"><div class="sa-tile-l">' + esc(d.t) + '</div><div class="sa-tile-v" style="font-size:15px">' + H(l ? d.fmt(l[1]) : 'N/D') +
-      (l ? ' <span class="sa-tile-s">FY ' + esc(l[0]) + '</span>' : '') + '</div><div class="sa-trend-c"><canvas id="sa-tr-' + i + '"></canvas></div></div>'; }).join('');
+      (l ? ' <span class="sa-tile-s">FY ' + esc(l[0]) + '</span>' : '') + '</div><div class="sa-trend-c"><canvas id="sa-tr-' + i + '" role="img" aria-label="' +
+      esc(d.t + ': ' + years.map(y => y + ' ' + (isNum((D[d.k] || {})[y]) ? d.fmt(D[d.k][y]) : 'N/D')).join(', ')) + '"></canvas></div></div>'; }).join('');
   defs.forEach((d, i) => {
-    const obj = D[d.k] || {}, years = Object.keys(obj).sort();
-    if(!years.length) return;
-    const vals = years.map(y => isNum(obj[y]) ? obj[y] : null);
+    const obj = D[d.k] || {}, vals = years.map(y => isNum(obj[y]) ? obj[y] : null);
+    if(!vals.some(isNum)) return;
     const ds = [{data: vals, label: d.t, borderColor: P.s1, backgroundColor: P.s1, borderWidth: d.type === 'line' ? 2 : 0,
       borderRadius: 4, maxBarThickness: 14, pointRadius: d.type === 'line' ? 2.5 : 0, pointHoverRadius: 5, spanGaps: false, tension: 0}];
-    if(isNum(d.ref)) ds.push({type: 'line', data: years.map(() => d.ref), label: 'WACC today', borderColor: P.muted, borderDash: [4, 3], borderWidth: 1.2, pointRadius: 0});
+    if(isNum(d.ref)) ds.push({type: 'line', data: years.map(() => d.ref), label: 'Today\'s WACC (not historical)', borderColor: P.muted, borderDash: [4, 3], borderWidth: 1.2, pointRadius: 0});
     trendCharts.push(new Chart($('#sa-tr-' + i), {type: d.type, data: {labels: years, datasets: ds}, options: {
-      responsive: true, maintainAspectRatio: false, animation: false,
-      interaction: {mode: 'index', intersect: false},
+      responsive: true, maintainAspectRatio: false, animation: false, interaction: {mode: 'index', intersect: false},
       scales: {x: axis(P, {grid: {display: false}, ticks: {color: P.muted, maxTicksLimit: 4, font: {size: 9}}}), y: axis(P, {display: false, beginAtZero: d.type === 'bar'})},
       plugins: {legend: {display: false}, tooltip: Object.assign(tip(P), {callbacks: {label: it => it.dataset.label + '  ' + (it.raw == null ? 'N/D' : d.fmt(it.raw))}})}
     }}));
   });
+  $('#sa-trend-note').innerHTML = 'Same window for every series (' + esc(years[0] || 'N/D') + '–' + esc(years[years.length - 1] || 'N/D') + '; a missing year is a gap, not a zero). ' +
+    '<strong>Historical series shown in accounts currency — not converted:</strong> converting ten years at today\'s rate would fabricate growth. ' +
+    'The dashed line is today\'s WACC applied to every year — past WACCs are not reconstructed, so "ROIC > WACC" compares past returns with today\'s cost of capital.';
 }
 restyle.push(() => { if(curRep && selected) renderTrends(curRep, (curRep.meta || {}).reporting_currency || 'USD'); });
-restyle.push(() => renderMap(true));
+
+/* progressive disclosure: narrative + 4 key figures + simulator; the rest on demand (remembered per session) */
+(function(){
+  const btn = $('#sa-more'), body = $('#sa-more-body'); if(!btn || !body) return;
+  const set = open => { body.hidden = !open; btn.setAttribute('aria-expanded', open); btn.textContent = open ? 'Hide full record' : 'Show full record';
+    try{ sessionStorage.setItem('sa_full_record', open ? '1' : '0'); }catch(e){}
+    if(open && curRep && selected) renderTrends(curRep, (curRep.meta || {}).reporting_currency || 'USD'); };
+  let open = false; try{ open = sessionStorage.getItem('sa_full_record') === '1'; }catch(e){}
+  set(open);
+  btn.addEventListener('click', () => set(body.hidden));
+})();
 
 /* ═════════════ 4 · ALLOCATION LAB ═════════════ */
 let LAB = null;

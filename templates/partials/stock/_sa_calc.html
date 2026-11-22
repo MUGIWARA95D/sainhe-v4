@@ -33,6 +33,32 @@ const simEV = S => S.price * S.shares + S.nd;
 const simImplied = (S, fcf, w) => { const ev = simEV(S); return (w * ev - fcf) / (ev + fcf); };
 const simValue = (S, g, w, fcf) => (fcf * (1 + g) / (w - g) - S.nd) / S.shares;
 
+/* — section 02: two-stage fade — growth falls linearly from g1 (year 1) to gT (year N), then gT forever — */
+function fadeValue(S, g1, gT, N, w, fcf){
+  if(!(w > gT)) return null;
+  let v = 0, f = fcf, df = 1;
+  for(let t = 1; t <= N; t++){
+    const g = N === 1 ? gT : g1 + (gT - g1) * (t - 1) / (N - 1);
+    f *= 1 + g; df /= 1 + w; v += f * df;
+  }
+  return (v + f * (1 + gT) / (w - gT) * df - S.nd) / S.shares;
+}
+function fadeImplied(S, gT, N, w, fcf){             // g1 such that the value equals the price (bisection)
+  let lo = -0.5, hi = 2.0;
+  const f = g => fadeValue(S, g, gT, N, w, fcf) - S.price;
+  if(!isNum(f(lo)) || !isNum(f(hi)) || f(lo) > 0 || f(hi) < 0) return null;
+  for(let i = 0; i < 80; i++){ const m = (lo + hi) / 2; if(f(m) > 0) hi = m; else lo = m; }
+  return (lo + hi) / 2;
+}
+/* — currencies: fx = {CUR: {usd_per_unit, date, source, peg}} published with the valuation map — */
+function fxRate(fx, from, to){
+  const pence = from === 'GBp' || from === 'GBX', f = pence ? 'GBP' : from, a = (fx || {})[f], b = (fx || {})[to];
+  if(!a || !b || !isNum(a.usd_per_unit) || !isNum(b.usd_per_unit)) return null;
+  const d = [a.date, b.date].filter(Boolean).sort();
+  return {r: a.usd_per_unit / b.usd_per_unit / (pence ? 100 : 1), from, to, date: d.length ? d[d.length - 1] : null,
+          source: [a.source, b.source].filter(s => s && s !== 'identity' && s !== 'N/D').join(' · '), peg: a.peg || b.peg || null};
+}
+
 /* — Lab: daily returns (1e-5 integers), FX in "USD per unit" — */
 function decode(b){
   const r = {}; for(const t in b.r) r[t] = Float64Array.from(b.r[t], v => v == null ? NaN : v / 1e5);
@@ -171,7 +197,7 @@ function evaluate(series, rows, w, rf){
   return {ret: m * TRADING_DAYS, vol: sd * Math.sqrt(TRADING_DAYS), sharpe: sd > 0 ? (m * TRADING_DAYS - (rf || 0)) / (sd * Math.sqrt(TRADING_DAYS)) : null};
 }
 
-return {isNum, avg, derive, simEV, simImplied, simValue, decode, refSeries, portfolio, stats, riskContrib,
+return {isNum, avg, derive, simEV, simImplied, simValue, fadeValue, fadeImplied, fxRate, decode, refSeries, portfolio, stats, riskContrib,
         rng, quantile, bootstrap, aligned, moments, projectCapped, optimize, evaluate, TRADING_DAYS};
 })();
 </script>

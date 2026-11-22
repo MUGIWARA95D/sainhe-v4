@@ -6,34 +6,34 @@
   "bloc_A_verdict": {
     "prix": 693.4,
     "EPV": {
-      "epv_ev": 17199596471.265785,
-      "epv_equity": 17914596471.265785,
-      "epv_per_share": 383.939059,
+      "epv_ev": 19640144431.794167,
+      "epv_equity": 20355144431.794167,
+      "epv_per_share": 436.243987,
       "inputs": {
         "ebit_adj": 1702000000.0,
         "tax": 0.251908,
-        "wacc": 0.074028,
+        "wacc": 0.064829,
         "net_debt": -715000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": -12.210076,
-      "high": 354.974045,
+      "low": -13.873484,
+      "high": 403.333001,
       "fcf_p25": -45000000.0,
       "fcf_p75": 1308250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 441.510024,
-      "central": 383.939059,
-      "plus_100bps": 340.070896
+      "minus_100bps": 513.013577,
+      "central": 436.243987,
+      "plus_100bps": 379.993057
     },
     "RE_valuation": {
-      "re_value_equity": 12402486908.766151,
-      "re_value_per_share": 265.805549,
+      "re_value_equity": 16145458378.090302,
+      "re_value_per_share": 346.02354,
       "inputs": {
         "B0": 5011000000.0,
-        "RE": 327295628.180277,
-        "ke": 0.073579,
+        "RE": 374782161.453978,
+        "ke": 0.064103,
         "g": 0.03442,
         "g_sgr": 0.207868,
         "g_cap": 0.03442
@@ -50,12 +50,12 @@
       "dispersion": 0.82942
     },
     "reverse_dcf": {
-      "implied_g": 0.02805,
+      "implied_g": 0.019245,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 31639044000.0,
         "fcf_adj": 1415000000.0,
-        "wacc": 0.074028,
+        "wacc": 0.064829,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        247.35,
-        261.3,
-        279.51,
-        304.29,
-        339.95
+        283.92,
+        305.26,
+        334.44,
+        376.74,
+        443.57
       ],
       [
-        253.64,
-        268.22,
-        287.25,
-        313.14,
-        350.4
+        291.13,
+        313.35,
+        343.73,
+        387.76,
+        457.31
       ],
       [
-        312.36,
-        332.79,
-        359.47,
-        395.75,
-        447.98
+        358.54,
+        388.91,
+        430.42,
+        490.6,
+        585.68
       ],
       [
-        364.68,
-        390.34,
-        423.82,
-        469.36,
-        534.93
+        418.6,
+        456.23,
+        507.68,
+        582.25,
+        700.06
       ],
       [
-        377.05,
-        403.93,
-        439.02,
-        486.75,
-        555.47
+        432.78,
+        472.13,
+        525.93,
+        603.9,
+        727.08
       ]
     ]
   },
@@ -236,8 +236,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.074028,
-      "ke": 0.073579,
+      "wacc": 0.064829,
+      "ke": 0.064103,
       "kd": 0.118852,
       "tax_rate": 0.251908,
       "E": 32354044000.0,
@@ -247,9 +247,12 @@
       "rf_currency": "EUR",
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
-      "erp": 0.05,
-      "beta": 0.78318,
-      "beta_raw": 0.676388,
+      "erp": 0.0379,
+      "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
+      "erp_date": "2026-11-01",
+      "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
+      "beta": 0.783181,
+      "beta_raw": 0.676389,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -864,11 +867,16 @@
     "reporting_currency": "EUR",
     "price_listing": 693.4,
     "price_in_reporting_currency": 693.4,
+    "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,
     "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  },
+  "ttm": {
+    "available": false,
+    "reason": "secondary source: quarterly statements not used"
   }
 }

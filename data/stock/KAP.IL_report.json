@@ -6,34 +6,34 @@
   "bloc_A_verdict": {
     "prix": 24037.570703,
     "EPV": {
-      "epv_ev": 7445060839258.23,
-      "epv_equity": 7701100839258.23,
-      "epv_per_share": 29693.051814,
+      "epv_ev": 8253221225708.886,
+      "epv_equity": 8509261225708.886,
+      "epv_per_share": 32809.067138,
       "inputs": {
         "ebit_adj": 768676000000.0,
         "tax": 0.189786,
-        "wacc": 0.083652,
+        "wacc": 0.07546,
         "net_debt": -256040000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 12177.216147,
-      "high": 26656.65516,
+      "low": 13455.104063,
+      "high": 29454.028313,
       "fcf_p25": 237830750000.0,
       "fcf_p75": 520625750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 33590.565906,
-      "central": 29693.051814,
-      "plus_100bps": 26627.880424
+      "minus_100bps": 37670.301444,
+      "central": 32809.067138,
+      "plus_100bps": 29085.48997
     },
     "RE_valuation": {
-      "re_value_equity": 6777998472966.323,
-      "re_value_per_share": 26133.855932,
+      "re_value_equity": 7537490008837.369,
+      "re_value_per_share": 29062.219292,
       "inputs": {
         "B0": 2327943000000.0,
-        "RE": 374532194899.9179,
-        "ke": 0.084163,
+        "RE": 394274245561.456,
+        "ke": 0.075683,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.04912
@@ -50,12 +50,12 @@
       "dispersion": 0.240194
     },
     "reverse_dcf": {
-      "implied_g": -0.012174,
+      "implied_g": -0.01964,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 5978272224850.391,
         "fcf_adj": 579929000000.0,
-        "wacc": 0.083652,
+        "wacc": 0.07546,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -187,39 +187,39 @@
     ],
     "matrix": [
       [
-        27765.41,
-        30088.72,
-        33369.37,
-        38352.61,
-        46828.32
+        30876.59,
+        34044.78,
+        38734.99,
+        46390.77,
+        61125.04
       ],
       [
-        28531.27,
-        30949.28,
-        34363.65,
-        39550.0,
-        48371.18
+        31728.27,
+        35019.66,
+        39892.27,
+        47845.77,
+        63153.02
       ],
       [
-        30087.36,
-        32697.78,
-        36383.84,
-        41982.89,
-        51506.0
+        33458.73,
+        37000.45,
+        42243.64,
+        50802.05,
+        67273.51
       ],
       [
-        30495.81,
-        33156.73,
-        36914.11,
-        42621.48,
-        52328.84
+        33912.94,
+        37520.37,
+        42860.84,
+        51578.03,
+        68355.07
       ],
       [
-        31263.97,
-        34019.88,
-        37911.37,
-        43822.47,
-        53876.34
+        34767.18,
+        38498.18,
+        44021.59,
+        53037.39,
+        70389.14
       ]
     ]
   },
@@ -239,8 +239,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.083652,
-      "ke": 0.084163,
+      "wacc": 0.07546,
+      "ke": 0.075683,
       "kd": 0.085357,
       "tax_rate": 0.189786,
       "E": 6234312224850.391,
@@ -250,9 +250,12 @@
       "rf_currency": "KZT",
       "rf_proxy": true,
       "rf_proxy_reason": "no_source",
-      "erp": 0.05,
-      "beta": 0.70087,
-      "beta_raw": 0.553537,
+      "erp": 0.0379,
+      "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
+      "erp_date": "2026-11-01",
+      "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
+      "beta": 0.700871,
+      "beta_raw": 0.553539,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -844,9 +847,9 @@
     "edgar_filings_index": "https://finance.yahoo.com/quote/KAP.IL/financials"
   },
   "score_composite": {
-    "value_0_100": 71.9,
+    "value_0_100": 72.8,
     "pillars": {
-      "valuation": 97.055347,
+      "valuation": 100,
       "balance_sheet_health": 65,
       "earnings_quality": 70,
       "smart_money": 50,
@@ -867,11 +870,16 @@
     "reporting_currency": "KZT",
     "price_listing": 55.3,
     "price_in_reporting_currency": 24037.570703125,
+    "price_date": "2026-11-20",
     "fx_listing_to_reporting": 434.67578125,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,
     "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  },
+  "ttm": {
+    "available": false,
+    "reason": "secondary source: quarterly statements not used"
   }
 }

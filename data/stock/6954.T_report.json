@@ -6,34 +6,34 @@
   "bloc_A_verdict": {
     "prix": 5047.0,
     "EPV": {
-      "epv_ev": 1739918450724.0305,
-      "epv_equity": 2493789450724.0303,
-      "epv_per_share": 2672.43574,
+      "epv_ev": 2055885557623.7175,
+      "epv_equity": 2809756557623.718,
+      "epv_per_share": 3011.037617,
       "inputs": {
         "ebit_adj": 183763000000.0,
         "tax": 0.255349,
-        "wacc": 0.078647,
+        "wacc": 0.06656,
         "net_debt": -753871000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 800.389938,
-      "high": 2628.090979,
+      "low": 901.800622,
+      "high": 2961.074304,
       "fcf_p25": 68799250000.0,
       "fcf_p75": 225903250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 2944.051432,
-      "central": 2672.43574,
-      "plus_100bps": 2462.100342
+      "minus_100bps": 3400.565425,
+      "central": 3011.037617,
+      "plus_100bps": 2723.267585
     },
     "RE_valuation": {
-      "re_value_equity": 2117601594334.9734,
-      "re_value_per_share": 2269.299111,
+      "re_value_equity": 2502155507795.548,
+      "re_value_per_share": 2681.401112,
       "inputs": {
         "B0": 1864871000000.0,
-        "RE": 19876501550.117065,
-        "ke": 0.078647,
+        "RE": 42417536980.06618,
+        "ke": 0.06656,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.0287
@@ -50,12 +50,12 @@
       "dispersion": 0.608068
     },
     "reverse_dcf": {
-      "implied_g": 0.019447,
+      "implied_g": 0.008023,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 3955748456220.0,
         "fcf_adj": 229715000000.0,
-        "wacc": 0.078647,
+        "wacc": 0.06656,
         "fcf_basis": "last_year",
         "fcf_years": [
           2026
@@ -195,39 +195,39 @@
     ],
     "matrix": [
       [
-        1436.43,
-        1394.75,
-        1343.76,
-        1279.97,
-        1197.85
+        1697.28,
+        1669.16,
+        1633.31,
+        1586.03,
+        1520.84
       ],
       [
-        1554.9,
-        1522.0,
-        1481.77,
-        1431.42,
-        1366.62
+        1837.27,
+        1822.22,
+        1803.03,
+        1777.73,
+        1742.83
       ],
       [
-        1828.2,
-        1815.58,
-        1800.13,
-        1780.81,
-        1755.93
+        2160.2,
+        2175.3,
+        2194.56,
+        2219.94,
+        2254.95
       ],
       [
-        1924.44,
-        1918.95,
-        1912.23,
-        1903.83,
-        1893.02
+        2273.91,
+        2299.63,
+        2332.42,
+        2375.66,
+        2435.28
       ],
       [
-        2044.2,
-        2047.59,
-        2051.74,
-        2056.93,
-        2063.61
+        2415.42,
+        2454.35,
+        2503.98,
+        2569.43,
+        2659.68
       ]
     ]
   },
@@ -247,8 +247,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.078647,
-      "ke": 0.078647,
+      "wacc": 0.06656,
+      "ke": 0.06656,
       "kd": "N/D",
       "tax_rate": 0.255349,
       "E": 4709619456220.0,
@@ -258,9 +258,12 @@
       "rf_currency": "JPY",
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
-      "erp": 0.05,
+      "erp": 0.0379,
+      "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
+      "erp_date": "2026-11-01",
+      "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.99894,
-      "beta_raw": 0.998418,
+      "beta_raw": 0.998417,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -795,11 +798,16 @@
     "reporting_currency": "JPY",
     "price_listing": 5047.0,
     "price_in_reporting_currency": 5047.0,
+    "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2026-03-31",
     "months_since_fiscal_year_end": 8,
     "stale_financials": false,
     "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  },
+  "ttm": {
+    "available": false,
+    "reason": "secondary source: quarterly statements not used"
   }
 }

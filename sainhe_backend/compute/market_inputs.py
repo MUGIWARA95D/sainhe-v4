@@ -106,6 +106,33 @@ def risk_free_info(currency: str | None = "USD") -> dict:
     return info
 
 
+def erp_info() -> dict:
+    """{erp, date, source, url} — ERP implicite mensuelle de Damodaran ; repli DEFAULT_ERP signalé."""
+    if "erp" in _cache:
+        return _cache["erp"]
+    info = {"erp": config.DEFAULT_ERP, "date": None, "url": None,
+            "source": "convention 5% (Damodaran file unavailable)"}
+    if os.environ.get("SAINHE_RF_LIVE", "1") == "0":
+        info["source"] = "config.DEFAULT_ERP (SAINHE_RF_LIVE=0)"
+    else:
+        try:
+            import io
+            import pandas as pd
+            r = requests.get(config.ERP_SOURCE_URL, timeout=30)
+            r.raise_for_status()
+            df = pd.read_excel(io.BytesIO(r.content), sheet_name="Last 12 months data")
+            df = df[pd.to_numeric(df["ERP"], errors="coerce").notna() & pd.to_datetime(df["Date"], errors="coerce").notna()]
+            last = df.iloc[-1]
+            val = float(last["ERP"])
+            if 0.01 < val < 0.12:
+                info = {"erp": val, "date": str(pd.to_datetime(last["Date"]).date()), "url": config.ERP_SOURCE_URL,
+                        "source": config.ERP_SOURCE_NAME}
+        except Exception as e:
+            log.warning("ERP Damodaran indisponible (%s) → convention %.1f %%", type(e).__name__, config.DEFAULT_ERP * 100)
+    _cache["erp"] = info
+    return info
+
+
 def risk_free(currency: str | None = "USD") -> tuple[float, str]:
     """(taux décimal, source). Ex. (0.0505, 'sainhe macro.json us_10y')."""
     i = risk_free_info(currency)

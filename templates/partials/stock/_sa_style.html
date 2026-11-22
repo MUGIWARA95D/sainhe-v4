@@ -273,6 +273,21 @@
   padding:6px 10px;width:130px;min-height:36px}            /* 16 px: iOS does not zoom on focus */
 .sa-num:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .sa-metrics{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.sa-dual{display:block;font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:2px;cursor:help}
+.sa-keys{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:14px}
+@media(max-width:900px){.sa-keys{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sa-vbar-t{position:relative;height:10px;background:var(--bg2);border-radius:5px;margin:4px 6px 10px}
+.sa-vbar-m{position:absolute;top:-4px;width:3px;height:18px;background:var(--s1);border-radius:2px;transform:translateX(-50%)}
+.sa-vbar-m.price{background:var(--h);width:4px}
+.sa-vbar-l{list-style:none;padding:0;margin:0 0 6px;font-size:12px;line-height:1.7;color:var(--p)}
+.sa-vbar-l b{font-family:var(--serif);font-weight:400;color:var(--h)}
+.sa-zone-wrap{position:relative}
+.sa-zone{position:absolute;top:2px;bottom:2px;right:0;background:repeating-linear-gradient(135deg,transparent 0 4px,var(--gold-bg) 4px 8px);border-radius:3px;pointer-events:none}
+.sa-zone-wrap .sa-range{position:relative}
+.sa-universe{flex-basis:100%;margin-top:6px}
+.sa-cmp-mode{font-family:var(--sans)!important}
+.sa-seg button:disabled{opacity:.45;cursor:not-allowed}
+#sa-fcmp-card:has(#sa-fcmp[hidden]){display:none}
 .sa-rfleg{padding:0 28px 10px;font-size:11px;color:var(--muted);line-height:1.6}
 .sa-tbl td.sa-td-co,.sa-tbl th.sa-td-co{text-align:left}
 @media(max-width:600px){

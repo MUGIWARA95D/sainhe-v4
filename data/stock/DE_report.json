@@ -22,12 +22,12 @@
       "plus_100bps": "N/D"
     },
     "RE_valuation": {
-      "re_value_equity": 52991446905.197075,
-      "re_value_per_share": 195.03661,
+      "re_value_equity": 59992193669.856384,
+      "re_value_per_share": 220.803068,
       "inputs": {
         "B0": 25950000000.0,
-        "RE": 2565269709.197048,
-        "ke": 0.094864,
+        "RE": 2852539590.736018,
+        "ke": 0.083794,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.04912
@@ -44,12 +44,12 @@
       "dispersion": 0.451263
     },
     "reverse_dcf": {
-      "implied_g": 0.052625,
+      "implied_g": 0.044629,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 214597225000.0,
         "fcf_adj": 5948000000.0,
-        "wacc": 0.0818,
+        "wacc": 0.073583,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -166,9 +166,9 @@
     "ocf_ni": 1.483788,
     "accruals_pct_rev": -0.053235,
     "retained_earnings_test": {
-      "ratio": 1.638054,
+      "ratio": 1.638053,
       "retained_5y": 28282000000.0,
-      "delta_mcap": 46327438586.42578,
+      "delta_mcap": 46327425463.86719,
       "passes": true,
       "window": [
         2020,
@@ -226,39 +226,39 @@
     ],
     "matrix": [
       [
-        118.92,
-        121.35,
-        124.62,
-        129.27,
-        136.42
+        134.63,
+        139.5,
+        146.39,
+        156.88,
+        174.81
       ],
       [
-        122.27,
-        125.04,
-        128.78,
-        134.1,
-        142.27
+        138.43,
+        143.77,
+        151.33,
+        162.83,
+        182.49
       ],
       [
-        157.79,
-        164.23,
-        172.93,
-        185.3,
-        204.33
+        178.63,
+        188.98,
+        203.61,
+        225.9,
+        263.98
       ],
       [
-        250.04,
-        266.04,
-        287.61,
-        318.32,
-        365.52
+        283.08,
+        306.42,
+        339.44,
+        389.74,
+        475.66
       ],
       [
-        292.28,
-        312.64,
-        340.12,
-        379.22,
-        439.32
+        330.89,
+        360.19,
+        401.63,
+        464.75,
+        572.57
       ]
     ]
   },
@@ -278,8 +278,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.0818,
-      "ke": 0.094864,
+      "wacc": 0.073583,
+      "ke": 0.083794,
       "kd": 0.055284,
       "tax_rate": 0.201215,
       "E": 165533225000.0,
@@ -289,7 +289,10 @@
       "rf_currency": "USD",
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
-      "erp": 0.05,
+      "erp": 0.0379,
+      "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
+      "erp_date": "2026-11-01",
+      "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.914887,
       "beta_raw": 0.872966,
       "mode": "complet",
@@ -1132,11 +1135,29 @@
     "reporting_currency": "USD",
     "price_listing": 609.25,
     "price_in_reporting_currency": 609.25,
+    "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-11-02",
     "months_since_fiscal_year_end": 12,
     "stale_financials": false,
     "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  },
+  "ttm": {
+    "available": true,
+    "period_end": "2026-08-02",
+    "quarters_after_fy": 3,
+    "accn": "0001104659-26-102213",
+    "fy": 2025,
+    "fy_end": "2025-11-02",
+    "values": {
+      "revenue": 47983000000.0,
+      "ocf": 7245000000.0,
+      "capex": 1224000000.0,
+      "sbc": 163000000.0
+    },
+    "fcf_adj": 5858000000.0,
+    "sbc_deducted": true,
+    "revenue_growth_vs_fy": 0.05032396462656519
   }
 }

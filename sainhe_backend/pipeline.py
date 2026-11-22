@@ -18,7 +18,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 import config
 from edgar.edgar_client import EdgarClient
-from edgar import instance
+from edgar import instance, ttm
+from compute import market_inputs
 from secondary import yahoo_statements
 from edgar.xbrl_parser import parse_companyfacts, DataPoint
 from edgar.metadata_flags import metadata_flags
@@ -170,6 +171,11 @@ def _parse_with_fallback(client: EdgarClient, ticker: str, cik: int, forms):
     subs = client.submissions(cik)
     cd, facts = _with_newer_instance(client, ticker, cik, facts, subs, forms)
     _add_custom_tags(client, ticker, cik, cd, subs, forms)
+    if forms == ("10-K",):
+        try:   # 4 derniers trimestres à partir des 10-Q (edgar/ttm.py)
+            cd.ttm = ttm.compute(facts, cd)
+        except Exception as e:
+            log.warning("%s : TTM 10-Q indisponible (%s)", ticker, e)
     fb = config.CIK_FALLBACK.get(ticker)
     if fb and fb != cik and not (cd.series.get("revenue") and cd.series.get("ebit")):
         log.warning("%s : CIK %s sans historique %s → CIK historique %s", ticker, cik, forms, fb)
@@ -195,6 +201,26 @@ def _fx_history(src: str, dst: str):
     except Exception as e:
         log.warning("FX %s→%s indisponible (%s)", src, dst, e)
     return None
+
+
+def _fx_snapshot(reports: list[dict]) -> dict:
+    """Dernier cours de chaque devise utile (comptes, cotation, affichage) en USD, avec date et
+    source — la page convertit les niveaux absolus avec ces taux et les cite. Absent → N/D."""
+    curs = set(config.DISPLAY_CURRENCIES)
+    for r in reports:
+        m = r.get("meta", {}) or {}
+        for k in ("reporting_currency", "listing_currency"):
+            if m.get(k):
+                curs.add("GBP" if m[k] in ("GBp", "GBX") else m[k])
+    out = {"USD": {"usd_per_unit": 1.0, "date": None, "source": "identity"}}
+    for c in sorted(curs - {"USD"}):
+        s = _fx_history(c, "USD")
+        if s is None or not len(s):
+            out[c] = {"usd_per_unit": None, "date": None, "source": "N/D"}
+            continue
+        out[c] = {"usd_per_unit": float(s.iloc[-1]), "date": str(s.index[-1])[:10],
+                  "source": f"Yahoo Finance daily close {c}USD=X", "peg": config.RF_USD_PEGS.get(c)}
+    return out
 
 
 _BENCH = {}
@@ -365,6 +391,9 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
         "source": source,
         "listing_currency": pc["listing_currency"], "reporting_currency": pc["reporting_currency"],
         "price_listing": listing_price, "price_in_reporting_currency": price,
+        # date de la cotation utilisée (Yahoo regularMarketTime) — pas la date d'exécution du pipeline
+        "price_date": (datetime.datetime.fromtimestamp(info["regularMarketTime"], datetime.timezone.utc).date().isoformat()
+                       if isinstance((info or {}).get("regularMarketTime"), (int, float)) else None),
         "fx_listing_to_reporting": pc["fx_now"], "adr_ratio": pc["adr_ratio"],
         "fiscal_year_end": last.end if last else None,
         "months_since_fiscal_year_end": months,
@@ -372,6 +401,15 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
         "stale_financials": bool(months is not None and months > config.STALE_FINANCIALS_MONTHS),
         "disclaimer": config.DISCLAIMER,
     }
+    t4 = getattr(cd, "ttm", None)
+    if t4:
+        report["ttm"] = {"available": True, **t4}
+    else:
+        report["ttm"] = {"available": False, "reason": (
+            "secondary source: quarterly statements not used" if source.startswith(yahoo_statements.SOURCE) else
+            "European issuers publish half-year reports without tagged quarterly XBRL" if source.startswith("ESEF") else
+            "foreign private issuers file no 10-Q" if "20-F" in source else
+            "no 10-Q after the last annual report")}
     if getattr(cd, "esef_overlap", None):
         report["drill_down"]["esef_overlap"] = cd.esef_overlap
     if source.startswith(yahoo_statements.SOURCE):
@@ -406,6 +444,8 @@ def main(tickers: list[str]) -> dict:
     if reports:
         vmap = report_builder.build_valuation_map(reports)
         vmap["disclaimer"] = config.DISCLAIMER
+        vmap["fx"] = _fx_snapshot(reports)
+        vmap["erp"] = market_inputs.erp_info()
         report_builder.save(vmap, os.path.join(OUT_DIR, "valuation_map.json"))
         log.info("valuation_map.json : %d tickers", len(vmap["rows"]))
     status = {"as_of": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),

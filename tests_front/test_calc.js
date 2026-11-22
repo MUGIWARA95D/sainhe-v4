@@ -76,6 +76,21 @@ const wB = C.optimize(m, {mode: 'sharpe', rf: 0.04, cap: 0.3, betaCap: 0.6}), be
 ok('optimiser: beta cap lowers the market beta', beta(wB) <= beta(wS) + 1e-9, beta(wB).toFixed(2) + ' vs ' + beta(wS).toFixed(2));
 ok('optimiser: beta cap respected within 0.02', beta(wB) <= 0.62 || beta(wS) <= 0.6, beta(wB).toFixed(3));
 
+console.log('2b. Fade model and currencies');
+const S0 = {price: 100, shares: 10, nd: 50};
+const w0 = 0.09, fcf0 = 60;
+ok('fade with g1 = gT equals the single-stage value', near(C.fadeValue(S0, 0.03, 0.03, 10, w0, fcf0), C.simValue(S0, 0.03, w0, fcf0), 1e-9));
+const gF = C.fadeImplied(S0, 0.03, 10, w0, fcf0);
+ok('fade implied growth reproduces the price', typeof gF === 'number' && near(C.fadeValue(S0, gF, 0.03, 10, w0, fcf0), S0.price, 1e-6));
+ok('fade value rises with year-1 growth', C.fadeValue(S0, 0.10, 0.03, 10, w0, fcf0) > C.fadeValue(S0, 0.05, 0.03, 10, w0, fcf0));
+ok('fade: terminal rate at or above WACC → N/D', C.fadeValue(S0, 0.05, 0.09, 10, w0, fcf0) === null);
+const fx = {USD: {usd_per_unit: 1}, EUR: {usd_per_unit: 1.08, date: '2026-11-20', source: 'test'}, GBP: {usd_per_unit: 1.25, date: '2026-11-20', source: 'test'}};
+ok('fx: EUR per USD', near(C.fxRate(fx, 'USD', 'EUR').r, 1 / 1.08, 1e-12));
+ok('fx: pence are a hundredth of a pound', near(C.fxRate(fx, 'GBp', 'USD').r, 0.0125, 1e-12));
+ok('fx: unknown currency → null (N/D), never a guess', C.fxRate(fx, 'KZT', 'EUR') === null);
+const vfx = vmap.fx || {};
+ok('published fx carries date and source for every non-USD currency', Object.keys(vfx).filter(k => k !== 'USD').every(k => vfx[k].usd_per_unit == null || (vfx[k].date && vfx[k].source)));
+
 console.log('3. Markup ↔ script contract');
 const html = read('templates/partials/stock/_sa_sections.html'), js = read('templates/partials/stock/_sa_js.html');
 const ids = new Set([...html.matchAll(/id="([^"]+)"/g)].map(x => x[1]).concat([...js.matchAll(/id=\\?"([a-z0-9-]+)\\?"/gi)].map(x => x[1])));

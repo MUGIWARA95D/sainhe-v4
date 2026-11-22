@@ -4,10 +4,10 @@
     {
       "ticker": "NVDA",
       "prix": 125.53,
-      "epv_per_share": 35.875247,
-      "re_per_share": 46.890069,
-      "ecart_pct": -0.7142,
-      "implied_growth": 0.101206,
+      "epv_per_share": 41.979082,
+      "re_per_share": 61.151242,
+      "ecart_pct": -0.6656,
+      "implied_growth": 0.081224,
       "sgr": 0.256005,
       "roic_years_above_wacc": "8/8",
       "roic_by_year": {
@@ -21,7 +21,7 @@
         "2026": 1.0724
       },
       "roic_nm_years": [],
-      "wacc": 0.134095,
+      "wacc": 0.113516,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -53,10 +53,10 @@
     {
       "ticker": "AAPL",
       "prix": 342.56,
-      "epv_per_share": 85.841601,
-      "re_per_share": 88.179523,
-      "ecart_pct": -0.7494,
-      "implied_growth": 0.075869,
+      "epv_per_share": 98.375823,
+      "re_per_share": 100.806842,
+      "ecart_pct": -0.7128,
+      "implied_growth": 0.063414,
       "sgr": -0.02856,
       "roic_years_above_wacc": "10/10",
       "roic_by_year": {
@@ -72,7 +72,7 @@
         "2026": 0.9581
       },
       "roic_nm_years": [],
-      "wacc": 0.101827,
+      "wacc": 0.089072,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -104,10 +104,10 @@
     {
       "ticker": "MSFT",
       "prix": 484.52,
-      "epv_per_share": 162.741638,
-      "re_per_share": 250.07572,
-      "ecart_pct": -0.6641,
-      "implied_growth": 0.084413,
+      "epv_per_share": 186.152443,
+      "re_per_share": 325.59183,
+      "ecart_pct": -0.6158,
+      "implied_growth": 0.072204,
       "sgr": 0.155972,
       "roic_years_above_wacc": "10/10",
       "roic_by_year": {
@@ -123,7 +123,7 @@
         "2026": 0.2649
       },
       "roic_nm_years": [],
-      "wacc": 0.100669,
+      "wacc": 0.088277,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -155,10 +155,10 @@
     {
       "ticker": "ISRG",
       "prix": 399.05,
-      "epv_per_share": 80.734672,
-      "re_per_share": 81.785755,
-      "ecart_pct": -0.7977,
-      "implied_growth": 0.096148,
+      "epv_per_share": 90.6553,
+      "re_per_share": 102.960976,
+      "ecart_pct": -0.7728,
+      "implied_growth": 0.081691,
       "sgr": 0.043704,
       "roic_years_above_wacc": "10/10",
       "roic_by_year": {
@@ -174,7 +174,7 @@
         "2025": 0.2152
       },
       "roic_nm_years": [],
-      "wacc": 0.109594,
+      "wacc": 0.094959,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -206,10 +206,10 @@
     {
       "ticker": "ZTS",
       "prix": 79.11,
-      "epv_per_share": 67.466961,
-      "re_per_share": 105.946288,
-      "ecart_pct": -0.1472,
-      "implied_growth": 0.024871,
+      "epv_per_share": 77.648498,
+      "re_per_share": 137.29739,
+      "ecart_pct": -0.0185,
+      "implied_growth": 0.016665,
       "sgr": 0.047477,
       "roic_years_above_wacc": "10/10",
       "roic_by_year": {
@@ -225,7 +225,7 @@
         "2025": 0.283
       },
       "roic_nm_years": [],
-      "wacc": 0.078749,
+      "wacc": 0.070111,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -241,7 +241,7 @@
         "fcf_basis": "last_year"
       },
       "flags": [],
-      "score": 47.4,
+      "score": 55.1,
       "n_flags": 0,
       "consensus_median": 85.0,
       "currency": "USD",
@@ -252,10 +252,10 @@
     {
       "ticker": "XOM",
       "prix": 159.99,
-      "epv_per_share": 88.754278,
-      "re_per_share": 89.885944,
-      "ecart_pct": -0.4453,
-      "implied_growth": 0.038788,
+      "epv_per_share": 97.92086,
+      "re_per_share": 99.657669,
+      "ecart_pct": -0.388,
+      "implied_growth": 0.032668,
       "sgr": 0.009673,
       "roic_years_above_wacc": "6/10",
       "roic_by_year": {
@@ -271,7 +271,7 @@
         "2025": 0.1033
       },
       "roic_nm_years": [],
-      "wacc": 0.072777,
+      "wacc": 0.066457,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -298,10 +298,10 @@
     {
       "ticker": "LMT",
       "prix": 565.5,
-      "epv_per_share": 313.558181,
-      "re_per_share": 296.805765,
-      "ecart_pct": -0.4455,
-      "implied_growth": 0.027404,
+      "epv_per_share": 347.912048,
+      "re_per_share": 328.370757,
+      "ecart_pct": -0.3848,
+      "implied_growth": 0.021748,
       "sgr": 0.006337,
       "roic_years_above_wacc": "10/10",
       "roic_by_year": {
@@ -317,7 +317,7 @@
         "2025": 0.2695
       },
       "roic_nm_years": [],
-      "wacc": 0.072752,
+      "wacc": 0.066846,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -344,12 +344,12 @@
     {
       "ticker": "TSLA",
       "prix": 345.82,
-      "epv_per_share": 17.868561,
-      "re_per_share": 3.557298,
-      "ecart_pct": -0.9483,
-      "implied_growth": 0.123463,
+      "epv_per_share": 19.219966,
+      "re_per_share": 3.739274,
+      "ecart_pct": -0.9444,
+      "implied_growth": 0.104715,
       "sgr": 0.067443,
-      "roic_years_above_wacc": "3/6",
+      "roic_years_above_wacc": "4/6",
       "roic_by_year": {
         "2020": 0.1025,
         "2021": 0.3005,
@@ -359,7 +359,7 @@
         "2025": 0.0685
       },
       "roic_nm_years": [],
-      "wacc": 0.126683,
+      "wacc": 0.107882,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -396,9 +396,9 @@
       "ticker": "GEV",
       "prix": 699.33,
       "epv_per_share": "N/D",
-      "re_per_share": 165.112727,
+      "re_per_share": 191.452192,
       "ecart_pct": "N/D",
-      "implied_growth": 0.091881,
+      "implied_growth": 0.076529,
       "sgr": "N/D",
       "roic_years_above_wacc": "N/D",
       "roic_by_year": {
@@ -407,7 +407,7 @@
       "roic_nm_years": [
         "2024"
       ],
-      "wacc": 0.113836,
+      "wacc": 0.098175,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -440,9 +440,9 @@
       "ticker": "DE",
       "prix": 609.25,
       "epv_per_share": "N/D",
-      "re_per_share": 195.03661,
+      "re_per_share": 220.803068,
       "ecart_pct": "N/D",
-      "implied_growth": 0.052625,
+      "implied_growth": 0.044629,
       "sgr": "N/D",
       "roic_years_above_wacc": "4/5",
       "roic_by_year": {
@@ -453,7 +453,7 @@
         "2024": 0.0966
       },
       "roic_nm_years": [],
-      "wacc": 0.0818,
+      "wacc": 0.073583,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -485,7 +485,7 @@
       "ecart_pct": "N/D",
       "implied_growth": "N/D",
       "sgr": "N/D",
-      "roic_years_above_wacc": "0/5",
+      "roic_years_above_wacc": "1/5",
       "roic_by_year": {
         "2021": 0.084,
         "2022": 0.0551,
@@ -494,7 +494,7 @@
         "2025": 0.06
       },
       "roic_nm_years": [],
-      "wacc": 0.089479,
+      "wacc": 0.079712,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -534,12 +534,12 @@
     {
       "ticker": "ECL",
       "prix": 294.7,
-      "epv_per_share": 58.076366,
-      "re_per_share": 77.254343,
-      "ecart_pct": -0.8029,
-      "implied_growth": 0.072432,
+      "epv_per_share": 69.478003,
+      "re_per_share": 89.561468,
+      "ecart_pct": -0.7642,
+      "implied_growth": 0.061592,
       "sgr": 0.012707,
-      "roic_years_above_wacc": "7/10",
+      "roic_years_above_wacc": "10/10",
       "roic_by_year": {
         "2016": 0.1066,
         "2017": 0.1143,
@@ -553,7 +553,7 @@
         "2025": 0.1296
       },
       "roic_nm_years": [],
-      "wacc": 0.093119,
+      "wacc": 0.08207,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -585,10 +585,10 @@
     {
       "ticker": "KO",
       "prix": 96.99,
-      "epv_per_share": 28.714086,
-      "re_per_share": 40.433176,
-      "ecart_pct": -0.7039,
-      "implied_growth": 0.060862,
+      "epv_per_share": 32.052356,
+      "re_per_share": 44.54339,
+      "ecart_pct": -0.6695,
+      "implied_growth": 0.054769,
       "sgr": 0.003574,
       "roic_years_above_wacc": "10/10",
       "roic_by_year": {
@@ -604,7 +604,7 @@
         "2025": 0.1772
       },
       "roic_nm_years": [],
-      "wacc": 0.072691,
+      "wacc": 0.06653,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -631,12 +631,12 @@
     {
       "ticker": "CAT",
       "prix": 510.45,
-      "epv_per_share": 121.890269,
-      "re_per_share": 260.192201,
-      "ecart_pct": -0.7612,
-      "implied_growth": 0.069536,
+      "epv_per_share": 148.173788,
+      "re_per_share": 335.010325,
+      "ecart_pct": -0.7097,
+      "implied_growth": 0.056399,
       "sgr": 0.046521,
-      "roic_years_above_wacc": "7/10",
+      "roic_years_above_wacc": "9/10",
       "roic_by_year": {
         "2016": 0.0239,
         "2017": 0.0965,
@@ -650,7 +650,7 @@
         "2025": 0.1783
       },
       "roic_nm_years": [],
-      "wacc": 0.105217,
+      "wacc": 0.091642,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -677,10 +677,10 @@
     {
       "ticker": "ASML",
       "prix": 1154.286144,
-      "epv_per_share": 237.221129,
-      "re_per_share": 220.618105,
-      "ecart_pct": -0.7945,
-      "implied_growth": 0.084332,
+      "epv_per_share": 280.486983,
+      "re_per_share": 265.047485,
+      "ecart_pct": -0.757,
+      "implied_growth": 0.066188,
       "sgr": -0.03516,
       "roic_years_above_wacc": "10/10",
       "roic_by_year": {
@@ -696,7 +696,7 @@
         "2025": 0.8381
       },
       "roic_nm_years": [],
-      "wacc": 0.111127,
+      "wacc": 0.092535,
       "rf": 0.03442,
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -728,10 +728,10 @@
     {
       "ticker": "TSM",
       "prix": 2105.16232,
-      "epv_per_share": 655.329283,
-      "re_per_share": 585.630648,
-      "ecart_pct": -0.6887,
-      "implied_growth": 0.090618,
+      "epv_per_share": 742.338682,
+      "re_per_share": 677.554531,
+      "ecart_pct": -0.6474,
+      "implied_growth": 0.075785,
       "sgr": "N/D",
       "roic_years_above_wacc": "6/6",
       "roic_by_year": {
@@ -743,7 +743,7 @@
         "2025": 0.5816
       },
       "roic_nm_years": [],
-      "wacc": 0.111621,
+      "wacc": 0.096503,
       "rf": 0.04912,
       "rf_currency": "TWD",
       "rf_proxy": true,
@@ -775,10 +775,10 @@
     {
       "ticker": "RACE",
       "prix": 357.77565,
-      "epv_per_share": 114.314197,
-      "re_per_share": 103.593678,
-      "ecart_pct": -0.6805,
-      "implied_growth": 0.054926,
+      "epv_per_share": 132.405079,
+      "re_per_share": 121.260683,
+      "ecart_pct": -0.6299,
+      "implied_growth": 0.042691,
       "sgr": -0.019111,
       "roic_years_above_wacc": "7/7",
       "roic_by_year": {
@@ -798,7 +798,7 @@
         "2017",
         "2020"
       ],
-      "wacc": 0.086492,
+      "wacc": 0.07389,
       "rf": 0.03442,
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -830,10 +830,10 @@
     {
       "ticker": "RMS.PA",
       "prix": 1225.5,
-      "epv_per_share": 570.249494,
-      "re_per_share": 469.538114,
-      "ecart_pct": -0.5347,
-      "implied_growth": 0.054785,
+      "epv_per_share": 651.126985,
+      "re_per_share": 553.173721,
+      "ecart_pct": -0.4687,
+      "implied_growth": 0.041386,
       "sgr": "N/D",
       "roic_years_above_wacc": "7/7",
       "roic_by_year": {
@@ -846,7 +846,7 @@
         "2025": 0.6594
       },
       "roic_nm_years": [],
-      "wacc": 0.091728,
+      "wacc": 0.07786,
       "rf": 0.03442,
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -873,10 +873,10 @@
     {
       "ticker": "LDO.MI",
       "prix": 47.83,
-      "epv_per_share": 35.801166,
-      "re_per_share": 39.113838,
-      "ecart_pct": -0.2515,
-      "implied_growth": 0.037982,
+      "epv_per_share": 40.854795,
+      "re_per_share": 50.893651,
+      "ecart_pct": -0.1458,
+      "implied_growth": 0.030357,
       "sgr": 0.115456,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -886,7 +886,7 @@
         "2025": 0.1356
       },
       "roic_nm_years": [],
-      "wacc": 0.06497,
+      "wacc": 0.057147,
       "rf": 0.03442,
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -902,7 +902,7 @@
         "fcf_basis": "last_year"
       },
       "flags": [],
-      "score": 47.8,
+      "score": 54.0,
       "n_flags": 0,
       "consensus_median": 69.0,
       "currency": "EUR",
@@ -913,10 +913,10 @@
     {
       "ticker": "COA.L",
       "prix": 0.951702,
-      "epv_per_share": 1.205477,
-      "re_per_share": 0.648775,
-      "ecart_pct": 0.2667,
-      "implied_growth": -0.009964,
+      "epv_per_share": 1.375621,
+      "re_per_share": 0.729487,
+      "ecart_pct": 0.4454,
+      "implied_growth": -0.015685,
       "sgr": -0.028819,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -926,7 +926,7 @@
         "2025": 0.1273
       },
       "roic_nm_years": [],
-      "wacc": 0.066589,
+      "wacc": 0.060426,
       "rf": 0.04912,
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -962,10 +962,10 @@
     {
       "ticker": "ROP.SW",
       "prix": 396.8,
-      "epv_per_share": 502.168718,
-      "re_per_share": 504.38572,
-      "ecart_pct": 0.2655,
-      "implied_growth": -0.00065,
+      "epv_per_share": 624.317722,
+      "re_per_share": 664.952118,
+      "ecart_pct": 0.5734,
+      "implied_growth": -0.007199,
       "sgr": 0.048016,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -975,7 +975,7 @@
         "2025": 0.3006
       },
       "roic_nm_years": [],
-      "wacc": 0.035815,
+      "wacc": 0.029027,
       "rf": 0.0051,
       "rf_currency": "CHF",
       "rf_proxy": false,
@@ -1002,10 +1002,10 @@
     {
       "ticker": "NESN.SW",
       "prix": 85.55,
-      "epv_per_share": 121.845884,
-      "re_per_share": 116.080575,
-      "ecart_pct": 0.4243,
-      "implied_growth": -0.015595,
+      "epv_per_share": 152.854875,
+      "re_per_share": 153.018681,
+      "ecart_pct": 0.7867,
+      "implied_growth": -0.02231,
       "sgr": 0.027865,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -1015,7 +1015,7 @@
         "2025": 0.3924
       },
       "roic_nm_years": [],
-      "wacc": 0.034252,
+      "wacc": 0.027197,
       "rf": 0.0051,
       "rf_currency": "CHF",
       "rf_proxy": false,
@@ -1042,10 +1042,10 @@
     {
       "ticker": "GEBN.SW",
       "prix": 575.0,
-      "epv_per_share": 343.458394,
-      "re_per_share": 358.803364,
-      "ecart_pct": -0.4027,
-      "implied_growth": 0.015556,
+      "epv_per_share": 443.046843,
+      "re_per_share": 472.875767,
+      "ecart_pct": -0.2295,
+      "implied_growth": 0.004869,
       "sgr": 0.012875,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -1055,7 +1055,7 @@
         "2025": 0.2801
       },
       "roic_nm_years": [],
-      "wacc": 0.051619,
+      "wacc": 0.040553,
       "rf": 0.0051,
       "rf_currency": "CHF",
       "rf_proxy": false,
@@ -1071,7 +1071,7 @@
         "fcf_basis": "last_year"
       },
       "flags": [],
-      "score": 47.8,
+      "score": 49.0,
       "n_flags": 0,
       "consensus_median": 600.0,
       "currency": "CHF",
@@ -1082,10 +1082,10 @@
     {
       "ticker": "6954.T",
       "prix": 5047.0,
-      "epv_per_share": 2672.43574,
-      "re_per_share": 2269.299111,
-      "ecart_pct": -0.4705,
-      "implied_growth": 0.019447,
+      "epv_per_share": 3011.037617,
+      "re_per_share": 2681.401112,
+      "ecart_pct": -0.4034,
+      "implied_growth": 0.008023,
       "sgr": -0.031795,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -1095,7 +1095,7 @@
         "2026": 0.1232
       },
       "roic_nm_years": [],
-      "wacc": 0.078647,
+      "wacc": 0.06656,
       "rf": 0.0287,
       "rf_currency": "JPY",
       "rf_proxy": false,
@@ -1127,10 +1127,10 @@
     {
       "ticker": "2222.SR",
       "prix": 26.48,
-      "epv_per_share": 22.198282,
-      "re_per_share": 44.703501,
-      "ecart_pct": -0.1617,
-      "implied_growth": 0.017665,
+      "epv_per_share": 23.954643,
+      "re_per_share": 49.830907,
+      "ecart_pct": -0.0954,
+      "implied_growth": 0.012888,
       "sgr": 0.054099,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -1140,7 +1140,7 @@
         "2025": 0.2457
       },
       "roic_nm_years": [],
-      "wacc": 0.068507,
+      "wacc": 0.06349,
       "rf": 0.04912,
       "rf_currency": "SAR",
       "rf_proxy": true,
@@ -1161,7 +1161,7 @@
           "severity": "info"
         }
       ],
-      "score": 53.0,
+      "score": 57.0,
       "n_flags": 1,
       "consensus_median": 29.55,
       "currency": "SAR",
@@ -1172,10 +1172,10 @@
     {
       "ticker": "600111.SS",
       "prix": 31.91,
-      "epv_per_share": 20.429911,
-      "re_per_share": 17.997224,
-      "ecart_pct": -0.3598,
-      "implied_growth": 0.037971,
+      "epv_per_share": 24.004454,
+      "re_per_share": 23.603047,
+      "ecart_pct": -0.2477,
+      "implied_growth": 0.031649,
       "sgr": 0.102769,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -1185,7 +1185,7 @@
         "2025": 0.1265
       },
       "roic_nm_years": [],
-      "wacc": 0.042995,
+      "wacc": 0.036642,
       "rf": 0.0158,
       "rf_currency": "CNY",
       "rf_proxy": false,
@@ -1206,7 +1206,7 @@
           "severity": "info"
         }
       ],
-      "score": 38.8,
+      "score": 38.9,
       "n_flags": 1,
       "consensus_median": 56.0,
       "currency": "CNY",
@@ -1217,10 +1217,10 @@
     {
       "ticker": "KAP.IL",
       "prix": 24037.570703,
-      "epv_per_share": 29693.051814,
-      "re_per_share": 26133.855932,
-      "ecart_pct": 0.2353,
-      "implied_growth": -0.012174,
+      "epv_per_share": 32809.067138,
+      "re_per_share": 29062.219292,
+      "ecart_pct": 0.3649,
+      "implied_growth": -0.01964,
       "sgr": "N/D",
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -1230,7 +1230,7 @@
         "2025": 0.3006
       },
       "roic_nm_years": [],
-      "wacc": 0.083652,
+      "wacc": 0.07546,
       "rf": 0.04912,
       "rf_currency": "KZT",
       "rf_proxy": true,
@@ -1251,7 +1251,7 @@
           "severity": "medium"
         }
       ],
-      "score": 71.9,
+      "score": 72.8,
       "n_flags": 1,
       "consensus_median": 10702804.423828,
       "currency": "KZT",
@@ -1262,10 +1262,10 @@
     {
       "ticker": "SAF.PA",
       "prix": 292.7,
-      "epv_per_share": 103.548472,
-      "re_per_share": 302.390497,
-      "ecart_pct": -0.6462,
-      "implied_growth": 0.046389,
+      "epv_per_share": 119.33461,
+      "re_per_share": 396.438552,
+      "ecart_pct": -0.5923,
+      "implied_growth": 0.03567,
       "sgr": 0.12519,
       "roic_years_above_wacc": "2/2",
       "roic_by_year": {
@@ -1273,7 +1273,7 @@
         "2025": 0.2611
       },
       "roic_nm_years": [],
-      "wacc": 0.079642,
+      "wacc": 0.068583,
       "rf": 0.03442,
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -1300,10 +1300,10 @@
     {
       "ticker": "RHM.DE",
       "prix": 693.4,
-      "epv_per_share": 383.939059,
-      "re_per_share": 265.805549,
-      "ecart_pct": -0.4463,
-      "implied_growth": 0.02805,
+      "epv_per_share": 436.243987,
+      "re_per_share": 346.02354,
+      "ecart_pct": -0.3709,
+      "implied_growth": 0.019245,
       "sgr": 0.207868,
       "roic_years_above_wacc": "4/4",
       "roic_by_year": {
@@ -1313,7 +1313,7 @@
         "2025": 0.2964
       },
       "roic_nm_years": [],
-      "wacc": 0.074028,
+      "wacc": 0.064829,
       "rf": 0.03442,
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -1355,5 +1355,72 @@
       0.6
     ]
   },
-  "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security."
+  "disclaimer": "Informational only, not investment advice. SAINHE publishes measurements and flags computed from public filings; it does not recommend buying or selling any security.",
+  "fx": {
+    "USD": {
+      "usd_per_unit": 1.0,
+      "date": null,
+      "source": "identity"
+    },
+    "CHF": {
+      "usd_per_unit": 1.1846938133239746,
+      "date": "2026-11-20",
+      "source": "Yahoo Finance daily close CHFUSD=X",
+      "peg": null
+    },
+    "CNY": {
+      "usd_per_unit": 0.1500983089208603,
+      "date": "2026-11-21",
+      "source": "Yahoo Finance daily close CNYUSD=X",
+      "peg": null
+    },
+    "EUR": {
+      "usd_per_unit": 1.0969723463058472,
+      "date": "2026-11-20",
+      "source": "Yahoo Finance daily close EURUSD=X",
+      "peg": null
+    },
+    "GBP": {
+      "usd_per_unit": 1.3081814050674438,
+      "date": "2026-11-22",
+      "source": "Yahoo Finance daily close GBPUSD=X",
+      "peg": null
+    },
+    "HKD": {
+      "usd_per_unit": 0.12756891548633575,
+      "date": "2026-11-22",
+      "source": "Yahoo Finance daily close HKDUSD=X",
+      "peg": "Hong Kong dollar pegged to the dollar"
+    },
+    "JPY": {
+      "usd_per_unit": 0.006261466071009636,
+      "date": "2026-11-20",
+      "source": "Yahoo Finance daily close JPYUSD=X",
+      "peg": null
+    },
+    "KZT": {
+      "usd_per_unit": 0.0023005653638392687,
+      "date": "2026-11-20",
+      "source": "Yahoo Finance daily close KZTUSD=X",
+      "peg": null
+    },
+    "SAR": {
+      "usd_per_unit": 0.2751418352127075,
+      "date": "2026-11-20",
+      "source": "Yahoo Finance daily close SARUSD=X",
+      "peg": "riyal pegged to the dollar at 3.75"
+    },
+    "TWD": {
+      "usd_per_unit": 0.030278900638222694,
+      "date": "2026-11-20",
+      "source": "Yahoo Finance daily close TWDUSD=X",
+      "peg": null
+    }
+  },
+  "erp": {
+    "erp": 0.0379,
+    "date": "2026-11-01",
+    "url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
+    "source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)"
+  }
 }

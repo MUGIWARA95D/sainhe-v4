@@ -68,14 +68,17 @@ def load_fx_series(con: sqlite3.Connection, devise: str) -> pd.Series | None:
     """
     if not devise or devise == "USD":
         return None
-    pair = f"USD_{devise}"
+    # Cotations en pence (Coats : GBp / GBX) : 1 USD = rate(USD_GBP) × 100 pence.
+    # Avant : paire USD_GBp inexistante → rendements de Coats en N/D sur le dashboard.
+    pence = devise in ("GBp", "GBX")
+    pair = "USD_GBP" if pence else f"USD_{devise}"
     rows = con.execute(
         "SELECT date, rate FROM fx_daily WHERE pair = ? ORDER BY date ASC",
         (pair,),
     ).fetchall()
     if not rows:
         return None
-    s = pd.Series({r[0]: float(r[1]) for r in rows})
+    s = pd.Series({r[0]: float(r[1]) * (100.0 if pence else 1.0) for r in rows})
     s.index = pd.to_datetime(s.index)
     return s
 

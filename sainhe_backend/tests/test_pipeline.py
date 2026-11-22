@@ -154,6 +154,23 @@ check_true("audit dette : placements CT jamais publiés", _na["st_investments"][
 _rep["drill_down"]["esef_overlap"] = {"revenue": {"2025": 51.0}}
 check_true("recoupement Yahoo ↔ ESEF : écart 2 % < 3 % → ok", _coh.esef_cross_check(_rep)[0]["status"] == "ok")
 
+print("\nTTM à partir des 10-Q (cumuls depuis le début d'exercice)")
+from edgar import ttm as _ttm
+_tcd = _cd({"revenue": {2025: 100.0}, "ocf": {2025: 30.0}, "capex": {2025: 10.0}, "sbc": {2025: 2.0}})
+for _n in ("revenue", "ocf", "capex", "sbc"):
+    for _y in _tcd.series[_n]:
+        _tcd.series[_n][_y].unit = "USD"
+def _q(cur, prev):
+    return {"units": {"USD": [{"start": "2026-01-01", "end": "2026-06-30", "val": cur, "form": "10-Q", "accn": "b"},
+                              {"start": "2025-01-01", "end": "2025-06-30", "val": prev, "form": "10-Q", "accn": "b"}]}}
+_facts = {"facts": {"us-gaap": {"Revenues": _q(70.0, 50.0), "NetCashProvidedByUsedInOperatingActivities": _q(20.0, 14.0),
+          "PaymentsToAcquirePropertyPlantAndEquipment": _q(6.0, 5.0), "ShareBasedCompensation": _q(1.5, 1.0)}}}
+_t = _ttm.compute(_facts, _tcd)
+check("TTM chiffre d'affaires = 100 + 70 − 50", _t["values"]["revenue"], 120.0)
+check("TTM FCF = (30+20−14) − (10+6−5) − (2+1.5−1)", _t["fcf_adj"], 22.5)
+check_true("TTM : 2 trimestres après l'exercice", _t["quarters_after_fy"] == 2)
+check_true("TTM : aucun 10-Q postérieur → None", _ttm.compute({"facts": {}}, _tcd) is None)
+
 print("\nValorisation")
 w = valuation.wacc(cd, price=15.0)
 # Ke = 0.042 + 1.0×0.05 = 0.092 ; E=1500, D=345, V=1845
@@ -209,6 +226,7 @@ _env = os.environ.get("SAINHE_RF_LIVE")
 os.environ["SAINHE_RF_LIVE"] = "1"
 market_inputs._cache.clear()
 market_inputs._cache["macro"] = {"us_10y": {"value": 4.5}, "bund_10y": {"value": 2.6}, "uk_10y": 4.4}
+market_inputs._cache["erp"] = {"erp": 0.05, "date": None, "url": None, "source": "test"}   # pas de réseau
 eur, twd, usd = (market_inputs.risk_free_info(c) for c in ("EUR", "TWD", "USD"))
 check("Rf EUR = Bund 10 ans", eur["rf"], 0.026, tol=1e-9)
 check_true("Rf EUR non substitué", eur["proxy"] is False and eur["field"] == "bund_10y")
