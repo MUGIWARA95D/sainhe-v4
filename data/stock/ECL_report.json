@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 294.7,
     "EPV": {
-      "epv_ev": 27405232434.793606,
-      "epv_equity": 19815132434.793606,
-      "epv_per_share": 69.478024,
+      "epv_ev": 27405235802.601444,
+      "epv_equity": 19815135802.601444,
+      "epv_per_share": 69.478036,
       "inputs": {
         "ebit_adj": 2737600000.0,
         "tax": 0.178421,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 44.156297,
-      "high": 63.877176,
+      "low": 44.156304,
+      "high": 63.877187,
       "fcf_p25": 1123450000.0,
       "fcf_p75": 1625200000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 82.811031,
-      "central": 69.478024,
-      "plus_100bps": 59.041286
+      "minus_100bps": 82.811047,
+      "central": 69.478036,
+      "plus_100bps": 59.041295
     },
     "RE_valuation": {
-      "re_value_equity": 25542937077.785786,
-      "re_value_per_share": 89.56149,
+      "re_value_equity": 25542940802.129265,
+      "re_value_per_share": 89.561504,
       "inputs": {
         "B0": 9770800000.0,
-        "RE": 1224372384.664126,
+        "RE": 1224372492.864738,
         "ke": 0.08712,
         "g": 0.012707,
         "g_sgr": 0.012707,
@@ -215,7 +215,7 @@
     "retained_earnings_test": {
       "ratio": 3.337817,
       "retained_5y": 4577500000.0,
-      "delta_mcap": 15278855065.917969,
+      "delta_mcap": 15278855221.557617,
       "passes": true,
       "window": [
         2020,
@@ -1354,6 +1354,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
+    "quote_ticker": "ECL",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,

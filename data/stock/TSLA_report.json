@@ -6,8 +6,8 @@
   "bloc_A_verdict": {
     "prix": 345.82,
     "EPV": {
-      "epv_ev": 32125042324.620216,
-      "epv_equity": 67808042324.62022,
+      "epv_ev": 32125043578.862167,
+      "epv_equity": 67808043578.86217,
       "epv_per_share": 19.219967,
       "inputs": {
         "ebit_adj": 4745000000.0,
@@ -18,21 +18,21 @@
     },
     "EPV_confidence_range": {
       "low": -5.653976,
-      "high": 17.092749,
+      "high": 17.09275,
       "fcf_p25": -998714000.0,
       "fcf_p75": 3019250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 20.150247,
+      "minus_100bps": 20.150248,
       "central": 19.219967,
       "plus_100bps": 18.447519
     },
     "RE_valuation": {
-      "re_value_equity": 13192158013.325684,
+      "re_value_equity": 13192158171.507004,
       "re_value_per_share": 3.739274,
       "inputs": {
         "B0": 82137000000.0,
-        "RE": -4825980422.660482,
+        "RE": -4825980074.326937,
         "ke": 0.108414,
         "g": 0.04912,
         "g_sgr": 0.067443,
@@ -1322,6 +1322,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
+    "quote_ticker": "TSLA",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,

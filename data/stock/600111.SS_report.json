@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 31.91,
     "EPV": {
-      "epv_ev": 87462531575.57956,
-      "epv_equity": 86784322108.35956,
-      "epv_per_share": 24.004472,
+      "epv_ev": 87462480776.40155,
+      "epv_equity": 86784271309.18155,
+      "epv_per_share": 24.004458,
       "inputs": {
         "ebit_adj": 3793866616.36,
         "tax": 0.155272,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 68.539666,
-      "high": -392.884974,
+      "low": 68.539626,
+      "high": -392.884744,
       "fcf_p25": -544825692.155,
       "fcf_p75": 3123064930.75
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 33.084955,
-      "central": 24.004472,
-      "plus_100bps": 18.817697
+      "minus_100bps": 33.084929,
+      "central": 24.004458,
+      "plus_100bps": 18.817688
     },
     "RE_valuation": {
-      "re_value_equity": 85333145119.90945,
-      "re_value_per_share": 23.603078,
+      "re_value_equity": 85333055574.70508,
+      "re_value_per_share": 23.603053,
       "inputs": {
         "B0": 24660969712.52,
-        "RE": 1346110448.555424,
+        "RE": 1346109897.189877,
         "ke": 0.036704,
         "g": 0.0158,
         "g_sgr": 0.102769,
@@ -269,8 +269,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.551562,
-      "beta_raw": 0.33069,
+      "beta": 0.551563,
+      "beta_raw": 0.330691,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 248 weeks"
     },
@@ -880,7 +880,7 @@
   "score_composite": {
     "value_0_100": 38.9,
     "pillars": {
-      "valuation": 0.451093,
+      "valuation": 0.451005,
       "balance_sheet_health": 85,
       "earnings_quality": 25,
       "smart_money": 50,
@@ -904,6 +904,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
+    "quote_ticker": "600111.SS",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,

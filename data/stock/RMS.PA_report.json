@@ -6,37 +6,37 @@
   "bloc_A_verdict": {
     "prix": 1225.5,
     "EPV": {
-      "epv_ev": 56188278965.661354,
-      "epv_equity": 68393278965.661354,
-      "epv_per_share": 651.126995,
+      "epv_ev": 56712735470.37514,
+      "epv_equity": 68917735470.37514,
+      "epv_per_share": 656.119997,
       "inputs": {
         "ebit_adj": 6569000000.0,
         "tax": 0.334022,
-        "wacc": 0.07786,
+        "wacc": 0.07714,
         "net_debt": -12205000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 242.772564,
-      "high": 627.034817,
+      "low": 244.634204,
+      "high": 631.843075,
       "fcf_p25": 1521600000.0,
       "fcf_p75": 3930000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 729.95588,
-      "central": 651.126995,
-      "plus_100bps": 590.242352
+      "minus_100bps": 736.537926,
+      "central": 656.119997,
+      "plus_100bps": 594.159291
     },
     "RE_valuation": {
-      "re_value_equity": 58104433714.739334,
-      "re_value_per_share": 553.173731,
+      "re_value_equity": 58646775441.08099,
+      "re_value_per_share": 558.337007,
       "inputs": {
         "B0": 18840000000.0,
-        "RE": 3057121234.457893,
-        "ke": 0.07786,
+        "RE": 3070686337.67209,
+        "ke": 0.07714,
         "g": 0.0,
         "g_sgr": "N/D",
-        "g_cap": 0.03442
+        "g_cap": 0.0337
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.497707
     },
     "reverse_dcf": {
-      "implied_g": 0.041386,
+      "implied_g": 0.04069,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 116519448572.09193,
         "fcf_adj": 4081000000.0,
-        "wacc": 0.07786,
+        "wacc": 0.07714,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -196,46 +196,46 @@
     ],
     "g_axis": [
       0.0,
-      0.0086,
-      0.0172,
-      0.0258,
-      0.0344
+      0.0084,
+      0.0169,
+      0.0253,
+      0.0337
     ],
     "matrix": [
       [
-        437.7,
-        461.48,
-        492.01,
-        532.64,
-        589.36
+        441.79,
+        465.69,
+        496.27,
+        536.79,
+        593.03
       ],
       [
-        442.51,
-        466.74,
-        497.84,
-        539.22,
-        597.0
+        446.64,
+        470.99,
+        502.14,
+        543.41,
+        600.68
       ],
       [
-        541.76,
-        575.12,
-        617.94,
-        674.93,
-        754.5
+        546.81,
+        580.28,
+        623.1,
+        679.84,
+        758.58
       ],
       [
-        567.74,
-        603.5,
-        649.4,
-        710.47,
-        795.74
+        573.04,
+        608.9,
+        654.78,
+        715.56,
+        799.93
       ],
       [
-        599.61,
-        638.3,
-        687.96,
-        754.05,
-        846.32
+        605.21,
+        644.0,
+        693.62,
+        759.37,
+        850.63
       ]
     ]
   },
@@ -255,13 +255,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.07786,
-      "ke": 0.07786,
+      "wacc": 0.07714,
+      "ke": 0.07714,
       "kd": "N/D",
       "tax_rate": 0.334022,
       "E": 128724448572.09193,
       "D": 34000000.0,
-      "rf": 0.03442,
+      "rf": 0.0337,
       "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -271,7 +271,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 1.146169,
-      "beta_raw": 1.218163,
+      "beta_raw": 1.218162,
       "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -878,6 +878,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
+    "quote_ticker": "RMS.PA",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,

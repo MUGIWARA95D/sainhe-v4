@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 575.0,
     "EPV": {
-      "epv_ev": 15395454990.934145,
-      "epv_equity": 14683454990.934145,
-      "epv_per_share": 443.046738,
+      "epv_ev": 15395460675.743738,
+      "epv_equity": 14683460675.743738,
+      "epv_per_share": 443.04691,
       "inputs": {
         "ebit_adj": 767200000.0,
         "tax": 0.186224,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 377.883525,
-      "high": 436.546195,
+      "low": 377.883671,
+      "high": 436.546364,
       "fcf_p25": 598750000.0,
       "fcf_p75": 691700000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 595.08837,
-      "central": 443.046738,
-      "plus_100bps": 351.156699
+      "minus_100bps": 595.088673,
+      "central": 443.04691,
+      "plus_100bps": 351.15681
     },
     "RE_valuation": {
-      "re_value_equity": 15672044552.06248,
-      "re_value_per_share": 472.875643,
+      "re_value_equity": 15672051300.335777,
+      "re_value_per_share": 472.875846,
       "inputs": {
         "B0": 1517100000.0,
-        "RE": 533894981.058792,
+        "RE": 533895005.32329,
         "ke": 0.042123,
         "g": 0.0051,
         "g_sgr": 0.012875,
@@ -207,7 +207,7 @@
       [
         475.18,
         486.54,
-        498.63,
+        498.64,
         511.54,
         525.33
       ],
@@ -251,8 +251,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.976864,
-      "beta_raw": 0.965469,
+      "beta": 0.976863,
+      "beta_raw": 0.965468,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -814,7 +814,7 @@
   "score_composite": {
     "value_0_100": 49.0,
     "pillars": {
-      "valuation": 4.103213,
+      "valuation": 4.103273,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,
@@ -838,6 +838,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
+    "quote_ticker": "GEBN.SW",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,

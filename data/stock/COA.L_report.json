@@ -6,8 +6,8 @@
   "bloc_A_verdict": {
     "prix": 0.951702,
     "EPV": {
-      "epv_ev": 3237442507.273652,
-      "epv_equity": 2422742507.273652,
+      "epv_ev": 3237442663.132139,
+      "epv_equity": 2422742663.132139,
       "epv_per_share": 1.37562,
       "inputs": {
         "ebit_adj": 288500000.0,
@@ -28,11 +28,11 @@
       "plus_100bps": 1.114607
     },
     "RE_valuation": {
-      "re_value_equity": 1284772779.856788,
+      "re_value_equity": 1284772855.295511,
       "re_value_per_share": 0.729487,
       "inputs": {
         "B0": 722500000.0,
-        "RE": 45252363.95783,
+        "RE": 45252367.372117,
         "ke": 0.080481,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -931,6 +931,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.3081814050674438,
     "adr_ratio": 1.0,
+    "quote_ticker": "COA.L",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,

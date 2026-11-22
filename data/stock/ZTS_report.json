@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 79.11,
     "EPV": {
-      "epv_ev": 41200119064.76101,
-      "epv_equity": 34463119064.76101,
-      "epv_per_share": 77.648493,
+      "epv_ev": 41200124435.055214,
+      "epv_equity": 34463124435.055214,
+      "epv_per_share": 77.648505,
       "inputs": {
         "ebit_adj": 3631000000.0,
         "tax": 0.204464,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 42.971382,
-      "high": 63.830591,
+      "low": 42.971389,
+      "high": 63.830601,
       "fcf_p25": 1217500000.0,
       "fcf_p75": 1808500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 93.09113,
-      "central": 77.648493,
-      "plus_100bps": 66.061156
+      "minus_100bps": 93.091147,
+      "central": 77.648505,
+      "plus_100bps": 66.061166
     },
     "RE_valuation": {
-      "re_value_equity": 60937379759.55061,
-      "re_value_per_share": 137.297373,
+      "re_value_equity": 60937398956.73157,
+      "re_value_per_share": 137.297417,
       "inputs": {
         "B0": 3331000000.0,
-        "RE": 2435020416.026046,
+        "RE": 2435020454.312533,
         "ke": 0.083146,
         "g": 0.047477,
         "g_sgr": 0.047477,
@@ -204,9 +204,9 @@
     "ocf_ni": 1.08642,
     "accruals_pct_rev": -0.024401,
     "retained_earnings_test": {
-      "ratio": -1.668158,
+      "ratio": -1.668159,
       "retained_5y": 11654000000.0,
-      "delta_mcap": -19440718635.06317,
+      "delta_mcap": -19440729853.637695,
       "passes": false,
       "window": [
         2020,
@@ -387,7 +387,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.897796,
+      "beta": 0.897795,
       "beta_raw": 0.847456,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
@@ -1279,7 +1279,7 @@
   "score_composite": {
     "value_0_100": 55.1,
     "pillars": {
-      "valuation": 46.305128,
+      "valuation": 46.305159,
       "balance_sheet_health": 75,
       "earnings_quality": 50,
       "smart_money": 50,
@@ -1303,6 +1303,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
+    "quote_ticker": "ZTS",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,

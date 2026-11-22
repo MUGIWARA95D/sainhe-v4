@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 159.99,
     "EPV": {
-      "epv_ev": 454412689705.74756,
-      "epv_equity": 421556689705.74756,
-      "epv_per_share": 97.920879,
+      "epv_ev": 454412541821.8391,
+      "epv_equity": 421556541821.8391,
+      "epv_per_share": 97.920844,
       "inputs": {
         "ebit_adj": 41871000000.0,
         "tax": 0.278763,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 23.961835,
-      "high": 141.418575,
+      "low": 23.961826,
+      "high": 141.418526,
       "fcf_p25": 5778000000.0,
       "fcf_p75": 34100750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 116.617018,
-      "central": 97.920879,
-      "plus_100bps": 84.115367
+      "minus_100bps": 116.616971,
+      "central": 97.920844,
+      "plus_100bps": 84.115341
     },
     "RE_valuation": {
-      "re_value_equity": 429033786174.6926,
-      "re_value_per_share": 99.657689,
+      "re_value_equity": 429033626242.4888,
+      "re_value_per_share": 99.657651,
       "inputs": {
         "B0": 259386000000.0,
-        "RE": 10623608830.226357,
+        "RE": 10623602844.02985,
         "ke": 0.070244,
         "g": 0.009673,
         "g_sgr": 0.009673,
@@ -195,7 +195,7 @@
     "retained_earnings_test": {
       "ratio": 3.696853,
       "retained_5y": 98575000000.0,
-      "delta_mcap": 364417239536.0495,
+      "delta_mcap": 364417256076.0563,
       "passes": true,
       "window": [
         2020,
@@ -258,7 +258,7 @@
       [
         151.13,
         165.81,
-        188.38,
+        188.37,
         227.53,
         312.21
       ]
@@ -296,7 +296,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.55737,
-      "beta_raw": 0.339358,
+      "beta_raw": 0.339359,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -1138,6 +1138,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
+    "quote_ticker": "XOM",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,

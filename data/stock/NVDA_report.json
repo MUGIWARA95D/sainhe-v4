@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 125.53,
     "EPV": {
-      "epv_ev": 974987000928.577,
-      "epv_equity": 1029075000928.577,
-      "epv_per_share": 41.979073,
+      "epv_ev": 974987250231.0225,
+      "epv_equity": 1029075250231.0225,
+      "epv_per_share": 41.979083,
       "inputs": {
         "ebit_adj": 130387000000.0,
         "tax": 0.15117,
@@ -18,21 +18,21 @@
     },
     "EPV_confidence_range": {
       "low": 1.023208,
-      "high": 14.707321,
+      "high": 14.707325,
       "fcf_p25": 2200750000.0,
       "fcf_p75": 31633000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 45.821257,
-      "central": 41.979073,
-      "plus_100bps": 38.759026
+      "minus_100bps": 45.821269,
+      "central": 41.979083,
+      "plus_100bps": 38.759034
     },
     "RE_valuation": {
-      "re_value_equity": 1499060947837.7922,
-      "re_value_per_share": 61.151218,
+      "re_value_equity": 1499061597377.2212,
+      "re_value_per_share": 61.151244,
       "inputs": {
         "B0": 157293000000.0,
-        "RE": 102173868151.38368,
+        "RE": 102173872729.49796,
         "ke": 0.113757,
         "g": 0.04912,
         "g_sgr": 0.256005,
@@ -212,7 +212,7 @@
     "retained_earnings_test": {
       "ratio": 12.845974,
       "retained_5y": 233827000000.0,
-      "delta_mcap": 3003735503688.8125,
+      "delta_mcap": 3003735498901.367,
       "passes": true,
       "window": [
         2021,
@@ -393,8 +393,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.705454,
-      "beta_raw": 2.052916,
+      "beta": 1.705453,
+      "beta_raw": 2.052915,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -1354,6 +1354,7 @@
     "price_date": "2026-11-20",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
+    "quote_ticker": "NVDA",
     "fiscal_year_end": "2026-01-25",
     "months_since_fiscal_year_end": 10,
     "stale_financials": false,

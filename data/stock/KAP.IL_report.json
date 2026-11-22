@@ -4,35 +4,35 @@
   "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 24037.570703,
+    "prix": 25286.47854,
     "EPV": {
-      "epv_ev": 8253226044198.607,
-      "epv_equity": 8509266044198.607,
-      "epv_per_share": 32809.085717,
+      "epv_ev": 8252063727960.489,
+      "epv_equity": 8508103727960.489,
+      "epv_per_share": 32804.604186,
       "inputs": {
         "ebit_adj": 768676000000.0,
         "tax": 0.189786,
-        "wacc": 0.07546,
+        "wacc": 0.075471,
         "net_debt": -256040000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 13455.111682,
-      "high": 29454.044992,
+      "low": 13453.273792,
+      "high": 29450.021741,
       "fcf_p25": 237830750000.0,
       "fcf_p75": 520625750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 37670.326132,
-      "central": 32809.085717,
-      "plus_100bps": 29085.504455
+      "minus_100bps": 37664.370911,
+      "central": 32804.604186,
+      "plus_100bps": 29082.010303
     },
     "RE_valuation": {
-      "re_value_equity": 7537494551456.985,
-      "re_value_per_share": 29062.236807,
+      "re_value_equity": 7537495287822.953,
+      "re_value_per_share": 29062.239646,
       "inputs": {
         "B0": 2327943000000.0,
-        "RE": 394274351743.2726,
+        "RE": 394274368955.5043,
         "ke": 0.075683,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -41,21 +41,21 @@
     },
     "consensus": {
       "available": true,
-      "target_mean": 11228762.119141,
-      "target_median": 10702804.423828,
-      "target_high": 13185846.356641,
-      "target_low": 10488770.069141,
+      "target_mean": 11812169.202271,
+      "target_median": 11258884.590454,
+      "target_high": 13870936.670239,
+      "target_low": 11033729.761646,
       "n_analysts": 7,
       "warning_few_analysts": false,
       "dispersion": 0.240194
     },
     "reverse_dcf": {
-      "implied_g": -0.01964,
+      "implied_g": -0.015155,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 5978272224850.391,
+        "ev": 6302185214708.911,
         "fcf_adj": 579929000000.0,
-        "wacc": 0.07546,
+        "wacc": 0.075471,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -187,39 +187,39 @@
     ],
     "matrix": [
       [
-        30876.61,
-        34044.8,
+        30876.62,
+        34044.81,
         38735.03,
-        46390.82,
-        61125.14
+        46390.83,
+        61125.16
       ],
       [
         31728.29,
         35019.69,
-        39892.3,
-        47845.82,
-        63153.13
+        39892.31,
+        47845.83,
+        63153.14
       ],
       [
         33458.75,
-        37000.47,
+        37000.48,
         42243.68,
-        50802.11,
-        67273.62
+        50802.12,
+        67273.64
       ],
       [
-        33912.96,
+        33912.97,
         37520.4,
         42860.88,
-        51578.08,
-        68355.18
+        51578.09,
+        68355.2
       ],
       [
         34767.2,
         38498.21,
-        44021.63,
-        53037.45,
-        70389.26
+        44021.64,
+        53037.46,
+        70389.28
       ]
     ]
   },
@@ -239,11 +239,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.07546,
+      "wacc": 0.075471,
       "ke": 0.075683,
       "kd": 0.085357,
       "tax_rate": 0.189786,
-      "E": 6234312224850.391,
+      "E": 6558225214708.911,
       "D": 220146000000.0,
       "rf": 0.04912,
       "rf_source": "PROXY : aucun taux 10 ans KZT publié → US 10Y (sainhe macro.json us_10y)",
@@ -869,10 +869,11 @@
     "listing_currency": "USD",
     "reporting_currency": "KZT",
     "price_listing": 55.3,
-    "price_in_reporting_currency": 24037.570703125,
+    "price_in_reporting_currency": 25286.47854003906,
     "price_date": "2026-11-20",
-    "fx_listing_to_reporting": 434.67578125,
+    "fx_listing_to_reporting": 457.260009765625,
     "adr_ratio": 1.0,
+    "quote_ticker": "KAP.IL",
     "fiscal_year_end": "2025-12-31",
     "months_since_fiscal_year_end": 11,
     "stale_financials": false,
