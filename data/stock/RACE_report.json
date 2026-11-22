@@ -1,39 +1,39 @@
 {
   "ticker": "RACE",
   "cik": 1648416,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 357.77565,
     "EPV": {
-      "epv_ev": 22370729522.16486,
-      "epv_equity": 23838440522.16486,
-      "epv_per_share": 133.752825,
+      "epv_ev": 18906230289.61835,
+      "epv_equity": 20373941289.61835,
+      "epv_per_share": 114.314197,
       "inputs": {
         "ebit_adj": 2109716000.0,
         "tax": 0.224904,
-        "wacc": 0.073097,
+        "wacc": 0.086492,
         "net_debt": -1467711000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 42.709261,
-      "high": 97.744386,
+      "low": 36.502219,
+      "high": 83.538954,
       "fcf_p25": 595233500.0,
       "fcf_p75": 1362251000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 153.645654,
-      "central": 133.752825,
-      "plus_100bps": 118.647853
+      "minus_100bps": 128.182247,
+      "central": 114.314197,
+      "plus_100bps": 103.3206
     },
     "RE_valuation": {
-      "re_value_equity": 21846573730.79607,
-      "re_value_per_share": 122.57685,
+      "re_value_equity": 18463249201.789413,
+      "re_value_per_share": 103.593678,
       "inputs": {
         "B0": 3906893000.0,
-        "RE": 1311336842.379,
-        "ke": 0.073097,
+        "RE": 1259004931.112151,
+        "ke": 0.086492,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.03442
@@ -50,12 +50,12 @@
       "dispersion": 0.223248
     },
     "reverse_dcf": {
-      "implied_g": 0.04192,
+      "implied_g": 0.054926,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 62297772534.74463,
         "fcf_adj": 1864096000.0,
-        "wacc": 0.073097,
+        "wacc": 0.086492,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -217,7 +217,7 @@
     "retained_earnings_test": {
       "ratio": 5.054014,
       "retained_5y": 4423724000.0,
-      "delta_mcap": 22357561291.683994,
+      "delta_mcap": 22357563590.57096,
       "passes": true,
       "window": [
         2020,
@@ -250,39 +250,39 @@
     ],
     "matrix": [
       [
-        75.62,
-        81.02,
-        88.09,
-        97.73,
-        111.66
+        63.91,
+        67.24,
+        71.39,
+        76.73,
+        83.82
       ],
       [
-        92.45,
-        99.54,
-        108.82,
-        121.48,
-        139.78
+        78.13,
+        82.58,
+        88.15,
+        95.29,
+        104.79
       ],
       [
-        108.52,
-        117.24,
+        91.72,
+        97.25,
+        104.16,
+        113.03,
+        124.83
+      ],
+      [
+        103.68,
+        110.16,
+        118.25,
         128.64,
-        144.18,
-        166.65
+        142.46
       ],
       [
-        122.68,
-        132.81,
-        146.07,
-        164.16,
-        190.29
-      ],
-      [
-        129.42,
-        140.23,
-        154.38,
-        173.68,
-        201.56
+        109.37,
+        116.31,
+        124.96,
+        136.07,
+        150.86
       ]
     ]
   },
@@ -302,8 +302,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.073097,
-      "ke": 0.073097,
+      "wacc": 0.086492,
+      "ke": 0.086492,
       "kd": "N/D",
       "tax_rate": 0.224904,
       "E": 63765483534.74463,
@@ -314,9 +314,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.77354,
-      "beta_raw": 0.662,
-      "mode": "complet"
+      "beta": 1.041435,
+      "beta_raw": 1.061844,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -580,6 +581,18 @@
         "2024": 3533946000.0,
         "2025": 3906893000.0
       },
+      "minority_interest": {
+        "2016": 4810000.0,
+        "2017": 5258000.0,
+        "2018": 5117000.0,
+        "2019": 5998000.0,
+        "2020": 4018000.0,
+        "2021": 5518000.0,
+        "2022": 9630000.0,
+        "2023": 9734000.0,
+        "2024": 9292000.0,
+        "2025": 7849000.0
+      },
       "ocf": {
         "2016": 1005299000.0,
         "2017": 662799000.0,
@@ -829,6 +842,16 @@
         "accession": "0001648416-26-000024",
         "filing_form": "20-F",
         "xbrl_tag": "EquityAttributableToOwnersOfParent",
+        "unit": "EUR",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
+      },
+      "minority_interest": {
+        "value": 7849000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001648416-26-000024",
+        "filing_form": "20-F",
+        "xbrl_tag": "NoncontrollingInterests",
         "unit": "EUR",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1648416/000164841626000024/"
       },

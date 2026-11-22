@@ -114,6 +114,46 @@ check_true("Yahoo : NaN → année absente (pas de 0)", _ycd.value("pretax_incom
 check_true("Yahoo : devise des comptes et tag tracés", _ycd.reporting_currency() == "CHF"
            and _ycd.latest("revenue").tag == "yahoo:Total Revenue")
 
+print("\nDette nette — règles des tags (CompanyData minimal)")
+from edgar.xbrl_parser import CompanyData as _CD, DataPoint as _DP
+def _cd(series):
+    c = _CD(ticker="T", cik=0)
+    for name, vals in series.items():
+        c.series[name] = {y: _DP(value=v[0] if isinstance(v, tuple) else v, fy=y, end=f"{y}-12-31", accn="a",
+                                 tag=v[1] if isinstance(v, tuple) else "Tag") for y, v in vals.items()}
+    return c
+_base = {"revenue": {2024: 100.0, 2025: 110.0}, "st_debt": {2024: 5.0, 2025: 5.0}, "cash": {2024: 20.0, 2025: 30.0}}
+_d1 = metrics.net_debt_detail(_cd({**_base, "lt_debt": {2024: 50.0}}), 2025)
+check_true("dette LT publiée avant mais pas en 2025 → dette nette N/D", _d1["net_debt"] is None)
+_d2 = metrics.net_debt_detail(_cd({**_base, "lt_debt": {2024: 50.0, 2025: 60.0}, "st_investments": {2024: 7.0}}), 2025)
+check("placements CT absents en 2025 → non déduits (60+5−30)", _d2["net_debt"], 35.0)
+check_true("placements CT absents → signalés non déduits", _d2["st_investments_deducted"] is False)
+_d3 = metrics.net_debt_detail(_cd({**_base, "lt_debt": {2025: (60.0, "de:LongTermDebtAndFinanceLeasesNoncurrent")},
+                                   "finance_lease_liab": {2025: 9.0}, "st_investments": {2025: 4.0}}), 2025)
+check("tag « …AndFinanceLeases… » : leases pas comptés deux fois (60+5−30−4)", _d3["net_debt"], 31.0)
+_d4 = metrics.net_debt_detail(_cd(_base), 2025)
+check("dette LT jamais publiée → 0 (5−30)", _d4["net_debt"], -25.0)
+
+print("\nContrôles de cohérence (coherence.py)")
+import coherence as _coh
+_rep = {"fiscal_year": 2025, "drill_down": {"three_statement_10y": {
+    "total_assets": {"2025": 100.0}, "total_liabilities": {"2025": 60.0}, "equity": {"2025": 38.0},
+    "revenue": {"2025": 50.0}, "cogs": {"2025": 30.0}, "gross_profit": {"2025": 20.0},
+    "net_income": {"2025": 10.0}, "eps_diluted": {"2025": 2.0}, "shares_diluted": {"2025": 4.0},
+    "cash": {"2025": 5.0}, "current_assets": {"2025": 40.0},
+    "lt_debt": {"2023": 9.0}, "st_debt": {"2025": 1.0}},
+    "source_map_per_tag": {"total_liabilities": {"xbrl_tag": "Liabilities"}, "shares_diluted": {"xbrl_tag": "Shares"}},
+    "net_debt_detail": {"net_debt": None}}}
+_ic = {c["check"]: c for c in _coh.identity_checks(_rep)}
+check_true("cohérence : bilan équilibré à 2 % près → ok", _ic["assets = liabilities + equity"]["status"] == "ok")
+check_true("cohérence : marge brute exacte → ok", _ic["gross profit = revenue − cost of revenue"]["status"] == "ok")
+check_true("cohérence : BPA × actions = 8 ≠ 10 → écart signalé", _ic["net income ≈ diluted EPS × diluted shares"]["status"] == "gap")
+_na = {c["component"]: c for c in _coh.net_debt_tag_audit(_rep)}
+check_true("audit dette : dette LT publiée en 2023 seulement → trou signalé", _na["lt_debt"]["status"] == "gap")
+check_true("audit dette : placements CT jamais publiés", _na["st_investments"]["status"] == "never_filed")
+_rep["drill_down"]["esef_overlap"] = {"revenue": {"2025": 51.0}}
+check_true("recoupement Yahoo ↔ ESEF : écart 2 % < 3 % → ok", _coh.esef_cross_check(_rep)[0]["status"] == "ok")
+
 print("\nValorisation")
 w = valuation.wacc(cd, price=15.0)
 # Ke = 0.042 + 1.0×0.05 = 0.092 ; E=1500, D=345, V=1845

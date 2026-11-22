@@ -112,7 +112,7 @@ PORTFOLIO_TICKERS = [
     # ✗ Pas de données EDGAR (étranger pur / ETF / crypto) — sautés par le pipeline
     "6954.T", "ROP.SW", "2222.SR", "SAF.PA", "RHM.DE", "LDO.MI",
     "RMS.PA", "GEBN.SW", "NESN.SW", "COA.L", "600111.SS",
-    "GLD", "KAP.L", "BTC-USD",
+    "GLD", "KAP.IL", "BTC-USD",
 ]
 
 # Sous-ensemble exploitable par EDGAR (US 10-K) — sert de défaut sûr au pipeline
@@ -133,7 +133,7 @@ YAHOO_STATEMENTS_TICKERS = {
     "6954.T":    "Japan: EDINET requires an API key",
     "2222.SR":   "Saudi Arabia: no public XBRL feed",
     "600111.SS": "China: no public XBRL feed",
-    "KAP.L":     "Kazakhstan: no public XBRL feed",
+    "KAP.IL":    "Kazakhstan: no public XBRL feed",
     "SAF.PA":    "ESEF report not indexed on filings.xbrl.org",
     "RHM.DE":    "ESEF report not indexed on filings.xbrl.org",
 }
@@ -142,7 +142,14 @@ YAHOO_STATEMENTS_TICKERS = {
 # Éléments XBRL PROPRES à une société (hors us-gaap) : l'API companyfacts de la SEC ne les
 # expose jamais ; on les lit dans l'instance XBRL des derniers rapports annuels (edgar/instance.py).
 # Deere : dette LT publiée sous de:LongTermDebtAndFinanceLeasesNoncurrent depuis l'exercice 2022.
-CUSTOM_XBRL_TAGS = {"DE": {"lt_debt": ["LongTermDebtAndFinanceLeasesNoncurrent"]}}
+CUSTOM_XBRL_TAGS = {"DE": {"lt_debt": ["LongTermDebtAndFinanceLeasesNoncurrent"]},
+                    # NVIDIA, exercice 2026 : placements CT passés sur un élément propre (51,95 Md USD ;
+                    # contrôle : même ligne que MarketableSecuritiesCurrent 2025, 34,62 Md USD)
+                    "NVDA": {"st_investments": ["MarketableSecuritiesAndEquitySecuritiesFVNI"]}}
+# Audit hebdomadaire des tags de dette nette (coherence.net_debt_tag_audit) : une composante publiée
+# il y a au plus NET_DEBT_TAG_GAP_YEARS exercices mais pas le dernier = migration de tag probable
+# (alerte) ; plus ancienne = la société a cessé d'en publier (pas d'alerte).
+NET_DEBT_TAG_GAP_YEARS = 2
 CUSTOM_XBRL_FILINGS = 4          # nombre de rapports annuels lus (historique ROIC)
 # DCF inverse : FCF du dernier exercice ≤ 0 → médiane des FCF_YEARS derniers exercices si elle est
 # positive (base signalée « median_5y »), sinon N/D. Évite qu'une année d'investissement massif ou
@@ -249,8 +256,19 @@ IC_NM_MIN_SHARE_OF_ASSETS = 0.10
 # Contrôle qualité : écart toléré entre le chiffre XBRL et la seconde source (arrondis,
 # reclassements mineurs) — quality_check.py
 CROSS_CHECK_TOL = 0.03
+# Contrôles de cohérence (coherence.py) : identités comptables sur les COHERENCE_YEARS derniers exercices.
+# balance_sheet 10 % : intérêts minoritaires et éléments « mezzanine » hors passif/capitaux propres.
+COHERENCE_YEARS = 3
+COHERENCE_TOL = {"balance_sheet": 0.10, "gross_profit": 0.02, "eps": 0.05}
 DEFAULT_ERP = 0.050
 DEFAULT_BETA = 1.0
+# Bêta mesuré par SAINHE (22 nov. 2026) : rendements HEBDOMADAIRES en USD sur BETA_YEARS ans contre
+# l'ETF MSCI World (URTH). Avant : bêta Yahoo, mesuré contre le S&P 500 — incohérent pour Roche,
+# Fanuc ou Aramco. Moins de BETA_MIN_WEEKS semaines communes → bêta Yahoo (signalé), sinon défaut.
+BETA_BENCHMARK = "URTH"
+BETA_BENCHMARK_NAME = "MSCI World (iShares URTH ETF)"
+BETA_YEARS = 5
+BETA_MIN_WEEKS = 104
 BLUME_WEIGHT = 0.67          # beta ajusté = 0,67·β_brut + 0,33
 
 # Opérations sur titres postérieures au dernier 10-K (splits / spin-offs, yfinance) :

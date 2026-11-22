@@ -75,6 +75,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # Page Stock Analysis : calculs du navigateur testés contre le moteur Python, contrat
+      # balisage ↔ script — AVANT toute récupération de données (rien à perdre si ça échoue)
+      - name: Front tests (Stock Analysis)
+        run: node tests_front/test_calc.js
+
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"

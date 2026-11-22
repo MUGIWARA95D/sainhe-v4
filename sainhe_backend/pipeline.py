@@ -197,6 +197,46 @@ def _fx_history(src: str, dst: str):
     return None
 
 
+_BENCH = {}
+
+
+def _beta_vs_world(ticker: str, listing_currency: str | None) -> dict | None:
+    """β brut = cov(r_titre, r_MSCI World) / var(r_MSCI World), rendements hebdomadaires en USD
+    sur config.BETA_YEARS ans (le titre est converti en USD au cours du jour). None si moins de
+    config.BETA_MIN_WEEKS semaines communes ou données indisponibles."""
+    try:
+        import yfinance as yf
+        import pandas as pd
+        s = _yf_session()
+
+        def closes(t):
+            h = yf.Ticker(t, session=s).history(period=f"{config.BETA_YEARS}y", auto_adjust=True)["Close"].dropna()
+            h.index = h.index.tz_localize(None).normalize()
+            return h
+        if "bench" not in _BENCH:
+            _BENCH["bench"] = closes(config.BETA_BENCHMARK)
+        px = closes(ticker)
+        cur = "GBP" if listing_currency in ("GBp", "GBX") else (listing_currency or "USD")
+        if cur != "USD":
+            fx = _fx_history(cur, "USD")               # USD pour 1 unité de la devise de cotation
+            if fx is None:
+                return None
+            fx.index = fx.index.tz_localize(None).normalize()
+            px = px * fx.reindex(px.index).ffill()
+        w = pd.concat([px, _BENCH["bench"]], axis=1, join="inner").dropna()
+        w = w.resample("W-FRI").last().pct_change().dropna()
+        if len(w) < config.BETA_MIN_WEEKS:
+            return None
+        var = w.iloc[:, 1].var()
+        if not var:
+            return None
+        return {"beta": float(w.cov().iloc[0, 1] / var), "n_weeks": int(len(w)),
+                "source": f"weekly returns in USD vs {config.BETA_BENCHMARK_NAME}, {len(w)} weeks"}
+    except Exception as e:
+        log.warning("%s : bêta MSCI World indisponible (%s)", ticker, e)
+        return None
+
+
 def _pricing_context(ticker: str, cd, info: dict | None) -> dict:
     """Facteur prix de cotation → prix par action ORDINAIRE dans la devise des COMPTES.
 
@@ -240,6 +280,9 @@ def _load_company(client: EdgarClient, esef, ticker: str):
                 ycd, _ = yahoo_statements.fetch(ticker, _yf_session())
                 if (ycd.years("revenue") or [0])[-1] >= (cd.years("revenue") or [0])[-1]:
                     log.warning("%s : %s → source secondaire Yahoo", ticker, reason)
+                    # chiffres ESEF des mêmes exercices conservés : recoupement Yahoo ↔ ESEF (coherence.py)
+                    ycd.esef_overlap = {f: {y: dp.value for y, dp in cd.series.get(f, {}).items()}
+                                        for f in ("revenue", "net_income", "total_assets", "cash")}
                     return ycd, {}, f"{yahoo_statements.SOURCE} — {reason}"
             except Exception as e:
                 log.warning("%s : source secondaire indisponible (%s) — ESEF conservé", ticker, e)
@@ -269,6 +312,15 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
         log.info("%s : prix %s → comptes %s (×%.6f, ADR %g)", ticker, pc["listing_currency"],
                  pc["reporting_currency"], f, pc["adr_ratio"])
     listing_price = price
+    # Bêta mesuré contre le MSCI World (cohérent pour une watchlist mondiale) ; Yahoo en repli signalé
+    bw = _beta_vs_world(ticker, pc["listing_currency"])
+    info = dict(info or {})
+    info["beta_yahoo_sp500"] = info.get("beta")
+    if bw:
+        info["beta"], info["_beta_source"] = bw["beta"], bw["source"]
+    else:
+        info["_beta_source"] = ("Yahoo Finance beta vs S&P 500 (own MSCI World measure unavailable)"
+                                if info.get("beta") is not None else "N/D → default beta 1.0")
     price = None if (price is None or pc["factor_now"] is None) else price * pc["factor_now"]
     ca = _corporate_action(cd, splits)
     valuation_price = price
@@ -320,6 +372,8 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
         "stale_financials": bool(months is not None and months > config.STALE_FINANCIALS_MONTHS),
         "disclaimer": config.DISCLAIMER,
     }
+    if getattr(cd, "esef_overlap", None):
+        report["drill_down"]["esef_overlap"] = cd.esef_overlap
     if source.startswith(yahoo_statements.SOURCE):
         report["bloc_G_smart_money"] = {"value": "N/D", "note": "pas de dépôts d'initiés accessibles pour cette source"}
         report["drill_down"]["edgar_filings_index"] = yahoo_statements.page_url(ticker)

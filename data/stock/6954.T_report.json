@@ -1,39 +1,39 @@
 {
   "ticker": "6954.T",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
     "prix": 5047.0,
     "EPV": {
-      "epv_ev": 1768864478410.6702,
-      "epv_equity": 2522735478410.67,
-      "epv_per_share": 2703.455359,
+      "epv_ev": 1739918450724.0305,
+      "epv_equity": 2493789450724.0303,
+      "epv_per_share": 2672.43574,
       "inputs": {
         "ebit_adj": 183763000000.0,
         "tax": 0.255349,
-        "wacc": 0.07736,
+        "wacc": 0.078647,
         "net_debt": -753871000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 809.680261,
-      "high": 2658.595877,
+      "low": 800.389938,
+      "high": 2628.090979,
       "fcf_p25": 68799250000.0,
       "fcf_p75": 225903250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 2984.865647,
-      "central": 2703.455359,
-      "plus_100bps": 2486.470504
+      "minus_100bps": 2944.051432,
+      "central": 2672.43574,
+      "plus_100bps": 2462.100342
     },
     "RE_valuation": {
-      "re_value_equity": 2152830920372.2854,
-      "re_value_per_share": 2307.052142,
+      "re_value_equity": 2117601594334.9734,
+      "re_value_per_share": 2269.299111,
       "inputs": {
         "B0": 1864871000000.0,
-        "RE": 22276579440.0,
-        "ke": 0.07736,
+        "RE": 19876501550.117065,
+        "ke": 0.078647,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.0287
@@ -50,12 +50,12 @@
       "dispersion": 0.608068
     },
     "reverse_dcf": {
-      "implied_g": 0.01823,
+      "implied_g": 0.019447,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 3955748456220.0,
         "fcf_adj": 229715000000.0,
-        "wacc": 0.07736,
+        "wacc": 0.078647,
         "fcf_basis": "last_year",
         "fcf_years": [
           2026
@@ -195,39 +195,39 @@
     ],
     "matrix": [
       [
-        1460.32,
-        1419.49,
-        1369.35,
-        1306.33,
-        1224.73
+        1436.43,
+        1394.75,
+        1343.76,
+        1279.97,
+        1197.85
       ],
       [
-        1580.77,
-        1549.07,
-        1510.16,
-        1461.24,
-        1397.9
+        1554.9,
+        1522.0,
+        1481.77,
+        1431.42,
+        1366.62
       ],
       [
-        1858.62,
-        1848.01,
-        1834.98,
-        1818.6,
-        1797.39
+        1828.2,
+        1815.58,
+        1800.13,
+        1780.81,
+        1755.93
       ],
       [
-        1956.45,
-        1953.27,
-        1949.35,
-        1944.43,
-        1938.06
+        1924.44,
+        1918.95,
+        1912.23,
+        1903.83,
+        1893.02
       ],
       [
-        2078.2,
-        2084.25,
-        2091.68,
-        2101.02,
-        2113.11
+        2044.2,
+        2047.59,
+        2051.74,
+        2056.93,
+        2063.61
       ]
     ]
   },
@@ -247,8 +247,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.07736,
-      "ke": 0.07736,
+      "wacc": 0.078647,
+      "ke": 0.078647,
       "kd": "N/D",
       "tax_rate": 0.255349,
       "E": 4709619456220.0,
@@ -259,9 +259,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.9732,
-      "beta_raw": 0.96,
-      "mode": "complet"
+      "beta": 0.99894,
+      "beta_raw": 0.998418,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2026,
@@ -426,6 +427,12 @@
         "2024": 1705556000000.0,
         "2025": 1724545000000.0,
         "2026": 1864871000000.0
+      },
+      "minority_interest": {
+        "2023": 12179000000.0,
+        "2024": 13644000000.0,
+        "2025": 15345000000.0,
+        "2026": 18076000000.0
       },
       "retained_earnings": {
         "2023": 1515662000000.0,
@@ -678,6 +685,16 @@
         "accession": "YAHOO|6954.T",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "JPY",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/6954.T/financials"
+      },
+      "minority_interest": {
+        "value": 18076000000.0,
+        "fiscal_year": 2026,
+        "end_date": "2026-03-31",
+        "accession": "YAHOO|6954.T",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
         "unit": "JPY",
         "edgar_filing_url": "https://finance.yahoo.com/quote/6954.T/financials"
       },

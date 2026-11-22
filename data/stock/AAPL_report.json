@@ -1,39 +1,39 @@
 {
   "ticker": "AAPL",
   "cik": 320193,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
     "prix": 342.56,
     "EPV": {
-      "epv_ev": 1285000894998.234,
-      "epv_equity": 1260155894998.234,
-      "epv_per_share": 85.606637,
+      "epv_ev": 1288459633198.8962,
+      "epv_equity": 1263614633198.8962,
+      "epv_per_share": 85.841601,
       "inputs": {
         "ebit_adj": 158063000000.0,
         "tax": 0.169948,
-        "wacc": 0.102101,
+        "wacc": 0.101827,
         "net_debt": 24845000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 40.114174,
-      "high": 68.924241,
+      "low": 40.224275,
+      "high": 69.113417,
       "fcf_p25": 57292750000.0,
       "fcf_p75": 98440500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 95.084707,
-      "central": 85.606637,
-      "plus_100bps": 77.819548
+      "minus_100bps": 95.373548,
+      "central": 85.841601,
+      "plus_100bps": 78.014415
     },
     "RE_valuation": {
-      "re_value_equity": 1294545134008.8047,
-      "re_value_per_share": 87.942814,
+      "re_value_equity": 1298029561704.4639,
+      "re_value_per_share": 88.179523,
       "inputs": {
         "B0": 112093000000.0,
-        "RE": 120730136560.5,
-        "ke": 0.102101,
+        "RE": 120760859126.70201,
+        "ke": 0.101827,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.04912
@@ -50,12 +50,12 @@
       "dispersion": 0.50632
     },
     "reverse_dcf": {
-      "implied_g": 0.076136,
+      "implied_g": 0.075869,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 5067433023360.0,
         "fcf_adj": 122267000000.0,
-        "wacc": 0.102101,
+        "wacc": 0.101827,
         "fcf_basis": "last_year",
         "fcf_years": [
           2026
@@ -215,9 +215,9 @@
     "ocf_ni": 1.097764,
     "accruals_pct_rev": -0.026986,
     "retained_earnings_test": {
-      "ratio": 4.623129,
+      "ratio": 4.62313,
       "retained_5y": 458477000000.0,
-      "delta_mcap": 2119598188879.1504,
+      "delta_mcap": 2119598703555.6338,
       "passes": true,
       "window": [
         2021,
@@ -331,39 +331,39 @@
     ],
     "matrix": [
       [
-        64.47,
-        69.74,
-        76.67,
-        86.22,
-        100.2
+        64.64,
+        69.95,
+        76.94,
+        86.58,
+        100.7
       ],
       [
-        65.81,
-        71.2,
-        78.3,
-        88.08,
-        102.38
+        65.99,
+        71.42,
+        78.57,
+        88.44,
+        102.89
       ],
       [
-        78.53,
-        85.1,
-        93.76,
-        105.67,
-        123.1
+        78.74,
+        85.36,
+        94.08,
+        106.1,
+        123.72
       ],
       [
-        81.89,
-        88.77,
-        97.84,
-        110.31,
-        128.57
+        82.11,
+        89.04,
+        98.18,
+        110.76,
+        129.22
       ],
       [
-        87.16,
-        94.53,
-        104.24,
-        117.6,
-        137.15
+        87.4,
+        94.82,
+        104.6,
+        118.08,
+        137.84
       ]
     ]
   },
@@ -383,8 +383,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.102101,
-      "ke": 0.102101,
+      "wacc": 0.101827,
+      "ke": 0.101827,
       "kd": "N/D",
       "tax_rate": 0.169948,
       "E": 5042588023360.0,
@@ -395,9 +395,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 1.05963,
-      "beta_raw": 1.089,
-      "mode": "Kd N/D → all-equity (prudent : WACC surestimé)"
+      "beta": 1.054148,
+      "beta_raw": 1.080818,
+      "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2026,

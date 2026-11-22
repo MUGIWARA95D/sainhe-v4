@@ -73,7 +73,7 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   Dépendances : `sainhe_backend/requirements.txt` (scipy inclus). Email SEC : `EDGAR_CONTACT_EMAIL` (`.env` / secret).
 - **Couverture (21 nov.) : 29 sociétés.** Primaire : 14 US (10-K) + ASML/TSM/RACE (20-F) + Hermès (ESEF).
   Secondaire Yahoo (`secondary/yahoo_statements.py`, `config.YAHOO_STATEMENTS_TICKERS`) : ROP/NESN/GEBN.SW
-  (Suisse, pas d'ESEF), 6954.T (EDINET : clé API), 2222.SR, 600111.SS, KAP.L, SAF.PA et RHM.DE (ESEF non indexé
+  (Suisse, pas d'ESEF), 6954.T (EDINET : clé API), 2222.SR, 600111.SS, KAP.IL, SAF.PA et RHM.DE (ESEF non indexé
   sur filings.xbrl.org) ; LDO.MI et COA.L basculent automatiquement (ESEF incomplet : `pipeline.secondary_reason`).
   Secondaire = valeurs de l'agrégateur, gris sur la carte, pas de recoupement qualité. Hors périmètre : GLD, BTC, ANT.
   companyfacts SEC en retard sur un dépôt (TSM 20-F 2025) → instance XBRL du dépôt lue (`edgar/instance.py`).

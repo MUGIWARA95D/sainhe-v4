@@ -1,39 +1,39 @@
 {
   "ticker": "RHM.DE",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 693.4,
     "EPV": {
-      "epv_ev": 19108264241.936577,
-      "epv_equity": 19823264241.936577,
-      "epv_per_share": 424.844926,
+      "epv_ev": 17199596471.265785,
+      "epv_equity": 17914596471.265785,
+      "epv_per_share": 383.939059,
       "inputs": {
         "ebit_adj": 1702000000.0,
         "tax": 0.251908,
-        "wacc": 0.066634,
+        "wacc": 0.074028,
         "net_debt": -715000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": -13.510969,
-      "high": 392.793904,
+      "low": -12.210076,
+      "high": 354.974045,
       "fcf_p25": -45000000.0,
       "fcf_p75": 1308250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 497.155623,
-      "central": 424.844926,
-      "plus_100bps": 371.406035
+      "minus_100bps": 441.510024,
+      "central": 383.939059,
+      "plus_100bps": 340.070896
     },
     "RE_valuation": {
-      "re_value_equity": 15234564818.477003,
-      "re_value_per_share": 326.501603,
+      "re_value_equity": 12402486908.766151,
+      "re_value_per_share": 265.805549,
       "inputs": {
         "B0": 5011000000.0,
-        "RE": 365466923.5,
-        "ke": 0.065962,
+        "RE": 327295628.180277,
+        "ke": 0.073579,
         "g": 0.03442,
         "g_sgr": 0.207868,
         "g_cap": 0.03442
@@ -50,12 +50,12 @@
       "dispersion": 0.82942
     },
     "reverse_dcf": {
-      "implied_g": 0.020972,
+      "implied_g": 0.02805,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 31639044000.0,
         "fcf_adj": 1415000000.0,
-        "wacc": 0.066634,
+        "wacc": 0.074028,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        275.91,
-        295.5,
-        321.99,
-        359.84,
-        418.35
+        247.35,
+        261.3,
+        279.51,
+        304.29,
+        339.95
       ],
       [
-        282.93,
-        303.32,
-        330.92,
-        370.35,
-        431.29
+        253.64,
+        268.22,
+        287.25,
+        313.14,
+        350.4
       ],
       [
-        348.43,
-        376.44,
-        414.33,
-        468.48,
-        552.16
+        312.36,
+        332.79,
+        359.47,
+        395.75,
+        447.98
       ],
       [
-        406.8,
-        441.59,
-        488.66,
-        555.91,
-        659.86
+        364.68,
+        390.34,
+        423.82,
+        469.36,
+        534.93
       ],
       [
-        420.59,
-        456.98,
-        506.22,
-        576.57,
-        685.3
+        377.05,
+        403.93,
+        439.02,
+        486.75,
+        555.47
       ]
     ]
   },
@@ -236,8 +236,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.066634,
-      "ke": 0.065962,
+      "wacc": 0.074028,
+      "ke": 0.073579,
       "kd": 0.118852,
       "tax_rate": 0.251908,
       "E": 32354044000.0,
@@ -248,9 +248,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.63083,
-      "beta_raw": 0.449,
-      "mode": "complet"
+      "beta": 0.78318,
+      "beta_raw": 0.676388,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -451,6 +452,12 @@
         "2023": 3316000000.0,
         "2024": 4050000000.0,
         "2025": 5011000000.0
+      },
+      "minority_interest": {
+        "2022": 271000000.0,
+        "2023": 327000000.0,
+        "2024": 414000000.0,
+        "2025": 604000000.0
       },
       "retained_earnings": {
         "2022": 2147000000.0,
@@ -757,6 +764,16 @@
         "accession": "YAHOO|RHM.DE",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
+      },
+      "minority_interest": {
+        "value": 604000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|RHM.DE",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
         "unit": "EUR",
         "edgar_filing_url": "https://finance.yahoo.com/quote/RHM.DE/financials"
       },

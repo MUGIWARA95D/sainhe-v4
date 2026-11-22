@@ -54,6 +54,7 @@ YF_MAP: dict[str, tuple[str, list[str], bool]] = {
     "st_debt":            ("balance", ["Current Debt"], False),
     "total_liabilities":  ("balance", ["Total Liabilities Net Minority Interest"], False),
     "equity":             ("balance", ["Stockholders Equity", "Common Stock Equity"], False),
+    "minority_interest":  ("balance", ["Minority Interest"], False),
     "retained_earnings":  ("balance", ["Retained Earnings"], False),
     "shares_outstanding": ("balance", ["Ordinary Shares Number", "Share Issued"], False),
     # méthode directe (Kazatomprom) : même total, autre intitulé Yahoo

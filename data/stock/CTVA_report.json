@@ -1,7 +1,7 @@
 {
   "ticker": "CTVA",
   "cik": 1755672,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 7.89,
@@ -186,9 +186,9 @@
     "ocf_ni": 3.113346,
     "accruals_pct_rev": -0.132866,
     "retained_earnings_test": {
-      "ratio": 0.783098,
+      "ratio": 0.783097,
       "retained_5y": 3455000000.0,
-      "delta_mcap": 2705602506.256104,
+      "delta_mcap": 2705601856.422424,
       "passes": false,
       "window": [
         2020,
@@ -305,8 +305,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.09912,
-      "ke": 0.09912,
+      "wacc": 0.089479,
+      "ke": 0.089479,
       "kd": 0.069767,
       "tax_rate": 0.28673,
       "E": "N/D",
@@ -317,9 +317,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 1.0,
-      "beta_raw": "N/D",
-      "mode": "fallback all-equity (prix ou shares indisponible)"
+      "beta": 0.80717,
+      "beta_raw": 0.712194,
+      "mode": "fallback all-equity (prix ou shares indisponible)",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -647,6 +648,16 @@
         "2023": 25037000000.0,
         "2024": 23789000000.0,
         "2025": 24144000000.0
+      },
+      "minority_interest": {
+        "2018": 493000000.0,
+        "2019": 246000000.0,
+        "2020": 239000000.0,
+        "2021": 239000000.0,
+        "2022": 239000000.0,
+        "2023": 242000000.0,
+        "2024": 241000000.0,
+        "2025": 242000000.0
       },
       "retained_earnings": {
         "2018": 0.0,
@@ -1042,6 +1053,16 @@
         "accession": "0001755672-26-000004",
         "filing_form": "10-K",
         "xbrl_tag": "StockholdersEquity",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/"
+      },
+      "minority_interest": {
+        "value": 242000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "0001755672-26-000004",
+        "filing_form": "10-K",
+        "xbrl_tag": "MinorityInterest",
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/"
       },

@@ -1,39 +1,39 @@
 {
   "ticker": "SAF.PA",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 292.7,
     "EPV": {
-      "epv_ev": 40699180560.57714,
-      "epv_equity": 43061180560.57714,
-      "epv_per_share": 103.046,
+      "epv_ev": 40909154910.064354,
+      "epv_equity": 43271154910.064354,
+      "epv_per_share": 103.548472,
       "inputs": {
         "ebit_adj": 4592000000.0,
         "tax": 0.290486,
-        "wacc": 0.080053,
+        "wacc": 0.079642,
         "net_debt": -2362000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 73.351344,
-      "high": 98.119417,
+      "low": 73.709018,
+      "high": 98.597866,
       "fcf_p25": 2713500000.0,
       "fcf_p75": 3629750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 116.948874,
-      "central": 103.046,
-      "plus_100bps": 92.230838
+      "minus_100bps": 117.605523,
+      "central": 103.548472,
+      "plus_100bps": 92.627684
     },
     "RE_valuation": {
-      "re_value_equity": 125266232625.66983,
-      "re_value_per_share": 299.763826,
+      "re_value_equity": 126363874144.25647,
+      "re_value_per_share": 302.390497,
       "inputs": {
         "B0": 14839000000.0,
-        "RE": 5956603542.5,
-        "ke": 0.082242,
+        "RE": 5962927113.431823,
+        "ke": 0.081816,
         "g": 0.03442,
         "g_sgr": 0.12519,
         "g_cap": 0.03442
@@ -50,12 +50,12 @@
       "dispersion": 0.279649
     },
     "reverse_dcf": {
-      "implied_g": 0.046787,
+      "implied_g": 0.046389,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 119952379272.2,
         "fcf_adj": 3812000000.0,
-        "wacc": 0.080053,
+        "wacc": 0.079642,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -181,8 +181,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.080053,
-      "ke": 0.082242,
+      "wacc": 0.079642,
+      "ke": 0.081816,
       "kd": 0.029723,
       "tax_rate": 0.290486,
       "E": 122314379272.2,
@@ -193,9 +193,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.95645,
-      "beta_raw": 0.935,
-      "mode": "complet"
+      "beta": 0.947927,
+      "beta_raw": 0.922279,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -390,6 +391,12 @@
         "2023": 11577000000.0,
         "2024": 10176000000.0,
         "2025": 14839000000.0
+      },
+      "minority_interest": {
+        "2022": 455000000.0,
+        "2023": 511000000.0,
+        "2024": 549000000.0,
+        "2025": 622000000.0
       },
       "retained_earnings": {
         "2022": -2459000000.0,
@@ -697,6 +704,16 @@
         "accession": "YAHOO|SAF.PA",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/SAF.PA/financials"
+      },
+      "minority_interest": {
+        "value": 622000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|SAF.PA",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
         "unit": "EUR",
         "edgar_filing_url": "https://finance.yahoo.com/quote/SAF.PA/financials"
       },

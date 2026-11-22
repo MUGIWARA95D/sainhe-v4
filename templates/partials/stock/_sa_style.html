@@ -269,6 +269,10 @@
 @media(max-width:700px){.sa-brushbar,.sa-compare,.sa-details{padding-left:16px;padding-right:16px}}
 
 /* ══════ Tablets and phones (21 nov.) ══════ */
+.sa-num{font:16px var(--serif);color:var(--h);background:var(--card);border:1px solid var(--border);border-radius:8px;
+  padding:6px 10px;width:130px;min-height:36px}            /* 16 px: iOS does not zoom on focus */
+.sa-num:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sa-metrics{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
 .sa-rfleg{padding:0 28px 10px;font-size:11px;color:var(--muted);line-height:1.6}
 .sa-tbl td.sa-td-co,.sa-tbl th.sa-td-co{text-align:left}
 @media(max-width:600px){

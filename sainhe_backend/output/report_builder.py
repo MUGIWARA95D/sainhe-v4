@@ -79,6 +79,7 @@ def build_report(cd: CompanyData, price: float | None, yf_info: dict | None,
     beta = (yf_info or {}).get("beta")
 
     w = valuation.wacc(cd, price, beta=beta, currency=currency)
+    w["beta_source"] = (yf_info or {}).get("_beta_source") or ("Yahoo Finance" if beta is not None else "N/D → default beta")
     epv_ = valuation.epv(cd, w["wacc"], fy)
     rdcf = valuation.reverse_dcf(cd, price, w["wacc"]) if price else {"implied_g": None}
     sgr_ = valuation.sgr(cd, fy)

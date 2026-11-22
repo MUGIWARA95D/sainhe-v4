@@ -37,7 +37,8 @@
 
     updateDots(currentPage);
     updateHeroChips(currentPage);
-    history.replaceState({ page: currentPage }, '', location.pathname);
+    /* garde la query et le # : les liens partageables (#lab=…, #file=…) en dépendent */
+    history.replaceState({ page: currentPage }, '', location.pathname + location.search + location.hash);
 
     /* Prefetch other pages after idle */
     setTimeout(prefetchAll, 1500);

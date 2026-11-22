@@ -1,39 +1,39 @@
 {
   "ticker": "LDO.MI",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 47.83,
     "EPV": {
-      "epv_ev": 23753132365.938503,
-      "epv_equity": 23110132365.938503,
-      "epv_per_share": 40.068055,
+      "epv_ev": 21292110003.81293,
+      "epv_equity": 20649110003.81293,
+      "epv_per_share": 35.801166,
       "inputs": {
         "ebit_adj": 1710000000.0,
         "tax": 0.191025,
-        "wacc": 0.058239,
+        "wacc": 0.06497,
         "net_debt": 643000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 21.480626,
-      "high": 38.867105,
+      "low": 19.193132,
+      "high": 34.728106,
       "fcf_p25": 393500000.0,
       "fcf_p75": 712000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 48.605397,
-      "central": 40.068055,
-      "plus_100bps": 34.032919
+      "minus_100bps": 42.516832,
+      "central": 35.801166,
+      "plus_100bps": 30.877061
     },
     "RE_valuation": {
-      "re_value_equity": 28157485984.563396,
-      "re_value_per_share": 48.819093,
+      "re_value_equity": 22559766496.717243,
+      "re_value_per_share": 39.113838,
       "inputs": {
         "B0": 9560000000.0,
-        "RE": 615826260.0,
-        "ke": 0.063617,
+        "RE": 542420556.735632,
+        "ke": 0.071295,
         "g": 0.03442,
         "g_sgr": 0.115456,
         "g_cap": 0.03442
@@ -50,12 +50,12 @@
       "dispersion": 0.327509
     },
     "reverse_dcf": {
-      "implied_g": 0.031421,
+      "implied_g": 0.037982,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 28230004760.0,
         "fcf_adj": 734000000.0,
-        "wacc": 0.058239,
+        "wacc": 0.06497,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        28.71,
-        30.2,
-        32.23,
-        35.19,
-        39.9
+        25.62,
+        26.56,
+        27.81,
+        29.52,
+        32.03
       ],
       [
-        29.41,
-        30.98,
-        33.13,
-        36.25,
-        41.23
+        26.24,
+        27.25,
+        28.57,
+        30.4,
+        33.09
       ],
       [
-        31.09,
-        32.87,
-        35.3,
-        38.84,
-        44.46
+        27.74,
+        28.91,
+        30.44,
+        32.55,
+        35.66
       ],
       [
-        34.55,
-        36.74,
-        39.75,
-        44.13,
-        51.1
+        30.82,
+        32.31,
+        34.27,
+        36.97,
+        40.92
       ],
       [
-        40.86,
-        43.83,
-        47.89,
-        53.81,
-        63.23
+        36.46,
+        38.53,
+        41.26,
+        45.03,
+        50.55
       ]
     ]
   },
@@ -236,8 +236,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.058239,
-      "ke": 0.063617,
+      "wacc": 0.06497,
+      "ke": 0.071295,
       "kd": 0.024736,
       "tax_rate": 0.191025,
       "E": 27587004760.0,
@@ -248,9 +248,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.58393,
-      "beta_raw": 0.379,
-      "mode": "complet"
+      "beta": 0.737498,
+      "beta_raw": 0.608207,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -439,6 +440,12 @@
         "2023": 7800000000.0,
         "2024": 8990000000.0,
         "2025": 9560000000.0
+      },
+      "minority_interest": {
+        "2022": 516000000.0,
+        "2023": 761000000.0,
+        "2024": 1210000000.0,
+        "2025": 1180000000.0
       },
       "shares_outstanding": {
         "2022": 575307275.0,
@@ -726,6 +733,16 @@
         "unit": "EUR",
         "edgar_filing_url": "https://finance.yahoo.com/quote/LDO.MI/financials"
       },
+      "minority_interest": {
+        "value": 1180000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|LDO.MI",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
+        "unit": "EUR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/LDO.MI/financials"
+      },
       "shares_outstanding": {
         "value": 576944173.0,
         "fiscal_year": 2025,
@@ -787,12 +804,43 @@
         "edgar_filing_url": "https://finance.yahoo.com/quote/LDO.MI/financials"
       }
     },
-    "edgar_filings_index": "https://finance.yahoo.com/quote/LDO.MI/financials"
+    "edgar_filings_index": "https://finance.yahoo.com/quote/LDO.MI/financials",
+    "esef_overlap": {
+      "revenue": {
+        "2021": 14135000000.0,
+        "2022": 14713000000.0,
+        "2023": 15291000000.0,
+        "2020": 13410000000.0,
+        "2024": 17763000000.0
+      },
+      "net_income": {
+        "2021": 586000000.0,
+        "2022": 927000000.0,
+        "2023": 658000000.0,
+        "2020": 241000000.0,
+        "2024": 1074000000.0
+      },
+      "total_assets": {
+        "2021": 28379000000.0,
+        "2022": 28582000000.0,
+        "2023": 30693000000.0,
+        "2020": 27073000000.0,
+        "2024": 33673000000.0
+      },
+      "cash": {
+        "2021": 2479000000.0,
+        "2022": 1511000000.0,
+        "2020": 2213000000.0,
+        "2023": 2407000000.0,
+        "2019": 1962000000.0,
+        "2024": 2556000000.0
+      }
+    }
   },
   "score_composite": {
-    "value_0_100": 53.0,
+    "value_0_100": 47.8,
     "pillars": {
-      "valuation": 17.543614,
+      "valuation": 0,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,

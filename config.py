@@ -144,7 +144,7 @@ WATCHLIST = {
     # ── Strategic Materials ──────────────────────────────────────────────────────
     "600111.SS" : {"nom": "Northern Rare Earth", "secteur": "Strategic Materials", "devise": "CNY"},
     "GLD"       : {"nom": "SPDR Gold ETF",        "secteur": "Strategic Materials"},
-    "KAP.L"     : {"nom": "Kazatomprom",          "secteur": "Strategic Materials", "devise": "USD"},  # LSE, coté USD
+    "KAP.IL"    : {"nom": "Kazatomprom",          "secteur": "Strategic Materials", "devise": "USD"},  # GDR LSE (IOB), coté USD — remplace KAP.L (2026-11-22)
 
     # ── Digital Assets ──────────────────────────────────────────────────────────────
     "BTC-USD"   : {"nom": "Bitcoin",             "secteur": "Digital Assets"},
@@ -166,6 +166,7 @@ WATCHLIST = {
 RETIRED_TICKERS = {
     # 2026-11-20 — plus aucune cotation yfinance depuis ≥ 1 mois
     "ROG.SW"  : "Roche renommé par Yahoo → ROP.SW",
+    "KAP.L"   : "historique Yahoo de 89 jours seulement → KAP.IL (GDR, 2018→)",
     "IRBO"    : "ETF fermé → BOTZ",
     "DFND"    : "ETF fermé → SHLD",
     "MOOS.DE" : "ETF retiré de Xetra → ISAG.L",
@@ -214,7 +215,7 @@ COMPETITORS = {
     "CAT"      : ("6301.T",    "Komatsu",             "construction and mining machinery"),
     "600111.SS": ("MP",        "MP Materials",        "rare earths"),
     "GLD"      : ("IAU",       "iShares Gold Trust",  "same gold exposure, lower fees"),
-    "KAP.L"    : ("CCJ",       "Cameco",              "uranium mining"),
+    "KAP.IL"   : ("CCJ",       "Cameco",              "uranium mining"),
     "BTC-USD"  : ("ETH-USD",   "Ethereum",            "second-largest crypto asset"),
 }
 

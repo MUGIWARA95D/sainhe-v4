@@ -1,41 +1,41 @@
 {
   "ticker": "NVDA",
   "cik": 1045810,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
     "prix": 125.53,
     "EPV": {
-      "epv_ev": 787289132650.2499,
-      "epv_equity": 789426132650.2499,
-      "epv_per_share": 32.203073,
+      "epv_ev": 825357795046.9014,
+      "epv_equity": 879445795046.9014,
+      "epv_per_share": 35.875247,
       "inputs": {
         "ebit_adj": 130387000000.0,
         "tax": 0.15117,
-        "wacc": 0.140579,
-        "net_debt": -2137000000.0
+        "wacc": 0.134095,
+        "net_debt": -54088000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 1.288801,
-      "high": 26.108778,
+      "low": 1.435765,
+      "high": 29.086008,
       "fcf_p25": 3613500000.0,
       "fcf_p75": 73203000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 34.662571,
-      "central": 32.203073,
-      "plus_100bps": 30.070247
+      "minus_100bps": 38.588395,
+      "central": 35.875247,
+      "plus_100bps": 33.538675
     },
     "RE_valuation": {
-      "re_value_equity": 1071692772410.0546,
-      "re_value_per_share": 43.717581,
+      "re_value_equity": 1149463160201.187,
+      "re_value_per_share": 46.890069,
       "inputs": {
         "B0": 157293000000.0,
-        "RE": 97905281411.5,
-        "ke": 0.140895,
+        "RE": 98927983060.66318,
+        "ke": 0.134393,
         "g": 0.04912,
-        "g_sgr": 0.170287,
+        "g_sgr": 0.256005,
         "g_cap": 0.04912
       }
     },
@@ -50,12 +50,12 @@
       "dispersion": 1.208111
     },
     "reverse_dcf": {
-      "implied_g": 0.108045,
+      "implied_g": 0.101206,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 3075105420000.0,
+        "ev": 3023154420000.0,
         "fcf_adj": 90290000000.0,
-        "wacc": 0.140579,
+        "wacc": 0.134095,
         "fcf_basis": "last_year",
         "fcf_years": [
           2026
@@ -63,12 +63,12 @@
       }
     },
     "SGR": {
-      "sgr": 0.170287,
+      "sgr": 0.256005,
       "rr": 0.238723,
-      "roic": 0.713323,
+      "roic": 1.072394,
       "status": "ok",
       "nm_reason": "N/D",
-      "invested_capital_share_of_assets": 0.75026
+      "invested_capital_share_of_assets": 0.49905
     },
     "flag_growth_unfinanceable": false
   },
@@ -86,11 +86,11 @@
   "bloc_C_dupont": {
     "available": true,
     "fy": 2026,
-    "RNOA": 0.713323,
-    "FLEV": -0.013586,
-    "NBC": -0.102876,
-    "SPREAD": 0.8162,
-    "leverage_gain": -0.011089,
+    "RNOA": 1.072394,
+    "FLEV": -0.343868,
+    "NBC": -0.004065,
+    "SPREAD": 1.076458,
+    "leverage_gain": -0.370159,
     "ROE_dupont": 0.702234,
     "ROE_direct": 0.763333,
     "coherence_gap": -0.0611,
@@ -105,7 +105,7 @@
       "2023": 0.2068,
       "2024": 1.0866,
       "2025": 1.5848,
-      "2026": 0.7133
+      "2026": 1.0724
     },
     "invested_capital_share_10y": {
       "2019": 0.294011,
@@ -115,7 +115,7 @@
       "2023": 0.479773,
       "2024": 0.406265,
       "2025": 0.399459,
-      "2026": 0.75026
+      "2026": 0.49905
     },
     "rnoa_10y": {
       "2017": 1.7294,
@@ -127,7 +127,7 @@
       "2023": 0.2068,
       "2024": 1.0866,
       "2025": 1.5848,
-      "2026": 0.7133
+      "2026": 1.0724
     },
     "gross_margin_10y": {
       "2017": 0.588,
@@ -191,7 +191,7 @@
     }
   },
   "bloc_E_health": {
-    "net_debt_ebitda": -0.01604,
+    "net_debt_ebitda": -0.405975,
     "interest_coverage": 503.42471,
     "lt_debt_payback": {
       "years": 0.062207,
@@ -212,7 +212,7 @@
     "retained_earnings_test": {
       "ratio": 12.845974,
       "retained_5y": 233827000000.0,
-      "delta_mcap": 3003735498901.367,
+      "delta_mcap": 3003735508476.2573,
       "passes": true,
       "window": [
         2021,
@@ -326,39 +326,39 @@
     ],
     "matrix": [
       [
-        10.05,
-        10.26,
-        10.51,
-        10.81,
-        11.2
+        10.54,
+        10.79,
+        11.1,
+        11.48,
+        11.97
       ],
       [
-        15.31,
-        15.81,
-        16.42,
-        17.17,
-        18.12
+        16.05,
+        16.64,
+        17.35,
+        18.25,
+        19.4
       ],
       [
-        18.6,
-        19.29,
-        20.12,
-        21.15,
-        22.46
+        19.51,
+        20.3,
+        21.27,
+        22.49,
+        24.06
       ],
       [
-        27.71,
-        28.91,
-        30.36,
-        32.16,
-        34.43
+        29.05,
+        30.42,
+        32.1,
+        34.21,
+        36.92
       ],
       [
-        33.67,
-        35.2,
-        37.06,
-        39.36,
-        42.28
+        35.3,
+        37.05,
+        39.2,
+        41.88,
+        45.34
       ]
     ]
   },
@@ -378,8 +378,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.140579,
-      "ke": 0.140895,
+      "wacc": 0.134095,
+      "ke": 0.134393,
       "kd": 0.030586,
       "tax_rate": 0.15117,
       "E": 3077242420000.0,
@@ -390,9 +390,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 1.83549,
-      "beta_raw": 2.247,
-      "mode": "complet"
+      "beta": 1.705452,
+      "beta_raw": 2.052914,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2026,
@@ -405,12 +406,12 @@
       "gap_flag": false
     },
     "reformulation": {
-      "OA": 196198000000.0,
-      "FA": 10605000000.0,
+      "OA": 144247000000.0,
+      "FA": 62556000000.0,
       "OO": 41042000000.0,
       "FO": 8468000000.0,
-      "NOA": 155156000000.0,
-      "NFO": -2137000000.0,
+      "NOA": 103205000000.0,
+      "NFO": -54088000000.0,
       "equity_check": 0.0
     },
     "net_debt_detail": {
@@ -419,9 +420,9 @@
       "st_debt": 999000000.0,
       "finance_leases": 0.0,
       "cash": 10605000000.0,
-      "st_investments": "N/D",
-      "st_investments_deducted": false,
-      "net_debt": -2137000000.0
+      "st_investments": 51951000000.0,
+      "st_investments_deducted": true,
+      "net_debt": -54088000000.0
     },
     "tax_detail": {
       "rate": 0.15117,
@@ -625,7 +626,6 @@
         "2026": 10605000000.0
       },
       "st_investments": {
-        "2016": 4441000000.0,
         "2017": 5032000000.0,
         "2018": 3106000000.0,
         "2019": 6640000000.0,
@@ -634,7 +634,8 @@
         "2022": 19218000000.0,
         "2023": 9907000000.0,
         "2024": 18704000000.0,
-        "2025": 34621000000.0
+        "2025": 34621000000.0,
+        "2026": 51951000000.0
       },
       "ar": {
         "2017": 826000000.0,
@@ -1069,14 +1070,14 @@
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/"
       },
       "st_investments": {
-        "value": 34621000000.0,
-        "fiscal_year": 2025,
-        "end_date": "2025-01-26",
-        "accession": "0001045810-25-000023",
+        "value": 51951000000.0,
+        "fiscal_year": 2026,
+        "end_date": "2026-01-25",
+        "accession": "0001045810-26-000021",
         "filing_form": "10-K",
-        "xbrl_tag": "MarketableSecuritiesCurrent",
+        "xbrl_tag": "nvda:MarketableSecuritiesAndEquitySecuritiesFVNI",
         "unit": "USD",
-        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/"
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/"
       },
       "ar": {
         "value": 38466000000.0,

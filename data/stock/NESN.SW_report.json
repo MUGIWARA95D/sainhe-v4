@@ -1,39 +1,39 @@
 {
   "ticker": "NESN.SW",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 85.55,
     "EPV": {
-      "epv_ev": 280680846599.9373,
-      "epv_equity": 286610846599.9373,
-      "epv_per_share": 111.261975,
+      "epv_ev": 307944997522.5791,
+      "epv_equity": 313874997522.5791,
+      "epv_per_share": 121.845884,
       "inputs": {
         "ebit_adj": 13981000000.0,
         "tax": 0.245559,
-        "wacc": 0.037579,
+        "wacc": 0.034252,
         "net_debt": -5930000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 73.899714,
-      "high": 110.588296,
+      "low": 80.9295,
+      "high": 121.108121,
       "fcf_p25": 7212500000.0,
       "fcf_p75": 10793250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 150.769564,
-      "central": 111.261975,
-      "plus_100bps": 88.361365
+      "minus_100bps": 171.137507,
+      "central": 121.845884,
+      "plus_100bps": 94.831768
     },
     "RE_valuation": {
-      "re_value_equity": 268490707662.5129,
-      "re_value_per_share": 104.227759,
+      "re_value_equity": 299023559965.4143,
+      "re_value_per_share": 116.080575,
       "inputs": {
         "B0": 32810000000.0,
-        "RE": 7800016605.0,
-        "ke": 0.037579,
+        "RE": 7909179753.084348,
+        "ke": 0.034252,
         "g": 0.0051,
         "g_sgr": 0.027865,
         "g_cap": 0.0051
@@ -50,12 +50,12 @@
       "dispersion": 0.314478
     },
     "reverse_dcf": {
-      "implied_g": -0.012428,
+      "implied_g": -0.015595,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 214446800000.0,
         "fcf_adj": 10859000000.0,
-        "wacc": 0.037579,
+        "wacc": 0.034252,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        105.26,
-        108.06,
-        111.07,
-        114.3,
-        117.79
+        115.48,
+        118.95,
+        122.71,
+        126.77,
+        131.19
       ],
       [
-        108.96,
-        111.88,
-        115.0,
-        118.37,
-        122.0
+        119.54,
+        123.15,
+        127.05,
+        131.28,
+        135.87
       ],
       [
-        117.43,
-        120.6,
-        124.0,
-        127.66,
-        131.61
+        128.83,
+        132.76,
+        137.0,
+        141.59,
+        146.58
       ],
       [
-        122.98,
-        126.33,
-        129.91,
-        133.76,
-        137.92
+        134.93,
+        139.06,
+        143.52,
+        148.36,
+        153.61
       ],
       [
-        131.97,
-        135.58,
-        139.46,
-        143.63,
-        148.13
+        144.79,
+        149.25,
+        154.07,
+        159.3,
+        164.98
       ]
     ]
   },
@@ -236,8 +236,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.037579,
-      "ke": 0.037579,
+      "wacc": 0.034252,
+      "ke": 0.034252,
       "kd": "N/D",
       "tax_rate": 0.245559,
       "E": 220376800000.0,
@@ -248,9 +248,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.64959,
-      "beta_raw": 0.477,
-      "mode": "complet"
+      "beta": 0.583047,
+      "beta_raw": 0.377683,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -445,6 +446,12 @@
         "2023": 35742000000.0,
         "2024": 35917000000.0,
         "2025": 32810000000.0
+      },
+      "minority_interest": {
+        "2022": 810000000.0,
+        "2023": 645000000.0,
+        "2024": 776000000.0,
+        "2025": 248000000.0
       },
       "retained_earnings": {
         "2022": 74632000000.0,
@@ -752,6 +759,16 @@
         "accession": "YAHOO|NESN.SW",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/NESN.SW/financials"
+      },
+      "minority_interest": {
+        "value": 248000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|NESN.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
         "unit": "CHF",
         "edgar_filing_url": "https://finance.yahoo.com/quote/NESN.SW/financials"
       },

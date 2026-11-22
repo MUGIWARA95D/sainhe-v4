@@ -1,39 +1,39 @@
 {
-  "ticker": "KAP.L",
+  "ticker": "KAP.IL",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 12779.467969,
+    "prix": 24037.570703,
     "EPV": {
-      "epv_ev": 7711470458197.969,
-      "epv_equity": 7967510458197.969,
-      "epv_per_share": 30720.244521,
+      "epv_ev": 7445060839258.23,
+      "epv_equity": 7701100839258.23,
+      "epv_per_share": 29693.051814,
       "inputs": {
         "ebit_adj": 768676000000.0,
         "tax": 0.189786,
-        "wacc": 0.080762,
+        "wacc": 0.083652,
         "net_debt": -256040000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 12598.471183,
-      "high": 27578.807654,
+      "low": 12177.216147,
+      "high": 26656.65516,
       "fcf_p25": 237830750000.0,
       "fcf_p75": 520625750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 34922.096384,
-      "central": 30720.244521,
-      "plus_100bps": 27444.300861
+      "minus_100bps": 33590.565906,
+      "central": 29693.051814,
+      "plus_100bps": 26627.880424
     },
     "RE_valuation": {
-      "re_value_equity": 6996719099745.5,
-      "re_value_per_share": 26977.174704,
+      "re_value_equity": 6777998472966.323,
+      "re_value_per_share": 26133.855932,
       "inputs": {
         "B0": 2327943000000.0,
-        "RE": 380656987352.5,
-        "ke": 0.081533,
+        "RE": 374532194899.9179,
+        "ke": 0.084163,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.04912
@@ -41,21 +41,21 @@
     },
     "consensus": {
       "available": true,
-      "target_mean": 38795.717602,
-      "target_median": 38729.655577,
-      "target_high": 45549.403445,
-      "target_low": 33958.508151,
-      "n_analysts": 14,
+      "target_mean": 11228762.119141,
+      "target_median": 10702804.423828,
+      "target_high": 13185846.356641,
+      "target_low": 10488770.069141,
+      "n_analysts": 7,
       "warning_few_analysts": false,
-      "dispersion": 0.298767
+      "dispersion": 0.240194
     },
     "reverse_dcf": {
-      "implied_g": -0.091505,
+      "implied_g": -0.012174,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 3058404473971.0938,
+        "ev": 5978272224850.391,
         "fcf_adj": 579929000000.0,
-        "wacc": 0.080762,
+        "wacc": 0.083652,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -187,39 +187,39 @@
     ],
     "matrix": [
       [
-        28661.38,
-        31212.62,
-        34863.67,
-        40521.1,
-        50465.33
+        27765.41,
+        30088.72,
+        33369.37,
+        38352.61,
+        46828.32
       ],
       [
-        29451.95,
-        32105.66,
-        35903.33,
-        41787.96,
-        52131.55
+        28531.27,
+        30949.28,
+        34363.65,
+        39550.0,
+        48371.18
       ],
       [
-        31058.26,
-        33920.14,
-        38015.74,
-        44362.0,
-        55517.02
+        30087.36,
+        32697.78,
+        36383.84,
+        41982.89,
+        51506.0
       ],
       [
-        31479.89,
-        34396.41,
-        38570.21,
-        45037.64,
-        56405.65
+        30495.81,
+        33156.73,
+        36914.11,
+        42621.48,
+        52328.84
       ],
       [
-        32272.84,
-        35292.13,
-        39612.99,
-        46308.31,
-        58076.88
+        31263.97,
+        34019.88,
+        37911.37,
+        43822.47,
+        53876.34
       ]
     ]
   },
@@ -239,11 +239,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.080762,
-      "ke": 0.081533,
+      "wacc": 0.083652,
+      "ke": 0.084163,
       "kd": 0.085357,
       "tax_rate": 0.189786,
-      "E": 3314444473971.0938,
+      "E": 6234312224850.391,
       "D": 220146000000.0,
       "rf": 0.04912,
       "rf_source": "PROXY : aucun taux 10 ans KZT publié → US 10Y (sainhe macro.json us_10y)",
@@ -251,9 +251,10 @@
       "rf_proxy": true,
       "rf_proxy_reason": "no_source",
       "erp": 0.05,
-      "beta": 0.64825,
-      "beta_raw": 0.475,
-      "mode": "complet"
+      "beta": 0.70087,
+      "beta_raw": 0.553537,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -461,6 +462,12 @@
         "2024": 2086393000000.0,
         "2025": 2327943000000.0
       },
+      "minority_interest": {
+        "2022": 386459000000.0,
+        "2023": 480358000000.0,
+        "2024": 911158000000.0,
+        "2025": 913762000000.0
+      },
       "retained_earnings": {
         "2022": 1268580000000.0,
         "2023": 1487091000000.0,
@@ -497,339 +504,349 @@
         "value": 1803049000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Total Revenue",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "cogs": {
         "value": 940653000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Cost Of Revenue",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "gross_profit": {
         "value": 862396000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Gross Profit",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "opex": {
         "value": 93720000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Operating Expense",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "sga": {
         "value": 46904000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Selling General And Administration",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "rnd": {
         "value": 3600000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Research And Development",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "ebit": {
         "value": 768676000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Operating Income",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "interest_expense": {
         "value": 18791000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Interest Expense",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "tax_expense": {
         "value": 188965000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Tax Provision",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "pretax_income": {
         "value": 995672000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Pretax Income",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "net_income": {
         "value": 570460000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Net Income Common Stockholders",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "eps_diluted": {
         "value": 2200.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Diluted EPS",
         "unit": "KZT/shares",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "shares_diluted": {
         "value": 259357000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Diluted Average Shares",
         "unit": "shares",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "cash": {
         "value": 347398000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Cash And Cash Equivalents",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "st_investments": {
         "value": 128788000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Other Short Term Investments",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "ar": {
         "value": 311532000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Accounts Receivable",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "inventory": {
         "value": 415319000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Inventory",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "current_assets": {
         "value": 1578571000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Current Assets",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "total_assets": {
         "value": 4027236000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Total Assets",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "ppe_net": {
         "value": 1787516000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Net PPE",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "goodwill": {
         "value": 48494000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Goodwill",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "intangibles": {
         "value": 13090000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Other Intangible Assets",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "ap": {
         "value": 190323000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Accounts Payable",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "current_liabilities": {
         "value": 454225000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Current Liabilities",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "lt_debt": {
         "value": 51587000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Long Term Debt",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "st_debt": {
         "value": 168559000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Current Debt",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "total_liabilities": {
         "value": 785531000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Total Liabilities Net Minority Interest",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "equity": {
         "value": 2327943000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Stockholders Equity",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
+      },
+      "minority_interest": {
+        "value": 913762000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|KAP.IL",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
+        "unit": "KZT",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "retained_earnings": {
         "value": 2286398000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Retained Earnings",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "shares_outstanding": {
         "value": 259356608.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Ordinary Shares Number",
         "unit": "shares",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "ocf": {
         "value": 809845000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Cash Flowsfromusedin Operating Activities Direct",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "capex": {
         "value": 229916000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Capital Expenditure",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       },
       "dividends_paid": {
         "value": 327858000000.0,
         "fiscal_year": 2025,
         "end_date": "2025-12-31",
-        "accession": "YAHOO|KAP.L",
+        "accession": "YAHOO|KAP.IL",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Cash Dividends Paid",
         "unit": "KZT",
-        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.L/financials"
+        "edgar_filing_url": "https://finance.yahoo.com/quote/KAP.IL/financials"
       }
     },
-    "edgar_filings_index": "https://finance.yahoo.com/quote/KAP.L/financials"
+    "edgar_filings_index": "https://finance.yahoo.com/quote/KAP.IL/financials"
   },
   "score_composite": {
-    "value_0_100": 72.8,
+    "value_0_100": 71.9,
     "pillars": {
-      "valuation": 100,
+      "valuation": 97.055347,
       "balance_sheet_health": 65,
       "earnings_quality": 70,
       "smart_money": 50,
@@ -848,8 +865,8 @@
     "source": "Yahoo Finance statements (secondary) — Kazakhstan: no public XBRL feed",
     "listing_currency": "USD",
     "reporting_currency": "KZT",
-    "price_listing": 29.4,
-    "price_in_reporting_currency": 12779.46796875,
+    "price_listing": 55.3,
+    "price_in_reporting_currency": 24037.570703125,
     "fx_listing_to_reporting": 434.67578125,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",

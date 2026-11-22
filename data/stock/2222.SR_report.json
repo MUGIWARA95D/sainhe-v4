@@ -1,42 +1,42 @@
 {
   "ticker": "2222.SR",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 26.48,
     "EPV": {
-      "epv_ev": 5861153959221.373,
-      "epv_equity": 5853810959221.373,
-      "epv_per_share": 24.201102,
+      "epv_ev": 5376707913186.105,
+      "epv_equity": 5369364913186.105,
+      "epv_per_share": 22.198282,
       "inputs": {
         "ebit_adj": 739247000000.0,
         "tax": 0.501736,
-        "wacc": 0.062844,
+        "wacc": 0.068507,
         "net_debt": 7343000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 24.180932,
-      "high": 38.725794,
+      "low": 22.179781,
+      "high": 35.520948,
       "fcf_p25": 320087000000.0,
       "fcf_p75": 512619750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 28.786543,
-      "central": 24.201102,
-      "plus_100bps": 20.874631
+      "minus_100bps": 25.997617,
+      "central": 22.198282,
+      "plus_100bps": 19.366849
     },
     "RE_valuation": {
-      "re_value_equity": 12121813075557.135,
-      "re_value_per_share": 50.114573,
+      "re_value_equity": 10812972298400.549,
+      "re_value_per_share": 44.703501,
       "inputs": {
         "B0": 1491996000000.0,
-        "RE": 251236823532.0,
-        "ke": 0.064883,
-        "g": 0.044883,
+        "RE": 242398607190.0998,
+        "ke": 0.070807,
+        "g": 0.04912,
         "g_sgr": 0.054099,
-        "g_cap": 0.044883
+        "g_cap": 0.04912
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.233506
     },
     "reverse_dcf": {
-      "implied_g": 0.012273,
+      "implied_g": 0.017665,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 6412378360000.0,
         "fcf_adj": 320354000000.0,
-        "wacc": 0.062844,
+        "wacc": 0.068507,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -188,46 +188,46 @@
     ],
     "g_axis": [
       0.0,
-      0.0112,
-      0.0224,
-      0.0337,
-      0.0449
+      0.0123,
+      0.0246,
+      0.0368,
+      0.0491
     ],
     "matrix": [
       [
-        23.36,
-        26.16,
-        30.43,
-        37.78,
-        53.37
+        21.41,
+        23.84,
+        27.57,
+        33.98,
+        47.67
       ],
       [
-        23.47,
-        26.28,
-        30.58,
-        37.98,
-        53.67
+        21.51,
+        23.95,
+        27.7,
+        34.16,
+        47.93
+      ],
+      [
+        22.54,
+        25.15,
+        29.15,
+        36.04,
+        50.73
       ],
       [
         24.59,
-        27.59,
-        32.17,
-        40.04,
-        56.75
+        27.53,
+        32.03,
+        39.78,
+        56.32
       ],
       [
-        26.83,
-        30.19,
-        35.33,
-        44.16,
-        62.9
-      ],
-      [
-        29.49,
-        33.28,
-        39.08,
-        49.04,
-        70.19
+        27.02,
+        30.35,
+        35.44,
+        44.22,
+        62.95
       ]
     ]
   },
@@ -247,8 +247,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.062844,
-      "ke": 0.064883,
+      "wacc": 0.068507,
+      "ke": 0.070807,
       "kd": 0.037506,
       "tax_rate": 0.501736,
       "E": 6405035360000.0,
@@ -259,9 +259,10 @@
       "rf_proxy": true,
       "rf_proxy_reason": "usd_peg",
       "erp": 0.05,
-      "beta": 0.31526,
-      "beta_raw": -0.022,
-      "mode": "complet"
+      "beta": 0.433735,
+      "beta_raw": 0.154828,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 250 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -468,6 +469,12 @@
         "2023": 1534607000000.0,
         "2024": 1458229000000.0,
         "2025": 1491996000000.0
+      },
+      "minority_interest": {
+        "2022": 217231000000.0,
+        "2023": 202485000000.0,
+        "2024": 193126000000.0,
+        "2025": 229748000000.0
       },
       "retained_earnings": {
         "2022": 1339892000000.0,
@@ -792,6 +799,16 @@
         "unit": "SAR",
         "edgar_filing_url": "https://finance.yahoo.com/quote/2222.SR/financials"
       },
+      "minority_interest": {
+        "value": 229748000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|2222.SR",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
+        "unit": "SAR",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/2222.SR/financials"
+      },
       "retained_earnings": {
         "value": 1370057000000.0,
         "fiscal_year": 2025,
@@ -866,9 +883,9 @@
     "edgar_filings_index": "https://finance.yahoo.com/quote/2222.SR/financials"
   },
   "score_composite": {
-    "value_0_100": 57.6,
+    "value_0_100": 53.0,
     "pillars": {
-      "valuation": 32.78778,
+      "valuation": 17.660742,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,

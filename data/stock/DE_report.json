@@ -1,7 +1,7 @@
 {
   "ticker": "DE",
   "cik": 315189,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 609.25,
@@ -22,12 +22,12 @@
       "plus_100bps": "N/D"
     },
     "RE_valuation": {
-      "re_value_equity": 52582306948.040054,
-      "re_value_per_share": 193.530758,
+      "re_value_equity": 52991446905.197075,
+      "re_value_per_share": 195.03661,
       "inputs": {
         "B0": 25950000000.0,
-        "RE": 2546115125.0,
-        "ke": 0.095603,
+        "RE": 2565269709.197048,
+        "ke": 0.094864,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.04912
@@ -44,12 +44,12 @@
       "dispersion": 0.451263
     },
     "reverse_dcf": {
-      "implied_g": 0.053158,
+      "implied_g": 0.052625,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 214597225000.0,
         "fcf_adj": 5948000000.0,
-        "wacc": 0.082348,
+        "wacc": 0.0818,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -166,9 +166,9 @@
     "ocf_ni": 1.483788,
     "accruals_pct_rev": -0.053235,
     "retained_earnings_test": {
-      "ratio": 1.638053,
+      "ratio": 1.638054,
       "retained_5y": 28282000000.0,
-      "delta_mcap": 46327428924.56055,
+      "delta_mcap": 46327438586.42578,
       "passes": true,
       "window": [
         2020,
@@ -226,39 +226,39 @@
     ],
     "matrix": [
       [
-        118.01,
-        120.31,
-        123.4,
-        127.79,
-        134.5
+        118.92,
+        121.35,
+        124.62,
+        129.27,
+        136.42
       ],
       [
-        121.33,
-        123.97,
-        127.53,
-        132.56,
-        140.27
+        122.27,
+        125.04,
+        128.78,
+        134.1,
+        142.27
       ],
       [
-        156.57,
-        162.81,
-        171.22,
-        183.14,
-        201.35
+        157.79,
+        164.23,
+        172.93,
+        185.3,
+        204.33
       ],
       [
-        248.11,
-        263.72,
-        284.73,
-        314.51,
-        360.04
+        250.04,
+        266.04,
+        287.61,
+        318.32,
+        365.52
       ],
       [
-        290.02,
-        309.92,
-        336.69,
-        374.66,
-        432.68
+        292.28,
+        312.64,
+        340.12,
+        379.22,
+        439.32
       ]
     ]
   },
@@ -278,8 +278,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.082348,
-      "ke": 0.095603,
+      "wacc": 0.0818,
+      "ke": 0.094864,
       "kd": 0.055284,
       "tax_rate": 0.201215,
       "E": 165533225000.0,
@@ -290,9 +290,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.92965,
-      "beta_raw": 0.895,
-      "mode": "complet"
+      "beta": 0.914887,
+      "beta_raw": 0.872966,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -619,6 +620,18 @@
         "2023": 21785000000.0,
         "2024": 22836000000.0,
         "2025": 25950000000.0
+      },
+      "minority_interest": {
+        "2016": 10800000.0,
+        "2017": 3200000.0,
+        "2018": 3000000.0,
+        "2019": 4000000.0,
+        "2020": 7000000.0,
+        "2021": 3000000.0,
+        "2022": 3000000.0,
+        "2023": 4000000.0,
+        "2024": 7000000.0,
+        "2025": 6000000.0
       },
       "retained_earnings": {
         "2016": 23911300000.0,
@@ -979,6 +992,16 @@
         "accession": "0001104659-25-122321",
         "filing_form": "10-K",
         "xbrl_tag": "StockholdersEquity",
+        "unit": "USD",
+        "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/"
+      },
+      "minority_interest": {
+        "value": 6000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-11-02",
+        "accession": "0001104659-25-122321",
+        "filing_form": "10-K",
+        "xbrl_tag": "MinorityInterest",
         "unit": "USD",
         "edgar_filing_url": "https://www.sec.gov/Archives/edgar/data/315189/000110465925122321/"
       },

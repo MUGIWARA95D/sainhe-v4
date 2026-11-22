@@ -22,6 +22,7 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(__file__))
 import config  # noqa: E402
+import coherence  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(name)s %(levelname)s %(message)s")
 log = logging.getLogger("sainhe.quality")
@@ -130,8 +131,20 @@ def main() -> dict:
         filled = sorted(k for k, path in KEY_FIELDS.items() if _get(r, path) is not None)
         missing = sorted(set(KEY_FIELDS) - set(filled))
         secondary = str(r.get("meta", {}).get("source", "")).startswith("Yahoo")
-        # source secondaire : la seconde source serait la même (Yahoo) → aucun recoupement possible
+        # source secondaire : Yahoo contre Yahoo ne prouverait rien → recoupement ESEF s'il existe
         issues, checked, details = ([], [], []) if secondary else cross_check(r, t, sess)
+        if secondary:
+            details = coherence.esef_cross_check(r)
+            checked = sorted({d["field"] for d in details})
+            issues += [{"type": "cross_source_gap", "field": d["field"], "fiscal_end": d["fiscal_end"],
+                        "xbrl": d["xbrl"], "yfinance": d["second_value"], "gap_pct": d["gap_pct"]}
+                       for d in details if d["status"] == "gap"]
+        ident = coherence.identity_checks(r)
+        nd_audit = coherence.net_debt_tag_audit(r)
+        issues += [{"type": "coherence_gap", "check": c["check"], "year": c["year"], "gap_pct": c["gap_pct"]}
+                   for c in ident if c["status"] == "gap"]
+        issues += [{"type": "net_debt_tag_gap", "component": c["component"], "last_filed_year": c["last_filed_year"]}
+                   for c in nd_audit if c["status"] == "gap"]
         regress = sorted(prev_filled.get(t, set()) - set(filled))
         if regress:
             issues.append({"type": "nd_regression", "fields": regress,
@@ -142,12 +155,13 @@ def main() -> dict:
                            "months": meta.get("months_since_fiscal_year_end")})
         out["tickers"][t] = {"source": meta.get("source"), "filled_fields": filled,
                              "missing_fields": missing, "cross_checked": checked, "checks": details,
-                             "secondary_source": secondary,
+                             "secondary_source": secondary, "coherence": ident, "net_debt_audit": nd_audit,
                              "issues": issues}
         log.info("%-7s %d/%d champs, recoupés %s, %d anomalie(s)", t, len(filled), len(KEY_FIELDS),
                  checked or "aucun", len(issues))
+    # bloquant (ouvre l'issue GitHub) : écart entre sources, régression N/D, migration de tag de dette
     blocking = sum(1 for v in out["tickers"].values() for i in v["issues"]
-                   if i["type"] in ("cross_source_gap", "nd_regression"))
+                   if i["type"] in ("cross_source_gap", "nd_regression", "net_debt_tag_gap"))
     out["summary"] = {
         "n_tickers": len(out["tickers"]),
         "n_cross_checks": sum(len(v["cross_checked"]) for v in out["tickers"].values()),
@@ -160,6 +174,9 @@ def main() -> dict:
                        if i["type"] == "stale_financials"),
         "n_pipeline_failures": len(out["pipeline_failures"]),
         "n_secondary_source": sum(1 for v in out["tickers"].values() if v.get("secondary_source")),
+        "n_coherence_checks": sum(len(v.get("coherence", [])) for v in out["tickers"].values()),
+        "n_coherence_gaps": sum(1 for v in out["tickers"].values() for i in v["issues"] if i["type"] == "coherence_gap"),
+        "n_net_debt_tag_gaps": sum(1 for v in out["tickers"].values() for i in v["issues"] if i["type"] == "net_debt_tag_gap"),
         "note": "n_issues compte les anomalies à corriger (écarts de sources, régressions N/D, "
                 "échecs) ; la fraîcheur est informative (dépend de la date de publication).",
     }

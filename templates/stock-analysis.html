@@ -210,7 +210,7 @@ if(_TB) _TB.addEventListener("click",function(){setTheme(_H.dataset.theme==="dar
 })();
 </script>
 
-{% if stock_analysis_live and stock_vmap %}{% include "partials/stock/_sa_js.html" %}{% endif %}
+{% if stock_analysis_live and stock_vmap %}{% include "partials/stock/_sa_calc.html" %}{% include "partials/stock/_sa_js.html" %}{% endif %}
 {% include "partials/_swipe_nav.html" %}
 </body>
 </html>

@@ -1,39 +1,39 @@
 {
   "ticker": "COA.L",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 0.951702,
     "EPV": {
-      "epv_ev": 2555179266.498735,
-      "epv_equity": 1740479266.498735,
-      "epv_per_share": 0.988235,
+      "epv_ev": 2937786673.578368,
+      "epv_equity": 2123086673.578368,
+      "epv_per_share": 1.205477,
       "inputs": {
         "ebit_adj": 288500000.0,
         "tax": 0.321925,
-        "wacc": 0.07656,
+        "wacc": 0.066589,
         "net_debt": 814700000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 0.331207,
-      "high": 0.860344,
+      "low": 0.404016,
+      "high": 1.049473,
       "fcf_p25": 64550000.0,
       "fcf_p75": 167675000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 1.206206,
-      "central": 0.988235,
-      "plus_100bps": 0.820627
+      "minus_100bps": 1.500244,
+      "central": 1.205477,
+      "plus_100bps": 0.987684
     },
     "RE_valuation": {
-      "re_value_equity": 969153911.763879,
-      "re_value_per_share": 0.55028,
+      "re_value_equity": 1142623332.499892,
+      "re_value_per_share": 0.648775,
       "inputs": {
         "B0": 722500000.0,
-        "RE": 26315752.5,
-        "ke": 0.106691,
+        "RE": 38018436.474115,
+        "ke": 0.090494,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.04912
@@ -50,12 +50,12 @@
       "dispersion": 0.207704
     },
     "reverse_dcf": {
-      "implied_g": -0.000709,
+      "implied_g": -0.009964,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 2490837513.414979,
         "fcf_adj": 192600000.0,
-        "wacc": 0.07656,
+        "wacc": 0.066589,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -211,39 +211,39 @@
     ],
     "matrix": [
       [
-        0.66,
-        0.68,
-        0.7,
-        0.74,
-        0.8
-      ],
-      [
-        0.7,
-        0.73,
-        0.76,
-        0.8,
-        0.87
-      ],
-      [
-        0.84,
+        0.77,
+        0.81,
         0.87,
-        0.92,
-        0.98,
+        0.95,
         1.08
       ],
       [
-        0.96,
-        1.01,
-        1.07,
-        1.15,
-        1.27
+        0.83,
+        0.87,
+        0.94,
+        1.03,
+        1.17
       ],
       [
-        1.12,
-        1.18,
+        0.98,
+        1.05,
+        1.14,
         1.26,
-        1.37,
-        1.53
+        1.47
+      ],
+      [
+        1.13,
+        1.21,
+        1.32,
+        1.48,
+        1.74
+      ],
+      [
+        1.32,
+        1.42,
+        1.56,
+        1.77,
+        2.09
       ]
     ]
   },
@@ -263,8 +263,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.07656,
-      "ke": 0.106691,
+      "wacc": 0.066589,
+      "ke": 0.090494,
       "kd": 0.04175,
       "tax_rate": 0.321925,
       "E": 1676137513.414979,
@@ -275,9 +275,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 1.15142,
-      "beta_raw": 1.226,
-      "mode": "complet"
+      "beta": 0.82747,
+      "beta_raw": 0.742493,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -472,6 +473,12 @@
         "2023": 558100000.0,
         "2024": 346100000.0,
         "2025": 722500000.0
+      },
+      "minority_interest": {
+        "2022": 34100000.0,
+        "2023": 31300000.0,
+        "2024": 32500000.0,
+        "2025": 40800000.0
       },
       "retained_earnings": {
         "2022": 216700000.0,
@@ -777,6 +784,16 @@
         "unit": "USD",
         "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       },
+      "minority_interest": {
+        "value": 40800000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|COA.L",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
+        "unit": "USD",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
+      },
       "retained_earnings": {
         "value": -900000.0,
         "fiscal_year": 2025,
@@ -848,12 +865,46 @@
         "edgar_filing_url": "https://finance.yahoo.com/quote/COA.L/financials"
       }
     },
-    "edgar_filings_index": "https://finance.yahoo.com/quote/COA.L/financials"
+    "edgar_filings_index": "https://finance.yahoo.com/quote/COA.L/financials",
+    "esef_overlap": {
+      "revenue": {
+        "2021": 1446700000.0,
+        "2020": 1163300000.0,
+        "2022": 1537600000.0,
+        "2023": 1394200000.0,
+        "2024": 1433000000.0,
+        "2025": 1464900000.0
+      },
+      "net_income": {
+        "2021": 88900000.0,
+        "2020": 26400000.0,
+        "2022": -14700000.0,
+        "2023": 56500000.0,
+        "2024": 80100000.0,
+        "2025": 103400000.0
+      },
+      "total_assets": {
+        "2021": 1515300000.0,
+        "2020": 1212200000.0,
+        "2022": 1888800000.0,
+        "2023": 1714300000.0,
+        "2024": 1610700000.0,
+        "2025": 2586700000.0
+      },
+      "cash": {
+        "2021": 107200000.0,
+        "2020": 71900000.0,
+        "2022": 172400000.0,
+        "2023": 132400000.0,
+        "2024": 146000000.0,
+        "2025": 232000000.0
+      }
+    }
   },
   "score_composite": {
-    "value_0_100": 58.8,
+    "value_0_100": 71.5,
     "pillars": {
-      "valuation": 57.677384,
+      "valuation": 100,
       "balance_sheet_health": 60,
       "earnings_quality": 70,
       "smart_money": 50,

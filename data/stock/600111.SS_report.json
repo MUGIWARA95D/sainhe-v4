@@ -1,39 +1,39 @@
 {
   "ticker": "600111.SS",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 31.91,
     "EPV": {
-      "epv_ev": 51655449308.2522,
-      "epv_equity": 50977239841.032196,
-      "epv_per_share": 14.100263,
+      "epv_ev": 74539280224.12695,
+      "epv_equity": 73861070756.90695,
+      "epv_per_share": 20.429911,
       "inputs": {
         "ebit_adj": 3793866616.36,
         "tax": 0.155272,
-        "wacc": 0.062042,
+        "wacc": 0.042995,
         "net_debt": 678209467.22
       }
     },
     "EPV_confidence_range": {
-      "low": 40.260302,
-      "high": -230.781218,
+      "low": 58.333268,
+      "high": -334.379577,
       "fcf_p25": -544825692.155,
       "fcf_p75": 3123064930.75
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 16.845731,
-      "central": 14.100263,
-      "plus_100bps": 12.116984
+      "minus_100bps": 26.678662,
+      "central": 20.429911,
+      "plus_100bps": 16.53942
     },
     "RE_valuation": {
-      "re_value_equity": 38334215810.87015,
-      "re_value_per_share": 10.603212,
+      "re_value_equity": 65066079926.4671,
+      "re_value_per_share": 17.997224,
       "inputs": {
         "B0": 24660969712.52,
-        "RE": 688062525.542782,
-        "ke": 0.063388,
+        "RE": 1181525040.480109,
+        "ke": 0.043378,
         "g": 0.0158,
         "g_sgr": 0.102769,
         "g_cap": 0.0158
@@ -50,12 +50,12 @@
       "dispersion": 0.660483
     },
     "reverse_dcf": {
-      "implied_g": 0.056926,
+      "implied_g": 0.037971,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 116043701464.1,
         "fcf_adj": 561662295.295,
-        "wacc": 0.062042,
+        "wacc": 0.042995,
         "fcf_basis": "median_5y",
         "fcf_years": [
           2022,
@@ -202,39 +202,39 @@
     ],
     "matrix": [
       [
-        10.2,
-        10.38,
-        10.58,
-        10.81,
-        11.08
+        14.91,
+        15.6,
+        16.43,
+        17.48,
+        18.82
       ],
       [
-        11.46,
-        11.71,
-        11.98,
-        12.3,
-        12.67
+        16.75,
+        17.59,
+        18.62,
+        19.9,
+        21.55
       ],
       [
-        15.83,
-        16.3,
-        16.83,
-        17.45,
-        18.17
+        23.13,
+        24.51,
+        26.2,
+        28.31,
+        31.02
       ],
       [
-        27.89,
-        28.98,
-        30.24,
-        31.68,
-        33.36
+        40.75,
+        43.62,
+        47.13,
+        51.52,
+        57.16
       ],
       [
-        48.31,
-        50.47,
-        52.93,
-        55.77,
-        59.08
+        70.6,
+        75.99,
+        82.58,
+        90.82,
+        101.43
       ]
     ]
   },
@@ -254,8 +254,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.062042,
-      "ke": 0.063388,
+      "wacc": 0.042995,
+      "ke": 0.043378,
       "kd": 0.041916,
       "tax_rate": 0.155272,
       "E": 115365491996.88,
@@ -266,9 +266,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.95176,
-      "beta_raw": 0.928,
-      "mode": "complet"
+      "beta": 0.551563,
+      "beta_raw": 0.330691,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 248 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -475,6 +476,12 @@
         "2023": 21619357642.66,
         "2024": 22431731792.87,
         "2025": 24660969712.52
+      },
+      "minority_interest": {
+        "2022": 5201675559.04,
+        "2023": 5281934225.35,
+        "2024": 5723766026.14,
+        "2025": 6196153478.62
       },
       "retained_earnings": {
         "2022": 13499073383.67,
@@ -791,6 +798,16 @@
         "accession": "YAHOO|600111.SS",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "CNY",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/600111.SS/financials"
+      },
+      "minority_interest": {
+        "value": 6196153478.62,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|600111.SS",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
         "unit": "CNY",
         "edgar_filing_url": "https://finance.yahoo.com/quote/600111.SS/financials"
       },

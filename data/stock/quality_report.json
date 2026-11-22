@@ -14,6 +14,162 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 2477940000000.0,
+          "rhs": 2477940000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 959790000000.0,
+          "rhs": 959790000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 452414710000.0,
+          "rhs": 452753000000.0,
+          "gap_pct": 0.07,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 198973000000.0,
+          "rhs": 2477940000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 2423630000000.0,
+          "rhs": 2423630000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 889758000000.0,
+          "rhs": 889758000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 394287220000.0,
+          "rhs": 393891000000.0,
+          "gap_pct": 0.1,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 216642000000.0,
+          "rhs": 2423630000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 2551964000000.0,
+          "rhs": 2551964000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 838327000000.0,
+          "rhs": 838327000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 348310080000.0,
+          "rhs": 348042000000.0,
+          "gap_pct": 0.08,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 243099000000.0,
+          "rhs": 2551964000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 252800000000.0,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 42914000000.0,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 243099000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 45272000000.0,
+          "tag": "yahoo:Other Short Term Investments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "600111.SS": {
@@ -30,6 +186,162 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 40496655048.44,
+          "rhs": 40496655048.44,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 4897040335.830002,
+          "rhs": 4897040335.83,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 2370740184.4974003,
+          "rhs": 2370740184.54,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 5301969716.12,
+          "rhs": 40496655048.44,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 45380919517.66,
+          "rhs": 45380919517.66,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 3377610684.7299995,
+          "rhs": 3377610684.73,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 1004276921.8379999,
+          "rhs": 1004276921.89,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 5644393125.54,
+          "rhs": 45380919517.66,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 48127817177.89,
+          "rhs": 48127817177.89,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 5195789113.559998,
+          "rhs": 5195789113.56,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 2251272073.5336003,
+          "rhs": 2251272073.68,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 4527591871.58,
+          "rhs": 48127817177.89,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 3952037097.26,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 1879902495.54,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 4527591871.58,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 626138254.0,
+          "tag": "yahoo:Other Short Term Investments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "6954.T": {
@@ -46,6 +358,162 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 1926037000000.0,
+          "rhs": 1926037000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 275844000000.0,
+          "rhs": 275844000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 133160865469.99998,
+          "rhs": 133159000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 522979000000.0,
+          "rhs": 1926037000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 1937031000000.0,
+          "rhs": 1937031000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 294925000000.0,
+          "rhs": 294925000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 147560712750.0,
+          "rhs": 147557000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 590504000000.0,
+          "rhs": 1937031000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2026",
+          "lhs": 2090700000000.0,
+          "rhs": 2090700000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2026",
+          "lhs": 328466000000.0,
+          "rhs": 328466000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2026",
+          "lhs": 166539683842.2,
+          "rhs": 166543000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2026",
+          "lhs": 718071000000.0,
+          "rhs": 2090700000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2026",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2026",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2026",
+          "value": 718071000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2026",
+          "value": 35800000000.0,
+          "tag": "yahoo:Other Short Term Investments",
+          "last_filed_year": "2026",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "AAPL": {
@@ -124,6 +592,162 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 364980000000.0,
+          "rhs": 364980000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 180683000000.0,
+          "rhs": 180683000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 93681217600.0,
+          "rhs": 93736000000.0,
+          "gap_pct": 0.06,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 29943000000.0,
+          "rhs": 364980000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 359241000000.0,
+          "rhs": 359241000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 195201000000.0,
+          "rhs": 195201000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 111935039620.0,
+          "rhs": 112010000000.0,
+          "gap_pct": 0.07,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 35934000000.0,
+          "rhs": 359241000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2026",
+          "lhs": 404548000000.0,
+          "rhs": 404548000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2026",
+          "lhs": 233602000000.0,
+          "rhs": 233602000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2026",
+          "lhs": 132188347880.0,
+          "rhs": 132175000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2026",
+          "lhs": 36305000000.0,
+          "rhs": 404548000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2026",
+          "value": 68208000000.0,
+          "tag": "LongTermDebtNoncurrent",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2026",
+          "value": 11903000000.0,
+          "tag": "CommercialPaper+LongTermDebtCurrent",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2026",
+          "value": 36305000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2026",
+          "value": 20417000000.0,
+          "tag": "MarketableSecuritiesCurrent",
+          "last_filed_year": "2026",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "ASML": {
@@ -202,6 +826,162 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 39957500000.0,
+          "rhs": 39957500000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 14136100000.0,
+          "rhs": 14136100000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 7838649000.0,
+          "rhs": 7839000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 7004700000.0,
+          "rhs": 39957500000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 48589600000.0,
+          "rhs": 48589600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 14492000000.0,
+          "rhs": 14492000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 7572863999.999999,
+          "rhs": 7571600000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 12735900000.0,
+          "rhs": 48589600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 50566600000.0,
+          "rhs": 50566600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 17258000000.0,
+          "rhs": 17258000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 9609719000.0,
+          "rhs": 9609400000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 12916000000.0,
+          "rhs": 50566600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 2709000000.0,
+          "tag": "LongTermDebtNoncurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 1681900000.0,
+          "tag": "LongTermDebtCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 12916000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "CAT": {
@@ -280,6 +1060,132 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 87485000000.0,
+          "rhs": 87476000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 10333632000.0,
+          "rhs": 10332000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 6978000000.0,
+          "rhs": 87476000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 87767000000.0,
+          "rhs": 87764000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 10791270000.0,
+          "rhs": 10788000000.0,
+          "gap_pct": 0.03,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 6889000000.0,
+          "rhs": 87764000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 98585000000.0,
+          "rhs": 98585000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 8883963000.0,
+          "rhs": 8882000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 9980000000.0,
+          "rhs": 98585000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 30696000000.0,
+          "tag": "LongTermDebtNoncurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 5514000000.0,
+          "tag": "ShortTermBorrowings",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 9980000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "COA.L": {
@@ -293,9 +1199,363 @@
         "dette nette/EBITDA"
       ],
       "missing_fields": [],
-      "cross_checked": [],
-      "checks": [],
+      "cross_checked": [
+        "cash",
+        "net_income",
+        "revenue",
+        "total_assets"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2022",
+          "xbrl": 1537600000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "revenue",
+          "second_value": 1537600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "revenue",
+          "fiscal_end": "2023",
+          "xbrl": 1394200000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "revenue",
+          "second_value": 1394200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "revenue",
+          "fiscal_end": "2024",
+          "xbrl": 1433000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "revenue",
+          "second_value": 1433000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "revenue",
+          "fiscal_end": "2025",
+          "xbrl": 1464900000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "revenue",
+          "second_value": 1464900000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2022",
+          "xbrl": -14700000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "net_income",
+          "second_value": -14700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2023",
+          "xbrl": 56500000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "net_income",
+          "second_value": 56500000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2024",
+          "xbrl": 80100000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "net_income",
+          "second_value": 80100000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2025",
+          "xbrl": 103400000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "net_income",
+          "second_value": 103400000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2022",
+          "xbrl": 1888800000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "total_assets",
+          "second_value": 1888800000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2023",
+          "xbrl": 1714300000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "total_assets",
+          "second_value": 1714300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2024",
+          "xbrl": 1610700000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "total_assets",
+          "second_value": 1610700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2025",
+          "xbrl": 2586700000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "total_assets",
+          "second_value": 2586700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2022",
+          "xbrl": 172400000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "cash",
+          "second_value": 172400000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2023",
+          "xbrl": 132400000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "cash",
+          "second_value": 132400000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2024",
+          "xbrl": 146000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "cash",
+          "second_value": 146000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2025",
+          "xbrl": 232000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "cash",
+          "second_value": 232000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 1714300000.0,
+          "rhs": 1714300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 465100000.0,
+          "rhs": 465100000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 56424719.99999999,
+          "rhs": 56500000.0,
+          "gap_pct": 0.13,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 132400000.0,
+          "rhs": 1714300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 1610700000.0,
+          "rhs": 1610700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 528000000.0,
+          "rhs": 528000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 80092780.0,
+          "rhs": 80100000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 146000000.0,
+          "rhs": 1610700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 2586700000.0,
+          "rhs": 2586700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 573800000.0,
+          "rhs": 573800000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 103382440.0,
+          "rhs": 103400000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 232000000.0,
+          "rhs": 2586700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 1046200000.0,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 500000.0,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 232000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "CTVA": {
@@ -375,6 +1635,102 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 733257000.0,
+          "rhs": 735000000.0,
+          "gap_pct": 0.24,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 2644000000.0,
+          "rhs": 42996000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 904800000.0,
+          "rhs": 907000000.0,
+          "gap_pct": 0.24,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 3106000000.0,
+          "rhs": 40825000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 1090240000.0,
+          "rhs": 1094000000.0,
+          "gap_pct": 0.34,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 4521000000.0,
+          "rhs": 42845000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 1686000000.0,
+          "tag": "LongTermDebtAndCapitalLeaseObligations",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 894000000.0,
+          "tag": "DebtCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 4521000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 9000000.0,
+          "tag": "ShortTermInvestments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "DE": {
@@ -454,6 +1810,102 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 103990000000.0,
+          "rhs": 104087000000.0,
+          "gap_pct": 0.09,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 10167368000.0,
+          "rhs": 10166000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 107238000000.0,
+          "rhs": 107320000000.0,
+          "gap_pct": 0.08,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 7099302000.0,
+          "rhs": 7100000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 105945000000.0,
+          "rhs": 105996000000.0,
+          "gap_pct": 0.05,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 5026450000.0,
+          "rhs": 5027000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 43544000000.0,
+          "tag": "de:LongTermDebtAndFinanceLeasesNoncurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 13796000000.0,
+          "tag": "DebtCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 8276000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "ECL": {
@@ -532,6 +1984,132 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 21846600000.0,
+          "rhs": 21846600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 1372335000.0,
+          "rhs": 1372300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 919500000.0,
+          "rhs": 21846600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 22387800000.0,
+          "rhs": 22387800000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 2112242000.0,
+          "rhs": 2112400000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 1256800000.0,
+          "rhs": 22387800000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 24696300000.0,
+          "rhs": 24696300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 2076256000.0,
+          "rhs": 2075600000.0,
+          "gap_pct": 0.03,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 646200000.0,
+          "rhs": 24696300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 7365900000.0,
+          "tag": "LongTermDebtAndCapitalLeaseObligations",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 870400000.0,
+          "tag": "DebtCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 646200000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "GEBN.SW": {
@@ -548,6 +2126,162 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 3556200000.0,
+          "rhs": 3556200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 2197200000.0,
+          "rhs": 2197200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 617092150.0,
+          "rhs": 617000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 356800000.0,
+          "rhs": 3556200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 3641000000.0,
+          "rhs": 3641000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 2247900000.0,
+          "rhs": 2247900000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 597222000.0,
+          "rhs": 597100000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 407700000.0,
+          "rhs": 3641000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 3857900000.0,
+          "rhs": 3857900000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 2329300000.0,
+          "rhs": 2329300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 597881680.0,
+          "rhs": 597800000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 585800000.0,
+          "rhs": 3857900000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 1091000000.0,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 206800000.0,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 585800000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "GEV": {
@@ -627,6 +2361,162 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 46121000000.0,
+          "rhs": 46121000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 4818000000.0,
+          "rhs": 4818000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": -438400000.0,
+          "rhs": -438000000.0,
+          "gap_pct": 0.09,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 1551000000.0,
+          "rhs": 46121000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 51485000000.0,
+          "rhs": 51485000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 6085000000.0,
+          "rhs": 6085000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 1551240000.0,
+          "rhs": 1552000000.0,
+          "gap_pct": 0.05,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 8205000000.0,
+          "rhs": 51485000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 63016000000.0,
+          "rhs": 63016000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 7535000000.0,
+          "rhs": 7535000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 4882440000.0,
+          "rhs": 4884000000.0,
+          "gap_pct": 0.03,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 8848000000.0,
+          "rhs": 63016000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 63000000.0,
+          "tag": "ShortTermBorrowings",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 8848000000.0,
+          "tag": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "ISRG": {
@@ -705,9 +2595,165 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 15441500000.0,
+          "rhs": 15441500000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 4729500000.0,
+          "rhs": 4729500000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 1797722000.0,
+          "rhs": 1798000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 2750100000.0,
+          "rhs": 15441500000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 18743200000.0,
+          "rhs": 18743200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 5634200000.0,
+          "rhs": 5634200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 2324040000.0,
+          "rhs": 2322600000.0,
+          "gap_pct": 0.06,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 2027400000.0,
+          "rhs": 18743200000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 20458700000.0,
+          "rhs": 20458700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 6642300000.0,
+          "rhs": 6642300000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 2854449000.0,
+          "rhs": 2856000000.0,
+          "gap_pct": 0.05,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 3368000000.0,
+          "rhs": 20458700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 3368000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 2566900000.0,
+          "tag": "MarketableSecuritiesCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
-    "KAP.L": {
+    "KAP.IL": {
       "source": "Yahoo Finance statements (secondary) — Kazakhstan: no public XBRL feed",
       "filled_fields": [
         "EPV/action",
@@ -722,6 +2768,162 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 2599292000000.0,
+          "rhs": 2599292000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 762773000000.0,
+          "rhs": 762773000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 419120912000.0,
+          "rhs": 419184000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 211912000000.0,
+          "rhs": 2599292000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 3821881000000.0,
+          "rhs": 3821881000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 881731000000.0,
+          "rhs": 881731000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 872217591000.0,
+          "rhs": 872263000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 294385000000.0,
+          "rhs": 3821881000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 4027236000000.0,
+          "rhs": 4027236000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 862396000000.0,
+          "rhs": 862396000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 570585400000.0,
+          "rhs": 570460000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 347398000000.0,
+          "rhs": 4027236000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 51587000000.0,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 168559000000.0,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 347398000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 128788000000.0,
+          "tag": "yahoo:Other Short Term Investments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "KO": {
@@ -800,6 +3002,132 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 27234000000.0,
+          "rhs": 27234000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 10717330000.0,
+          "rhs": 10714000000.0,
+          "gap_pct": 0.03,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 9366000000.0,
+          "rhs": 97703000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 28737000000.0,
+          "rhs": 28737000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 10627200000.0,
+          "rhs": 10631000000.0,
+          "gap_pct": 0.04,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 10828000000.0,
+          "rhs": 100549000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 29544000000.0,
+          "rhs": 29544000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 13111520000.0,
+          "rhs": 13107000000.0,
+          "gap_pct": 0.03,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 10270000000.0,
+          "rhs": 104816000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 42119000000.0,
+          "tag": "LongTermDebtAndCapitalLeaseObligations",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 3373000000.0,
+          "tag": "CommercialPaper+OtherShortTermBorrowings+LongTermDebtAndCapitalLeaseObligationsCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 10270000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 3602000000.0,
+          "tag": "OtherShortTermInvestments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "LDO.MI": {
@@ -813,9 +3141,315 @@
         "dette nette/EBITDA"
       ],
       "missing_fields": [],
-      "cross_checked": [],
-      "checks": [],
+      "cross_checked": [
+        "cash",
+        "net_income",
+        "revenue",
+        "total_assets"
+      ],
+      "checks": [
+        {
+          "field": "revenue",
+          "fiscal_end": "2022",
+          "xbrl": 14713000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "revenue",
+          "second_value": 14713000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "revenue",
+          "fiscal_end": "2023",
+          "xbrl": 15291000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "revenue",
+          "second_value": 15291000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "revenue",
+          "fiscal_end": "2024",
+          "xbrl": 17763000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "revenue",
+          "second_value": 17763000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2022",
+          "xbrl": 927000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "net_income",
+          "second_value": 927000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2023",
+          "xbrl": 658000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "net_income",
+          "second_value": 658000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "net_income",
+          "fiscal_end": "2024",
+          "xbrl": 1074000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "net_income",
+          "second_value": 1074000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2022",
+          "xbrl": 28582000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "total_assets",
+          "second_value": 28582000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2023",
+          "xbrl": 30693000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "total_assets",
+          "second_value": 30693000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "total_assets",
+          "fiscal_end": "2024",
+          "xbrl": 33673000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "total_assets",
+          "second_value": 33673000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2022",
+          "xbrl": 1511000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "cash",
+          "second_value": 1511000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2023",
+          "xbrl": 2407000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "cash",
+          "second_value": 2407000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        },
+        {
+          "field": "cash",
+          "fiscal_end": "2024",
+          "xbrl": 2556000000.0,
+          "xbrl_tag": "ESEF",
+          "second_source": "Yahoo statements",
+          "second_source_row": "cash",
+          "second_value": 2556000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 3.0,
+          "status": "ok"
+        }
+      ],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 30693000000.0,
+          "rhs": 30693000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 1650000000.0,
+          "rhs": 1650000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 657999999.8,
+          "rhs": 658000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 2407000000.0,
+          "rhs": 30693000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 33673000000.0,
+          "rhs": 33673000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 2016000000.0,
+          "rhs": 2016000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 1073824105.0,
+          "rhs": 1074000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 2556000000.0,
+          "rhs": 33673000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 34509000000.0,
+          "rhs": 34509000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 2263000000.0,
+          "rhs": 2263000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 1223910184.0,
+          "rhs": 1224000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 3238000000.0,
+          "rhs": 34509000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 1385000000.0,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 2496000000.0,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 3238000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "LMT": {
@@ -894,6 +3528,162 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 52456000000.0,
+          "rhs": 52456000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 8479000000.0,
+          "rhs": 8479000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 6920560000.0,
+          "rhs": 6920000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 1442000000.0,
+          "rhs": 52456000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 55617000000.0,
+          "rhs": 55617000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 6930000000.0,
+          "rhs": 6930000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 5336552000.0,
+          "rhs": 5336000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 2483000000.0,
+          "rhs": 55617000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 59840000000.0,
+          "rhs": 59840000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 7619000000.0,
+          "rhs": 7619000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 5017915000.0,
+          "rhs": 5017000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 4121000000.0,
+          "rhs": 59840000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 20532000000.0,
+          "tag": "LongTermDebtNoncurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 1168000000.0,
+          "tag": "LongTermDebtCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 4121000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": "2011",
+          "status": "discontinued"
+        }
+      ],
       "issues": []
     },
     "MSFT": {
@@ -972,6 +3762,162 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 512163000000.0,
+          "rhs": 512163000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 171008000000.0,
+          "rhs": 171008000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 88134200000.0,
+          "rhs": 88136000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 18315000000.0,
+          "rhs": 512163000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 619003000000.0,
+          "rhs": 619003000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 193893000000.0,
+          "rhs": 193893000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 101822600000.0,
+          "rhs": 101832000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 30242000000.0,
+          "rhs": 619003000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2026",
+          "lhs": 758376000000.0,
+          "rhs": 758376000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2026",
+          "lhs": 225465000000.0,
+          "rhs": 225465000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2026",
+          "lhs": 133781350000.0,
+          "rhs": 133749000000.0,
+          "gap_pct": 0.02,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2026",
+          "lhs": 20935000000.0,
+          "rhs": 758376000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2026",
+          "value": 31067000000.0,
+          "tag": "LongTermDebtNoncurrent",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2026",
+          "value": 9227000000.0,
+          "tag": "LongTermDebtCurrent",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2026",
+          "value": 20935000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2026",
+          "value": 55908000000.0,
+          "tag": "ShortTermInvestments",
+          "last_filed_year": "2026",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "NESN.SW": {
@@ -988,6 +3934,162 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 126550000000.0,
+          "rhs": 126550000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 43023000000.0,
+          "rhs": 43023000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 11201040000.000002,
+          "rhs": 11209000000.0,
+          "gap_pct": 0.07,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 4816000000.0,
+          "rhs": 126550000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 139264000000.0,
+          "rhs": 139264000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 43050000000.0,
+          "rhs": 43050000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 10889810000.000002,
+          "rhs": 10884000000.0,
+          "gap_pct": 0.05,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 5256000000.0,
+          "rhs": 139264000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 127151000000.0,
+          "rhs": 127151000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 41191000000.0,
+          "rhs": 41191000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 9041760000.0,
+          "rhs": 9033000000.0,
+          "gap_pct": 0.1,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 4279000000.0,
+          "rhs": 127151000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 4279000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 1651000000.0,
+          "tag": "yahoo:Other Short Term Investments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "NVDA": {
@@ -1066,6 +4168,162 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 65728000000.0,
+          "rhs": 65728000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 44301000000.0,
+          "rhs": 44301000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 29678600000.0,
+          "rhs": 29760000000.0,
+          "gap_pct": 0.27,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 7280000000.0,
+          "rhs": 65728000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 111601000000.0,
+          "rhs": 111601000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 97858000000.0,
+          "rhs": 97858000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 72923760000.0,
+          "rhs": 72880000000.0,
+          "gap_pct": 0.06,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 8589000000.0,
+          "rhs": 111601000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2026",
+          "lhs": 206803000000.0,
+          "rhs": 206803000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2026",
+          "lhs": 153463000000.0,
+          "rhs": 153463000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2026",
+          "lhs": 120118600000.00002,
+          "rhs": 120067000000.0,
+          "gap_pct": 0.04,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2026",
+          "lhs": 10605000000.0,
+          "rhs": 206803000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2026",
+          "value": 7469000000.0,
+          "tag": "LongTermDebtNoncurrent",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2026",
+          "value": 999000000.0,
+          "tag": "DebtCurrent",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2026",
+          "value": 10605000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2026",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2026",
+          "value": 51951000000.0,
+          "tag": "nvda:MarketableSecuritiesAndEquitySecuritiesFVNI",
+          "last_filed_year": "2026",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "RACE": {
@@ -1144,6 +4402,72 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 1121981000.0,
+          "rhs": 8051312000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 1742214000.0,
+          "rhs": 9497146000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 1467711000.0,
+          "rhs": 9628352000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 1467711000.0,
+          "tag": "CashAndCashEquivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "RHM.DE": {
@@ -1160,6 +4484,162 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 11707000000.0,
+          "rhs": 11707000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 3937000000.0,
+          "rhs": 3937000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 559323800.0,
+          "rhs": 535000000.0,
+          "gap_pct": 4.55,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 850000000.0,
+          "rhs": 11707000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 14344000000.0,
+          "rhs": 14344000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 4154000000.0,
+          "rhs": 4154000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 744693600.0,
+          "rhs": 717000000.0,
+          "gap_pct": 3.86,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 1184000000.0,
+          "rhs": 14344000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 16772000000.0,
+          "rhs": 16772000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 5204000000.0,
+          "rhs": 5204000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 707365600.0,
+          "rhs": 696000000.0,
+          "gap_pct": 1.63,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 1650000000.0,
+          "rhs": 16772000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 902000000.0,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 74000000.0,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 1650000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 41000000.0,
+          "tag": "yahoo:Other Short Term Investments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "RMS.PA": {
@@ -1239,6 +4719,102 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 9707000000.0,
+          "rhs": 9708000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 10625000000.0,
+          "rhs": 20447000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 10659000000.0,
+          "rhs": 10660000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 11642000000.0,
+          "rhs": 23084000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 11379000000.0,
+          "rhs": 11379000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 12239000000.0,
+          "rhs": 24322000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 34000000.0,
+          "tag": "LongtermBorrowings",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "CurrentBorrowingsAndCurrentPortionOfNoncurrentBorrowings",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 12239000000.0,
+          "tag": "CashAndCashEquivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "ROP.SW": {
@@ -1255,6 +4831,162 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 90468000000.0,
+          "rhs": 90468000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 44084000000.0,
+          "rhs": 44084000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 11505240000.0,
+          "rhs": 11498000000.0,
+          "gap_pct": 0.06,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 5376000000.0,
+          "rhs": 90468000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 101801000000.0,
+          "rhs": 101801000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 46112000000.0,
+          "rhs": 46112000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 8268620000.0,
+          "rhs": 8277000000.0,
+          "gap_pct": 0.1,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 6975000000.0,
+          "rhs": 101801000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 100703000000.0,
+          "rhs": 100703000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 46711000000.0,
+          "rhs": 46711000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 12880120000.0,
+          "rhs": 12880000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 5582000000.0,
+          "rhs": 100703000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 27430000000.0,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 4206000000.0,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 5582000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 9894000000.0,
+          "tag": "yahoo:Other Short Term Investments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "SAF.PA": {
@@ -1271,7 +5003,170 @@
       "cross_checked": [],
       "checks": [],
       "secondary_source": true,
-      "issues": []
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 50468000000.0,
+          "rhs": 50468000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 11059000000.0,
+          "rhs": 11059000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 2027455736.7,
+          "rhs": 3444000000.0,
+          "gap_pct": 41.13,
+          "tolerance_pct": 5.0,
+          "status": "gap",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 6676000000.0,
+          "rhs": 50468000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 55012000000.0,
+          "rhs": 55012000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 13271000000.0,
+          "rhs": 13271000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": -673155764.8000001,
+          "rhs": -667000000.0,
+          "gap_pct": 0.92,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 6514000000.0,
+          "rhs": 55012000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 61814000000.0,
+          "rhs": 61814000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 14634000000.0,
+          "rhs": 14634000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 7175052586.620001,
+          "rhs": 7177000000.0,
+          "gap_pct": 0.03,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 6789000000.0,
+          "rhs": 61814000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 2073000000.0,
+          "tag": "yahoo:Long Term Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 2469000000.0,
+          "tag": "yahoo:Current Debt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 6789000000.0,
+          "tag": "yahoo:Cash And Cash Equivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 115000000.0,
+          "tag": "yahoo:Other Short Term Investments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
+      "issues": [
+        {
+          "type": "coherence_gap",
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "gap_pct": 41.13
+        }
+      ]
     },
     "TSLA": {
       "source": "SEC EDGAR 10-K",
@@ -1349,6 +5244,162 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 106376000000.0,
+          "rhs": 106618000000.0,
+          "gap_pct": 0.23,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 17660000000.0,
+          "rhs": 17660000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 14985500000.0,
+          "rhs": 14997000000.0,
+          "gap_pct": 0.08,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 16398000000.0,
+          "rhs": 106618000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 122007000000.0,
+          "rhs": 122070000000.0,
+          "gap_pct": 0.05,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 17450000000.0,
+          "rhs": 17450000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 7135920000.0,
+          "rhs": 7091000000.0,
+          "gap_pct": 0.63,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 16139000000.0,
+          "rhs": 122070000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 137748000000.0,
+          "rhs": 137806000000.0,
+          "gap_pct": 0.04,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 17094000000.0,
+          "rhs": 17094000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 3810240000.0000005,
+          "rhs": 3794000000.0,
+          "gap_pct": 0.43,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 16513000000.0,
+          "rhs": 137806000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 6584000000.0,
+          "tag": "LongTermDebt",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 1569000000.0,
+          "tag": "DebtCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 16513000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": 27546000000.0,
+          "tag": "ShortTermInvestments",
+          "last_filed_year": "2025",
+          "status": "ok"
+        }
+      ],
       "issues": []
     },
     "TSM": {
@@ -1428,6 +5479,132 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 5532196600000.0,
+          "rhs": 5532196600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2023",
+          "lhs": 1175110600000.0,
+          "rhs": 1175110600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 1465427800000.0,
+          "rhs": 5532196600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 6691764700000.0,
+          "rhs": 6691764700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2024",
+          "lhs": 1624353600000.0,
+          "rhs": 1624353600000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 2127627000000.0,
+          "rhs": 6691764700000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 7932842500000.0,
+          "rhs": 7932842500000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "gross profit = revenue − cost of revenue",
+          "year": "2025",
+          "lhs": 2281294000000.0,
+          "rhs": 2281294000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 2.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 2767856400000.0,
+          "rhs": 7932842500000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 39834500000.0,
+          "tag": "LongtermBorrowings",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 136925700000.0,
+          "tag": "CurrentPortionOfLongtermBorrowings",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 2767856400000.0,
+          "tag": "CashAndCashEquivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": null,
+          "status": "never_filed"
+        }
+      ],
       "issues": []
     },
     "XOM": {
@@ -1506,6 +5683,102 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 376317000000.0,
+          "rhs": 376317000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 31539000000.0,
+          "rhs": 376317000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 453475000000.0,
+          "rhs": 453475000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 23029000000.0,
+          "rhs": 453475000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 448980000000.0,
+          "rhs": 448980000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 10681000000.0,
+          "rhs": 448980000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 34241000000.0,
+          "tag": "LongTermDebtAndCapitalLeaseObligations",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 9296000000.0,
+          "tag": "DebtCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 10681000000.0,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": "2010",
+          "status": "discontinued"
+        }
+      ],
       "issues": []
     },
     "ZTS": {
@@ -1584,19 +5857,148 @@
         }
       ],
       "secondary_source": false,
+      "coherence": [
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2023",
+          "lhs": 14286000000.0,
+          "rhs": 14286000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2023",
+          "lhs": 2343703830.0,
+          "rhs": 2344000000.0,
+          "gap_pct": 0.01,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2023",
+          "lhs": 2041000000.0,
+          "rhs": 14286000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2024",
+          "lhs": 14237000000.0,
+          "rhs": 14237000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2024",
+          "lhs": 2488018560.0,
+          "rhs": 2486000000.0,
+          "gap_pct": 0.08,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2024",
+          "lhs": 1987000000.0,
+          "rhs": 14237000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "assets = liabilities + equity",
+          "year": "2025",
+          "lhs": 15467000000.0,
+          "rhs": 15467000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 10.0,
+          "status": "ok",
+          "note": "gap up to the tolerance = minority interests and mezzanine items"
+        },
+        {
+          "check": "net income ≈ diluted EPS × diluted shares",
+          "year": "2025",
+          "lhs": 2671886700.0,
+          "rhs": 2673000000.0,
+          "gap_pct": 0.04,
+          "tolerance_pct": 5.0,
+          "status": "ok",
+          "note": ""
+        },
+        {
+          "check": "cash ≤ current assets ≤ total assets",
+          "year": "2025",
+          "lhs": 2312000000.0,
+          "rhs": 15467000000.0,
+          "gap_pct": 0.0,
+          "tolerance_pct": 0.0,
+          "status": "ok",
+          "note": ""
+        }
+      ],
+      "net_debt_audit": [
+        {
+          "component": "lt_debt",
+          "fiscal_year": "2025",
+          "value": 9042000000.0,
+          "tag": "LongTermDebtNoncurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_debt",
+          "fiscal_year": "2025",
+          "value": 0.0,
+          "tag": "CommercialPaper+LongTermDebtCurrent",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "cash",
+          "fiscal_year": "2025",
+          "value": 2312000000.0,
+          "tag": "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+          "last_filed_year": "2025",
+          "status": "ok"
+        },
+        {
+          "component": "st_investments",
+          "fiscal_year": "2025",
+          "value": null,
+          "tag": "",
+          "last_filed_year": "2019",
+          "status": "discontinued"
+        }
+      ],
       "issues": []
     }
   },
   "pipeline_failures": {},
   "summary": {
     "n_tickers": 29,
-    "n_cross_checks": 72,
+    "n_cross_checks": 80,
     "n_issues": 0,
     "n_cross_source_gaps": 0,
     "n_nd_regressions": 0,
     "n_stale": 0,
     "n_pipeline_failures": 0,
     "n_secondary_source": 11,
+    "n_coherence_checks": 300,
+    "n_coherence_gaps": 1,
+    "n_net_debt_tag_gaps": 0,
     "note": "n_issues compte les anomalies à corriger (écarts de sources, régressions N/D, échecs) ; la fraîcheur est informative (dépend de la date de publication)."
   }
 }

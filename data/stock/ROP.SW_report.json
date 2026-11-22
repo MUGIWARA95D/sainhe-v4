@@ -1,39 +1,39 @@
 {
   "ticker": "ROP.SW",
   "cik": 0,
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 396.8,
     "EPV": {
-      "epv_ev": 463128569120.7371,
-      "epv_equity": 446968569120.7371,
-      "epv_per_share": 556.623374,
+      "epv_ev": 419401480362.0374,
+      "epv_equity": 403241480362.0374,
+      "epv_per_share": 502.168718,
       "inputs": {
         "ebit_adj": 18476000000.0,
         "tax": 0.187003,
-        "wacc": 0.032434,
+        "wacc": 0.035815,
         "net_debt": 16160000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 501.945243,
-      "high": 628.832681,
+      "low": 452.839767,
+      "high": 567.313763,
       "fcf_p25": 11016000000.0,
       "fcf_p75": 13800750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 813.714286,
-      "central": 556.623374,
-      "plus_100bps": 420.705687
+      "minus_100bps": 704.489013,
+      "central": 502.168718,
+      "plus_100bps": 388.168646
     },
     "RE_valuation": {
-      "re_value_equity": 460379738427.804,
-      "re_value_per_share": 573.324705,
+      "re_value_equity": 405021732893.44934,
+      "re_value_per_share": 504.38572,
       "inputs": {
         "B0": 33802000000.0,
-        "RE": 11790916461.0,
-        "ke": 0.032219,
+        "RE": 11665264388.229439,
+        "ke": 0.035937,
         "g": 0.0051,
         "g_sgr": 0.048016,
         "g_cap": 0.0051
@@ -50,12 +50,12 @@
       "dispersion": 0.628466
     },
     "reverse_dcf": {
-      "implied_g": -0.003912,
+      "implied_g": -0.00065,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 334790400000.0,
         "fcf_adj": 12216000000.0,
-        "wacc": 0.032434,
+        "wacc": 0.035815,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        345.87,
-        356.9,
-        368.87,
-        381.92,
-        396.19
+        310.1,
+        318.66,
+        327.87,
+        337.81,
+        348.58
       ],
       [
-        410.21,
-        423.57,
-        438.08,
-        453.89,
-        471.19
+        367.78,
+        378.18,
+        389.38,
+        401.46,
+        414.55
       ],
       [
-        543.19,
-        561.38,
-        581.13,
-        602.65,
-        626.2
+        487.0,
+        501.21,
+        516.51,
+        533.02,
+        550.89
       ],
       [
-        564.04,
-        582.98,
-        603.55,
-        625.97,
-        650.5
+        505.69,
+        520.5,
+        536.44,
+        553.64,
+        572.27
       ],
       [
-        597.13,
-        617.27,
-        639.15,
-        662.99,
-        689.07
+        535.36,
+        551.11,
+        568.07,
+        586.38,
+        606.19
       ]
     ]
   },
@@ -236,8 +236,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.032434,
-      "ke": 0.032219,
+      "wacc": 0.035815,
+      "ke": 0.035937,
       "kd": 0.042546,
       "tax_rate": 0.187003,
       "E": 318630400000.0,
@@ -248,9 +248,10 @@
       "rf_proxy": false,
       "rf_proxy_reason": "N/D",
       "erp": 0.05,
-      "beta": 0.54239,
-      "beta_raw": 0.317,
-      "mode": "complet"
+      "beta": 0.616736,
+      "beta_raw": 0.427964,
+      "mode": "complet",
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -457,6 +458,12 @@
         "2023": 29315000000.0,
         "2024": 31767000000.0,
         "2025": 33802000000.0
+      },
+      "minority_interest": {
+        "2022": 4023000000.0,
+        "2023": 3948000000.0,
+        "2024": 4394000000.0,
+        "2025": 4078000000.0
       },
       "retained_earnings": {
         "2022": 38937000000.0,
@@ -783,6 +790,16 @@
         "accession": "YAHOO|ROP.SW",
         "filing_form": "Yahoo",
         "xbrl_tag": "yahoo:Stockholders Equity",
+        "unit": "CHF",
+        "edgar_filing_url": "https://finance.yahoo.com/quote/ROP.SW/financials"
+      },
+      "minority_interest": {
+        "value": 4078000000.0,
+        "fiscal_year": 2025,
+        "end_date": "2025-12-31",
+        "accession": "YAHOO|ROP.SW",
+        "filing_form": "Yahoo",
+        "xbrl_tag": "yahoo:Minority Interest",
         "unit": "CHF",
         "edgar_filing_url": "https://finance.yahoo.com/quote/ROP.SW/financials"
       },

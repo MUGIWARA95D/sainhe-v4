@@ -72,6 +72,7 @@ TAG_MAP: dict[str, list[str]] = {
                "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
     # Capitaux propres totaux (avec minoritaires) : sert à dériver le passif total s'il manque
     "_equity_total": ["StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
+    "minority_interest": ["MinorityInterest"],
     "retained_earnings": ["RetainedEarningsAccumulatedDeficit"],
     # ---------------- CASH FLOW
     "ocf": ["NetCashProvidedByUsedInOperatingActivities",
@@ -139,6 +140,7 @@ IFRS_TAG_MAP: dict[str, list[str]] = {
     "total_liabilities": ["Liabilities"],
     "equity": ["EquityAttributableToOwnersOfParent", "Equity"],
     "_equity_total": ["Equity"],
+    "minority_interest": ["NoncontrollingInterests"],
     "retained_earnings": ["RetainedEarnings"],
     # ---------------- CASH FLOW
     "ocf": ["CashFlowsFromUsedInOperatingActivities"],
