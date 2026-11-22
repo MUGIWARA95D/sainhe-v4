@@ -1465,7 +1465,7 @@ function buildLab(){
   el.innerHTML = '<div class="sa-lab-grid">' +
     '<div class="sa-lab-l"><div class="sa-lab-li"><div class="sa-alloc" id="sa-alloc" aria-live="polite"></div><div class="sa-rows" id="sa-rows">' + rows + '</div>' +
       '<p class="sa-note sa-lab-foot">Each slider is a share of the portfolio. While the total is not 100%, the figures spread the gap in proportion to the weights you set. <strong>Selection bias:</strong> these companies are on the list today, partly because they did well; replaying the last five years of a list chosen now flatters it. ⇄ swaps a holding for its largest listed rival on one common market (editorial pairing).' +
-      (nonCo.length ? ' ' + esc(andList(nonCo)) + (nonCo.length > 1 ? ' have' : ' has') + ' no company accounts, so ' + (nonCo.length > 1 ? 'they appear' : 'it appears') + ' here but not in the Quality × Price map.' : '') +
+      (nonCo.length ? ' ' + esc(andList(nonCo)) + (nonCo.length > 1 ? ' have' : ' has') + ' no machine-readable company accounts, so ' + (nonCo.length > 1 ? 'they appear' : 'it appears') + ' here but not in the Quality × Price map.' : '') +
       (excl ? ' Not in the Lab (price history too short or no live quote): ' + excl + '.' : '') +
       (rub.length ? ' ' + esc(andList(rub)) + ': Moscow Exchange prices in roubles, price only (dividends not included).' : '') + '</p></div></div>' +
     '<div class="sa-lab-r sa-body">' +
