@@ -145,12 +145,18 @@ YAHOO_STATEMENTS_TICKERS = {
 CUSTOM_XBRL_TAGS = {"DE": {"lt_debt": ["LongTermDebtAndFinanceLeasesNoncurrent"]},
                     # NVIDIA, exercice 2026 : placements CT passés sur un élément propre (51,95 Md USD ;
                     # contrôle : même ligne que MarketableSecuritiesCurrent 2025, 34,62 Md USD)
-                    "NVDA": {"st_investments": ["MarketableSecuritiesAndEquitySecuritiesFVNI"]}}
+                    "NVDA": {"st_investments": ["MarketableSecuritiesAndEquitySecuritiesFVNI"],
+                             # exercices ≤ 2021 : capex publié sous un élément propre (« Purchases
+                             # related to property and equipment and intangible assets ») ; us-gaap
+                             # PaymentsToAcquireProductiveAssets seulement depuis l'exercice 2022
+                             "capex": ["PurchasesOfPropertyAndEquipmentAndIntangibleAssets",
+                                       "PurchasesRelatedToPropertyAndEquipmentAndIntangibleAssets"]}}
 # Audit hebdomadaire des tags de dette nette (coherence.net_debt_tag_audit) : une composante publiée
 # il y a au plus NET_DEBT_TAG_GAP_YEARS exercices mais pas le dernier = migration de tag probable
 # (alerte) ; plus ancienne = la société a cessé d'en publier (pas d'alerte).
 NET_DEBT_TAG_GAP_YEARS = 2
 CUSTOM_XBRL_FILINGS = 4          # nombre de rapports annuels lus (historique ROIC)
+CUSTOM_XBRL_FILINGS_BY_TICKER = {"NVDA": 8}   # dix exercices de FCF (chaque 10-K porte trois exercices)
 # DCF inverse : FCF du dernier exercice ≤ 0 → médiane des FCF_YEARS derniers exercices si elle est
 # positive (base signalée « median_5y »), sinon N/D. Évite qu'une année d'investissement massif ou
 # de BFR rende la croissance implicite N/D pour une société durablement génératrice de cash.

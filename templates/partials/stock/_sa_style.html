@@ -132,6 +132,26 @@
 .sa-curline .sa-co{display:block;margin:1px 0 0}
 #sa-drawer .sa-curline{margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid var(--border-lt)}
 .sa-caveat{font-style:italic}
+/* fold: a thin rule with a chevron — notes, sources and methods stay one click away */
+.sa-fold{padding:0 28px;margin:2px 0}
+.sa-fold.sa-fold-in,.sa-body .sa-fold{padding:0}
+.sa-fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;min-height:44px;color:var(--muted)}
+.sa-fold>summary::-webkit-details-marker{display:none}
+.sa-fold>summary::before,.sa-fold>summary::after{content:"";flex:1;height:1px;background:var(--border-lt)}
+.sa-fold-v{width:9px;height:9px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s ease}
+.sa-fold[open]>summary .sa-fold-v{transform:translateY(2px) rotate(-135deg)}
+.sa-fold>summary:hover{color:var(--gold)}
+.sa-fold>summary:focus-visible{outline:2px solid var(--gold);outline-offset:-2px;border-radius:6px}
+.sa-fold-b{padding:2px 0 14px}
+.sa-fold-b .sa-rfleg,.sa-fold-b .sa-unplaced{padding-left:0;padding-right:0}
+@supports (interpolate-size:allow-keywords){
+  .sa-fold{interpolate-size:allow-keywords}
+  .sa-fold::details-content{block-size:0;overflow:hidden;transition:block-size .24s ease,content-visibility .24s allow-discrete}
+  .sa-fold[open]::details-content{block-size:auto}
+}
+@media (prefers-reduced-motion:reduce){.sa-fold-v{transition:none}.sa-fold::details-content{transition:none!important}}
+.sa .sa-legend i.sa-lg-rf{width:0;height:12px;border-left:1.5px dashed var(--muted);background:none;margin-right:7px}
+@media(max-width:700px){.sa-fold{padding:0 16px}.sa-fold.sa-fold-in,.sa-body .sa-fold{padding:0}}
 .sa-mnotes{margin-top:18px;border-top:1px solid var(--border-lt);padding:0}
 .sa-mnotes em{font-style:normal;font-family:'SF Mono',Consolas,monospace;font-size:11px;color:var(--h)}
 .sa-curve{position:relative;height:230px;margin-top:10px}

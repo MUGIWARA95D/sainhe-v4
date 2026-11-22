@@ -1119,8 +1119,9 @@ function initSim(rep, cur){
       '<input type="range" class="sa-range" id="sim-w" step="0.1"></div>' +
     '<div class="sa-view" id="sim-view" role="status"></div>' +
     '<div class="sa-curve"><canvas id="sim-curve" role="img" aria-label="Value per share for each growth rate at your discount rate, against the price"></canvas></div>' +
+    '<details class="sa-fold sa-fold-in"><summary aria-label="Notes on the simulator"><span class="sa-fold-v" aria-hidden="true"></span><span class="sa-sr">Notes on the simulator</span></summary><div class="sa-fold-b">' +
     '<p class="sa-note sa-imposs">Above the ' + esc(S.rfCur) + ' risk-free rate (' + esc(pct(S.rf)) + ', the market\'s proxy for long-run nominal growth in that currency) a perpetual rate is not literally possible — read it as relative intensity, not a forecast. The shaded zone marks it; you can still go there.</p>' +
-    '<p class="sa-note" id="sim-foot"></p>';
+    '<p class="sa-note" id="sim-foot"></p></div></details>';
   const gR = $('#sim-g'), wR = $('#sim-w'), nR = $('#sim-n'), tR = $('#sim-gt');
   wR.min = 3; wR.max = Math.max(16, Math.ceil(S.wacc * 100 + 3)); wR.value = (sim.w * 100).toFixed(1);
   tR.value = (sim.gT * 100).toFixed(1);
@@ -1420,7 +1421,7 @@ function buildLab(){
       '<div class="sa-h3"><span id="sa-lab-h">Five years, measured in <span id="sa-lab-cur">—</span></span><em id="sa-lab-period">—</em></div>' +
       '<p class="sa-note sa-fitnote" id="sa-fit-note" hidden></p>' +
       '<div class="sa-metrics" id="sa-metrics"></div>' +
-      '<p class="sa-note" id="sa-lab-fx" style="margin-top:8px"></p>' +
+      '<details class="sa-fold sa-fold-in"><summary aria-label="Exchange rates used"><span class="sa-fold-v" aria-hidden="true"></span><span class="sa-sr">Exchange rates used</span></summary><div class="sa-fold-b"><p class="sa-note" id="sa-lab-fx"></p></div></details>' +
       '<p class="sa-note" id="sa-opt-note" style="margin-top:10px"></p>' +
       '<div class="sa-h3">Growth of 100<em id="sa-growth-em">your allocation · equal weight · MSCI ACWI</em></div>' +
       '<div class="sa-growth"><canvas id="sa-growth" role="img" aria-label="Growth of 100 over five years for your allocation, equal weight and MSCI ACWI"></canvas></div>' +

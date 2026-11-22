@@ -16,8 +16,8 @@
     <div class="bib-wrap">
       <button class="box-info-btn" aria-label="About this section">i</button>
       <div class="box-info-pop">
-        <p class="bip-desc">Each company sits where its price meets its record. Horizontal: the perpetual free-cash-flow growth the price implies (reverse DCF). Vertical: the share of years in which return on invested capital beat the cost of capital. Drag to select, click for the inputs behind each number. Nothing here is a forecast.</p>
-        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+        <p class="bip-desc">Each company sits where its price meets its record: across, the growth the price assumes; up, how often returns beat the cost of capital. Click a point for every input behind it. Nothing here is a forecast.</p>
+        <a class="bip-link" href="/learn.html#lrn-sa-map">Read more →</a>
       </div>
     </div>
     <div class="section-lbl" id="nav-sa-map">
@@ -77,15 +77,13 @@
         <span><i class="sa-lg-h"></i>Hollow = accounts older than 15 months</span>
         <span><i class="sa-lg-n1"></i><i class="sa-lg-n2"></i>Marker size = fiscal years measured (a 4/4 record is drawn smaller than 10/10)</span>
         <span id="sa-lg-ghost" hidden>Outline + line = base case before the WACC shift</span>
-        <span>Dashed vertical lines = risk-free rate of each currency (listed below the map) · drag on the map (or use “Select an area” on touch screens) to select · click a point for its audit trail</span>
+        <span><i class="sa-lg-rf"></i>Risk-free rate of each currency</span>
       </div>
-      <div class="sa-rfleg" id="sa-axis-note"></div>
-      <div class="sa-rfleg" id="sa-rfleg"></div>
       <div class="sa-brushbar" id="sa-brushbar" hidden role="status">
         <span id="sa-brush-txt"></span>
         <button class="sa-btn" id="sa-brush-clear">Clear selection</button>
       </div>
-      <div class="sa-unplaced" id="sa-unplaced"></div>
+      <details class="sa-fold"><summary aria-label="Notes on the map: how to use it, risk-free rates, companies not placed"><span class="sa-fold-v" aria-hidden="true"></span><span class="sa-sr">Notes on the map: how to use it, risk-free rates, companies not placed</span></summary><div class="sa-fold-b"><p class="sa-rfleg">Drag on the map (or use “Select an area” on touch screens) to select · click a point for its audit trail.</p><div class="sa-rfleg" id="sa-rfleg"></div><div class="sa-rfleg" id="sa-axis-note"></div><div class="sa-unplaced" id="sa-unplaced"></div></div></details>
     </div>
 
     <div class="card" id="sa-tbl-card">
@@ -112,8 +110,8 @@
         </table>
       </div>
       <div class="sa-compare" id="sa-compare" hidden></div>
-      <details class="sa-details" id="sa-method-note">
-        <summary>Method notes — read before comparing two rows</summary>
+      <details class="sa-fold" id="sa-method-note">
+        <summary aria-label="Method notes — read before comparing two rows"><span class="sa-fold-v" aria-hidden="true"></span><span class="sa-sr">Method notes — read before comparing two rows</span></summary>
         <div class="sa-details-b">
           <div>
             <h4>Return on invested capital</h4>
@@ -143,8 +141,8 @@
     <div class="bib-wrap">
       <button class="box-info-btn" aria-label="About this section">i</button>
       <div class="box-info-pop">
-        <p class="bip-desc">Move the growth and discount-rate sliders to see what the price requires. Every underlined number opens its source: formula, inputs, XBRL tag and the filing it comes from.</p>
-        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+        <p class="bip-desc">One company in depth. Set the growth you believe to see your gap with the price; every underlined number opens its formula, its inputs and the filing.</p>
+        <a class="bip-link" href="/learn.html#lrn-sa-file">Read more →</a>
       </div>
     </div>
     <div class="section-lbl" id="nav-sa-file">
@@ -180,7 +178,7 @@
           <span class="card-t">Ten years of accounts</span>
           <span class="badge badge-gold" id="sa-trend-cur">—</span>
         </div>
-        <div class="sa-body"><div class="sa-trends" id="sa-trends"></div><p class="sa-note" id="sa-trend-note" style="margin-top:12px"></p></div>
+        <div class="sa-body"><div class="sa-trends" id="sa-trends"></div><details class="sa-fold"><summary aria-label="Notes on the ten-year series"><span class="sa-fold-v" aria-hidden="true"></span><span class="sa-sr">Notes on the ten-year series</span></summary><div class="sa-fold-b"><p class="sa-note" id="sa-trend-note"></p></div></details></div>
       </div>
     </div>
   </div>
@@ -190,8 +188,8 @@
     <div class="bib-wrap">
       <button class="box-info-btn" aria-label="About this section">i</button>
       <div class="box-info-pop">
-        <p class="bip-desc">Re-weight the SAINHE watchlist, swap any holding for its closest listed rival and change the currency you measure in. Everything is recomputed in your browser from five years of daily prices. History, not a forecast.</p>
-        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+        <p class="bip-desc">Weight the watchlist, swap a holding for its rival, measure in your currency. Recomputed in your browser from five years of daily prices. History, not a forecast.</p>
+        <a class="bip-link" href="/learn.html#lrn-sa-lab">Read more →</a>
       </div>
     </div>
     <div class="section-lbl" id="nav-sa-lab">
@@ -229,8 +227,8 @@
     <div class="bib-wrap">
       <button class="box-info-btn" aria-label="About this section">i</button>
       <div class="box-info-pop">
-        <p class="bip-desc">The allocation you built in the Lab, replayed 2,000 times by reshuffling its own past daily returns in one-month blocks. It shows how wide the range of outcomes is, and how deep the falls along the way can be — not what will happen.</p>
-        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+        <p class="bip-desc">Your allocation replayed 2,000 times from its own history, raw and with crash-sized days added to the tail. How wide the outcomes are and how deep the falls — not what will happen.</p>
+        <a class="bip-link" href="/learn.html#lrn-sa-mc">Read more →</a>
       </div>
     </div>
     <div class="section-lbl" id="nav-sa-mc">
@@ -256,7 +254,7 @@
         <p class="sa-lede" id="sa-mc-lede"><span class="sa-loading">Loading five years of prices…</span></p>
         <div class="sa-metrics" id="sa-mc-tiles" style="margin-top:16px"></div>
         <div class="sa-growth" style="height:320px;margin-top:18px"><canvas id="sa-mc" role="img" aria-label="Range of simulated values over the horizon: median path, middle half and 90% of paths, with the MSCI ACWI median for comparison. The figures are given above."></canvas></div>
-        <p class="sa-note" id="sa-mc-note" style="margin-top:12px"></p>
+        <details class="sa-fold"><summary aria-label="Method: stationary block bootstrap and tail adjustment"><span class="sa-fold-v" aria-hidden="true"></span><span class="sa-sr">Method: stationary block bootstrap and tail adjustment</span></summary><div class="sa-fold-b"><p class="sa-note" id="sa-mc-note"></p></div></details>
       </div>
     </div>
   </div>
@@ -266,8 +264,8 @@
     <div class="bib-wrap">
       <button class="box-info-btn" aria-label="About this section">i</button>
       <div class="box-info-pop">
-        <p class="bip-desc">The allocation you built in the Lab, replayed through four historical stress windows, in the currency you chose. Holdings that were not listed yet are left out and the remaining weights are rescaled — the coverage is shown for every crisis. Not the history of your portfolio.</p>
-        <a class="bip-link" href="/learn.html#learn-stockanalysis">Read more →</a>
+        <p class="bip-desc">Today's companies through 2000–02, 2008–09, 2020 and 2022 — only those listed at the time, coverage shown. Not the history of your portfolio.</p>
+        <a class="bip-link" href="/learn.html#lrn-sa-crisis">Read more →</a>
       </div>
     </div>
     <div class="section-lbl" id="nav-sa-crisis">
@@ -303,6 +301,8 @@
     </div>
     <div class="card">
       <div class="sa-body">
+        <p class="sa-lede">Filed accounts, read as XBRL and valued in their own currency. Missing data stays N/D — nothing is imputed — and every gap found by the weekly checks is published. Every section is explained in plain language on <a href="/learn.html#lrn-sa-overview">Learn → Stock Analysis</a>.</p>
+        <details class="sa-fold sa-fold-in"><summary aria-label="Method and limits in full"><span class="sa-fold-v" aria-hidden="true"></span><span class="sa-sr">Method and limits in full</span></summary><div class="sa-fold-b">
         <div class="sa-method">
           <div>
             <h3>Where the numbers come from</h3>
@@ -337,8 +337,8 @@
             </ul>
           </div>
         </div>
-        <details class="sa-details sa-mnotes" id="sa-method-full" open>
-          <summary>Method notes, point by point</summary>
+        <div class="sa-mnotes" id="sa-method-full">
+          <h3>Point by point</h3>
           <div class="sa-details-b">
             <div>
               <h4>Three currencies, one rule</h4>
@@ -364,7 +364,8 @@
               <p class="sa-note" id="sa-mn-yf-list"><button class="sa-btn" id="sa-mn-yf-btn" type="button">List the gaps company by company</button></p>
             </div>
           </div>
-        </details>
+        </div>
+        </div></details>
         <div class="sa-disc"><strong>Informational only, not investment advice.</strong> SAINHE publishes measurements and flags computed from public filings and market prices. It does not recommend buying or selling any security, and nothing on this page is a price target or a forecast.</div>
       </div>
     </div>

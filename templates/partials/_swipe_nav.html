@@ -152,6 +152,11 @@
     if (navigating) return;
     if (targetIndex < 0 || targetIndex >= PAGES.length) return; /* elastic stop */
     if (targetIndex === currentPage) return;
+    /* A gesture never changes page under an open layer: the guided tour (its → key and the
+       swipe it invites would move both the tour and the page) or a full-screen sheet.
+       Back/forward (pushState === false) still navigates. */
+    if (pushState !== false && (document.querySelector('#onb-ov.on') ||
+        document.documentElement.classList.contains('sa-sheet-open'))) return;
     navigating = true;
     pushState = (pushState !== false);
 
@@ -170,6 +175,7 @@
       window._sainheCleanupAnim && window._sainheCleanupAnim();
 
       if (cached && cached.dom) {
+        document.documentElement.classList.remove('sa-sheet-open');   /* its sheet is gone with the page */
         main.innerHTML = cached.dom.innerHTML;
 
         var meta = cached.meta || {};

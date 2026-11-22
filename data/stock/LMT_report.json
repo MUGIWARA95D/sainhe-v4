@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 565.5,
     "EPV": {
-      "epv_ev": 98816463165.4194,
-      "epv_equity": 81237463165.4194,
-      "epv_per_share": 347.912048,
+      "epv_ev": 98816467854.72209,
+      "epv_equity": 81237467854.72209,
+      "epv_per_share": 347.912068,
       "inputs": {
         "ebit_adj": 7797000000.0,
         "tax": 0.15282,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 250.33178,
-      "high": 331.79135,
+      "low": 250.331794,
+      "high": 331.791369,
       "fcf_p25": 4751750000.0,
       "fcf_p75": 6298000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 422.358546,
-      "central": 347.912048,
-      "plus_100bps": 292.841112
+      "minus_100bps": 422.358573,
+      "central": 347.912068,
+      "plus_100bps": 292.841127
     },
     "RE_valuation": {
-      "re_value_equity": 76674571748.5739,
-      "re_value_per_share": 328.370757,
+      "re_value_equity": 76674576130.37558,
+      "re_value_per_share": 328.370776,
       "inputs": {
         "B0": 6721000000.0,
-        "RE": 4598020300.78097,
+        "RE": 4598020325.60465,
         "ke": 0.070658,
         "g": 0.006337,
         "g_sgr": 0.006337,
@@ -203,9 +203,9 @@
     "ocf_ni": 1.705601,
     "accruals_pct_rev": -0.04717,
     "retained_earnings_test": {
-      "ratio": 1.804006,
+      "ratio": 1.804004,
       "retained_5y": 14118000000.0,
-      "delta_mcap": 25468961676.02539,
+      "delta_mcap": 25468927349.853516,
       "passes": true,
       "window": [
         2020,
@@ -350,7 +350,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.56829,
+      "beta": 0.568289,
       "beta_raw": 0.355656,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"

@@ -186,9 +186,9 @@
     "ocf_ni": 3.113346,
     "accruals_pct_rev": -0.132866,
     "retained_earnings_test": {
-      "ratio": 0.783098,
+      "ratio": 0.783097,
       "retained_5y": 3455000000.0,
-      "delta_mcap": 2705602864.456177,
+      "delta_mcap": 2705601564.788818,
       "passes": false,
       "window": [
         2020,
@@ -321,7 +321,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.80717,
-      "beta_raw": 0.712195,
+      "beta_raw": 0.712194,
       "mode": "fallback all-equity (prix ou shares indisponible)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },

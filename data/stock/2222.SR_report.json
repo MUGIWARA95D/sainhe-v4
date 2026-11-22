@@ -4,35 +4,35 @@
   "as_of": "2026-11-22",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 26.48,
+    "prix": 26.36,
     "EPV": {
-      "epv_ev": 5801539963161.426,
-      "epv_equity": 5794196963161.426,
-      "epv_per_share": 23.954643,
+      "epv_ev": 5802360806204.209,
+      "epv_equity": 5795017806204.209,
+      "epv_per_share": 23.958037,
       "inputs": {
         "ebit_adj": 739247000000.0,
         "tax": 0.501736,
-        "wacc": 0.06349,
+        "wacc": 0.063481,
         "net_debt": 7343000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 23.934678,
-      "high": 38.331418,
+      "low": 23.938069,
+      "high": 38.336848,
       "fcf_p25": 320087000000.0,
       "fcf_p75": 512619750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 28.438651,
-      "central": 23.954643,
-      "plus_100bps": 20.690938
+      "minus_100bps": 28.443432,
+      "central": 23.958037,
+      "plus_100bps": 20.693471
     },
     "RE_valuation": {
-      "re_value_equity": 12053199540728.457,
-      "re_value_per_share": 49.830907,
+      "re_value_equity": 12053197705729.004,
+      "re_value_per_share": 49.8309,
       "inputs": {
         "B0": 1491996000000.0,
-        "RE": 250228869786.36493,
+        "RE": 250228842772.4556,
         "ke": 0.065559,
         "g": 0.045559,
         "g_sgr": 0.054099,
@@ -50,12 +50,12 @@
       "dispersion": 0.233506
     },
     "reverse_dcf": {
-      "implied_g": 0.012888,
+      "implied_g": 0.01266,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 6412378360000.0,
+        "ev": 6383352520000.0,
         "fcf_adj": 320354000000.0,
-        "wacc": 0.06349,
+        "wacc": 0.063481,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -247,11 +247,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.06349,
+      "wacc": 0.063481,
       "ke": 0.065559,
       "kd": 0.037506,
       "tax_rate": 0.501736,
-      "E": 6405035360000.0,
+      "E": 6376009520000.0,
       "D": 295714000000.0,
       "rf": 0.04912,
       "rf_source": "PROXY : riyal pegged to the dollar at 3.75 → US 10Y (sainhe macro.json us_10y)",
@@ -262,8 +262,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.433735,
-      "beta_raw": 0.154829,
+      "beta": 0.433736,
+      "beta_raw": 0.15483,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 250 weeks"
     },
@@ -886,9 +886,9 @@
     "edgar_filings_index": "https://finance.yahoo.com/quote/2222.SR/financials"
   },
   "score_composite": {
-    "value_0_100": 57.0,
+    "value_0_100": 57.3,
     "pillars": {
-      "valuation": 30.926307,
+      "valuation": 31.775695,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,
@@ -907,9 +907,9 @@
     "source": "Yahoo Finance statements (secondary) — Saudi Arabia: no public XBRL feed",
     "listing_currency": "SAR",
     "reporting_currency": "SAR",
-    "price_listing": 26.48,
-    "price_in_reporting_currency": 26.48,
-    "price_date": "2026-11-19",
+    "price_listing": 26.36,
+    "price_in_reporting_currency": 26.36,
+    "price_date": "2026-11-22",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "fiscal_year_end": "2025-12-31",

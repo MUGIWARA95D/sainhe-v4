@@ -124,7 +124,23 @@ def _add_custom_tags(client: EdgarClient, ticker: str, cik: int, cd, subs: dict,
     if not spec:
         return
     names = {n for tags in spec.values() for n in tags}
-    for f in instance.annual_filings(subs, forms, config.CUSTOM_XBRL_FILINGS):
+    n = config.CUSTOM_XBRL_FILINGS_BY_TICKER.get(ticker, config.CUSTOM_XBRL_FILINGS)
+    filings = instance.annual_filings(subs, forms, n)
+    # « recent » ne garde que ~1 000 dépôts : chez un émetteur très actif (Forms 4), les anciens
+    # rapports annuels sont dans les pages archivées de l'index des dépôts
+    for page in ((subs or {}).get("filings", {}).get("files") or [])[:3]:
+        if len(filings) >= n:
+            break
+        try:
+            older = client._get_json(f"https://data.sec.gov/submissions/{page['name']}",
+                                     f"submissions:{page['name']}", max_age_days=30)
+        except Exception as e:
+            log.warning("%s : page d'index %s illisible (%s)", ticker, page.get("name"), e)
+            break
+        seen = {f["accn"] for f in filings}
+        filings += [f for f in instance.annual_filings({"filings": {"recent": older}}, forms, n - len(filings))
+                    if f["accn"] not in seen]
+    for f in filings:
         try:
             nodash = f["accn"].replace("-", "")
             idx = client._get_json(f"https://www.sec.gov/Archives/edgar/data/{cik}/{nodash}/index.json",

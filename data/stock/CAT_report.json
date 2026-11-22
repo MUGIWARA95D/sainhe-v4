@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 510.45,
     "EPV": {
-      "epv_ev": 96212480082.99228,
-      "epv_equity": 69982480082.99228,
-      "epv_per_share": 148.173788,
+      "epv_ev": 96212503504.97433,
+      "epv_equity": 69982503504.97433,
+      "epv_per_share": 148.173838,
       "inputs": {
         "ebit_adj": 11599000000.0,
         "tax": 0.239841,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 85.792258,
-      "high": 152.86341,
+      "low": 85.792286,
+      "high": 152.863461,
       "fcf_p25": 5163500000.0,
       "fcf_p75": 9200250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 173.125517,
-      "central": 148.173788,
-      "plus_100bps": 128.131794
+      "minus_100bps": 173.12558,
+      "central": 148.173838,
+      "plus_100bps": 128.131835
     },
     "RE_valuation": {
-      "re_value_equity": 158225376717.12775,
-      "re_value_per_share": 335.010325,
+      "re_value_equity": 158225452185.05518,
+      "re_value_per_share": 335.010485,
       "inputs": {
         "B0": 21318000000.0,
-        "RE": 7268930560.304193,
+        "RE": 7268931035.893864,
         "ke": 0.091642,
         "g": 0.046521,
         "g_sgr": 0.046521,
@@ -206,7 +206,7 @@
     "retained_earnings_test": {
       "ratio": 5.85024,
       "retained_5y": 30469000000.0,
-      "delta_mcap": 178250959997.5586,
+      "delta_mcap": 178250951626.5869,
       "passes": true,
       "window": [
         2020,
@@ -388,7 +388,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 1.121948,
-      "beta_raw": 1.182013,
+      "beta_raw": 1.182012,
       "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },

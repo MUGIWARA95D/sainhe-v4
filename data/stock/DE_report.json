@@ -22,11 +22,11 @@
       "plus_100bps": "N/D"
     },
     "RE_valuation": {
-      "re_value_equity": 59992193669.856384,
-      "re_value_per_share": 220.803068,
+      "re_value_equity": 59992186472.740845,
+      "re_value_per_share": 220.803042,
       "inputs": {
         "B0": 25950000000.0,
-        "RE": 2852539590.736018,
+        "RE": 2852539329.871333,
         "ke": 0.083794,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -166,9 +166,9 @@
     "ocf_ni": 1.483788,
     "accruals_pct_rev": -0.053235,
     "retained_earnings_test": {
-      "ratio": 1.638053,
+      "ratio": 1.638054,
       "retained_5y": 28282000000.0,
-      "delta_mcap": 46327425463.86719,
+      "delta_mcap": 46327433755.493164,
       "passes": true,
       "window": [
         2020,
@@ -293,8 +293,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.914887,
-      "beta_raw": 0.872966,
+      "beta": 0.914888,
+      "beta_raw": 0.872967,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },

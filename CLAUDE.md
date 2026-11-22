@@ -129,8 +129,15 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
 - **Reste à faire** : parsing XML des Forms 4, univers de pairs SIC, TTM via 10-Q, matrice de sensibilité
   `bloc_H` dégénérée (axe g écrasé par le plafond de croissance terminale), statut FINMA avant mise en ligne.
   Reportés par l'utilisateur : avis juridique / FINMA / licence Yahoo ; prime de risque pays (CRP) ; audit
-  des autres sections ; mise en ligne seulement après revue complète de la page. Données : FCF ajusté de
-  NVIDIA N/D avant 2022 (ancrage « 5-yr FCF growth » N/D).
+  des autres sections ; mise en ligne seulement après revue complète de la page.
+- **Learn ↔ (i)** : chaque (i) pointe vers `/learn.html#lrn-{onglet}` (surligne le sujet) ou
+  `#open-lrn-{onglet}--{ligne}` (ouvre l'onglet, surligne `#lrn-row-{ligne}`). Onglets Stock Analysis :
+  `sa-overview`, `sa-map`, `sa-file`, `sa-lab`, `sa-mc`, `sa-crisis`, `sa-method`, `sa-data`. Le lien
+  profond attend la fin de l'intro (qui remet le scroll à 0) et réessaie. Page Stock Analysis : notes et
+  méthodes repliées dans `.sa-fold` (filet + chevron seul) ; légendes et mises en garde restent visibles.
+- **Navigation par balayage** bloquée pendant la visite guidée et la feuille d'audit plein écran.
+- NVIDIA : capex des exercices ≤ 2021 sous `nvda:PurchasesOfPropertyAndEquipmentAndIntangibleAssets`
+  (lu dans 8 rapports annuels, pages d'index EDGAR archivées comprises).
 - `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → exclu de Portfolio Sim (< 400 jours) ;
   pas de 10-K avant 2027 → hors couverture Stock Analysis.
 

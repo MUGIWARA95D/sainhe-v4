@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 357.77565,
     "EPV": {
-      "epv_ev": 22130524150.65336,
-      "epv_equity": 23598235150.65336,
-      "epv_per_share": 132.405079,
+      "epv_ev": 22130521997.08804,
+      "epv_equity": 23598232997.08804,
+      "epv_per_share": 132.405067,
       "inputs": {
         "ebit_adj": 2109716000.0,
         "tax": 0.224904,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 42.278906,
-      "high": 96.759476,
+      "low": 42.278902,
+      "high": 96.759467,
       "fcf_p25": 595233500.0,
       "fcf_p75": 1362251000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 151.839931,
-      "central": 132.405079,
-      "plus_100bps": 117.603619
+      "minus_100bps": 151.839915,
+      "central": 132.405067,
+      "plus_100bps": 117.603609
     },
     "RE_valuation": {
-      "re_value_equity": 21611996474.204605,
-      "re_value_per_share": 121.260683,
+      "re_value_equity": 21611994371.098236,
+      "re_value_per_share": 121.260671,
       "inputs": {
         "B0": 3906893000.0,
-        "RE": 1308237125.092531,
+        "RE": 1308237097.00032,
         "ke": 0.07389,
         "g": 0.0,
         "g_sgr": "N/D",

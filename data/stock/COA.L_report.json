@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 0.951702,
     "EPV": {
-      "epv_ev": 3237443230.705929,
-      "epv_equity": 2422743230.705929,
-      "epv_per_share": 1.375621,
+      "epv_ev": 3237442507.273652,
+      "epv_equity": 2422742507.273652,
+      "epv_per_share": 1.37562,
       "inputs": {
         "ebit_adj": 288500000.0,
         "tax": 0.321925,
@@ -23,16 +23,16 @@
       "fcf_p75": 167675000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 1.740158,
-      "central": 1.375621,
-      "plus_100bps": 1.114608
+      "minus_100bps": 1.740157,
+      "central": 1.37562,
+      "plus_100bps": 1.114607
     },
     "RE_valuation": {
-      "re_value_equity": 1284773130.012949,
+      "re_value_equity": 1284772779.856788,
       "re_value_per_share": 0.729487,
       "inputs": {
         "B0": 722500000.0,
-        "RE": 45252379.805572,
+        "RE": 45252363.95783,
         "ke": 0.080481,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -279,7 +279,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.827471,
-      "beta_raw": 0.742493,
+      "beta_raw": 0.742494,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },

@@ -22,11 +22,11 @@
       "plus_100bps": "N/D"
     },
     "RE_valuation": {
-      "re_value_equity": 52840804870.208755,
-      "re_value_per_share": 191.452192,
+      "re_value_equity": 52840811777.310715,
+      "re_value_per_share": 191.452217,
       "inputs": {
         "B0": 11178000000.0,
-        "RE": 4090243933.430882,
+        "RE": 4090244076.877792,
         "ke": 0.098175,
         "g": 0.0,
         "g_sgr": "N/D",

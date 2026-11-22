@@ -6,9 +6,9 @@
   "bloc_A_verdict": {
     "prix": 342.56,
     "EPV": {
-      "epv_ev": 1472967217877.7607,
-      "epv_equity": 1448122217877.7607,
-      "epv_per_share": 98.375823,
+      "epv_ev": 1472967175704.4885,
+      "epv_equity": 1448122175704.4885,
+      "epv_per_share": 98.37582,
       "inputs": {
         "ebit_adj": 158063000000.0,
         "tax": 0.169948,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 46.097651,
-      "high": 79.205061,
+      "low": 46.097649,
+      "high": 79.205059,
       "fcf_p25": 57292750000.0,
       "fcf_p75": 98440500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 111.03053,
-      "central": 98.375823,
-      "plus_100bps": 88.275758
+      "minus_100bps": 111.030526,
+      "central": 98.37582,
+      "plus_100bps": 88.275756
     },
     "RE_valuation": {
-      "re_value_equity": 1483907561372.3708,
-      "re_value_per_share": 100.806842,
+      "re_value_equity": 1483907518885.859,
+      "re_value_per_share": 100.806839,
       "inputs": {
         "B0": 112093000000.0,
-        "RE": 122190623169.07549,
+        "RE": 122190622883.2077,
         "ke": 0.089072,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -215,9 +215,9 @@
     "ocf_ni": 1.097764,
     "accruals_pct_rev": -0.026986,
     "retained_earnings_test": {
-      "ratio": 4.623129,
+      "ratio": 4.623128,
       "retained_5y": 458477000000.0,
-      "delta_mcap": 2119598188879.1504,
+      "delta_mcap": 2119597931540.9087,
       "passes": true,
       "window": [
         2021,
