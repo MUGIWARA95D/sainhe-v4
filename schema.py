@@ -129,7 +129,7 @@ PORTFOLIO_UNITS = {
 
 # ── Per-dataset provenance (shown in JSON envelope) ──────────────────────────
 SOURCES = {
-    "macro":     "FRED, ECB SDW, MoF Japan, ChinaBond CCDC, stooq, multpl.com, yfinance",
+    "macro":     "FRED, ECB SDW, Bundesbank, MoF Japan, ChinaBond CCDC, multpl.com, yfinance",
     "indices":   "Yahoo Finance (curl_cffi)",
     "news":      "RSS: Bloomberg, CNBC, MarketWatch, SCMP, FT",
     "sectors":   "Yahoo Finance (curl_cffi)",

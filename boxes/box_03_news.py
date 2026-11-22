@@ -44,8 +44,18 @@ def _fetch_news(con: sqlite3.Connection) -> list[dict]:
         WHERE rn <= ?
         ORDER BY region, ts_pub DESC NULLS LAST
         """,
-        (ARTICLES_PAR_REGION,),
+        (ARTICLES_PAR_REGION * 3,),          # headroom: programme blurbs are dropped below
     ).fetchall()
+
+    # rows stored before the filter existed: dropped here too, then N per region kept
+    from news_filter import is_programme_blurb
+    kept, per = [], {}
+    for r in rows:
+        if is_programme_blurb(r[2], r[4]) or per.get(r[0], 0) >= ARTICLES_PAR_REGION:
+            continue
+        per[r[0]] = per.get(r[0], 0) + 1
+        kept.append(r)
+    rows = kept
 
     return [
         {

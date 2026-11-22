@@ -167,7 +167,7 @@
     <span class="card-t">Macro-Health</span>
     <div style="display:flex;align-items:center;gap:10px">
       <span class="box-ts"><span>Updated</span> {{ ts_macro }}</span>
-      <span class="badge badge-gold">ERP · Yield Curve</span>
+      <span class="badge badge-gold">Yield gap · Yield curve</span>
     </div>
   </div>
 
@@ -319,12 +319,12 @@
       { label:"M2 YoY",    val: fmtM2(L.us_m2_yoy),  cls:m2Sig(L.us_m2_yoy),  src:"FRED M2SL"+(L.us_m2_date?" · "+asOf(L.us_m2_date):""),  learn:"m2" },
       { label:"HY Spread", val: fmtOAS(L.hy_oas_us), cls:hySig(L.hy_oas_us),  src:"ICE BofA US"+(L.hy_oas_us_date?" · "+asOf(L.hy_oas_us_date):""), learn:"hy" },
       { label:"DXY",       val: fmtDxy(M.dxy&&M.dxy.valeur), cls:dxySig(M.dxy&&M.dxy.valeur), src:"ICE Dollar Index", learn:"dxy" },
-    ], "World reserve currency & largest equity market. ERP + Yield Curve + VIX + DXY all originate here."));
+    ], "World reserve currency & largest equity market. Yield gap + Yield Curve + VIX + DXY all originate here."));
 
     // ── EUROPE ─────────────────────────────────────────────────────
     wrap.appendChild(mkRegionCard("Europe", [
-      { label:"10Y Yield", val: fmtYld(L.bund_10y),    cls:"",                    src:"€ AAA govt curve · ECB"+(L.bund_date?" · "+asOf(L.bund_date):""),      learn:"10y" },
-      { label:"Curve",     val: fmtSpr(L.bund_spread), cls:sprSig(L.bund_spread), src:"10Y−2Y · ECB",                                           learn:"curve" },
+      { label:"10Y Yield", val: fmtYld(L.bund_10y),    cls:"",                    src:"Bund · Bundesbank"+(L.bund_date?" · "+asOf(L.bund_date):""),      learn:"10y" },
+      { label:"Curve",     val: fmtSpr(L.bund_spread), cls:sprSig(L.bund_spread), src:"10Y−2Y · Bundesbank",                                           learn:"curve" },
       { label:"P/E",       val: fmtPE(L.pe_eu),        cls:peSig(L.pe_eu),        src:"VGK ETF",                                                   learn:"pe" },
       { label:"M3 YoY",    val: fmtM2(L.eu_m3_yoy),    cls:m2Sig(L.eu_m3_yoy),   src:"ECB SDW"+(L.eu_m3_date?" · "+asOf(L.eu_m3_date):""),         learn:"m2" },
       { label:"HY Spread", val: fmtOAS(L.hy_oas_eu),   cls:hySig(L.hy_oas_eu),   src:"ICE BofA EU"+(L.hy_oas_eu_date?" · "+asOf(L.hy_oas_eu_date):""), learn:"hy" },
@@ -645,10 +645,10 @@
   const erpS=erpV==null?"N/A":erpV>=0.02?(I18N.erp_attractive||"Attractive"):erpV>=0.01?(I18N.erp_neutral||"Neutral"):(I18N.erp_expensive||"Expensive");
   const erpSC=erpV==null?"":erpV>=0.02?"law-g":erpV>=0.01?"law-y":"law-r";
   const ey=erp.sp500_pe?(100/erp.sp500_pe).toFixed(2)+"%":"—";
-  addCard(I18N.erp_title||"Equity Risk Premium",erpV!=null?(erpV*100).toFixed(2)+"%":"—",erpC,
+  addCard(I18N.erp_title||"Earnings Yield Gap",erpV!=null?(erpV*100).toFixed(2)+"%":"—",erpC,
     (I18N.erp_earnings_yield||"Earnings Yield")+": "+ey+" · P/E "+(erp.sp500_pe!=null?erp.sp500_pe.toFixed(1):"—")+" · 10Y "+fmt(yc.us10y)+"%",
     null, erpSC,erpS,
-    "Damodaran CAPM: earnings yield minus risk-free rate.","erp");
+    "S&P 500 earnings yield minus the 10-year Treasury (the \u201cFed model\u201d). Not the implied ERP of Stock Analysis.","erp");
 
   // ── Yield Curve ───────────────────────────────────────────────────────────
   const ycV=yc.valeur;

@@ -60,20 +60,20 @@ def _erp_text(erp, us10y, sp500_pe):
     ey_pct  = (100.0 / sp500_pe) if sp500_pe else None
     y10_str = f"{us10y:.2f}%" if us10y is not None else "N/A"
     ey_str  = f"{ey_pct:.2f}%" if ey_pct is not None else "N/A"
+    # Earnings-yield gap ("Fed model"), not Damodaran's implied ERP: the former texts credited
+    # Damodaran and claimed a negative gap was rare (it was negative for most of 1980–2001).
     if erp < 0:
-        return (f"Negative ERP ({erp_pct:+.2f}%): risk-free rate ({y10_str}) exceeds earnings yield ({ey_str}). "
-                f"Historically rare — last observed 1997–2000 and 2006–2008 (Damodaran). "
-                f"Bonds structurally outperform equities on a risk-adjusted basis at these levels.")
+        return (f"Negative yield gap ({erp_pct:+.2f}%): the 10-year Treasury ({y10_str}) yields more than "
+                f"S&P 500 earnings ({ey_str}). Stocks then need earnings growth to beat bonds. "
+                f"The gap was negative for most of 1980–2001, when bond yields were high.")
     if erp < ERP_THRESHOLDS["expensive"]:
-        return (f"ERP at {erp_pct:.2f}% — below 1% CAPM threshold. "
-                f"Near-zero equity premium vs bonds (earnings yield {ey_str} vs 10Y {y10_str}). "
-                f"Risk-adjusted returns historically favour fixed income (Damodaran, 1960–present).")
+        return (f"Yield gap {erp_pct:.2f}%, below the 1% line: little extra yield over bonds "
+                f"(earnings yield {ey_str} vs 10Y {y10_str}). A valuation gauge, not a timing signal.")
     if erp < ERP_THRESHOLDS["attractive"]:
-        return (f"ERP at {erp_pct:.2f}% — below the 2% CAPM attractiveness threshold. "
-                f"Equity premium modest vs bonds. Balanced allocation warranted; no strong directional signal (Damodaran).")
-    return (f"ERP at {erp_pct:.2f}% — above 2% CAPM threshold. "
-            f"Earnings yield ({ey_str}) meaningfully exceeds risk-free rate ({y10_str}). "
-            f"Historically associated with above-average forward equity returns (Damodaran, 1960–present).")
+        return (f"Yield gap {erp_pct:.2f}%, between 1% and 2%: a modest cushion over bonds. "
+                f"A valuation gauge, not a timing signal.")
+    return (f"Yield gap {erp_pct:.2f}%, above 2%: earnings yield ({ey_str}) clearly above the 10-year ({y10_str}). "
+            f"A valuation gauge, not a timing signal.")
 
 
 def _yc_text(spread):

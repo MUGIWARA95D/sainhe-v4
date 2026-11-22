@@ -19,6 +19,7 @@ import feedparser
 import requests
 
 import db
+from news_filter import is_programme_blurb
 from config import (
     RSS_SOURCES,
     NEWS_RETENTION_DAYS,
@@ -119,6 +120,8 @@ def fetch_feed(source_id: int) -> list[dict]:
             # Tronque le résumé à 500 chars pour éviter de stocker du HTML long
             if len(resume) > 500:
                 resume = resume[:497] + "…"
+            if is_programme_blurb(titre, resume):
+                continue
 
             articles.append({
                 "hash"      : _md5(titre),

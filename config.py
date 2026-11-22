@@ -309,6 +309,13 @@ RSS_SOURCES = {
 }
 
 NEWS_RETENTION_DAYS  = 3     # purge auto — keep last 3 days
+# Programme blurbs, not news: Bloomberg's feed carries the summaries of its TV and radio shows
+# ("Join hosts…", "Bookmarked: …", "(Source: Bloomberg)"). Matched on title + summary, case-insensitive.
+NEWS_EXCLUDE_PATTERNS = [
+    r"\bjoin(?:ed)? (?:the )?hosts?\b", r"\(source: bloomberg\)",
+    r"\bbloomberg (?:this weekend|surveillance|daybreak|the close|businessweek daily|radio|tv)\b",
+    r"^bookmarked:", r"^by the way:", r"\bpodcast\b", r"\blive from new york\b",
+]
 LOG_RETENTION_DAYS   = 90    # logs fetch conservés N jours
 
 # Rétention des tables historiques (purgées à chaque run de calc.py)

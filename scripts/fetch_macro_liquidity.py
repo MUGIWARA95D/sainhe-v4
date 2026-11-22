@@ -378,30 +378,35 @@ def _chinabond_yield(maturity_years: int) -> dict | None:
     return None
 
 
-# ── stooq.com — free yields, no key ──────────────────────────────────────────
+# ── Bundesbank — official Bund yields, no key ──────────────────────────────────────────
 
-def _stooq_yield(symbol: str, n: int = 3) -> list[dict]:
+BUNDESBANK_URL = ("https://api.statistiken.bundesbank.de/rest/data/BBSIS/"
+                  "D.I.ZAR.ZI.EUR.S1311.B.A604.{mat}.R.A.A._Z._Z.A?lastNObservations={n}&format=csv&lang=en")
+
+
+def _bundesbank_yield(maturity: str, n: int = 3) -> list[dict]:
     """
-    Fetch daily yield from stooq.com (free, no key, no rate limit).
-    Symbols: '10dey.b' = German Bund 10Y, '2dey.b' = German Bund 2Y.
-    Returns [{date, value}] sorted newest first.
+    Daily yield of German Federal securities from the Bundesbank (official, free, no key).
+    maturity: 'R10XX' = 10 years, 'R02XX' = 2 years. Returns [{date, value}] newest first.
+    stooq.com (the former source) now answers automated requests with an HTML page: it failed
+    silently, and the euro-area AAA curve of the ECB was shown under the « Bund » label.
     """
     try:
-        url = f"https://stooq.com/q/d/l/?s={symbol}&i=d"
-        r = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+        r = requests.get(BUNDESBANK_URL.format(mat=maturity, n=n), headers=HEADERS, timeout=TIMEOUT)
         r.raise_for_status()
-        lines = [l.strip() for l in r.text.strip().split("\n") if l.strip()]
         result = []
-        for line in lines[1:]:  # skip header
+        for line in r.text.lstrip("\ufeff").splitlines():
             parts = line.split(",")
-            if len(parts) >= 5 and parts[4] not in ("", "null", "N/D"):
+            if len(parts) >= 2 and re.match(r"^\d{4}-\d{2}-\d{2}$", parts[0]) and parts[1] not in ("", "."):
                 try:
-                    result.append({"date": parts[0], "value": float(parts[4])})
+                    result.append({"date": parts[0], "value": float(parts[1])})
                 except ValueError:
                     pass
+        if not result:
+            print(f"[bundesbank] {maturity}: no observation in the answer")
         return sorted(result, key=lambda x: x["date"], reverse=True)[:n]
     except Exception as e:
-        print(f"[stooq] {symbol} error: {e}")
+        print(f"[bundesbank] {maturity} error: {e}")
         return []
 
 
@@ -637,19 +642,19 @@ def run():
         row["us_breakeven_date"] = bkeven_obs[0]["date"]
         print(f"[fred] 10Y Breakeven = {row['us_breakeven_10y']}% (as of {row['us_breakeven_date']})")
 
-    # ── 2. Bund yields — stooq.com primary (daily, no key, works everywhere) ──
-    print("[macro_liq] Fetching Bund yields (stooq.com)...")
+    # ── 2. Bund yields — Bundesbank primary (official daily series, no key) ──
+    print("[macro_liq] Fetching Bund yields (Bundesbank)...")
 
-    bund10_stooq = _stooq_yield("10dey.b", n=3)
-    if bund10_stooq:
-        row["bund_10y"]  = round(bund10_stooq[0]["value"], 3)
-        row["bund_date"] = bund10_stooq[0]["date"]
-        print(f"[stooq] Bund 10Y = {row['bund_10y']}% (as of {row['bund_date']})")
+    bund10_bbk = _bundesbank_yield("R10XX", n=3)
+    if bund10_bbk:
+        row["bund_10y"]  = round(bund10_bbk[0]["value"], 3)
+        row["bund_date"] = bund10_bbk[0]["date"]
+        print(f"[bundesbank] Bund 10Y = {row['bund_10y']}% (as of {row['bund_date']})")
 
-    bund2_stooq = _stooq_yield("2dey.b", n=3)
-    if bund2_stooq:
-        row["bund_2y"] = round(bund2_stooq[0]["value"], 3)
-        print(f"[stooq] Bund 2Y  = {row['bund_2y']}%")
+    bund2_bbk = _bundesbank_yield("R02XX", n=3)
+    if bund2_bbk:
+        row["bund_2y"] = round(bund2_bbk[0]["value"], 3)
+        print(f"[bundesbank] Bund 2Y  = {row['bund_2y']}%")
 
     # ── 3. ECB SDW — balance sheet + EU M3 (fails on restricted networks) ────
     print("[macro_liq] Fetching ECB SDW...")
@@ -671,12 +676,13 @@ def run():
             row["ecb_assets_date"]   = ecb_fred[0]["date"]
             print(f"[fred] ECB assets fallback = {row['ecb_assets_t']}T (as of {row['ecb_assets_date']})")
 
-    # Bund ECB fallback if stooq failed
+    # ECB euro-area AAA curve if the Bundesbank failed (not the Bund itself: logged)
     if row.get("bund_10y") is None:
         bund10_ecb = _ecb_obs("YC", "B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y", n=5)
         if bund10_ecb:
             row["bund_10y"]  = round(bund10_ecb[0]["value"], 3)
             row["bund_date"] = bund10_ecb[0]["date"]
+            print(f"[ecb] Bundesbank unavailable → euro-area AAA 10Y {row['bund_10y']}% used for the Bund")
     if row.get("bund_2y") is None:
         bund2_ecb = _ecb_obs("YC", "B.U2.EUR.4F.G_N_A.SV_C_YM.SR_2Y", n=5)
         if bund2_ecb:
@@ -687,7 +693,7 @@ def run():
         row["eu_m3_yoy"]  = _yoy(eu_m3_obs)
         row["eu_m3_date"] = eu_m3_obs[0]["date"]
 
-    # FRED last-resort fallback for Bund 10Y if both stooq and ECB fail (monthly)
+    # FRED last-resort fallback for Bund 10Y if both the Bundesbank and the ECB fail (monthly)
     if row.get("bund_10y") is None:
         bund10_fred = _fred_obs("IRLTLT01DEM156N", n=2)
         if bund10_fred:

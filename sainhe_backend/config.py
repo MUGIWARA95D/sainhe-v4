@@ -87,6 +87,10 @@ ESEF_ENTITIES = {
 # Ratio ADR : 1 titre coté = N actions ordinaires (les comptes XBRL sont par action ordinaire).
 # TSM : 1 ADR = 5 actions TSMC. ASML (NY registry shares) et RACE : 1 pour 1.
 ADR_RATIO = {"TSM": 5.0}
+# Cotation principale utilisée pour le PRIX de valorisation (les comptes restent ceux du 20-F).
+# L'ADR converti s'écartait de la cotation d'origine : décalage horaire (ASML −1,2 % le 20/11/2026,
+# jour de forte baisse) et prime de l'ADR (TSMC). Repli sur l'ADR si la cotation est indisponible.
+HOME_LISTING = {"ASML": "ASML.AS", "RACE": "RACE.MI", "TSM": "2330.TW"}
 
 # ════════════════════════════════════════════════════════════════
 #  PORTFOLIO SAINHE — 31 tickers exacts du dashboard (box_06_portfolio)

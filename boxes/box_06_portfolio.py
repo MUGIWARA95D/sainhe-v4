@@ -75,7 +75,10 @@ def _fetch_watchlist(con: sqlite3.Connection) -> list[dict]:
         "mfi", "obv_dir",
         "sparkline_json", "ts_update",
     ]
-    return [dict(zip(cols, r)) for r in rows]
+    # ticker_info keeps tickers removed from config.WATCHLIST (INSERT OR IGNORE): GAZP and SPACEX
+    # were still listed with no data at all. The watchlist in config.py is the only authority.
+    from config import WATCHLIST
+    return [dict(zip(cols, r)) for r in rows if r[0] in WATCHLIST]
 
 
 # ════════════════════════════════════════════════════════════

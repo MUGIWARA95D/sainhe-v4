@@ -279,7 +279,7 @@ def _beta_vs_world(ticker: str, listing_currency: str | None) -> dict | None:
         return None
 
 
-def _pricing_context(ticker: str, cd, info: dict | None) -> dict:
+def _pricing_context(ticker: str, cd, info: dict | None, adr_ratio: float | None = None) -> dict:
     """Facteur prix de cotation → prix par action ORDINAIRE dans la devise des COMPTES.
 
     Avant : le prix (USD pour ASML/TSM/RACE, pence pour COA.L) était comparé tel quel à des
@@ -289,7 +289,7 @@ def _pricing_context(ticker: str, cd, info: dict | None) -> dict:
     """
     listing = (info or {}).get("currency") or "USD"
     reporting = cd.reporting_currency() or listing
-    ratio = config.ADR_RATIO.get(ticker, 1.0)
+    ratio = config.ADR_RATIO.get(ticker, 1.0) if adr_ratio is None else adr_ratio
     unit_scale = 0.01 if listing in ("GBp", "GBX") else 1.0       # pence → livres
     base = "GBP" if listing in ("GBp", "GBX") else listing
     ctx = {"listing_currency": listing, "reporting_currency": reporting, "adr_ratio": ratio,
@@ -340,8 +340,14 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
     meta = metadata_flags(subs)
     meta["_submissions_raw"] = subs
 
-    price, info, price_history, splits = _yf_data(ticker)
-    pc = _pricing_context(ticker, cd, info)
+    # prix sur la cotation principale (ASML.AS, RACE.MI, 2330.TW) : une action ordinaire, sans ADR
+    quote = config.HOME_LISTING.get(ticker, ticker)
+    price, info, price_history, splits = _yf_data(quote)
+    if quote != ticker and price is None:
+        log.warning("%s : cotation principale %s indisponible → ADR %s", ticker, quote, ticker)
+        quote = ticker
+        price, info, price_history, splits = _yf_data(ticker)
+    pc = _pricing_context(ticker, cd, info, adr_ratio=1.0 if quote != ticker else None)
     if price is not None and pc["factor_now"] is not None and pc["factor_now"] != 1.0:
         f = pc["factor_now"]
         info = dict(info or {})
@@ -355,7 +361,7 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
                  pc["reporting_currency"], f, pc["adr_ratio"])
     listing_price = price
     # Bêta mesuré contre le MSCI World (cohérent pour une watchlist mondiale) ; Yahoo en repli signalé
-    bw = _beta_vs_world(ticker, pc["listing_currency"])
+    bw = _beta_vs_world(quote, pc["listing_currency"])
     info = dict(info or {})
     info["beta_yahoo_sp500"] = info.get("beta")
     if bw:
@@ -410,7 +416,7 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
         # date de la cotation utilisée (Yahoo regularMarketTime) — pas la date d'exécution du pipeline
         "price_date": (datetime.datetime.fromtimestamp(info["regularMarketTime"], datetime.timezone.utc).date().isoformat()
                        if isinstance((info or {}).get("regularMarketTime"), (int, float)) else None),
-        "fx_listing_to_reporting": pc["fx_now"], "adr_ratio": pc["adr_ratio"],
+        "fx_listing_to_reporting": pc["fx_now"], "adr_ratio": pc["adr_ratio"], "quote_ticker": quote,
         "fiscal_year_end": last.end if last else None,
         "months_since_fiscal_year_end": months,
         # Plan : 10-K/rapport annuel uniquement → jusqu'à ~15 mois de décalage ; au-delà, signalé.
