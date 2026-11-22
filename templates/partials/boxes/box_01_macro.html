@@ -226,7 +226,7 @@
   function fmtPE(v) { return v!=null ? "×"+v.toFixed(1) : null; }
   function fmtM2(v) { return v!=null ? (v>=0?"+":"")+v.toFixed(1)+"%" : null; }
   function fmtOAS(v){ return v!=null ? Math.round(v)+"bp" : null; }
-  function fmtT(v)  { return v!=null ? "$"+v.toFixed(2)+"T" : "—"; }
+  function fmtT(v, sym)  { return v!=null ? (sym||"$")+v.toFixed(2)+"T" : "—"; }
   function fmtB(v)  { return v!=null ? "$"+Math.round(v).toLocaleString()+"B" : "—"; }
   function fmtPct(v,dec){ dec=dec||1; return v!=null?(v>=0?"+":"")+v.toFixed(dec)+"%":"—"; }
   function fmtCu(v) { return v!=null ? "$"+v.toFixed(4)+"/lb" : null; }
@@ -323,8 +323,8 @@
 
     // ── EUROPE ─────────────────────────────────────────────────────
     wrap.appendChild(mkRegionCard("Europe", [
-      { label:"10Y Yield", val: fmtYld(L.bund_10y),    cls:"",                    src:"Bund · stooq"+(L.bund_date?" · "+asOf(L.bund_date):""),      learn:"10y" },
-      { label:"Curve",     val: fmtSpr(L.bund_spread), cls:sprSig(L.bund_spread), src:"10Y−2Y · stooq",                                           learn:"curve" },
+      { label:"10Y Yield", val: fmtYld(L.bund_10y),    cls:"",                    src:"€ AAA govt curve · ECB"+(L.bund_date?" · "+asOf(L.bund_date):""),      learn:"10y" },
+      { label:"Curve",     val: fmtSpr(L.bund_spread), cls:sprSig(L.bund_spread), src:"10Y−2Y · ECB",                                           learn:"curve" },
       { label:"P/E",       val: fmtPE(L.pe_eu),        cls:peSig(L.pe_eu),        src:"VGK ETF",                                                   learn:"pe" },
       { label:"M3 YoY",    val: fmtM2(L.eu_m3_yoy),    cls:m2Sig(L.eu_m3_yoy),   src:"ECB SDW"+(L.eu_m3_date?" · "+asOf(L.eu_m3_date):""),         learn:"m2" },
       { label:"HY Spread", val: fmtOAS(L.hy_oas_eu),   cls:hySig(L.hy_oas_eu),   src:"ICE BofA EU"+(L.hy_oas_eu_date?" · "+asOf(L.hy_oas_eu_date):""), learn:"hy" },
@@ -519,7 +519,7 @@
         "cb"),
 
       mkCard("ECB Balance Sheet",
-        fmtT(L.ecb_assets_t), wkSig(L.ecb_assets_wk_pct),
+        fmtT(L.ecb_assets_t, "€"), wkSig(L.ecb_assets_wk_pct),
         [ecbWkTxt, L.ecb_assets_date?asOf2(L.ecb_assets_date):null].filter(Boolean).join(" · ")||null,
         "cb"),
 

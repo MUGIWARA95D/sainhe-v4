@@ -77,7 +77,7 @@
         const chg = x.chg_pct || 0;
         const rv  = x.rvol;
         const c   = chg >= 0 ? "p-up" : "p-dn";
-        const s   = chg >= 0 ? "+" : "";
+        const s   = chg >= 0 ? "+" : "−";   /* the sign is written, not only coloured */
         const rvTxt = rv != null ? rv.toFixed(2) : "—";
         const rvCls = rv != null && rv > 1.2 ? "rvol-hot" : "";
 

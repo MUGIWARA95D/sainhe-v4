@@ -157,7 +157,7 @@
       } else {
         const perf = r[cP];
         const cls  = perf == null ? "p-flat" : perf > 0 ? "p-up" : perf < 0 ? "p-dn" : "p-flat";
-        const sg   = (perf != null && perf >= 0) ? "+" : "";
+        const sg   = (perf != null && perf >= 0) ? "+" : "−";
 
         const nm = document.createElement("span");
         nm.className = "sec-name"; nm.title = secName; nm.textContent = secName;
