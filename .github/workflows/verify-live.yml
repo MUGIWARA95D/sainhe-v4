@@ -1,0 +1,77 @@
+name: SAINHE — Live data check
+
+# Chaque semaine, compare ce que sainhe.com publie à ses sources (FRED, BCE, Bundesbank,
+# Damodaran, SEC, Yahoo) avec scripts/verify_live.py (code de la branche dev).
+# Né de l'audit du 22 nov. 2026 : stooq était mort en silence et le site affichait la courbe
+# AAA de la BCE sous l'étiquette « Bund ». Un écart ou une source muette → issue (GitHub
+# notifie par email) ; l'issue se ferme toute seule quand tout redevient conforme.
+#
+# Doit vivre sur main (les déclencheurs schedule ne tournent que depuis la branche par défaut).
+
+on:
+  schedule:
+    - cron: "30 7 * * 1"     # lundi 07:30 UTC (données de la clôture du vendredi)
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: verify-live
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Published values vs sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      ISSUE_TITLE: "[auto] Écart entre sainhe.com et ses sources"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Dépendances
+        run: pip install --quiet curl_cffi openpyxl
+
+      - name: Vérifier les valeurs publiées
+        id: check
+        env:
+          EDGAR_CONTACT_EMAIL: ${{ secrets.EDGAR_CONTACT_EMAIL }}
+        run: |
+          set +e
+          python scripts/verify_live.py --site https://sainhe.com --out report.md
+          code=$?
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
+          echo "failed=$([ $code -ne 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Tout est conforme — fermer l'alerte éventuelle
+        if: steps.check.outputs.failed == 'false'
+        run: |
+          set -euo pipefail
+          for n in $(gh issue list -R "$REPO" --state open --search "\"$ISSUE_TITLE\" in:title" --json number -q '.[].number'); do
+            gh issue close "$n" -R "$REPO" --comment "Toutes les valeurs vérifiées concordent de nouveau avec leurs sources. Fermeture automatique."
+          done
+
+      - name: Écart — ouvrir une alerte et échouer
+        if: steps.check.outputs.failed == 'true'
+        run: |
+          set -euo pipefail
+          open=$(gh issue list -R "$REPO" --state open --search "\"$ISSUE_TITLE\" in:title" --json number -q 'length')
+          if [ "$open" -eq 0 ]; then
+            gh issue create -R "$REPO" --title "$ISSUE_TITLE" --body-file report.md
+          else
+            n=$(gh issue list -R "$REPO" --state open --search "\"$ISSUE_TITLE\" in:title" --json number -q '.[0].number')
+            gh issue comment "$n" -R "$REPO" --body-file report.md
+          fi
+          echo "::error::Des valeurs publiées s'écartent de leurs sources (détail dans le résumé du job)."
+          exit 1
