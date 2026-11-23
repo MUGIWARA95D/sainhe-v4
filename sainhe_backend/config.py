@@ -86,6 +86,11 @@ ESEF_ENTITIES = {
 # Ratio ADR : 1 titre coté = N actions ordinaires (les comptes XBRL sont par action ordinaire).
 # TSM : 1 ADR = 5 actions TSMC. ASML (NY registry shares) et RACE : 1 pour 1.
 ADR_RATIO = {"TSM": 5.0}
+# Objectifs d'analystes : médiane / cours hors de cette bande → pas dans la devise de la cotation.
+# Kazatomprom : le GDR cote en USD (55,30) mais Yahoo donne les objectifs en KZT (24 622, l'action
+# locale) ; convertis une 2e fois (×457) ils affichaient +44 425 %. Dans la devise des comptes →
+# gardés tels quels ; ni l'un ni l'autre → consensus N/D (jamais une valeur devinée).
+CONSENSUS_PRICE_RATIO = (0.2, 5.0)
 # Cotation principale utilisée pour le PRIX de valorisation (les comptes restent ceux du 20-F).
 # L'ADR converti s'écartait de la cotation d'origine : décalage horaire (ASML −1,2 % le 20/11/2026,
 # jour de forte baisse) et prime de l'ADR (TSMC). Repli sur l'ADR si la cotation est indisponible.

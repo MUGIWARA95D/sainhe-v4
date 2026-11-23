@@ -26,6 +26,10 @@ def consensus(yf_info: dict | None) -> dict:
         "n_analysts": n,
         "warning_few_analysts": (n is not None and n < config.ANALYST_MIN_OPINIONS),
     }
+    if yf_info.get("_consensus_note"):
+        out["note"] = yf_info["_consensus_note"]
+    if out["target_median"] is None and out["target_mean"] is None:
+        out["available"] = False
     th, tl, tm = out["target_high"], out["target_low"], out["target_mean"]
     out["dispersion"] = ((th - tl) / tm) if None not in (th, tl, tm) and tm else None
     return out

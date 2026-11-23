@@ -1,14 +1,14 @@
 {
   "ticker": "MSFT",
   "cik": 789019,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
     "prix": 484.52,
     "EPV": {
-      "epv_ev": 1417439226820.1514,
-      "epv_equity": 1387394226820.1514,
-      "epv_per_share": 186.152452,
+      "epv_ev": 1417439016789.0017,
+      "epv_equity": 1387394016789.0017,
+      "epv_per_share": 186.152424,
       "inputs": {
         "ebit_adj": 155237000000.0,
         "tax": 0.193963,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 110.104902,
-      "high": 198.302394,
+      "low": 110.104885,
+      "high": 198.302364,
       "fcf_p25": 32284000000.0,
       "fcf_p75": 58144500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 210.448799,
-      "central": 186.152452,
-      "plus_100bps": 166.800585
+      "minus_100bps": 210.448763,
+      "central": 186.152424,
+      "plus_100bps": 166.800562
     },
     "RE_valuation": {
-      "re_value_equity": 2426636152167.73,
-      "re_value_per_share": 325.591863,
+      "re_value_equity": 2426635369297.439,
+      "re_value_per_share": 325.591758,
       "inputs": {
         "B0": 442387000000.0,
-        "RE": 94339791499.52475,
+        "RE": 94339785541.5863,
         "ke": 0.089083,
         "g": 0.04912,
         "g_sgr": 0.155972,
@@ -397,7 +397,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 1.054436,
-      "beta_raw": 1.081247,
+      "beta_raw": 1.081248,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },

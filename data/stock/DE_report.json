@@ -1,14 +1,14 @@
 {
   "ticker": "DE",
   "cik": 315189,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 609.25,
     "EPV": {
-      "epv_ev": 67923701038.52041,
-      "epv_equity": 18859701038.52041,
-      "epv_per_share": 69.413695,
+      "epv_ev": 67923680482.51202,
+      "epv_equity": 18859680482.512016,
+      "epv_per_share": 69.41362,
       "inputs": {
         "ebit_adj": 6257000000.0,
         "tax": 0.201215,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 23.815736,
-      "high": 79.791323,
+      "low": 23.81571,
+      "high": 79.791236,
       "fcf_p25": 2040750000.0,
       "fcf_p75": 6837250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 108.7319,
-      "central": 69.413695,
-      "plus_100bps": 39.503722
+      "minus_100bps": 108.731798,
+      "central": 69.41362,
+      "plus_100bps": 39.503664
     },
     "RE_valuation": {
-      "re_value_equity": 59992199021.58504,
-      "re_value_per_share": 220.803088,
+      "re_value_equity": 59992177545.06462,
+      "re_value_per_share": 220.803009,
       "inputs": {
         "B0": 25950000000.0,
-        "RE": 2852539784.713273,
+        "RE": 2852539006.281131,
         "ke": 0.083794,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -210,7 +210,7 @@
     "retained_earnings_test": {
       "ratio": 1.638054,
       "retained_5y": 28282000000.0,
-      "delta_mcap": 46327430294.799805,
+      "delta_mcap": 46327438586.42578,
       "passes": true,
       "window": [
         2020,
@@ -335,8 +335,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.914887,
-      "beta_raw": 0.872966,
+      "beta": 0.914888,
+      "beta_raw": 0.872967,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },

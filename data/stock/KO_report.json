@@ -1,14 +1,14 @@
 {
   "ticker": "KO",
   "cik": 21344,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 96.99,
     "EPV": {
-      "epv_ev": 169861812590.6254,
-      "epv_equity": 138241812590.6254,
-      "epv_per_share": 32.052356,
+      "epv_ev": 169861827312.74396,
+      "epv_equity": 138241827312.74396,
+      "epv_per_share": 32.05236,
       "inputs": {
         "ebit_adj": 13762000000.0,
         "tax": 0.178835,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 32.315892,
-      "high": 59.139057,
+      "low": 32.315896,
+      "high": 59.139063,
       "fcf_p25": 5058250000.0,
       "fcf_p75": 9256750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 39.019243,
-      "central": 32.052356,
-      "plus_100bps": 26.906168
+      "minus_100bps": 39.019248,
+      "central": 32.05236,
+      "plus_100bps": 26.906171
     },
     "RE_valuation": {
-      "re_value_equity": 192115638869.05994,
-      "re_value_per_share": 44.543389,
+      "re_value_equity": 192115657151.1657,
+      "re_value_per_share": 44.543394,
       "inputs": {
         "B0": 32169000000.0,
-        "RE": 10838503573.999243,
+        "RE": 10838503779.664984,
         "ke": 0.070518,
         "g": 0.003574,
         "g_sgr": 0.003574,
@@ -204,9 +204,9 @@
     "ocf_ni": 0.565194,
     "accruals_pct_rev": 0.118875,
     "retained_earnings_test": {
-      "ratio": 6.931084,
+      "ratio": 6.931086,
       "retained_5y": 13807000000.0,
-      "delta_mcap": 95697476348.87695,
+      "delta_mcap": 95697509254.45557,
       "passes": true,
       "window": [
         2020,

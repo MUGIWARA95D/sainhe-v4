@@ -279,6 +279,22 @@ def _beta_vs_world(ticker: str, listing_currency: str | None) -> dict | None:
         return None
 
 
+_TARGET_KEYS = ("targetMeanPrice", "targetMedianPrice", "targetHighPrice", "targetLowPrice")
+
+
+def _target_scale(info: dict, price: float | None, f: float) -> float | None:
+    """Facteur à appliquer aux objectifs d'analystes : f (même devise que la cotation), 1.0 (déjà dans
+    la devise des comptes) ou None (incohérent → consensus N/D). Cf. config.CONSENSUS_PRICE_RATIO."""
+    med, (lo, hi) = info.get("targetMedianPrice"), config.CONSENSUS_PRICE_RATIO
+    if not isinstance(med, (int, float)) or not price:
+        return f
+    if lo <= med / price <= hi:
+        return f
+    if f and f != 1.0 and lo <= med / (price * f) <= hi:
+        return 1.0
+    return None
+
+
 def _pricing_context(ticker: str, cd, info: dict | None, adr_ratio: float | None = None) -> dict:
     """Facteur prix de cotation → prix par action ORDINAIRE dans la devise des COMPTES.
 
@@ -371,11 +387,27 @@ def run_ticker(client: EdgarClient, ticker: str, esef=None) -> dict:
         quote = ticker
         price, info, price_history, splits = _yf_data(ticker)
     pc = _pricing_context(ticker, cd, info, adr_ratio=1.0 if quote != ticker else None)
+    if price is not None and pc["factor_now"] is not None:
+        info = dict(info or {})
+        ts = _target_scale(info, price, pc["factor_now"])
+        if ts is None:
+            for k in _TARGET_KEYS:
+                info[k] = None
+            info["_consensus_note"] = "analyst targets inconsistent with the share price (currency unclear): not shown"
+            log.warning("%s : objectifs d'analystes incohérents avec le cours → consensus N/D", ticker)
+        elif ts != pc["factor_now"]:
+            info["_consensus_note"] = "analyst targets published in the currency of the accounts: not converted"
+            log.warning("%s : objectifs d'analystes déjà dans la devise des comptes → non convertis", ticker)
+            for k in _TARGET_KEYS:
+                if isinstance(info.get(k), (int, float)):
+                    info[k] = info[k] * ts
+        elif ts != 1.0:
+            for k in _TARGET_KEYS:
+                if isinstance(info.get(k), (int, float)):
+                    info[k] = info[k] * ts
     if price is not None and pc["factor_now"] is not None and pc["factor_now"] != 1.0:
         f = pc["factor_now"]
-        info = dict(info or {})
-        for k in ("currentPrice", "regularMarketPrice", "targetMeanPrice", "targetMedianPrice",
-                  "targetHighPrice", "targetLowPrice"):
+        for k in ("currentPrice", "regularMarketPrice"):
             if isinstance(info.get(k), (int, float)):
                 info[k] = info[k] * f
         if price_history:

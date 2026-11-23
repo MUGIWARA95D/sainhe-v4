@@ -1,14 +1,14 @@
 {
   "ticker": "ISRG",
   "cik": 1035267,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 399.05,
     "EPV": {
-      "epv_ev": 26945774176.911976,
-      "epv_equity": 32880674176.911976,
-      "epv_per_share": 90.655291,
+      "epv_ev": 26945773745.326233,
+      "epv_equity": 32880673745.326233,
+      "epv_per_share": 90.65529,
       "inputs": {
         "ebit_adj": 2945500000.0,
         "tax": 0.131304,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 30.96657,
-      "high": 51.480491,
+      "low": 30.966569,
+      "high": 51.48049,
       "fcf_p25": 581550000.0,
       "fcf_p75": 966800000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 99.399765,
-      "central": 90.655291,
-      "plus_100bps": 83.577083
+      "minus_100bps": 99.399763,
+      "central": 90.65529,
+      "plus_100bps": 83.577082
     },
     "RE_valuation": {
-      "re_value_equity": 37343938204.714,
-      "re_value_per_share": 102.960955,
+      "re_value_equity": 37343937181.19185,
+      "re_value_per_share": 102.960952,
       "inputs": {
         "B0": 17824000000.0,
-        "RE": 1163450548.325131,
+        "RE": 1163450521.215862,
         "ke": 0.094959,
         "g": 0.043704,
         "g_sgr": 0.043704,

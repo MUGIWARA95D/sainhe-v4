@@ -1,14 +1,14 @@
 {
   "ticker": "XOM",
   "cik": 2115436,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 159.99,
     "EPV": {
-      "epv_ev": 454412569819.02075,
-      "epv_equity": 421556569819.02075,
-      "epv_per_share": 97.920851,
+      "epv_ev": 454412602131.4558,
+      "epv_equity": 421556602131.4558,
+      "epv_per_share": 97.920858,
       "inputs": {
         "ebit_adj": 41871000000.0,
         "tax": 0.278763,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 23.961828,
-      "high": 141.418535,
+      "low": 23.96183,
+      "high": 141.418546,
       "fcf_p25": 5778000000.0,
       "fcf_p75": 34100750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 116.61698,
-      "central": 97.920851,
-      "plus_100bps": 84.115346
+      "minus_100bps": 116.61699,
+      "central": 97.920858,
+      "plus_100bps": 84.115352
     },
     "RE_valuation": {
-      "re_value_equity": 429033656520.6361,
-      "re_value_per_share": 99.657658,
+      "re_value_equity": 429033691465.6067,
+      "re_value_per_share": 99.657667,
       "inputs": {
         "B0": 259386000000.0,
-        "RE": 10623603977.328781,
+        "RE": 10623605285.304836,
         "ke": 0.070244,
         "g": 0.009673,
         "g_sgr": 0.009673,
@@ -193,9 +193,9 @@
     "ocf_ni": 1.801761,
     "accruals_pct_rev": -0.069607,
     "retained_earnings_test": {
-      "ratio": 3.696852,
+      "ratio": 3.696853,
       "retained_5y": 98575000000.0,
-      "delta_mcap": 364417223465.84424,
+      "delta_mcap": 364417272381.1623,
       "passes": true,
       "window": [
         2020,
@@ -258,7 +258,7 @@
       [
         151.13,
         165.81,
-        188.37,
+        188.38,
         227.53,
         312.21
       ]
@@ -296,7 +296,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.55737,
-      "beta_raw": 0.339359,
+      "beta_raw": 0.339358,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },

@@ -1026,29 +1026,71 @@ function renderHead(row, rep){
     '</div>' + valuationBar(row, rep) +
     '<div style="margin-top:14px">' + flagsListHTML(rep) + '</div>';
 }
-/* EPV, residual earnings, price and analyst median on one per-share scale — never averaged */
+/* "What is one share worth?" — a football field: one row per method, its range of uncertainty,
+ * the market price as a line through every row, an axis from 0, and the reader's own view from the
+ * simulator below (updated live). Never averaged: each method answers a different question.
+ * Before (22 Nov): unlabelled ticks on a bare bar — readers could not tell which tick was which. */
+let ff = null;   // {lo, hi, cur, price} of the field on screen, for the live "your view" marker
+function niceStep(span){ const r = span / 5, p = Math.pow(10, Math.floor(Math.log10(r))), m = r / p;
+  return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; }
 function valuationBar(row, rep){
   const A = rep.bloc_A_verdict || {}, meta = rep.meta || {}, cur = meta.reporting_currency || 'USD', C = A.consensus || {};
-  const P = meta.price_in_reporting_currency;
-  const pts_ = [['EPV', (A.EPV || {}).epv_per_share, 'no growth: current earnings capitalised forever', 'epv'],
-                ['Residual earnings', (A.RE_valuation || {}).re_value_per_share, 'book value plus abnormal earnings, growth capped', 're'],
-                ['Price', P, 'what the market pays today', 'price'],
-                ['Analyst median', C.available ? C.target_median : null, 'external consensus, not computed here', 'consensus']];
-  const ok = pts_.filter(p => isNum(p[1]));
-  if(ok.length < 2 || !isNum(P)) return '';
-  const vals = ok.map(p => p[1]), lo = Math.min(0, Math.min.apply(null, vals)), hi = Math.max.apply(null, vals) * 1.08;
-  const x = v => ((v - lo) / (hi - lo) * 100).toFixed(1);
-  const epv = (A.EPV || {}).epv_per_share, re = (A.RE_valuation || {}).re_value_per_share;
+  const P = meta.price_in_reporting_currency, E = A.EPV || {}, S = A.EPV_wacc_sensitivity || {};
+  const epv = E.epv_per_share, re = (A.RE_valuation || {}).re_value_per_share;
+  const rows = [
+    {k: 'epv', name: 'Earnings power (EPV)', sub: 'no growth · cost of capital ±1 pt', kind: 'own', v: epv,
+     lo: isNum(S.plus_100bps) ? S.plus_100bps : null, hi: isNum(S.minus_100bps) ? S.minus_100bps : null},
+    {k: 're', name: 'Residual earnings', sub: 'book value + returns above the cost of equity', kind: 'own', v: re},
+    {k: 'consensus', name: 'Analyst targets', sub: C.available ? (C.n_analysts ? C.n_analysts + ' analysts, ' : '') + 'low – median – high' : 'none published', kind: 'ext',
+     v: C.available ? C.target_median : null, lo: C.available && isNum(C.target_low) ? C.target_low : null, hi: C.available && isNum(C.target_high) ? C.target_high : null}];
+  const shown = rows.filter(r => isNum(r.v));
+  if(!shown.length || !isNum(P)) return '';
+  const all = [P].concat(...shown.map(r => [r.v, r.lo, r.hi].filter(isNum)));
+  const lo = Math.min(0, Math.min.apply(null, all)), step = niceStep(Math.max.apply(null, all) - lo);
+  const hi = Math.ceil(Math.max.apply(null, all) * 1.04 / step) * step;
+  ff = {lo, hi, cur, price: P};
+  const x = v => ((Math.min(Math.max(v, lo), hi) - lo) / (hi - lo) * 100);
+  const vsP = v => pctS(v / P - 1, 0) + ' vs price';
+  const bare = v => money(v, cur).replace(cur + ' ', '');
+  const valTxt = (r) => money(r.v, cur) + (isNum(r.lo) && isNum(r.hi) ? ' (' + bare(r.lo) + '–' + bare(r.hi) + ')' : '') + ' · ' + vsP(r.v);
+  const label = (xp, txt, cls) => '<span class="sa-ff-v' + (cls || '') + (xp > 62 ? ' left' : '') + '" style="left:' + xp.toFixed(1) + '%">' + esc(txt) + '</span>';
+  const track = (inner) => '<div class="sa-ff-track"><span class="sa-ff-price" style="left:' + x(P).toFixed(1) + '%"></span>' + inner + '</div>';
+  const rowHTML = r => '<div class="sa-ff-lbl"><button class="sa-src" data-srckey="' + r.k + '">' + esc(r.name) + '</button><span>' + esc(r.sub) + '</span></div>' +
+    track((isNum(r.lo) && isNum(r.hi) ? '<span class="sa-ff-rng ' + r.kind + '" style="left:' + x(r.lo).toFixed(1) + '%;width:' + Math.max(0.6, x(r.hi) - x(r.lo)).toFixed(1) + '%"></span>' : '') +
+      '<span class="sa-ff-dot ' + r.kind + '" style="left:' + x(r.v).toFixed(1) + '%"></span>' + label(x(r.v), valTxt(r)));
+  const ticks = []; for(let t = lo; t <= hi + 1e-9; t += step) ticks.push(t);
+  const aria = 'What one share is worth, in ' + cur + ': market price ' + money(P, cur) + '; ' +
+    shown.map(r => r.name + ' ' + money(r.v, cur) + (isNum(r.lo) && isNum(r.hi) ? ' (range ' + money(r.lo, cur) + ' to ' + money(r.hi, cur) + ')' : '') + ', ' + vsP(r.v)).join('; ') + '.';
   const note = isNum(epv) && isNum(re) ? (re > epv
       ? 'Residual earnings is above the EPV: book value and the returns earned above the cost of equity are worth more than today\'s earnings capitalised without growth — the accounts themselves point to value from returns, not only from growth.'
       : 'Residual earnings is below the EPV: today\'s earnings capitalised are worth more than book value plus abnormal earnings — returns above the cost of equity are thin relative to the earnings level.') : '';
-  return '<div class="sa-vbar" role="img" aria-label="' + esc(ok.map(p => p[0] + ' ' + money(p[1], cur)).join(', ')) + '">' +
-    '<div class="sa-kicker" style="margin:16px 0 6px">Four answers to "what is a share worth?", per share in ' + esc(cur) + ' — not averaged</div>' +
-    '<div class="sa-vbar-t">' + ok.map(p => '<span class="sa-vbar-m' + (p[0] === 'Price' ? ' price' : '') + '" style="left:' + x(p[1]) + '%"></span>').join('') + '</div>' +
-    '<ul class="sa-vbar-l">' + ok.map(p => '<li><button class="sa-src" data-srckey="' + p[3] + '">' + esc(p[0]) + '</button> <b>' + esc(money(p[1], cur)) + '</b>' +
-      (p[0] !== 'Price' ? ' <span class="sa-co">' + esc(pctS(p[1] / P - 1, 0)) + ' vs price</span>' : '') + ' — ' + esc(p[2]) + '</li>').join('') + '</ul>' +
+  const gap = Math.max.apply(null, shown.filter(r => r.kind === 'own').map(r => r.v).concat([-Infinity]));
+  const read = isNum(gap) && gap > -Infinity ? (gap < P
+      ? 'The price is above every value computed from today\'s accounts: the gap is what the market pays for growth — the simulator below shows how much.'
+      : 'At least one value computed from today\'s accounts is above the price: the market pays less than the accounts already support, before any growth.') : '';
+  return '<div class="sa-ff" role="group" aria-label="' + esc(aria) + '">' +
+    '<div class="sa-kicker" style="margin:18px 0 4px">What is one share worth? Three answers in ' + esc(cur) + ', side by side — never averaged</div>' +
+    (read ? '<p class="sa-ff-read">' + esc(read) + '</p>' : '') +
+    '<div class="sa-ff-grid" aria-hidden="true">' +
+      '<div class="sa-ff-lbl sa-ff-hd"></div>' + track(label(x(P), 'Market price ' + money(P, cur), ' price')) +
+      shown.map(rowHTML).join('') +
+      '<div class="sa-ff-lbl"><span class="sa-ff-you-n">Your view</span><span>from the simulator below, live</span></div>' +
+      track('<span class="sa-ff-dot you" id="sa-ff-you" style="left:' + x(P).toFixed(1) + '%"></span><span class="sa-ff-v you" id="sa-ff-you-v" style="left:' + x(P).toFixed(1) + '%">—</span>') +
+      '<div class="sa-ff-lbl"></div><div class="sa-ff-axis">' + ticks.map(t => '<span style="left:' + x(t).toFixed(1) + '%">' + esc(num(t, step < 1 ? 1 : 0)) + '</span>').join('') + '</div>' +
+    '</div>' +
+    '<p class="sa-ff-key"><span><i class="own"></i>computed by SAINHE from the filings</span><span><i class="ext"></i>external (sell-side analysts)</span>' +
+      '<span><i class="price"></i>market price</span><span><i class="you"></i>your view</span><span>a bar around a dot is its range</span>' +
+      '<span>per share, in ' + esc(cur) + ', the currency of the accounts</span></p>' +
     (note ? '<p class="sa-note">' + note + '</p>' : '') +
-    (C.available ? '<p class="sa-note sa-caveat">Analyst median: sell-side targets are structurally optimistic and lag the price — treat as sentiment, not truth.</p>' : '') + '</div>';
+    (C.available ? '<p class="sa-note sa-caveat">Analyst targets: sell-side targets are structurally optimistic and lag the price — treat as sentiment, not truth.</p>' : '') + '</div>';
+}
+/* the simulator's value at the reader's inputs, on the same scale (clamped at the edges, with an arrow) */
+function ffYou(val){
+  const d = $('#sa-ff-you'), t = $('#sa-ff-you-v'); if(!d || !t || !ff) return;
+  if(!isNum(val)){ t.textContent = 'N/D'; return; }
+  const xp = (Math.min(Math.max(val, ff.lo), ff.hi) - ff.lo) / (ff.hi - ff.lo) * 100;
+  d.style.left = t.style.left = xp.toFixed(1) + '%'; t.classList.toggle('left', xp > 62);
+  t.textContent = (val > ff.hi ? '→ ' : val < ff.lo ? '← ' : '') + money(val, ff.cur) + ' · ' + pctS(val / ff.price - 1, 0) + ' vs price';
 }
 onDoc('click', e => {
   const b = e.target.closest && e.target.closest('[data-onmap]'); if(!b) return;
@@ -1215,6 +1257,7 @@ function updateSim(rescale){
   gR.value = (sim.g * 100).toFixed(1);
   const imp1 = simImplied(S, fcf, w), impF = fadeImplied(S, sim.gT, sim.N, w, fcf), imp = sim.mode === 'fade' ? impF : imp1;
   const val = curValue(sim.g), gap = isNum(imp) ? sim.g - imp : null;
+  ffYou(val);
   const big_ = (l, v, sub, id) => '<div><div class="sa-big-l">' + l + '</div><div class="sa-big"' + (id ? ' id="' + id + '"' : '') + '>' + v + '</div><div class="sa-tile-s">' + sub + '</div></div>';
   const basisTxt = {last: 'FY ' + (S.fy || 'N/D') + ' FCF', ttm: 'FCF of the four quarters to ' + ((S.ttm || {}).period_end || 'N/D'), med: S.n5 + '-year median FCF'}[sim.basis];
   $('#sim-out').innerHTML =

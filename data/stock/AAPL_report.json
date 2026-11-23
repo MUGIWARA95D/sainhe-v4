@@ -1,14 +1,14 @@
 {
   "ticker": "AAPL",
   "cik": 320193,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
     "prix": 342.56,
     "EPV": {
-      "epv_ev": 1472967659249.0344,
-      "epv_equity": 1448122659249.0344,
-      "epv_per_share": 98.375853,
+      "epv_ev": 1472967485386.2976,
+      "epv_equity": 1448122485386.2976,
+      "epv_per_share": 98.375841,
       "inputs": {
         "ebit_adj": 158063000000.0,
         "tax": 0.169948,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 46.097665,
-      "high": 79.205085,
+      "low": 46.097659,
+      "high": 79.205076,
       "fcf_p25": 57292750000.0,
       "fcf_p75": 98440500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 111.030568,
-      "central": 98.375853,
-      "plus_100bps": 88.275782
+      "minus_100bps": 111.030553,
+      "central": 98.375841,
+      "plus_100bps": 88.275773
     },
     "RE_valuation": {
-      "re_value_equity": 1483908006021.8938,
-      "re_value_per_share": 100.806872,
+      "re_value_equity": 1483907830867.8052,
+      "re_value_per_share": 100.80686,
       "inputs": {
         "B0": 112093000000.0,
-        "RE": 122190626160.87038,
+        "RE": 122190624982.3579,
         "ke": 0.089072,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -215,9 +215,9 @@
     "ocf_ni": 1.097764,
     "accruals_pct_rev": -0.026986,
     "retained_earnings_test": {
-      "ratio": 4.623128,
+      "ratio": 4.623129,
       "retained_5y": 458477000000.0,
-      "delta_mcap": 2119597931540.9087,
+      "delta_mcap": 2119598446217.392,
       "passes": true,
       "window": [
         2021,

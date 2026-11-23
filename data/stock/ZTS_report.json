@@ -1,14 +1,14 @@
 {
   "ticker": "ZTS",
   "cik": 1555280,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 79.11,
     "EPV": {
-      "epv_ev": 41200123099.71852,
-      "epv_equity": 34463123099.71852,
-      "epv_per_share": 77.648502,
+      "epv_ev": 41200118891.51668,
+      "epv_equity": 34463118891.51668,
+      "epv_per_share": 77.648493,
       "inputs": {
         "ebit_adj": 3631000000.0,
         "tax": 0.204464,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 42.971387,
-      "high": 63.830599,
+      "low": 42.971382,
+      "high": 63.830591,
       "fcf_p25": 1217500000.0,
       "fcf_p75": 1808500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 93.091143,
-      "central": 77.648502,
-      "plus_100bps": 66.061163
+      "minus_100bps": 93.09113,
+      "central": 77.648493,
+      "plus_100bps": 66.061156
     },
     "RE_valuation": {
-      "re_value_equity": 60937394183.30519,
-      "re_value_per_share": 137.297406,
+      "re_value_equity": 60937379140.25453,
+      "re_value_per_share": 137.297372,
       "inputs": {
         "B0": 3331000000.0,
-        "RE": 2435020444.792506,
+        "RE": 2435020414.790934,
         "ke": 0.083146,
         "g": 0.047477,
         "g_sgr": 0.047477,
@@ -218,7 +218,7 @@
     "note": "rempli par peer_batch.build_peer_blocks() sur l'univers complet"
   },
   "bloc_G_smart_money": {
-    "n_insider_filings_6m": 27,
+    "n_insider_filings_6m": 26,
     "recent": [
       {
         "form": "4",
@@ -387,7 +387,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.897795,
+      "beta": 0.897796,
       "beta_raw": 0.847456,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
@@ -1301,7 +1301,7 @@
   "score_composite": {
     "value_0_100": 55.1,
     "pillars": {
-      "valuation": 46.305151,
+      "valuation": 46.305127,
       "balance_sheet_health": 75,
       "earnings_quality": 50,
       "smart_money": 50,

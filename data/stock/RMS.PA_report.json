@@ -1,14 +1,14 @@
 {
   "ticker": "RMS.PA",
   "cik": "969500Y4IJGHJE2MTJ13",
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 1225.5,
+    "prix": 1231.0,
     "EPV": {
-      "epv_ev": 56712723594.843895,
-      "epv_equity": 68917723594.8439,
-      "epv_per_share": 656.119884,
+      "epv_ev": 56712719167.98544,
+      "epv_equity": 68917719167.98544,
+      "epv_per_share": 656.119842,
       "inputs": {
         "ebit_adj": 6569000000.0,
         "tax": 0.334022,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 244.634162,
-      "high": 631.842966,
+      "low": 244.634146,
+      "high": 631.842925,
       "fcf_p25": 1521600000.0,
       "fcf_p75": 3930000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 736.537777,
-      "central": 656.119884,
-      "plus_100bps": 594.159203
+      "minus_100bps": 736.537721,
+      "central": 656.119842,
+      "plus_100bps": 594.15917
     },
     "RE_valuation": {
-      "re_value_equity": 58646763160.56575,
-      "re_value_per_share": 558.33689,
+      "re_value_equity": 58646758582.74082,
+      "re_value_per_share": 558.336846,
       "inputs": {
         "B0": 18840000000.0,
-        "RE": 3070686033.351107,
+        "RE": 3070685919.908914,
         "ke": 0.07714,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -50,10 +50,10 @@
       "dispersion": 0.497707
     },
     "reverse_dcf": {
-      "implied_g": 0.04069,
+      "implied_g": 0.040864,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 116519448572.09193,
+        "ev": 117097159275.59785,
         "fcf_adj": 4081000000.0,
         "wacc": 0.07714,
         "fcf_basis": "last_year",
@@ -202,9 +202,9 @@
     "ocf_ni": 1.187887,
     "accruals_pct_rev": -0.053118,
     "retained_earnings_test": {
-      "ratio": 12.058253,
+      "ratio": 12.058256,
       "retained_5y": 11021000000.0,
-      "delta_mcap": 132894011467.4868,
+      "delta_mcap": 132894037064.36536,
       "passes": true,
       "window": [
         2020,
@@ -292,7 +292,7 @@
       "ke": 0.07714,
       "kd": "N/D",
       "tax_rate": 0.334022,
-      "E": 128724448572.09193,
+      "E": 129302159275.59785,
       "D": 34000000.0,
       "rf": 0.0337,
       "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -922,9 +922,9 @@
     "source": "ESEF (filings.xbrl.org)",
     "listing_currency": "EUR",
     "reporting_currency": "EUR",
-    "price_listing": 1225.5,
-    "price_in_reporting_currency": 1225.5,
-    "price_date": "2026-11-20",
+    "price_listing": 1231.0,
+    "price_in_reporting_currency": 1231.0,
+    "price_date": "2026-11-23",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "RMS.PA",

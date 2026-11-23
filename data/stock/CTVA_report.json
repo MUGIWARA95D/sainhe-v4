@@ -1,7 +1,7 @@
 {
   "ticker": "CTVA",
   "cik": 1755672,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 7.89,
@@ -189,9 +189,9 @@
     "ocf_ni": 3.113346,
     "accruals_pct_rev": -0.132866,
     "retained_earnings_test": {
-      "ratio": 0.783098,
+      "ratio": 0.783097,
       "retained_5y": 3455000000.0,
-      "delta_mcap": 2705602148.05603,
+      "delta_mcap": 2705601856.422424,
       "passes": false,
       "window": [
         2020,
@@ -323,7 +323,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.80717,
+      "beta": 0.807171,
       "beta_raw": 0.712195,
       "mode": "fallback all-equity (prix ou shares indisponible)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"

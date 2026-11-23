@@ -374,11 +374,45 @@ html.sa-sheet-open #hdr{margin-left:calc(var(--sa-sbw,0px) / -2)}
 .sa-dual{display:block;font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:2px;cursor:help}
 .sa-keys{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:14px}
 @media(max-width:900px){.sa-keys{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.sa-vbar-t{position:relative;height:10px;background:var(--bg2);border-radius:5px;margin:4px 6px 10px}
-.sa-vbar-m{position:absolute;top:-4px;width:3px;height:18px;background:var(--s1);border-radius:2px;transform:translateX(-50%)}
-.sa-vbar-m.price{background:var(--h);width:4px}
-.sa-vbar-l{list-style:none;padding:0;margin:0 0 6px;font-size:12px;line-height:1.7;color:var(--p)}
-.sa-vbar-l b{font-family:var(--serif);font-weight:400;color:var(--h)}
+/* "What is one share worth?" — football field (labels | tracks), price line through every row */
+.sa-ff-read{margin:0 0 10px;font-size:12.5px;color:var(--p);max-width:860px}
+.sa-ff-grid{display:grid;grid-template-columns:minmax(150px,210px) minmax(0,1fr);column-gap:14px;align-items:stretch}
+.sa-ff-lbl{display:flex;flex-direction:column;justify-content:center;min-height:38px;font-size:12px;line-height:1.25}
+.sa-ff-lbl .sa-src,.sa-ff-you-n{font-weight:600;color:var(--h);text-align:left;padding:0;font-size:12.5px}
+.sa-ff-lbl span:last-child{font-size:10.5px;color:var(--muted)}
+.sa-ff-track{position:relative;min-height:38px;margin:0 8px;background:linear-gradient(var(--border-lt),var(--border-lt)) center/100% 1px no-repeat}
+.sa-ff-price{position:absolute;top:0;bottom:0;width:0;border-left:2px solid var(--h);transform:translateX(-1px);opacity:.75}
+.sa-ff-rng{position:absolute;top:50%;height:8px;transform:translateY(-50%);border-radius:4px}
+.sa-ff-rng.own{background:color-mix(in srgb,var(--s1) 32%,transparent)}
+.sa-ff-rng.ext{background:color-mix(in srgb,var(--muted) 30%,transparent)}
+.sa-ff-dot{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);box-sizing:border-box}
+.sa-ff-dot.own{background:var(--s1)}
+.sa-ff-dot.ext{background:var(--card);border:2px solid var(--muted)}
+.sa-ff-dot.you{background:var(--s2);transition:left .15s}
+.sa-ff-v{position:absolute;top:1px;transform:translateX(10px);font-size:11px;color:var(--p);white-space:nowrap;font-variant-numeric:tabular-nums;background:var(--card);padding:0 4px;border-radius:3px;z-index:1}
+.sa-ff-v.left{transform:translateX(calc(-100% - 10px))}
+.sa-ff-v.price{top:auto;bottom:4px;font-weight:600;color:var(--h)}
+.sa-ff-v.you{color:var(--s2);font-weight:600;transition:left .15s}
+.sa-ff-hd{min-height:26px}
+.sa-ff-grid > .sa-ff-track:nth-child(2){min-height:26px;background:none}
+.sa-ff-axis{position:relative;height:20px;margin:0 8px;border-top:1px solid var(--border)}
+.sa-ff-axis span{position:absolute;top:3px;transform:translateX(-50%);font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sa-ff-key{font-size:10.5px;color:var(--muted);margin:6px 0 8px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px}
+.sa-ff-key span{white-space:nowrap}
+.sa-ff-key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.sa-ff-key i.own{background:var(--s1)} .sa-ff-key i.ext{border:2px solid var(--muted);box-sizing:border-box}
+.sa-ff-key i.price{width:2px;border-radius:0;height:12px;background:var(--h)} .sa-ff-key i.you{background:var(--s2)}
+@media (max-width:700px){
+  .sa-ff-grid{grid-template-columns:minmax(0,1fr)}
+  .sa-ff-lbl{min-height:0;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;gap:2px 8px;align-items:baseline;margin-top:10px}
+  .sa-ff-lbl.sa-ff-hd{display:none}
+  /* phones: the value sits under the dots, from the left edge, so it never runs off the screen */
+  .sa-ff-track{min-height:44px;background-position:center 13px}
+  .sa-ff-rng,.sa-ff-dot{top:13px}
+  .sa-ff-v,.sa-ff-v.left{left:0!important;transform:none;top:auto;bottom:0;font-size:10.5px;padding:0}
+  .sa-ff-v.price{bottom:auto;top:0;left:auto!important;right:0}
+  .sa-ff-grid > .sa-ff-track:nth-child(2){min-height:20px}
+}
 .sa-zone-wrap{position:relative}
 .sa-zone{position:absolute;top:2px;bottom:2px;right:0;background:repeating-linear-gradient(135deg,transparent 0 4px,var(--gold-bg) 4px 8px);border-radius:3px;pointer-events:none}
 .sa-zone-wrap .sa-range{position:relative}

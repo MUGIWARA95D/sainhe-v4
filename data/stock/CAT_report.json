@@ -1,14 +1,14 @@
 {
   "ticker": "CAT",
   "cik": 18230,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 510.45,
     "EPV": {
-      "epv_ev": 96212478232.70341,
-      "epv_equity": 69982478232.70341,
-      "epv_per_share": 148.173784,
+      "epv_ev": 96212453438.049,
+      "epv_equity": 69982453438.049,
+      "epv_per_share": 148.173732,
       "inputs": {
         "ebit_adj": 11599000000.0,
         "tax": 0.239841,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 85.792255,
-      "high": 152.863406,
+      "low": 85.792225,
+      "high": 152.863352,
       "fcf_p25": 5163500000.0,
       "fcf_p75": 9200250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 173.125512,
-      "central": 148.173784,
-      "plus_100bps": 128.131791
+      "minus_100bps": 173.125446,
+      "central": 148.173732,
+      "plus_100bps": 128.131748
     },
     "RE_valuation": {
-      "re_value_equity": 158225370755.31683,
-      "re_value_per_share": 335.010313,
+      "re_value_equity": 158225290864.5484,
+      "re_value_per_share": 335.010144,
       "inputs": {
         "B0": 21318000000.0,
-        "RE": 7268930522.733568,
+        "RE": 7268930019.271143,
         "ke": 0.091642,
         "g": 0.046521,
         "g_sgr": 0.046521,
@@ -204,9 +204,9 @@
     "ocf_ni": 1.321662,
     "accruals_pct_rev": -0.04227,
     "retained_earnings_test": {
-      "ratio": 5.850241,
+      "ratio": 5.85024,
       "retained_5y": 30469000000.0,
-      "delta_mcap": 178250997195.43457,
+      "delta_mcap": 178250951626.5869,
       "passes": true,
       "window": [
         2020,
@@ -387,8 +387,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.121948,
-      "beta_raw": 1.182013,
+      "beta": 1.121949,
+      "beta_raw": 1.182014,
       "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },

@@ -1,38 +1,38 @@
 {
   "ticker": "KAP.IL",
   "cik": 0,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 25286.47854,
+    "prix": 25887.793069,
     "EPV": {
-      "epv_ev": 8252063121164.672,
-      "epv_equity": 8508103121164.672,
-      "epv_per_share": 32804.601847,
+      "epv_ev": 8251540604196.505,
+      "epv_equity": 8507580604196.505,
+      "epv_per_share": 32802.587184,
       "inputs": {
         "ebit_adj": 768676000000.0,
         "tax": 0.189786,
-        "wacc": 0.075471,
+        "wacc": 0.075476,
         "net_debt": -256040000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 13453.272833,
-      "high": 29450.01964,
+      "low": 13452.446613,
+      "high": 29448.210996,
       "fcf_p25": 237830750000.0,
       "fcf_p75": 520625750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 37664.367802,
-      "central": 32804.601847,
-      "plus_100bps": 29082.008478
+      "minus_100bps": 37661.690728,
+      "central": 32802.587184,
+      "plus_100bps": 29080.437652
     },
     "RE_valuation": {
-      "re_value_equity": 7537494716570.32,
-      "re_value_per_share": 29062.237443,
+      "re_value_equity": 7537493421246.687,
+      "re_value_per_share": 29062.232449,
       "inputs": {
         "B0": 2327943000000.0,
-        "RE": 394274355602.7247,
+        "RE": 394274325325.0957,
         "ke": 0.075683,
         "g": 0.0,
         "g_sgr": "N/D",
@@ -41,21 +41,22 @@
     },
     "consensus": {
       "available": true,
-      "target_mean": 11812169.202271,
-      "target_median": 11258884.590454,
-      "target_high": 13870936.670239,
-      "target_low": 11033729.761646,
+      "target_mean": 25832.5,
+      "target_median": 24622.5,
+      "target_high": 30334.9,
+      "target_low": 24130.1,
       "n_analysts": 7,
       "warning_few_analysts": false,
+      "note": "analyst targets published in the currency of the accounts: not converted",
       "dispersion": 0.240194
     },
     "reverse_dcf": {
-      "implied_g": -0.015155,
+      "implied_g": -0.013142,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 6302185214708.911,
+        "ev": 6458140347115.42,
         "fcf_adj": 579929000000.0,
-        "wacc": 0.075471,
+        "wacc": 0.075476,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -189,37 +190,37 @@
       [
         30876.61,
         34044.8,
-        38735.03,
-        46390.83,
-        61125.14
+        38735.02,
+        46390.81,
+        61125.11
       ],
       [
         31728.29,
-        35019.69,
-        39892.3,
-        47845.82,
-        63153.13
+        35019.68,
+        39892.29,
+        47845.81,
+        63153.1
       ],
       [
-        33458.75,
+        33458.74,
         37000.47,
-        42243.68,
-        50802.11,
-        67273.62
+        42243.67,
+        50802.09,
+        67273.59
       ],
       [
         33912.96,
-        37520.4,
-        42860.88,
-        51578.09,
-        68355.19
+        37520.39,
+        42860.87,
+        51578.07,
+        68355.15
       ],
       [
         34767.2,
-        38498.21,
-        44021.63,
-        53037.45,
-        70389.26
+        38498.2,
+        44021.62,
+        53037.44,
+        70389.23
       ]
     ]
   },
@@ -239,11 +240,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.075471,
+      "wacc": 0.075476,
       "ke": 0.075683,
       "kd": 0.085357,
       "tax_rate": 0.189786,
-      "E": 6558225214708.911,
+      "E": 6714180347115.42,
       "D": 220146000000.0,
       "rf": 0.04912,
       "rf_source": "PROXY : aucun taux 10 ans KZT publié → US 10Y (sainhe macro.json us_10y)",
@@ -255,7 +256,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.70087,
-      "beta_raw": 0.553537,
+      "beta_raw": 0.553538,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -868,10 +869,10 @@
     "source": "Yahoo Finance statements (secondary) — Kazakhstan: no public XBRL feed",
     "listing_currency": "USD",
     "reporting_currency": "KZT",
-    "price_listing": 55.3,
-    "price_in_reporting_currency": 25286.47854003906,
-    "price_date": "2026-11-20",
-    "fx_listing_to_reporting": 457.260009765625,
+    "price_listing": 56.9,
+    "price_in_reporting_currency": 25887.793069458006,
+    "price_date": "2026-11-23",
+    "fx_listing_to_reporting": 454.9700012207031,
     "adr_ratio": 1.0,
     "quote_ticker": "KAP.IL",
     "fiscal_year_end": "2025-12-31",

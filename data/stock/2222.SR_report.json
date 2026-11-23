@@ -1,14 +1,14 @@
 {
   "ticker": "2222.SR",
   "cik": 0,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 26.26,
     "EPV": {
-      "epv_ev": 5803052838826.302,
-      "epv_equity": 5795709838826.302,
-      "epv_per_share": 23.960898,
+      "epv_ev": 5803053678054.998,
+      "epv_equity": 5795710678054.998,
+      "epv_per_share": 23.960901,
       "inputs": {
         "ebit_adj": 739247000000.0,
         "tax": 0.501736,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 23.940927,
-      "high": 38.341427,
+      "low": 23.940931,
+      "high": 38.341432,
       "fcf_p25": 320087000000.0,
       "fcf_p75": 512619750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 28.447463,
-      "central": 23.960898,
-      "plus_100bps": 20.695606
+      "minus_100bps": 28.447468,
+      "central": 23.960901,
+      "plus_100bps": 20.695609
     },
     "RE_valuation": {
-      "re_value_equity": 12053198880208.451,
-      "re_value_per_share": 49.830905,
+      "re_value_equity": 12053199853840.95,
+      "re_value_per_share": 49.830909,
       "inputs": {
         "B0": 1491996000000.0,
-        "RE": 250228860062.5327,
+        "RE": 250228874395.84418,
         "ke": 0.065559,
         "g": 0.045559,
         "g_sgr": 0.054099,
@@ -262,7 +262,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.433736,
+      "beta": 0.433735,
       "beta_raw": 0.154829,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 250 weeks"
@@ -888,7 +888,7 @@
   "score_composite": {
     "value_0_100": 57.5,
     "pillars": {
-      "valuation": 32.4897,
+      "valuation": 32.489727,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,
@@ -909,7 +909,7 @@
     "reporting_currency": "SAR",
     "price_listing": 26.26,
     "price_in_reporting_currency": 26.26,
-    "price_date": "2026-11-22",
+    "price_date": "2026-11-23",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "2222.SR",
