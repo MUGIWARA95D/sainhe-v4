@@ -10,23 +10,34 @@
   <meta name="twitter:title" content="{{ page_title | default(site_name) }}">
   <meta name="twitter:description" content="{{ page_description | default(site_slogan) }}">
 
-  <!-- JSON-LD: machine-readable dataset catalog for AI agents & crawlers -->
+  {%- set clean_path = '/' if page_path == '/index.html' else (page_path | default('/') | replace('.html', '')) %}
+  <link rel="canonical" href="{{ site_url }}{{ clean_path }}">
+  <meta property="og:url" content="{{ site_url }}{{ clean_path }}">
+  <!-- JSON-LD: the site and its datasets (absolute URLs, refreshed at every build) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Dataset",
-    "name": "{{ site_name }} financial data",
-    "description": "{{ site_slogan }} — macro signals, global indices, sector valuation, rotation heatmap, watchlist scan.",
-    "creator": {"@type": "Organization", "name": "{{ site_name }}"},
-    "isAccessibleForFree": true,
-    "distribution": [
-      {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/index.json", "name": "Dataset manifest — start here"},
-      {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/macro.json", "name": "Macro indicators — VIX, ERP, yield curve, DXY, HY OAS, CAPE, real rates, M2, credit spreads"},
-      {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/indices.json", "name": "Global equity indices — 15 benchmarks (USA, Europe, Asia, EM): price, 1d/1m returns, Smart Money Bias"},
-      {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/news.json", "name": "Financial news headlines — Bloomberg, CNBC, MarketWatch, SCMP, FT"},
-      {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/sectors.json", "name": "Valuation box — 16 sector ETFs × 4 regions (USA, Europe, Asia, EM): price, 1m/3m/6m/1y returns, relative performance vs MONDE, composite score"},
-      {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/sentiment.json", "name": "Rotation matrix — 16 sectors × 4 regions: alpha vs MONDE benchmark, DMA200/MFI/OBV signals, volume (vol_cur vol_90d), breadth regime"},
-      {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "/data/portfolio.json", "name": "Portfolio scan — watchlist holdings: price, 1m/3m/6m/1y returns, RVOL, MFI, DMA50/200, OBV direction, signal"}
+    "@graph": [
+      {"@type": "WebSite", "@id": "{{ site_url }}/#site", "url": "{{ site_url }}/", "name": "{{ site_name }}",
+       "description": "Free investment-analysis site: macro signals, global markets and a stock analysis that shows what each share price assumes against what the company's filings show. Informational only, not investment advice.",
+       "inLanguage": "en", "author": {"@id": "{{ site_url }}/#author"}},
+      {"@type": "Person", "@id": "{{ site_url }}/#author", "name": "Hugo Waldmeyer", "url": "{{ site_url }}/contact"},
+      {"@type": "Dataset", "@id": "{{ site_url }}/#data", "name": "{{ site_name }} market and company data",
+       "description": "Macro and liquidity indicators, global indices, sector ETFs by region, rotation breadth, a watchlist scan{% if stock_analysis_live %}, and per-company valuation measurements (reverse DCF implied growth, ROIC vs WACC, earnings power value) traced to SEC and ESEF filings{% endif %}. Every value carries its source and date.",
+       "url": "{{ site_url }}/", "creator": {"@id": "{{ site_url }}/#author"}, "isAccessibleForFree": true,
+       "dateModified": "{{ build_date }}", "keywords": ["macro indicators", "equity valuation", "reverse DCF", "ROIC", "WACC", "sector rotation", "XBRL"],
+       "distribution": [
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/index.json", "name": "Manifest of every dataset"},
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/macro.json", "name": "Macro and liquidity indicators with units, thresholds and regimes"},
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/indices.json", "name": "Global equity indices"},
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/sectors.json", "name": "Sector ETFs by region"},
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/sentiment.json", "name": "Rotation and breadth"},
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/portfolio.json", "name": "Watchlist scan"},
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/news.json", "name": "Headlines"}{% if stock_analysis_live %},
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/stock/valuation_map.json", "name": "Valuation map: one row per company"},
+        {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "{{ site_url }}/data/stock/lab_data.json", "name": "Allocation Lab: daily returns, FX, crisis windows"}{% endif %},
+        {"@type": "DataDownload", "encodingFormat": "text/markdown", "contentUrl": "{{ site_url }}/llms-full.txt", "name": "Every page as Markdown, one file"}
+       ]}
     ]
   }
   </script>
@@ -927,6 +938,17 @@ a.news-hl:hover{color:var(--gold)}
 [data-theme="dark"] .sec-creme .lrn-ci-demo-note{color:rgba(245,232,208,.4)}
 [data-theme="dark"] .sec-creme .lrn-empty-icon{color:rgba(196,149,90,.45)}
 [data-theme="dark"] .sec-creme .lrn-empty-txt{color:rgba(245,232,208,.45)}
+/* ══════ Text version of the figures (ai_layer.py) — collapsed by default ══════ */
+.ai-snap{max-width:1200px;margin:48px auto 0;padding:0 4px;font-size:12px;color:var(--muted)}
+.ai-snap summary{cursor:pointer;font-size:11.5px;letter-spacing:.3px;padding:10px 0;border-top:1px solid var(--border-lt)}
+.ai-snap summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.ai-snap h3{font-family:var(--serif);font-weight:400;font-size:14px;color:var(--h);margin:18px 0 6px}
+.ai-snap p{margin:6px 0;line-height:1.6}
+.ai-snap a{color:inherit;text-decoration:underline dotted}
+.ai-snap-tw{overflow-x:auto}
+.ai-snap table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.ai-snap th,.ai-snap td{border-bottom:1px solid var(--border-lt);padding:4px 8px;text-align:left;white-space:nowrap;color:var(--p)}
+.ai-snap th{color:var(--h);font-weight:600}
 /* ══════ Golden Rules grid ═══════════════════════════════ */
 .gr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media(max-width:680px){.gr-grid{grid-template-columns:1fr}}

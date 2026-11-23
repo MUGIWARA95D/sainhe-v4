@@ -5,7 +5,7 @@ Generates:
   - 4 HTML pages (EN): index, stock-analysis, learn, contact
   - output/data/*.json   : machine-readable data layer for AI agents
   - output/data/index.json : discovery manifest
-  - output/llms.txt      : agent entry point
+  - output/llms.txt      : agent entry point (ai_layer.py, with sitemap, robots and Markdown mirrors)
 
 Run:
     python render_html.py
@@ -24,6 +24,7 @@ from jinja2 import Environment, FileSystemLoader
 
 import db
 from config import (
+    SITE_URL,
     OUTPUT_DIR,
     TEMPLATE_DIR,
     BOX_REGISTRY,
@@ -263,92 +264,7 @@ def write_data_layer(boxes_by_id: dict, ts_render: str) -> list[dict]:
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     log.info("Data → %s/index.json (manifest, %d datasets)", data_dir, len(manifest_entries))
 
-    # llms.txt — agent entry point
-    lines = [
-        f"# {SITE_NAME} — {SITE_SLOGAN}",
-        "",
-        "> Independent financial intelligence platform. Macro signals, global indices,",
-        "> sector valuation, rotation heatmap, and a personal watchlist scan. All values in USD",
-        "> unless a native_ccy unit is given.",
-        "",
-        "## Machine-readable data",
-        "",
-        f"All data is exposed as JSON. Start with the manifest: /data/index.json",
-        "",
-    ]
-    for e in manifest_entries:
-        lines.append(f"- [{e['dataset']}]({e['url']}): {e['source']}")
-    lines += [
-        "",
-        "## Notes for agents",
-        "",
-        "- macro.json is rich per-field: each metric has value, unit, thresholds, regime.",
-        "- Collection datasets (indices, sectors, rotation, portfolio) use a top-level",
-        "  units map; records are flat. Missing values are null (never \"-\" or \"N/A\").",
-        "- Dates are ISO 8601. Refresh cadence: news 5x/day, fx 2x/day, full pipeline nightly.",
-        "",
-        "## Signal thresholds — do not invent values; read from macro.json",
-        "",
-        "The exact live values are always in macro.json. The thresholds below define regimes:",
-        "",
-        "### VIX (CBOE Volatility Index) — unit: index level",
-        "- < 12  : extreme complacency — tail risk structurally underpriced",
-        "- 12–15 : complacency zone — implied vol below historical norm",
-        "- 15–20 : normal range — orderly markets, no systemic stress",
-        "- 20–30 : elevated fear — risk-off rotation developing",
-        "- > 30  : panic zone — crisis consistent (GFC 2008 peak: 80, COVID 2020: 66)",
-        "",
-        "### ERP — Equity Risk Premium (unit: pct_points, e.g. 0.025 = 2.5%)",
-        "  Formula: earnings yield (1/P·E S&P 500) minus US 10Y treasury yield",
-        "- < 0%  : negative ERP — bonds outperform equities on risk-adjusted basis",
-        "- 0–1%  : very expensive — near CAPM break-even (Damodaran threshold)",
-        "- 1–2%  : modest premium — balanced allocation, no strong signal",
-        "- > 2%  : attractive — historically above-average forward equity returns",
-        "",
-        "### Yield Curve (10Y − 3M spread, unit: pct_points)",
-        "- ≥ +1.00 : steep — expansionary, low NY Fed recession probability",
-        "- 0 to +1 : flat — ambiguous, no confirmed recession signal",
-        "- −0.50 to 0 : partial inversion — caution; false positives exist (1998, 2019)",
-        "- < −0.50 : full inversion — ~70% preceded recession (1970–2023), lead 6–24 months",
-        "",
-        "### HY OAS — High-Yield Option-Adjusted Spread (unit: bps)",
-        "  US long-run average ~525bps; EM long-run average ~600bps",
-        "- < 260 bps : extreme compression — approaching pre-GFC lows (mid-2007 ~240bps)",
-        "- < 350 bps : tight — comparable to 2006–07, 2021 troughs; underpriced credit risk",
-        "- 350–500 bps : orderly — no systemic stress per Fed FSR framework",
-        "- 500–700 bps : stress — Fed FSR 'elevated vulnerability'",
-        "- > 700 bps : crisis — GFC peak 2000bps (2008), COVID 1100bps (2020)",
-        "",
-        "### CAPE — Shiller/Yale Cyclically Adjusted P/E (unit: ratio)",
-        "  Long-run mean: 17 (1881–present)",
-        "- ≤ 20  : near mean — forward 10Y real returns historically 8–10%",
-        "- 20–25 : modest premium — forward 10Y real returns 4–7%",
-        "- 25–34 : elevated — forward 10Y real returns compressed 0–4%",
-        "- > 34  : extreme — comparable to 1929 (33) and dot-com 2000 (44)",
-        "",
-        "### Portfolio signals (box_06)",
-        "  BUY   : ret_3m > +5%  AND price > DMA200  AND OBV not distributing",
-        "  AVOID : ret_3m < −5%  OR  (price < DMA200 AND OBV distributing)",
-        "  WATCH : all other cases",
-        "  MFI   : Money Flow Index (0–100); overbought > 60, oversold < 40",
-        "  RVOL  : Relative Volume vs 90-day avg; highlighted in gold when > 1.20",
-        "  OBV   : On-Balance Volume trend — accumulating / distributing / neutral",
-        "",
-    ]
-    (OUTPUT_DIR / "llms.txt").write_text("\n".join(lines), encoding="utf-8")
-    log.info("llms.txt written")
-
-    # robots.txt — allow all crawlers, point AI agents to llms.txt
-    robots = (
-        "User-agent: *\n"
-        "Allow: /\n"
-        "\n"
-        "# AI agent entry point\n"
-        "# Machine-readable data catalogue: /data/index.json\n"
-        "# Signal thresholds and interpretation: /llms.txt\n"
-    )
-    (OUTPUT_DIR / "robots.txt").write_text(robots, encoding="utf-8")
-    log.info("robots.txt written")
+    # llms.txt, robots.txt, sitemap.xml and the Markdown mirrors: ai_layer.build() at the end of render()
 
     return manifest_entries
 
@@ -433,6 +349,12 @@ def render(currency: str = DEFAULT_CURRENCY):
         "/*.html\n"
         "  Cache-Control: no-cache, must-revalidate\n\n"
         "/data/*.json\n"
+        "  Cache-Control: no-cache, must-revalidate\n\n"
+        "/*.md\n"
+        "  Content-Type: text/markdown; charset=utf-8\n"
+        "  Cache-Control: no-cache, must-revalidate\n\n"
+        "/llms*.txt\n"
+        "  Content-Type: text/plain; charset=utf-8\n"
         "  Cache-Control: no-cache, must-revalidate\n"
     )
     (OUTPUT_DIR / "_headers").write_text(headers_content, encoding="utf-8")
@@ -470,6 +392,8 @@ def render(currency: str = DEFAULT_CURRENCY):
         "fx_rates_js"        : fx_rates,
         "stock_analysis_live": stock_analysis_live,
         "stock_vmap"         : stock_vmap,
+        "site_url"           : SITE_URL,
+        "build_date"         : ts_render[:10],
     }
 
     # ── Dashboard (index 0) — special: needs box data ────────
@@ -507,6 +431,11 @@ def render(currency: str = DEFAULT_CURRENCY):
             "page_description": _page_description(page),
             "page_nav"        : page["nav"],
         })
+
+    # ── AI / crawler layer: static text version of the figures, Markdown mirrors, llms.txt, sitemap ──
+    import ai_layer
+    info = ai_layer.build(OUTPUT_DIR, ts_render, stock_analysis_live and stock_vmap is not None)
+    log.info("AI layer : %s", info)
 
     con.close()
     log.info("Render complet — %d pages (EN) + data layer (%d datasets + manifest)",
