@@ -1,42 +1,42 @@
 {
   "ticker": "KAP.IL",
   "cik": 0,
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-24",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 25887.793069,
+    "prix": 25950.455585,
     "EPV": {
-      "epv_ev": 8251540604196.505,
-      "epv_equity": 8507580604196.505,
-      "epv_per_share": 32802.587184,
+      "epv_ev": 8245141003702.482,
+      "epv_equity": 8501181003702.482,
+      "epv_per_share": 32777.912313,
       "inputs": {
         "ebit_adj": 768676000000.0,
         "tax": 0.189786,
-        "wacc": 0.075476,
+        "wacc": 0.075534,
         "net_debt": -256040000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 13452.446613,
-      "high": 29448.210996,
+      "low": 13442.327369,
+      "high": 29426.059365,
       "fcf_p25": 237830750000.0,
       "fcf_p75": 520625750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 37661.690728,
-      "central": 32802.587184,
-      "plus_100bps": 29080.437652
+      "minus_100bps": 37628.907082,
+      "central": 32777.912313,
+      "plus_100bps": 29061.196839
     },
     "RE_valuation": {
-      "re_value_equity": 7537493421246.687,
-      "re_value_per_share": 29062.232449,
+      "re_value_equity": 7531522806661.402,
+      "re_value_per_share": 29039.211614,
       "inputs": {
         "B0": 2327943000000.0,
-        "RE": 394274325325.0957,
-        "ke": 0.075683,
+        "RE": 394134654134.29724,
+        "ke": 0.075743,
         "g": 0.0,
         "g_sgr": "N/D",
-        "g_cap": 0.04912
+        "g_cap": 0.04918
       }
     },
     "consensus": {
@@ -51,12 +51,12 @@
       "dispersion": 0.240194
     },
     "reverse_dcf": {
-      "implied_g": -0.013142,
+      "implied_g": -0.012884,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 6458140347115.42,
+        "ev": 6474392309085.395,
         "fcf_adj": 579929000000.0,
-        "wacc": 0.075476,
+        "wacc": 0.075534,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -77,7 +77,7 @@
       "message": "Aucun taux 10 ans KZT publié : US 10Y utilisé en substitut",
       "details": {
         "currency": "KZT",
-        "rf": 0.04912,
+        "rf": 0.04918,
         "reason": "no_source"
       }
     }
@@ -183,44 +183,44 @@
       0.0,
       0.0123,
       0.0246,
-      0.0368,
-      0.0491
+      0.0369,
+      0.0492
     ],
     "matrix": [
       [
-        30876.61,
-        34044.8,
-        38735.02,
-        46390.81,
-        61125.11
+        30852.15,
+        34017.71,
+        38705.01,
+        46358.51,
+        61097.04
       ],
       [
-        31728.29,
-        35019.68,
-        39892.29,
-        47845.81,
-        63153.1
+        31703.15,
+        34991.86,
+        39861.5,
+        47812.72,
+        63124.59
       ],
       [
-        33458.74,
-        37000.47,
-        42243.67,
-        50802.09,
-        67273.59
+        33432.24,
+        36971.15,
+        42211.26,
+        50767.41,
+        67244.2
       ],
       [
-        33912.96,
-        37520.39,
-        42860.87,
-        51578.07,
-        68355.15
+        33886.1,
+        37490.68,
+        42828.04,
+        51542.97,
+        68325.53
       ],
       [
-        34767.2,
-        38498.2,
-        44021.62,
-        53037.44,
-        70389.23
+        34739.66,
+        38467.75,
+        43988.0,
+        53001.55,
+        70359.18
       ]
     ]
   },
@@ -240,13 +240,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.075476,
-      "ke": 0.075683,
+      "wacc": 0.075534,
+      "ke": 0.075743,
       "kd": 0.085357,
       "tax_rate": 0.189786,
-      "E": 6714180347115.42,
+      "E": 6730432309085.395,
       "D": 220146000000.0,
-      "rf": 0.04912,
+      "rf": 0.04918,
       "rf_source": "PROXY : aucun taux 10 ans KZT publié → US 10Y (sainhe macro.json us_10y)",
       "rf_currency": "KZT",
       "rf_proxy": true,
@@ -869,10 +869,10 @@
     "source": "Yahoo Finance statements (secondary) — Kazakhstan: no public XBRL feed",
     "listing_currency": "USD",
     "reporting_currency": "KZT",
-    "price_listing": 56.9,
-    "price_in_reporting_currency": 25887.793069458006,
+    "price_listing": 56.7,
+    "price_in_reporting_currency": 25950.455584716798,
     "price_date": "2026-11-23",
-    "fx_listing_to_reporting": 454.9700012207031,
+    "fx_listing_to_reporting": 457.67999267578125,
     "adr_ratio": 1.0,
     "quote_ticker": "KAP.IL",
     "fiscal_year_end": "2025-12-31",

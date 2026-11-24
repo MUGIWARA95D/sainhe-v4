@@ -1,61 +1,61 @@
 {
   "ticker": "RACE",
   "cik": 1648416,
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-24",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 357.55,
+    "prix": 365.35,
     "EPV": {
-      "epv_ev": 23349705602.998287,
-      "epv_equity": 24817416602.998287,
-      "epv_per_share": 139.245668,
+      "epv_ev": 23416580676.984985,
+      "epv_equity": 24884291676.984985,
+      "epv_per_share": 139.620891,
       "inputs": {
         "ebit_adj": 2109716000.0,
         "tax": 0.224904,
-        "wacc": 0.070032,
+        "wacc": 0.069832,
         "net_debt": -1467711000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 44.463207,
-      "high": 101.758466,
+      "low": 44.583021,
+      "high": 102.032673,
       "fcf_p25": 595233500.0,
       "fcf_p75": 1362251000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 161.06903,
-      "central": 139.245668,
-      "plus_100bps": 122.875945
+      "minus_100bps": 161.579916,
+      "central": 139.620891,
+      "plus_100bps": 123.163156
     },
     "RE_valuation": {
-      "re_value_equity": 22802611982.003876,
-      "re_value_per_share": 127.940993,
+      "re_value_equity": 22867920144.312798,
+      "re_value_per_share": 128.307425,
       "inputs": {
         "B0": 3906893000.0,
-        "RE": 1323310359.569206,
-        "ke": 0.070032,
+        "RE": 1324091754.527105,
+        "ke": 0.069832,
         "g": 0.0,
         "g_sgr": "N/D",
-        "g_cap": 0.0337
+        "g_cap": 0.0335
       }
     },
     "consensus": {
       "available": true,
-      "target_mean": 400.9111,
+      "target_mean": 402.02222,
       "target_median": 405.5,
       "target_high": 435.0,
       "target_low": 330.0,
       "n_analysts": 18,
       "warning_few_analysts": false,
-      "dispersion": 0.261903
+      "dispersion": 0.26118
     },
     "reverse_dcf": {
-      "implied_g": 0.038925,
+      "implied_g": 0.039391,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 62257555568.08035,
+        "ev": 63647730590.40179,
         "fcf_adj": 1864096000.0,
-        "wacc": 0.070032,
+        "wacc": 0.069832,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -215,9 +215,9 @@
     "ocf_ni": 1.471149,
     "accruals_pct_rev": -0.105291,
     "retained_earnings_test": {
-      "ratio": 5.13426,
+      "ratio": 5.134262,
       "retained_5y": 4423724000.0,
-      "delta_mcap": 22712551043.203476,
+      "delta_mcap": 22712556698.41774,
       "passes": true,
       "window": [
         2020,
@@ -244,45 +244,45 @@
     "g_axis": [
       0.0,
       0.0084,
-      0.0169,
-      0.0253,
-      0.0337
+      0.0168,
+      0.0251,
+      0.0335
     ],
     "matrix": [
       [
-        78.93,
-        84.87,
-        92.7,
-        103.48,
-        119.26
+        79.15,
+        85.11,
+        92.94,
+        103.71,
+        119.44
       ],
       [
-        96.49,
-        104.27,
-        114.51,
-        128.61,
-        149.25
+        96.77,
+        104.55,
+        114.8,
+        128.88,
+        149.45
       ],
       [
-        113.27,
-        122.8,
-        135.35,
-        152.63,
-        177.91
+        113.6,
+        123.14,
+        135.68,
+        152.93,
+        178.13
       ],
       [
-        128.04,
-        139.11,
-        153.69,
-        173.76,
-        203.13
+        128.41,
+        139.49,
+        154.06,
+        174.1,
+        203.37
       ],
       [
-        135.08,
-        146.88,
-        162.43,
-        183.82,
-        215.14
+        135.47,
+        147.28,
+        162.82,
+        184.18,
+        215.39
       ]
     ]
   },
@@ -302,13 +302,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.070032,
-      "ke": 0.070032,
+      "wacc": 0.069832,
+      "ke": 0.069832,
       "kd": "N/D",
       "tax_rate": 0.224904,
-      "E": 63725266568.08035,
+      "E": 65115441590.40179,
       "D": 0,
-      "rf": 0.0337,
+      "rf": 0.0335,
       "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -955,8 +955,8 @@
     "source": "SEC EDGAR 20-F",
     "listing_currency": "EUR",
     "reporting_currency": "EUR",
-    "price_listing": 357.55,
-    "price_in_reporting_currency": 357.55,
+    "price_listing": 365.35,
+    "price_in_reporting_currency": 365.35,
     "price_date": "2026-11-23",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,

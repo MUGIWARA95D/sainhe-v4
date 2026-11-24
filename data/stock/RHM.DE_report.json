@@ -1,42 +1,42 @@
 {
   "ticker": "RHM.DE",
   "cik": 0,
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-24",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 719.1,
+    "prix": 725.2,
     "EPV": {
-      "epv_ev": 19862226176.680614,
-      "epv_equity": 20577226176.680614,
-      "epv_per_share": 441.003561,
+      "epv_ev": 19924485878.52918,
+      "epv_equity": 20639485878.52918,
+      "epv_per_share": 442.337889,
       "inputs": {
         "ebit_adj": 1702000000.0,
         "tax": 0.251908,
-        "wacc": 0.064104,
+        "wacc": 0.063904,
         "net_debt": -715000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": -14.024848,
-      "high": 407.733505,
+      "low": -14.067283,
+      "high": 408.967168,
       "fcf_p25": -45000000.0,
       "fcf_p75": 1308250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 519.681377,
-      "central": 441.003561,
-      "plus_100bps": 383.560123
+      "minus_100bps": 521.555616,
+      "central": 442.337889,
+      "plus_100bps": 384.558204
     },
     "RE_valuation": {
-      "re_value_equity": 16281724020.67708,
-      "re_value_per_share": 348.943935,
+      "re_value_equity": 16319704298.319527,
+      "re_value_per_share": 349.757915,
       "inputs": {
         "B0": 5011000000.0,
-        "RE": 378389985.533855,
-        "ke": 0.063383,
-        "g": 0.0337,
+        "RE": 379392282.899963,
+        "ke": 0.063183,
+        "g": 0.0335,
         "g_sgr": 0.207868,
-        "g_cap": 0.0337
+        "g_cap": 0.0335
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.82942
     },
     "reverse_dcf": {
-      "implied_g": 0.020146,
+      "implied_g": 0.020316,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 32838206000.0,
+        "ev": 33122832000.000004,
         "fcf_adj": 1415000000.0,
-        "wacc": 0.064104,
+        "wacc": 0.063904,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -178,45 +178,45 @@
     "g_axis": [
       0.0,
       0.0084,
-      0.0169,
-      0.0253,
-      0.0337
+      0.0168,
+      0.0251,
+      0.0335
     ],
     "matrix": [
       [
-        287.14,
-        308.69,
-        338.04,
-        380.38,
-        446.74
+        288.05,
+        309.65,
+        339.05,
+        381.39,
+        447.62
       ],
       [
-        294.44,
-        316.86,
-        347.41,
-        391.46,
-        460.52
+        295.37,
+        317.85,
+        348.44,
+        392.5,
+        461.41
       ],
       [
-        362.61,
-        393.21,
-        434.88,
-        494.99,
-        589.22
+        363.76,
+        394.42,
+        436.14,
+        496.22,
+        590.2
       ],
       [
-        423.35,
-        461.23,
-        512.83,
-        587.24,
-        703.9
+        424.69,
+        462.64,
+        514.28,
+        588.64,
+        704.96
       ],
       [
-        437.7,
-        477.3,
-        531.24,
-        609.03,
-        730.98
+        439.09,
+        478.76,
+        532.73,
+        610.47,
+        732.07
       ]
     ]
   },
@@ -236,13 +236,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.064104,
-      "ke": 0.063383,
+      "wacc": 0.063904,
+      "ke": 0.063183,
       "kd": 0.118852,
       "tax_rate": 0.251908,
-      "E": 33553206000.0,
+      "E": 33837832000.000004,
       "D": 976000000.0,
-      "rf": 0.0337,
+      "rf": 0.0335,
       "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -252,7 +252,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.783181,
-      "beta_raw": 0.67639,
+      "beta_raw": 0.676389,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
@@ -865,8 +865,8 @@
     "source": "Yahoo Finance statements (secondary) — ESEF report not indexed on filings.xbrl.org",
     "listing_currency": "EUR",
     "reporting_currency": "EUR",
-    "price_listing": 719.1,
-    "price_in_reporting_currency": 719.1,
+    "price_listing": 725.2,
+    "price_in_reporting_currency": 725.2,
     "price_date": "2026-11-23",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,

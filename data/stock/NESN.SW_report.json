@@ -1,39 +1,39 @@
 {
   "ticker": "NESN.SW",
   "cik": 0,
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-24",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 85.23,
+    "prix": 84.88,
     "EPV": {
-      "epv_ev": 387824278179.90326,
-      "epv_equity": 393754278179.90326,
-      "epv_per_share": 152.854922,
+      "epv_ev": 389944663192.648,
+      "epv_equity": 395874663192.648,
+      "epv_per_share": 153.678052,
       "inputs": {
         "ebit_adj": 13981000000.0,
         "tax": 0.245559,
-        "wacc": 0.027197,
+        "wacc": 0.02705,
         "net_debt": -5930000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 101.525566,
-      "high": 151.929403,
+      "low": 102.072286,
+      "high": 152.747549,
       "fcf_p25": 7212500000.0,
       "fcf_p75": 10793250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 240.398468,
-      "central": 152.854922,
-      "plus_100bps": 112.380977
+      "minus_100bps": 242.46375,
+      "central": 153.678052,
+      "plus_100bps": 112.820379
     },
     "RE_valuation": {
-      "re_value_equity": 394176273849.5386,
-      "re_value_per_share": 153.01874,
+      "re_value_equity": 396825394706.8147,
+      "re_value_per_share": 154.047125,
       "inputs": {
         "B0": 32810000000.0,
-        "RE": 8140650442.163066,
-        "ke": 0.027197,
+        "RE": 8145502732.262577,
+        "ke": 0.02705,
         "g": 0.0051,
         "g_sgr": 0.027865,
         "g_cap": 0.0051
@@ -50,12 +50,12 @@
       "dispersion": 0.314478
     },
     "reverse_dcf": {
-      "implied_g": -0.022492,
+      "implied_g": -0.022833,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 213622480000.0,
+        "ev": 212720880000.0,
         "fcf_adj": 10859000000.0,
-        "wacc": 0.027197,
+        "wacc": 0.02705,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        145.44,
-        151.3,
-        157.77,
-        164.94,
-        172.95
+        146.23,
+        152.17,
+        158.72,
+        165.99,
+        174.11
       ],
       [
-        150.55,
-        156.64,
-        163.36,
-        170.81,
-        179.12
+        151.38,
+        157.54,
+        164.34,
+        171.9,
+        180.33
       ],
       [
-        162.25,
-        168.86,
-        176.15,
-        184.23,
-        193.25
+        163.14,
+        169.83,
+        177.21,
+        185.4,
+        194.55
       ],
       [
-        169.93,
-        176.88,
-        184.54,
-        193.04,
-        202.52
+        170.86,
+        177.89,
+        185.65,
+        194.27,
+        203.88
       ],
       [
-        182.35,
-        189.84,
-        198.11,
-        207.28,
-        217.51
+        183.35,
+        190.93,
+        199.3,
+        208.6,
+        218.97
       ]
     ]
   },
@@ -236,11 +236,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.027197,
-      "ke": 0.027197,
+      "wacc": 0.02705,
+      "ke": 0.02705,
       "kd": "N/D",
       "tax_rate": 0.245559,
-      "E": 219552480000.0,
+      "E": 218650880000.0,
       "D": 0,
       "rf": 0.0051,
       "rf_source": "FRED IRLTLT01CHM156N (OECD long-term yield, 2026-10-01)",
@@ -251,10 +251,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.583047,
-      "beta_raw": 0.377682,
+      "beta": 0.579145,
+      "beta_raw": 0.371858,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -880,8 +880,8 @@
     "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
     "listing_currency": "CHF",
     "reporting_currency": "CHF",
-    "price_listing": 85.23,
-    "price_in_reporting_currency": 85.23,
+    "price_listing": 84.88,
+    "price_in_reporting_currency": 84.88,
     "price_date": "2026-11-23",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,

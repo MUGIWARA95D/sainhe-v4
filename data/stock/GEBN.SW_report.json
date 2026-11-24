@@ -1,39 +1,39 @@
 {
   "ticker": "GEBN.SW",
   "cik": 0,
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-24",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 581.4,
+    "prix": 585.2,
     "EPV": {
-      "epv_ev": 15389314301.307053,
-      "epv_equity": 14677314301.307053,
-      "epv_per_share": 442.861454,
+      "epv_ev": 15434459598.858223,
+      "epv_equity": 14722459598.858223,
+      "epv_per_share": 444.223632,
       "inputs": {
         "ebit_adj": 767200000.0,
         "tax": 0.186224,
-        "wacc": 0.040569,
+        "wacc": 0.04045,
         "net_debt": 712000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 377.725492,
-      "high": 436.363629,
+      "low": 378.887321,
+      "high": 437.70582,
       "fcf_p25": 598750000.0,
       "fcf_p75": 691700000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 594.761992,
-      "central": 442.861454,
-      "plus_100bps": 351.037459
+      "minus_100bps": 597.163461,
+      "central": 444.223632,
+      "plus_100bps": 351.913656
     },
     "RE_valuation": {
-      "re_value_equity": 15672050713.956408,
-      "re_value_per_share": 472.875829,
+      "re_value_equity": 15729939539.297005,
+      "re_value_per_share": 474.622519,
       "inputs": {
         "B0": 1517100000.0,
-        "RE": 533895003.21487,
-        "ke": 0.042123,
+        "RE": 534102383.370333,
+        "ke": 0.041986,
         "g": 0.0051,
         "g_sgr": 0.012875,
         "g_cap": 0.0051
@@ -50,12 +50,12 @@
       "dispersion": 0.292441
     },
     "reverse_dcf": {
-      "implied_g": 0.005251,
+      "implied_g": 0.00535,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 19980758800.0,
+        "ev": 20106698400.0,
         "fcf_adj": 702000000.0,
-        "wacc": 0.040569,
+        "wacc": 0.04045,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        444.35,
-        454.89,
-        466.12,
-        478.1,
-        490.9
+        445.79,
+        456.42,
+        467.74,
+        479.81,
+        492.71
       ],
       [
-        447.21,
-        457.84,
-        469.14,
-        481.21,
-        494.1
+        448.67,
+        459.37,
+        470.77,
+        482.93,
+        495.92
       ],
       [
-        461.27,
-        472.27,
-        483.97,
-        496.46,
-        509.8
+        462.77,
+        473.85,
+        485.65,
+        498.23,
+        511.68
       ],
       [
-        475.18,
-        486.54,
-        498.64,
-        511.54,
-        525.33
+        476.72,
+        488.17,
+        500.36,
+        513.36,
+        527.27
       ],
       [
-        486.33,
-        497.98,
-        510.39,
-        523.63,
-        537.78
+        487.91,
+        499.66,
+        512.16,
+        525.5,
+        539.77
       ]
     ]
   },
@@ -236,11 +236,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.040569,
-      "ke": 0.042123,
+      "wacc": 0.04045,
+      "ke": 0.041986,
       "kd": 0.021498,
       "tax_rate": 0.186224,
-      "E": 19268758800.0,
+      "E": 19394698400.0,
       "D": 1297800000.0,
       "rf": 0.0051,
       "rf_source": "FRED IRLTLT01CHM156N (OECD long-term yield, 2026-10-01)",
@@ -251,10 +251,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.976864,
-      "beta_raw": 0.965468,
+      "beta": 0.973257,
+      "beta_raw": 0.960085,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -812,9 +812,9 @@
     "edgar_filings_index": "https://finance.yahoo.com/quote/GEBN.SW/financials"
   },
   "score_composite": {
-    "value_0_100": 48.5,
+    "value_0_100": 48.3,
     "pillars": {
-      "valuation": 2.343121,
+      "valuation": 1.819423,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,
@@ -833,8 +833,8 @@
     "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
     "listing_currency": "CHF",
     "reporting_currency": "CHF",
-    "price_listing": 581.4,
-    "price_in_reporting_currency": 581.4,
+    "price_listing": 585.2,
+    "price_in_reporting_currency": 585.2,
     "price_date": "2026-11-23",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,

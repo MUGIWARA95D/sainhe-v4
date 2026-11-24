@@ -1,42 +1,42 @@
 {
   "ticker": "XOM",
   "cik": 2115436,
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-24",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 159.99,
+    "prix": 156.9,
     "EPV": {
-      "epv_ev": 454412602131.4558,
-      "epv_equity": 421556602131.4558,
-      "epv_per_share": 97.920858,
+      "epv_ev": 456369001190.1156,
+      "epv_equity": 423513001190.1156,
+      "epv_per_share": 98.375298,
       "inputs": {
         "ebit_adj": 41871000000.0,
         "tax": 0.278763,
-        "wacc": 0.066457,
+        "wacc": 0.066172,
         "net_debt": 32856000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 23.96183,
-      "high": 141.418546,
+      "low": 24.073034,
+      "high": 142.074854,
       "fcf_p25": 5778000000.0,
       "fcf_p75": 34100750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 116.61699,
-      "central": 97.920858,
-      "plus_100bps": 84.115352
+      "minus_100bps": 117.247154,
+      "central": 98.375298,
+      "plus_100bps": 84.458498
     },
     "RE_valuation": {
-      "re_value_equity": 429033691465.6067,
-      "re_value_per_share": 99.657667,
+      "re_value_equity": 430632175264.9349,
+      "re_value_per_share": 100.028969,
       "inputs": {
         "B0": 259386000000.0,
-        "RE": 10623605285.304836,
-        "ke": 0.070244,
+        "RE": 10683209570.832176,
+        "ke": 0.070015,
         "g": 0.009673,
         "g_sgr": 0.009673,
-        "g_cap": 0.04912
+        "g_cap": 0.04918
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.287759
     },
     "reverse_dcf": {
-      "implied_g": 0.032668,
+      "implied_g": 0.031778,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 721624889552.2388,
+        "ev": 708322208955.2239,
         "fcf_adj": 23612000000.0,
-        "wacc": 0.066457,
+        "wacc": 0.066172,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -223,44 +223,44 @@
       0.0,
       0.0123,
       0.0246,
-      0.0368,
-      0.0491
+      0.0369,
+      0.0492
     ],
     "matrix": [
       [
-        -108.47,
-        -135.71,
-        -177.6,
-        -250.29,
-        -407.49
+        -108.82,
+        -136.3,
+        -178.65,
+        -252.42,
+        -413.28
       ],
       [
-        33.24,
-        28.87,
-        22.17,
-        10.53,
-        -14.64
+        33.35,
+        28.97,
+        22.23,
+        10.49,
+        -15.1
       ],
       [
-        88.31,
-        92.84,
-        99.8,
-        111.89,
-        138.03
+        88.6,
+        93.2,
+        100.3,
+        112.67,
+        139.64
       ],
       [
-        108.67,
-        116.48,
-        128.5,
-        149.36,
-        194.47
+        109.02,
+        116.95,
+        129.16,
+        150.44,
+        196.84
       ],
       [
-        151.13,
-        165.81,
-        188.38,
-        227.53,
-        312.21
+        151.63,
+        166.48,
+        189.37,
+        229.24,
+        316.18
       ]
     ]
   },
@@ -280,13 +280,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.066457,
-      "ke": 0.070244,
+      "wacc": 0.066172,
+      "ke": 0.070015,
       "kd": 0.01385,
       "tax_rate": 0.278763,
-      "E": 688768889552.2388,
+      "E": 675466208955.2239,
       "D": 46196000000.0,
-      "rf": 0.04912,
+      "rf": 0.04918,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -295,10 +295,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.55737,
-      "beta_raw": 0.339358,
+      "beta": 0.549724,
+      "beta_raw": 0.327946,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -1155,9 +1155,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 159.99,
-    "price_in_reporting_currency": 159.99,
-    "price_date": "2026-11-20",
+    "price_listing": 156.9,
+    "price_in_reporting_currency": 156.9,
+    "price_date": "2026-11-23",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "XOM",
