@@ -1,39 +1,39 @@
 {
   "ticker": "ROP.SW",
   "cik": 0,
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 399.2,
+    "prix": 404.8,
     "EPV": {
-      "epv_ev": 517541069148.30115,
-      "epv_equity": 501381069148.30115,
-      "epv_per_share": 624.384893,
+      "epv_ev": 518814870811.99207,
+      "epv_equity": 502654870811.99207,
+      "epv_per_share": 625.971197,
       "inputs": {
         "ebit_adj": 18476000000.0,
         "tax": 0.187003,
-        "wacc": 0.029024,
+        "wacc": 0.028952,
         "net_debt": 16160000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 563.050424,
-      "high": 705.384726,
+      "low": 564.480902,
+      "high": 707.176817,
       "fcf_p25": 11016000000.0,
       "fcf_p75": 13800750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 963.17854,
-      "central": 624.384893,
-      "plus_100bps": 459.226251
+      "minus_100bps": 966.875671,
+      "central": 625.971197,
+      "plus_100bps": 460.103173
     },
     "RE_valuation": {
-      "re_value_equity": 533956615316.9817,
-      "re_value_per_share": 664.952198,
+      "re_value_equity": 535570554971.34595,
+      "re_value_per_share": 666.962086,
       "inputs": {
         "B0": 33802000000.0,
-        "RE": 11917511818.208899,
-        "ke": 0.028474,
+        "RE": 11919898062.853432,
+        "ke": 0.028404,
         "g": 0.0051,
         "g_sgr": 0.048016,
         "g_cap": 0.0051
@@ -50,12 +50,12 @@
       "dispersion": 0.628466
     },
     "reverse_dcf": {
-      "implied_g": -0.007002,
+      "implied_g": -0.006612,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 336717600000.0,
+        "ev": 341214400000.0,
         "fcf_adj": 12216000000.0,
-        "wacc": 0.029024,
+        "wacc": 0.028952,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        391.37,
-        406.0,
-        422.07,
-        439.81,
-        459.48
+        392.34,
+        407.05,
+        423.22,
+        441.07,
+        460.86
       ],
       [
-        464.17,
-        481.85,
-        501.27,
-        522.71,
-        546.48
+        465.32,
+        483.1,
+        502.64,
+        524.2,
+        548.13
       ],
       [
-        614.64,
-        638.62,
-        664.97,
-        694.04,
-        726.29
+        616.16,
+        640.29,
+        666.79,
+        696.03,
+        728.48
       ],
       [
-        638.22,
-        663.2,
-        690.63,
-        720.9,
-        754.48
+        639.81,
+        664.92,
+        692.52,
+        722.97,
+        756.76
       ],
       [
-        675.66,
-        702.21,
-        731.36,
-        763.54,
-        799.22
+        677.34,
+        704.04,
+        733.36,
+        765.73,
+        801.63
       ]
     ]
   },
@@ -236,11 +236,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.029024,
-      "ke": 0.028474,
+      "wacc": 0.028952,
+      "ke": 0.028404,
       "kd": 0.042546,
       "tax_rate": 0.187003,
-      "E": 320557600000.0,
+      "E": 325054400000.0,
       "D": 31636000000.0,
       "rf": 0.0051,
       "rf_source": "FRED IRLTLT01CHM156N (OECD long-term yield, 2026-10-01)",
@@ -251,10 +251,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.616736,
-      "beta_raw": 0.427964,
+      "beta": 0.614873,
+      "beta_raw": 0.425184,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -911,9 +911,9 @@
     "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
     "listing_currency": "CHF",
     "reporting_currency": "CHF",
-    "price_listing": 399.2,
-    "price_in_reporting_currency": 399.2,
-    "price_date": "2026-11-23",
+    "price_listing": 404.8,
+    "price_in_reporting_currency": 404.8,
+    "price_date": "2026-11-24",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "ROP.SW",

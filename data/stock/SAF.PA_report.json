@@ -1,42 +1,42 @@
 {
   "ticker": "SAF.PA",
   "cik": 0,
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 302.5,
+    "prix": 299.1,
     "EPV": {
-      "epv_ev": 48089977023.0886,
-      "epv_equity": 50451977023.0886,
-      "epv_per_share": 120.732278,
+      "epv_ev": 48421244616.92966,
+      "epv_equity": 50783244616.92966,
+      "epv_per_share": 121.525006,
       "inputs": {
         "ebit_adj": 4592000000.0,
         "tax": 0.290486,
-        "wacc": 0.06775,
+        "wacc": 0.067286,
         "net_debt": -2362000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 85.940986,
-      "high": 114.960123,
+      "low": 86.505274,
+      "high": 115.71495,
       "fcf_p25": 2713500000.0,
       "fcf_p75": 3629750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 140.6596,
-      "central": 120.732278,
-      "plus_100bps": 105.930966
+      "minus_100bps": 141.751939,
+      "central": 121.525006,
+      "plus_100bps": 106.532357
     },
     "RE_valuation": {
-      "re_value_equity": 166493175962.9204,
-      "re_value_per_share": 398.420471,
+      "re_value_equity": 167134170450.7368,
+      "re_value_per_share": 399.95438,
       "inputs": {
         "B0": 14839000000.0,
-        "RE": 6146781293.697389,
-        "ke": 0.069426,
-        "g": 0.0335,
+        "RE": 6153626325.917521,
+        "ke": 0.068965,
+        "g": 0.0331,
         "g_sgr": 0.12519,
-        "g_cap": 0.0335
+        "g_cap": 0.0331
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.279649
     },
     "reverse_dcf": {
-      "implied_g": 0.035916,
+      "implied_g": 0.035109,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 124047633515.0,
+        "ev": 122626831022.6,
         "fcf_adj": 3812000000.0,
-        "wacc": 0.06775,
+        "wacc": 0.067286,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -181,13 +181,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.06775,
-      "ke": 0.069426,
+      "wacc": 0.067286,
+      "ke": 0.068965,
       "kd": 0.029723,
       "tax_rate": 0.290486,
-      "E": 126409633515.0,
+      "E": 124988831022.6,
       "D": 4542000000.0,
-      "rf": 0.0335,
+      "rf": 0.0331,
       "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -196,10 +196,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.947927,
-      "beta_raw": 0.922279,
+      "beta": 0.94631,
+      "beta_raw": 0.919865,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -825,9 +825,9 @@
     "source": "Yahoo Finance statements (secondary) — ESEF report not indexed on filings.xbrl.org",
     "listing_currency": "EUR",
     "reporting_currency": "EUR",
-    "price_listing": 302.5,
-    "price_in_reporting_currency": 302.5,
-    "price_date": "2026-11-23",
+    "price_listing": 299.1,
+    "price_in_reporting_currency": 299.1,
+    "price_date": "2026-11-24",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "SAF.PA",

@@ -1,39 +1,39 @@
 {
   "ticker": "AAPL",
   "cik": 320193,
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
-    "prix": 349.08,
+    "prix": 354.07,
     "EPV": {
-      "epv_ev": 1475494047507.635,
-      "epv_equity": 1450649047507.635,
-      "epv_per_share": 98.547479,
+      "epv_ev": 1473042269619.2405,
+      "epv_equity": 1448197269619.2405,
+      "epv_per_share": 98.380922,
       "inputs": {
         "ebit_adj": 158063000000.0,
         "tax": 0.169948,
-        "wacc": 0.08892,
+        "wacc": 0.089068,
         "net_debt": 24845000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 46.178086,
-      "high": 79.343266,
+      "low": 46.10004,
+      "high": 79.209166,
       "fcf_p25": 57292750000.0,
       "fcf_p75": 98440500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 111.248396,
-      "central": 98.547479,
-      "plus_100bps": 88.414486
+      "minus_100bps": 111.037,
+      "central": 98.380922,
+      "plus_100bps": 88.279879
     },
     "RE_valuation": {
-      "re_value_equity": 1486453158822.5786,
-      "re_value_per_share": 100.979773,
+      "re_value_equity": 1483983170554.52,
+      "re_value_per_share": 100.811978,
       "inputs": {
         "B0": 112093000000.0,
-        "RE": 122207721726.16884,
-        "ke": 0.08892,
+        "RE": 122191131874.68713,
+        "ke": 0.089068,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.04918
@@ -50,12 +50,12 @@
       "dispersion": 0.50632
     },
     "reverse_dcf": {
-      "implied_g": 0.063731,
+      "implied_g": 0.064221,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 5163409418480.0,
+        "ev": 5236863745420.0,
         "fcf_adj": 122267000000.0,
-        "wacc": 0.08892,
+        "wacc": 0.089068,
         "fcf_basis": "last_year",
         "fcf_years": [
           2026
@@ -215,9 +215,9 @@
     "ocf_ni": 1.097764,
     "accruals_pct_rev": -0.026986,
     "retained_earnings_test": {
-      "ratio": 4.832466,
+      "ratio": 4.992681,
       "retained_5y": 458477000000.0,
-      "delta_mcap": 2215574422277.038,
+      "delta_mcap": 2289029569368.622,
       "passes": true,
       "window": [
         2021,
@@ -331,39 +331,39 @@
     ],
     "matrix": [
       [
-        74.03,
-        81.61,
-        92.08,
-        107.51,
-        132.48
+        73.9,
+        81.45,
+        91.87,
+        107.21,
+        132.0
       ],
       [
-        75.56,
-        83.32,
-        94.04,
-        109.82,
-        135.37
+        75.44,
+        83.16,
+        93.83,
+        109.52,
+        134.88
       ],
       [
-        90.17,
-        99.6,
-        112.62,
-        131.8,
-        162.84
+        90.02,
+        99.41,
+        112.37,
+        131.43,
+        162.25
       ],
       [
-        94.03,
-        103.89,
-        117.53,
-        137.6,
-        170.09
+        93.87,
+        103.69,
+        117.26,
+        137.22,
+        169.48
       ],
       [
-        100.08,
-        110.63,
-        125.22,
-        146.7,
-        181.47
+        99.92,
+        110.42,
+        124.94,
+        146.29,
+        180.81
       ]
     ]
   },
@@ -383,11 +383,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.08892,
-      "ke": 0.08892,
+      "wacc": 0.089068,
+      "ke": 0.089068,
       "kd": "N/D",
       "tax_rate": 0.169948,
-      "E": 5138564418480.0,
+      "E": 5212018745420.0,
       "D": 81567000000.0,
       "rf": 0.04918,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -398,8 +398,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.048541,
-      "beta_raw": 1.07245,
+      "beta": 1.052446,
+      "beta_raw": 1.078278,
       "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
@@ -1420,9 +1420,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 349.08,
-    "price_in_reporting_currency": 349.08,
-    "price_date": "2026-11-23",
+    "price_listing": 354.07,
+    "price_in_reporting_currency": 354.07,
+    "price_date": "2026-11-24",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "AAPL",

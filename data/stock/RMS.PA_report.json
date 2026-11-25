@@ -1,42 +1,42 @@
 {
   "ticker": "RMS.PA",
   "cik": "969500Y4IJGHJE2MTJ13",
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 1245.0,
+    "prix": 1251.0,
     "EPV": {
-      "epv_ev": 56860168611.19601,
-      "epv_equity": 69065168611.19601,
-      "epv_per_share": 657.52361,
+      "epv_ev": 57343305643.68788,
+      "epv_equity": 69548305643.68788,
+      "epv_per_share": 662.123237,
       "inputs": {
         "ebit_adj": 6569000000.0,
         "tax": 0.334022,
-        "wacc": 0.07694,
+        "wacc": 0.076292,
         "net_debt": -12205000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 245.157541,
-      "high": 633.194753,
+      "low": 246.872511,
+      "high": 637.62419,
       "fcf_p25": 1521600000.0,
       "fcf_p75": 3930000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 738.391511,
-      "central": 657.52361,
-      "plus_100bps": 595.258909
+      "minus_100bps": 744.475768,
+      "central": 662.123237,
+      "plus_100bps": 598.857754
     },
     "RE_valuation": {
-      "re_value_equity": 58799236404.75313,
-      "re_value_per_share": 559.788486,
+      "re_value_equity": 59298849566.00899,
+      "re_value_per_share": 564.544971,
       "inputs": {
         "B0": 18840000000.0,
-        "RE": 3074454645.137022,
-        "ke": 0.07694,
+        "RE": 3086667562.29186,
+        "ke": 0.076292,
         "g": 0.0,
         "g_sgr": "N/D",
-        "g_cap": 0.0335
+        "g_cap": 0.0331
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.499793
     },
     "reverse_dcf": {
-      "implied_g": 0.041106,
+      "implied_g": 0.040662,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 118567695611.79475,
+        "ev": 119197925470.16484,
         "fcf_adj": 4081000000.0,
-        "wacc": 0.07694,
+        "wacc": 0.076292,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -202,9 +202,9 @@
     "ocf_ni": 1.187887,
     "accruals_pct_rev": -0.053118,
     "retained_earnings_test": {
-      "ratio": 12.058255,
+      "ratio": 12.058254,
       "retained_5y": 11021000000.0,
-      "delta_mcap": 132894024265.92607,
+      "delta_mcap": 132894017866.70644,
       "passes": true,
       "window": [
         2020,
@@ -229,46 +229,46 @@
     ],
     "g_axis": [
       0.0,
-      0.0084,
-      0.0168,
-      0.0251,
-      0.0335
+      0.0083,
+      0.0165,
+      0.0248,
+      0.0331
     ],
     "matrix": [
       [
-        442.94,
-        466.87,
-        497.47,
-        537.95,
-        594.05
+        446.7,
+        470.94,
+        501.89,
+        542.8,
+        599.38
       ],
       [
-        447.81,
-        472.18,
-        503.34,
-        544.58,
-        601.71
+        451.61,
+        476.29,
+        507.81,
+        549.47,
+        607.09
       ],
       [
-        548.23,
-        581.73,
-        624.55,
-        681.21,
-        759.71
+        552.89,
+        586.76,
+        630.01,
+        687.16,
+        766.21
       ],
       [
-        574.53,
-        610.42,
-        656.29,
-        716.99,
-        801.09
+        579.42,
+        615.69,
+        662.0,
+        723.22,
+        807.88
       ],
       [
-        606.78,
-        645.6,
-        695.21,
-        760.86,
-        851.83
+        611.94,
+        651.16,
+        701.24,
+        767.43,
+        858.98
       ]
     ]
   },
@@ -288,13 +288,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.07694,
-      "ke": 0.07694,
+      "wacc": 0.076292,
+      "ke": 0.076292,
       "kd": "N/D",
       "tax_rate": 0.334022,
-      "E": 130772695611.79475,
+      "E": 131402925470.16484,
       "D": 34000000.0,
-      "rf": 0.0335,
+      "rf": 0.0331,
       "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -303,10 +303,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.146168,
-      "beta_raw": 1.218161,
+      "beta": 1.139618,
+      "beta_raw": 1.208385,
       "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -922,9 +922,9 @@
     "source": "ESEF (filings.xbrl.org)",
     "listing_currency": "EUR",
     "reporting_currency": "EUR",
-    "price_listing": 1245.0,
-    "price_in_reporting_currency": 1245.0,
-    "price_date": "2026-11-23",
+    "price_listing": 1251.0,
+    "price_in_reporting_currency": 1251.0,
+    "price_date": "2026-11-24",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "RMS.PA",

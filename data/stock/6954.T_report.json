@@ -1,39 +1,39 @@
 {
   "ticker": "6954.T",
   "cik": 0,
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
-    "prix": 5335.0,
+    "prix": 5123.0,
     "EPV": {
-      "epv_ev": 2065817332435.4187,
-      "epv_equity": 2819688332435.419,
-      "epv_per_share": 3021.68087,
+      "epv_ev": 2060071374784.1653,
+      "epv_equity": 2813942374784.165,
+      "epv_per_share": 3015.523292,
       "inputs": {
         "ebit_adj": 183763000000.0,
         "tax": 0.255349,
-        "wacc": 0.06624,
+        "wacc": 0.066425,
         "net_debt": -753871000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 904.988257,
-      "high": 2971.540948,
+      "low": 903.144073,
+      "high": 2965.485545,
       "fcf_p25": 68799250000.0,
       "fcf_p75": 225903250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 3415.317521,
-      "central": 3021.68087,
-      "plus_100bps": 2731.306971
+      "minus_100bps": 3406.779727,
+      "central": 3015.523292,
+      "plus_100bps": 2726.657078
     },
     "RE_valuation": {
-      "re_value_equity": 2514243167517.2334,
-      "re_value_per_share": 2694.354689,
+      "re_value_equity": 2507249937990.7505,
+      "re_value_per_share": 2686.860489,
       "inputs": {
         "B0": 1864871000000.0,
-        "RE": 43014291653.267975,
-        "ke": 0.06624,
+        "RE": 42669744985.826065,
+        "ke": 0.066425,
         "g": 0.0,
         "g_sgr": "N/D",
         "g_cap": 0.02838
@@ -50,12 +50,12 @@
       "dispersion": 0.608068
     },
     "reverse_dcf": {
-      "implied_g": 0.011251,
+      "implied_g": 0.00887,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 4224496307100.0,
+        "ev": 4026668027980.0,
         "fcf_adj": 229715000000.0,
-        "wacc": 0.06624,
+        "wacc": 0.066425,
         "fcf_basis": "last_year",
         "fcf_years": [
           2026
@@ -195,39 +195,39 @@
     ],
     "matrix": [
       [
-        1705.48,
-        1678.29,
-        1643.68,
-        1598.15,
-        1535.55
+        1700.73,
+        1673.21,
+        1638.2,
+        1592.19,
+        1529.01
       ],
       [
-        1846.14,
-        1832.0,
-        1814.01,
-        1790.34,
-        1757.8
+        1841.01,
+        1826.45,
+        1807.93,
+        1783.6,
+        1750.19
       ],
       [
-        2170.64,
-        2186.62,
-        2206.95,
-        2233.71,
-        2270.49
+        2164.6,
+        2179.96,
+        2199.5,
+        2225.17,
+        2260.42
       ],
       [
-        2284.9,
-        2311.48,
-        2345.32,
-        2389.83,
-        2451.03
+        2278.54,
+        2304.44,
+        2337.37,
+        2380.66,
+        2440.08
       ],
       [
-        2427.09,
-        2466.87,
-        2517.5,
-        2584.11,
-        2675.68
+        2420.34,
+        2459.34,
+        2508.95,
+        2574.14,
+        2663.66
       ]
     ]
   },
@@ -247,11 +247,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.06624,
-      "ke": 0.06624,
+      "wacc": 0.066425,
+      "ke": 0.066425,
       "kd": "N/D",
       "tax_rate": 0.255349,
-      "E": 4978367307100.0,
+      "E": 4780539027980.0,
       "D": 0,
       "rf": 0.02838,
       "rf_source": "sainhe macro.json jgb_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -262,10 +262,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.99894,
-      "beta_raw": 0.998417,
+      "beta": 1.003815,
+      "beta_raw": 1.005693,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
     "adjustments": {
       "fy": 2026,
@@ -796,9 +796,9 @@
     "source": "Yahoo Finance statements (secondary) — Japan: EDINET requires an API key",
     "listing_currency": "JPY",
     "reporting_currency": "JPY",
-    "price_listing": 5335.0,
-    "price_in_reporting_currency": 5335.0,
-    "price_date": "2026-11-24",
+    "price_listing": 5123.0,
+    "price_in_reporting_currency": 5123.0,
+    "price_date": "2026-11-25",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "6954.T",

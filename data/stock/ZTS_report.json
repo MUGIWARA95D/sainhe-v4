@@ -1,39 +1,39 @@
 {
   "ticker": "ZTS",
   "cik": 1555280,
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 79.94,
+    "prix": 81.47,
     "EPV": {
-      "epv_ev": 41182023742.22669,
-      "epv_equity": 34445023742.22669,
-      "epv_per_share": 77.607723,
+      "epv_ev": 40989186320.067505,
+      "epv_equity": 34252186320.067505,
+      "epv_per_share": 77.173243,
       "inputs": {
         "ebit_adj": 3631000000.0,
         "tax": 0.204464,
-        "wacc": 0.070142,
+        "wacc": 0.070472,
         "net_debt": 6737000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 42.948819,
-      "high": 63.797076,
+      "low": 42.708374,
+      "high": 63.439914,
       "fcf_p25": 1217500000.0,
       "fcf_p75": 1808500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 93.035671,
-      "central": 77.607723,
-      "plus_100bps": 66.029928
+      "minus_100bps": 92.445154,
+      "central": 77.173243,
+      "plus_100bps": 65.696916
     },
     "RE_valuation": {
-      "re_value_equity": 61099289256.89288,
-      "re_value_per_share": 137.66217,
+      "re_value_equity": 60814896087.32918,
+      "re_value_per_share": 137.021407,
       "inputs": {
         "B0": 3331000000.0,
-        "RE": 2435342451.485675,
-        "ke": 0.08305,
+        "RE": 2434775634.422929,
+        "ke": 0.08322,
         "g": 0.047477,
         "g_sgr": 0.047477,
         "g_cap": 0.04918
@@ -50,12 +50,12 @@
       "dispersion": 0.468268
     },
     "reverse_dcf": {
-      "implied_g": 0.017137,
+      "implied_g": 0.01825,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 42217169900.0,
+        "ev": 42896237450.0,
         "fcf_adj": 2200000000.0,
-        "wacc": 0.070142,
+        "wacc": 0.070472,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -320,39 +320,39 @@
     ],
     "matrix": [
       [
-        46.74,
-        51.69,
-        58.73,
-        69.52,
-        88.14
+        46.64,
+        51.57,
+        58.57,
+        69.27,
+        87.71
       ],
       [
-        52.91,
-        58.65,
-        66.79,
-        79.28,
-        100.83
+        52.8,
+        58.51,
+        66.6,
+        79.0,
+        100.34
       ],
       [
-        71.56,
-        79.65,
-        91.14,
-        108.76,
-        139.16
+        71.42,
+        79.46,
+        90.88,
+        108.37,
+        138.48
       ],
       [
-        73.93,
-        82.32,
-        94.24,
-        112.5,
-        144.03
+        73.78,
+        82.13,
+        93.97,
+        112.1,
+        143.33
       ],
       [
-        77.18,
-        85.98,
-        98.49,
-        117.65,
-        150.72
+        77.03,
+        85.78,
+        98.2,
+        117.22,
+        149.98
       ]
     ]
   },
@@ -372,11 +372,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.070142,
-      "ke": 0.08305,
+      "wacc": 0.070472,
+      "ke": 0.08322,
       "kd": 0.024552,
       "tax_rate": 0.204464,
-      "E": 35480169900.0,
+      "E": 36159237450.0,
       "D": 9049000000.0,
       "rf": 0.04918,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -387,8 +387,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.893662,
-      "beta_raw": 0.841286,
+      "beta": 0.898151,
+      "beta_raw": 0.847987,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
@@ -1299,9 +1299,9 @@
     "edgar_filings_index": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001555280&type=10-K&dateb=&owner=include&count=40"
   },
   "score_composite": {
-    "value_0_100": 54.5,
+    "value_0_100": 53.1,
     "pillars": {
-      "valuation": 44.164931,
+      "valuation": 39.451928,
       "balance_sheet_health": 75,
       "earnings_quality": 50,
       "smart_money": 50,
@@ -1320,9 +1320,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 79.94,
-    "price_in_reporting_currency": 79.94,
-    "price_date": "2026-11-23",
+    "price_listing": 81.47,
+    "price_in_reporting_currency": 81.47,
+    "price_date": "2026-11-24",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "ZTS",

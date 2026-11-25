@@ -1,10 +1,10 @@
 {
   "ticker": "CTVA",
   "cik": 1755672,
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 8.1,
+    "prix": 8.16,
     "EPV": {
       "value": "N/D",
       "note": "N/D — comptes antérieurs à une opération sur titres (spin-off)"
@@ -23,13 +23,13 @@
     },
     "consensus": {
       "available": true,
-      "target_mean": 13.03125,
-      "target_median": 13.5,
+      "target_mean": 12.91176,
+      "target_median": 13.0,
       "target_high": 16.0,
       "target_low": 10.0,
-      "n_analysts": 16,
+      "n_analysts": 17,
       "warning_few_analysts": false,
-      "dispersion": 0.460432
+      "dispersion": 0.464693
     },
     "reverse_dcf": {
       "value": "N/D",
@@ -189,9 +189,9 @@
     "ocf_ni": 3.113346,
     "accruals_pct_rev": -0.132866,
     "retained_earnings_test": {
-      "ratio": 0.783097,
+      "ratio": 0.783098,
       "retained_5y": 3455000000.0,
-      "delta_mcap": 2705601206.588745,
+      "delta_mcap": 2705602214.622498,
       "passes": false,
       "window": [
         2020,
@@ -308,8 +308,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.079747,
-      "ke": 0.079747,
+      "wacc": 0.07982,
+      "ke": 0.07982,
       "kd": 0.069767,
       "tax_rate": 0.28673,
       "E": "N/D",
@@ -323,8 +323,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.806519,
-      "beta_raw": 0.711222,
+      "beta": 0.808451,
+      "beta_raw": 0.714106,
       "mode": "fallback all-equity (prix ou shares indisponible)",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
@@ -1247,9 +1247,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 8.1,
-    "price_in_reporting_currency": 8.1,
-    "price_date": "2026-11-23",
+    "price_listing": 8.16,
+    "price_in_reporting_currency": 8.16,
+    "price_date": "2026-11-24",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "CTVA",

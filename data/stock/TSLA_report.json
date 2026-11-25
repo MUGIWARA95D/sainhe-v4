@@ -1,39 +1,39 @@
 {
   "ticker": "TSLA",
   "cik": 1318605,
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 385.46,
+    "prix": 384.68,
     "EPV": {
-      "epv_ev": 32004767877.473713,
-      "epv_equity": 67687767877.47371,
-      "epv_per_share": 19.185875,
+      "epv_ev": 32003629709.37046,
+      "epv_equity": 67686629709.37046,
+      "epv_per_share": 19.185553,
       "inputs": {
         "ebit_adj": 4745000000.0,
         "tax": 0.26961,
-        "wacc": 0.108287,
+        "wacc": 0.108291,
         "net_debt": -35683000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": -5.643948,
-      "high": 17.062431,
+      "low": -5.643853,
+      "high": 17.062144,
       "fcf_p25": -998714000.0,
       "fcf_p75": 3019250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 20.10885,
-      "central": 19.185875,
-      "plus_100bps": 18.418957
+      "minus_100bps": 20.108458,
+      "central": 19.185553,
+      "plus_100bps": 18.418687
     },
     "RE_valuation": {
-      "re_value_equity": 13124785443.117256,
-      "re_value_per_share": 3.720177,
+      "re_value_equity": 13124610659.600311,
+      "re_value_per_share": 3.720128,
       "inputs": {
         "B0": 82137000000.0,
-        "RE": -4854985482.641659,
-        "ke": 0.108768,
+        "RE": -4855383771.611721,
+        "ke": 0.108772,
         "g": 0.04918,
         "g_sgr": 0.067443,
         "g_cap": 0.04918
@@ -41,21 +41,21 @@
     },
     "consensus": {
       "available": true,
-      "target_mean": 417.52625,
-      "target_median": 436.0,
+      "target_mean": 419.05,
+      "target_median": 442.0,
       "target_high": 600.0,
       "target_low": 128.11,
-      "n_analysts": 40,
+      "n_analysts": 41,
       "warning_few_analysts": false,
-      "dispersion": 1.130204
+      "dispersion": 1.126095
     },
     "reverse_dcf": {
-      "implied_g": 0.105453,
+      "implied_g": 0.105451,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 1324219880000.0,
+        "ev": 1321468040000.0,
         "fcf_adj": 3395000000.0,
-        "wacc": 0.108287,
+        "wacc": 0.108291,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -295,11 +295,11 @@
         27.49
       ],
       [
-        41.42,
+        41.41,
         42.94,
         44.92,
         47.57,
-        51.32
+        51.31
       ]
     ]
   },
@@ -319,11 +319,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.108287,
-      "ke": 0.108768,
+      "wacc": 0.108291,
+      "ke": 0.108772,
       "kd": 0.041457,
       "tax_rate": 0.26961,
-      "E": 1359902880000.0,
+      "E": 1357151040000.0,
       "D": 8376000000.0,
       "rf": 0.04918,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -334,8 +334,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.57223,
-      "beta_raw": 1.854075,
+      "beta": 1.572358,
+      "beta_raw": 1.854266,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
@@ -1339,9 +1339,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 385.46,
-    "price_in_reporting_currency": 385.46,
-    "price_date": "2026-11-23",
+    "price_listing": 384.68,
+    "price_in_reporting_currency": 384.68,
+    "price_date": "2026-11-24",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "TSLA",

@@ -1,39 +1,39 @@
 {
   "ticker": "LMT",
   "cik": 936468,
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 571.67,
+    "prix": 586.63,
     "EPV": {
-      "epv_ev": 98749831135.8448,
-      "epv_equity": 81170831135.8448,
-      "epv_per_share": 347.626686,
+      "epv_ev": 98377144330.6261,
+      "epv_equity": 80798144330.6261,
+      "epv_per_share": 346.030597,
       "inputs": {
         "ebit_adj": 7797000000.0,
         "tax": 0.15282,
-        "wacc": 0.066891,
+        "wacc": 0.067144,
         "net_debt": 17579000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 250.126454,
-      "high": 331.519211,
+      "low": 248.978027,
+      "high": 329.997077,
       "fcf_p25": 4751750000.0,
       "fcf_p75": 6298000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 421.964001,
-      "central": 347.626686,
-      "plus_100bps": 292.625167
+      "minus_100bps": 419.758955,
+      "central": 346.030597,
+      "plus_100bps": 291.416646
     },
     "RE_valuation": {
-      "re_value_equity": 76661180010.64323,
-      "re_value_per_share": 328.313405,
+      "re_value_equity": 76428035491.11848,
+      "re_value_per_share": 327.314927,
       "inputs": {
         "B0": 6721000000.0,
-        "RE": 4597944420.911526,
-        "ke": 0.070669,
+        "RE": 4596619105.158943,
+        "ke": 0.070867,
         "g": 0.006337,
         "g_sgr": 0.006337,
         "g_cap": 0.04918
@@ -50,12 +50,12 @@
       "dispersion": 0.509939
     },
     "reverse_dcf": {
-      "implied_g": 0.022204,
+      "implied_g": 0.023415,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 151063945000.0,
+        "ev": 154557105000.0,
         "fcf_adj": 6604000000.0,
-        "wacc": 0.066891,
+        "wacc": 0.067144,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -203,9 +203,9 @@
     "ocf_ni": 1.705601,
     "accruals_pct_rev": -0.04717,
     "retained_earnings_test": {
-      "ratio": 1.804004,
+      "ratio": 1.804005,
       "retained_5y": 14118000000.0,
-      "delta_mcap": 25468928805.541992,
+      "delta_mcap": 25468935931.396484,
       "passes": true,
       "window": [
         2020,
@@ -283,39 +283,39 @@
     ],
     "matrix": [
       [
-        386.32,
-        443.63,
-        531.52,
-        683.38,
-        1009.01
+        385.25,
+        442.15,
+        529.29,
+        679.48,
+        999.96
       ],
       [
-        399.51,
-        458.93,
-        550.06,
-        707.52,
-        1045.16
+        398.4,
+        457.4,
+        547.75,
+        703.48,
+        1035.79
       ],
       [
-        491.51,
-        565.68,
-        679.42,
-        875.96,
-        1297.39
+        490.14,
+        563.79,
+        676.57,
+        870.95,
+        1285.74
       ],
       [
-        513.19,
-        590.83,
-        709.9,
-        915.64,
-        1356.81
+        511.76,
+        588.85,
+        706.91,
+        910.41,
+        1344.63
       ],
       [
-        556.75,
-        641.37,
-        771.16,
-        995.4,
-        1476.24
+        555.2,
+        639.23,
+        767.91,
+        989.71,
+        1462.99
       ]
     ]
   },
@@ -335,11 +335,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.066891,
-      "ke": 0.070669,
+      "wacc": 0.067144,
+      "ke": 0.070867,
       "kd": 0.051521,
       "tax_rate": 0.15282,
-      "E": 133484944999.99998,
+      "E": 136978105000.0,
       "D": 21700000000.0,
       "rf": 0.04918,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -350,8 +350,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.567004,
-      "beta_raw": 0.353738,
+      "beta": 0.572207,
+      "beta_raw": 0.361503,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
@@ -1336,9 +1336,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 571.67,
-    "price_in_reporting_currency": 571.67,
-    "price_date": "2026-11-23",
+    "price_listing": 586.63,
+    "price_in_reporting_currency": 586.63,
+    "price_date": "2026-11-24",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "LMT",
