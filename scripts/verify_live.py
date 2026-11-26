@@ -120,10 +120,13 @@ def main():
 
     # ── Stock Analysis: risk-free, ERP, FX, internal consistency ──
     rf = lambda cur: next((r["rf"] * 100 for r in rows.values() if r.get("rf_currency") == cur and not r.get("rf_proxy")), None)
-    RESULTS.append(("OK" if rf("USD") is not None and abs(rf("USD") - (val("us_10y") or 0)) < 1e-6 else "FAIL",
-                    "stock", "rf USD = dashboard US 10Y", rf("USD"), val("us_10y"), "internal", ""))
-    RESULTS.append(("OK" if rf("EUR") is not None and abs(rf("EUR") - (val("bund_10y") or 0)) < 1e-6 else "FAIL",
-                    "stock", "rf EUR = dashboard Bund 10Y", rf("EUR"), val("bund_10y"), "internal", ""))
+    # Stock Analysis takes its risk-free rates from the dashboard's macro data at ITS run (early
+    # morning); the dashboard may have refreshed since. Same source, other day: the rate must equal
+    # one of the source's recent values, not today's dashboard figure (a wrong source still fails).
+    check("stock", "rf USD from the US 10Y series", rf("USD"),
+          lambda: [(str(i), v) for i, v in enumerate(spark("^TNX"))] + [("today", val("us_10y") or 0)],
+          "site's ^TNX history (7 days)", 0.0015, True)
+    check("stock", "rf EUR from the Bund series", rf("EUR"), lambda: bundesbank_obs("R10XX", 6), "Bundesbank", 0.006, True)
     if rf("CHF") is not None:
         check("stock", "rf CHF (%)", rf("CHF"), lambda: fred_obs("IRLTLT01CHM156N", 2), "FRED OECD", 0.05, True)
 
