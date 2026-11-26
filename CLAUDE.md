@@ -160,6 +160,12 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   brèves TV/radio filtrées (`news_filter.py`, motifs dans `config.NEWS_EXCLUDE_PATTERNS`).
   **Contrôle hebdomadaire** : `scripts/verify_live.py` (valeurs publiées vs FRED, BCE, Bundesbank, Damodaran,
   SEC, Yahoo) lancé par `verify-live.yml` sur main le lundi 07:30 UTC → issue en cas d'écart ou de source muette.
+- **ETF sectoriels du Dashboard (26 nov.)** : `config.SECTOR_TICKERS` revu case par case (positions vérifiées sur Yahoo,
+  relu par Gemini) — aucun doublon (un même ETF dans deux cases affichait le même chiffre comme deux régions),
+  « — » plutôt qu'un faux comparable ; colonne ASIE = ETF sectoriels chinois (CSI/SSE, .SS/.SZ) + 1624.T (machines
+  Japon) pour Industrials ; Luxury MONDE = GLUX.DE (luxe mondial, avec hôtels/croisières/Tesla, dit dans Learn).
+  Devise d'un ETF = celle de sa place (`db_init._etf_devise`, suffixe .SS/.SZ/.T/.DE…), jamais celle de sa colonne ;
+  place ambiguë (.L) → la devise détectée par `fetch_prices` (Yahoo) n'est plus écrasée (ISAG.L était converti en EUR).
 - NVIDIA : capex des exercices ≤ 2021 sous `nvda:PurchasesOfPropertyAndEquipmentAndIntangibleAssets`
   (lu dans 8 rapports annuels, pages d'index EDGAR archivées comprises).
 - `ANT` (Anthropic, IPO 2026-11-19) : historique de prix très court → exclu de Portfolio Sim (< 400 jours) ;

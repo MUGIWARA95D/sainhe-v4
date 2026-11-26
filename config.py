@@ -26,23 +26,31 @@ TEMPLATE_DIR = BASE_DIR / "templates"
 SECTOR_TICKERS = {
     "Tech & Semis"         : {"MONDE": "IXN",     "USA": "XLK",   "EU": "EXV3.DE", "ASIE": "3191.HK"},
     # 2026-11-20 : IRBO (fermé) → BOTZ ; DFND (fermé) → SHLD ; MOOS.DE (retiré) → ISAG.L ;
-    # CHIX/CHIM/CHIS/CHII (Global X China, liquidés) et 3063.HK (retiré) → None :
-    # aucun ETF sectoriel Asie équivalent vérifié sur yfinance, mieux vaut "—" qu'un faux comparable.
+    # CHIX/CHIM/CHIS/CHII (Global X China, liquidés) et 3063.HK (retiré) → None.
+    # 2026-11-26 — revue des 64 cases (positions vérifiées sur Yahoo, relue par Gemini) :
+    #   faux retirés : SXR2.DE (= MSCI Canada en « EV Europe »), RXI/XLY (Amazon, Tesla en « Luxury »),
+    #   FTXG (Coca-Cola, Pepsi en « Agriculture USA »), 2809.HK (énergie PROPRE chinoise en « Energy »),
+    #   doublons PPA/UFO/MOO/IBIT (le même chiffre affiché comme une autre région) ;
+    #   cases remplies : ASIE = ETF sectoriels chinois (Shanghai/Shenzhen, CSI/SSE) sauf Industrials
+    #   (1624.T, machines Japon : aucun ETF industriel chinois large) ; EU Industrials = EXH4.DE ;
+    #   GLUX.DE (luxe mondial, avec hôtellerie/croisières/Tesla) passe en MONDE : aucun ETF de luxe
+    #   purement européen (EXH7.DE = moitié Unilever/BAT) ni américain → EU et USA vides.
+    #   Vides assumés : pas d'instrument propre (mieux vaut « — » qu'un faux comparable).
     "Robotics & MedTech"   : {"MONDE": "BOTZ",    "USA": "ROBT",  "EU": "2B76.DE", "ASIE": "2807.HK"},
     "Healthcare & Pharma"  : {"MONDE": "IXJ",     "USA": "XLV",   "EU": "EXV4.DE", "ASIE": "2820.HK"},
-    "Finance & Transac."   : {"MONDE": "IXG",     "USA": "XLF",   "EU": "EXV1.DE", "ASIE": None},
-    "Strategic Materials"  : {"MONDE": "MXI",     "USA": "IYM",   "EU": "EXV6.DE", "ASIE": None},
-    "Energy"               : {"MONDE": "IXC",     "USA": "XLE",   "EU": "EXH1.DE", "ASIE": "2809.HK"},
-    "Defense & Aerospace"  : {"MONDE": "SHLD",    "USA": "PPA",   "EU": "EDFS.DE", "ASIE": "PPA"},
-    "EV & Clean Energy"    : {"MONDE": "ICLN",    "USA": "CNRG",  "EU": "SXR2.DE", "ASIE": "2845.HK"},
-    "Space"                : {"MONDE": "UFO",     "USA": "ROKT",  "EU": "JEDI.DE", "ASIE": "UFO"},
-    "Luxury"               : {"MONDE": "RXI",     "USA": "XLY",   "EU": "GLUX.DE", "ASIE": "2806.HK"},
-    "Agriculture"          : {"MONDE": "VEGI",    "USA": "FTXG",  "EU": "ISAG.L",  "ASIE": "MOO"},
-    "Infra & Water"        : {"MONDE": "IGF",     "USA": "PHO",   "EU": "EXV8.DE", "ASIE": None},
-    "Consumer Staples"     : {"MONDE": "KXI",     "USA": "XLP",   "EU": "EXH3.DE", "ASIE": None},
-    "Digital Assets"       : {"MONDE": "IBIT",    "USA": "IBIT",  "EU": "IBIT",    "ASIE": "IBIT"},
-    "Industrials"          : {"MONDE": "EXI",     "USA": "XLI",   "EU": None,      "ASIE": None},
-    "Chemicals"            : {"MONDE": None,      "USA": "XLB",   "EU": "EXV7.DE", "ASIE": None},
+    "Finance & Transac."   : {"MONDE": "IXG",     "USA": "XLF",   "EU": "EXV1.DE", "ASIE": "510230.SS"},  # SSE 180 Financials
+    "Strategic Materials"  : {"MONDE": "MXI",     "USA": "IYM",   "EU": "EXV6.DE", "ASIE": "512400.SS"},  # CSI SWS Nonferrous
+    "Energy"               : {"MONDE": "IXC",     "USA": "XLE",   "EU": "EXH1.DE", "ASIE": "159930.SZ"},  # CSI Energy
+    "Defense & Aerospace"  : {"MONDE": "SHLD",    "USA": "PPA",   "EU": "EDFS.DE", "ASIE": "512660.SS"},  # CSI National Defense
+    "EV & Clean Energy"    : {"MONDE": "ICLN",    "USA": "CNRG",  "EU": None,      "ASIE": "2845.HK"},
+    "Space"                : {"MONDE": "UFO",     "USA": "ROKT",  "EU": "JEDI.DE", "ASIE": None},
+    "Luxury"               : {"MONDE": "GLUX.DE", "USA": None,    "EU": None,      "ASIE": "2806.HK"},    # Amundi Global Luxury
+    "Agriculture"          : {"MONDE": "VEGI",    "USA": None,    "EU": "ISAG.L",  "ASIE": "159825.SZ"},  # CSI Agriculture
+    "Infra & Water"        : {"MONDE": "IGF",     "USA": "PHO",   "EU": "EXV8.DE", "ASIE": "516950.SS"},  # CSI Infrastructure (no water)
+    "Consumer Staples"     : {"MONDE": "KXI",     "USA": "XLP",   "EU": "EXH3.DE", "ASIE": "159928.SZ"},  # CSI Consumer Staples
+    "Digital Assets"       : {"MONDE": "IBIT",    "USA": None,    "EU": None,      "ASIE": None},         # bitcoin: no region
+    "Industrials"          : {"MONDE": "EXI",     "USA": "XLI",   "EU": "EXH4.DE", "ASIE": "1624.T"},     # 1624.T: Japan machinery
+    "Chemicals"            : {"MONDE": None,      "USA": "XLB",   "EU": "EXV7.DE", "ASIE": "516020.SS"},  # CSI Chemicals
 }
 
 # Benchmark mondial par secteur — utilisé pour R-Perf
@@ -176,6 +184,12 @@ RETIRED_TICKERS = {
     "CHIM"    : "Global X China Materials, liquidé",
     "CHIS"    : "Global X China Consumer Staples, liquidé",
     "CHII"    : "Global X China Industrials, liquidé",
+    # 2026-11-26 — revue des ETF sectoriels : ne représentaient pas leur case
+    "SXR2.DE" : "iShares MSCI Canada, affiché en « EV & Clean Energy Europe »",
+    "RXI"     : "consommation discrétionnaire (Amazon, Tesla), pas du luxe → GLUX.DE",
+    "XLY"     : "consommation discrétionnaire (Amazon, Tesla), pas du luxe",
+    "FTXG"    : "agroalimentaire (Coca-Cola, Pepsi), pas de l'agriculture ; 0,03 Md$",
+    "2809.HK" : "énergie propre chinoise, affichée en « Energy Asie » → 159930.SZ",
     # 2026-11-22
     "COA.L"   : "Coats Group retiré de la watchlist",
     "SPACEX"  : "ancien ticker d'attente → SPCX (cotation Nasdaq depuis le 2026-06-12)",

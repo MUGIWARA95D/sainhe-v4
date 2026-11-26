@@ -250,6 +250,20 @@ INDEXES = [
 ]
 
 _REGION_DEVISE = {"MONDE": "USD", "USA": "USD", "EU": "EUR", "ASIE": "HKD"}
+# Devise d'un ETF = celle de sa place de cotation, pas celle de sa colonne. Avant (26 nov.) :
+# chaque job remettait la devise de la colonne (EU → EUR, ASIE → HKD) avant les calculs ;
+# ISAG.L (coté en USD) était converti comme s'il était en euros entre deux runs complets, et
+# 1624.T (yens) l'aurait été comme des HKD. Place ambiguë (Londres : GBp ou USD) → None :
+# la devise détectée par fetch_prices (Yahoo meta.currency) n'est jamais écrasée.
+_SUFFIX_DEVISE = {".SS": "CNY", ".SZ": "CNY", ".T": "JPY", ".HK": "HKD", ".KS": "KRW", ".SW": "CHF",
+                  ".DE": "EUR", ".PA": "EUR", ".AS": "EUR", ".MI": "EUR", ".MC": "EUR", ".F": "EUR"}
+
+
+def _etf_devise(ticker: str) -> str | None:
+    for suffix, devise in _SUFFIX_DEVISE.items():
+        if ticker.endswith(suffix):
+            return devise
+    return "USD" if "." not in ticker else None
 
 
 def _build_seed_rows():
@@ -262,7 +276,7 @@ def _build_seed_rows():
     for ticker, meta in ticker_meta.items():
         rows.append((
             ticker, ticker, "etf_sector", meta["region"], meta["secteur"],
-            _REGION_DEVISE.get(meta["region"], "USD"), 1, 1,
+            _etf_devise(ticker) or _REGION_DEVISE.get(meta["region"], "USD"), 1, 1,
         ))
     for ticker, info in INDICES.items():
         rows.append((
@@ -330,9 +344,9 @@ def init_db():
             if ticker and ticker not in ticker_meta:
                 ticker_meta[ticker] = {"secteur": secteur, "region": region}
     etf_devises = [
-        (_REGION_DEVISE.get(meta["region"], "USD"), ticker)
-        for ticker, meta in ticker_meta.items()
-        if _REGION_DEVISE.get(meta["region"], "USD") != "USD"
+        (_etf_devise(ticker), ticker)
+        for ticker in ticker_meta
+        if _etf_devise(ticker) is not None
     ]
     if etf_devises:
         cur.executemany(

@@ -914,7 +914,12 @@ window.addEventListener('resize', function() {
 
             <div class="lrn-panel-row">
               <div class="lrn-panel-row-lbl">Missing data ( — )</div>
-              <div class="lrn-panel-row-val">When a cell shows <strong>—</strong> for a given sector and region, it means SAINHE does not currently track a liquid ETF for that combination. Not every sector has a well-established, tradeable ETF in every region. Space and Digital Assets, for example, have liquid ETFs primarily in the USA but limited equivalents in Europe or Asia.<br><br> A missing row does not mean the sector does not exist in that region — it means there is no reliable single instrument to represent it cleanly. These gaps are updated as new ETFs become available and are added to the tracking list.</div>
+              <div class="lrn-panel-row-val">When a cell shows <strong>—</strong> for a given sector and region, no ETF represents that combination cleanly, and SAINHE prefers an empty cell to a misleading comparison. Examples: there is no purely European clean-energy fund, no US or European luxury fund, no purely US agriculture fund, and no world chemicals fund; Bitcoin has no region, so Digital Assets has a World cell only.<br><br> A missing row does not mean the sector does not exist in that region — it means there is no reliable single instrument to represent it cleanly. These gaps are updated as new ETFs become available and are added to the tracking list.</div>
+            </div>
+
+            <div class="lrn-panel-row" id="lrn-row-sec-etfs">
+              <div class="lrn-panel-row-lbl">What each column holds</div>
+              <div class="lrn-panel-row-val"><strong>World</strong> — global sector funds, mostly the iShares Global series (S&amp;P Global 1200 sectors); every other column is compared with it, in US dollars. <strong>USA</strong> — US sector funds, mostly the Select Sector SPDRs. <strong>Europe</strong> — STOXX Europe 600 sector funds; for Robotics, Space and Agriculture, global funds listed in Europe, because no Europe-only fund exists. <strong>Asia</strong> — Chinese sector funds listed in Shanghai, Shenzhen or Hong Kong, and one Japanese fund (machinery) for Industrials, where no broad Chinese fund exists.<br><br><strong>Two caveats.</strong> Luxury (World) uses the Amundi Global Luxury fund: mostly Richemont, Ferrari, LVMH, Hermès and L'Oréal, but it also holds hotels, cruise lines and Tesla. Infra &amp; Water (Asia) is a Chinese infrastructure and construction fund: it holds no water companies. Hover a cell to see its ticker.</div>
             </div>
 
             <div class="lrn-panel-row">
