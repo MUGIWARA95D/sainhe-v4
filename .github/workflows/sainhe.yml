@@ -29,6 +29,14 @@ name: SAINHE — Data Pipeline
 #  d'écriture sur le repo (impossibles depuis un fork).
 # ─────────────────────────────────────────────────────────────────
 
+# ── Horaires (26 nov. 2026) ──────────────────────────────────────
+#  Les « schedule » GitHub du plan gratuit partent avec 1 à 12 h de retard et sont parfois
+#  sautés, surtout à l'heure pile (relevé du 23 au 26 nov. : 4-5 exécutions par jour au lieu
+#  de 8-10). Minutes décalées (:23, :37, :11) et actualités toutes les 2 h pour compenser ;
+#  la vraie garantie serait un déclencheur externe (repository_dispatch) — voir le README.
+#  concurrency : une seule exécution à la fois (la base sur Google Drive n'est jamais
+#  téléchargée/renvoyée par deux jobs en parallèle).
+# ─────────────────────────────────────────────────────────────────
 on:
   push:
     branches:
@@ -37,11 +45,11 @@ on:
 
   schedule:
     # News — 4H 10H 14H 18H 22H Paris (CEST UTC+2)
-    - cron: "0 2,8,12,16,20 * * *"
+    - cron: "23 */2 * * *"
     # FX — midi Paris (CEST UTC+2) + 21h UTC (décalé de 22h pour éviter collision full pipeline)
-    - cron: "0 10,21 * * *"
+    - cron: "37 10,21 * * *"
     # Full pipeline — lun-ven minuit Paris (CEST UTC+2)
-    - cron: "0 22 * * 1-5"
+    - cron: "11 22 * * 1-5"
 
   workflow_dispatch:
 
@@ -56,6 +64,10 @@ env:
 permissions:
   contents: read
   deployments: write
+
+concurrency:
+  group: sainhe-data-pipeline
+  cancel-in-progress: false
 
 jobs:
 
@@ -190,7 +202,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'schedule' && contains(github.event.schedule, '0 2,8,12,16,20 * * *')) ||
+      (github.event_name == 'schedule' && contains(github.event.schedule, '23 */2 * * *')) ||
       (github.event_name == 'repository_dispatch' && github.event.action == 'news')
 
     steps:
@@ -271,7 +283,7 @@ jobs:
     name: Fetch FX
     runs-on: ubuntu-latest
     if: |
-      (github.event_name == 'schedule' && contains(github.event.schedule, '0 10,21 * * *')) ||
+      (github.event_name == 'schedule' && contains(github.event.schedule, '37 10,21 * * *')) ||
       (github.event_name == 'repository_dispatch' && github.event.action == 'fx')
 
     steps:
@@ -340,7 +352,7 @@ jobs:
     name: Full Data Pipeline
     runs-on: ubuntu-latest
     if: |
-      (github.event_name == 'schedule' && contains(github.event.schedule, '0 22 * * 1-5')) ||
+      (github.event_name == 'schedule' && contains(github.event.schedule, '11 22 * * 1-5')) ||
       (github.event_name == 'repository_dispatch' && github.event.action == 'pipeline')
 
     steps:
