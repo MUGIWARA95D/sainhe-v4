@@ -80,6 +80,9 @@ Pour tout script qui affiche des caractères Unicode (✓, ≥, €) : `$env:PYT
   Secondaire = valeurs de l'agrégateur, gris sur la carte, pas de recoupement qualité. Hors périmètre (affichés avec la raison, `config.OUT_OF_SCOPE`) : GLD, BTC, ANT,
   SPCX (SpaceX, cotée Nasdaq le 2026-06-12, pas encore de 10-K), GAZP (Gazprom, comptes IFRS en PDF).
   Prix Gazprom : Bourse de Moscou (`moex.py`, `config.PRICE_SOURCES`), en roubles, sans dividendes.
+  Depuis le 25 nov. 2026, iss.moex.com présente un certificat de la « Russian Trusted Root CA » (État russe),
+  absente des magasins occidentaux → HTTPS refusé, GAZP figé (ERROR « MOEX indisponible » dans les logs, attendu).
+  Décision de l'utilisateur (26 nov.) : laisser figé ; ni HTTP non chiffré, ni confiance ajoutée à ce certificat.
   companyfacts SEC en retard sur un dépôt (TSM 20-F 2025) → instance XBRL du dépôt lue (`edgar/instance.py`).
   Rf sans champ macro.json : FRED OCDE (CHF) ; devise ancrée au dollar (SAR) → US 10Y signalé.
   Impôt effectif hors [0 %, 60 %] → médiane des exercices normaux, sinon impôt payé en trésorerie / résultat
