@@ -174,11 +174,11 @@ const s1Plugin = {
       const xp = x.getPixelForValue(l.rf); if(xp < a.left || xp > a.right) return;
       ctx.beginPath(); ctx.moveTo(xp, a.top); ctx.lineTo(xp, a.bottom); ctx.stroke();
       const cur = Array.from(l.cur).join(' · '), px = Array.from(l.proxy);
-      rfLbl.push({xp, txt: (cur || px.join(' · ')) + ' ' + (st.xmode === 'excess' ? '' : pct(l.rf, narrow ? 1 : 2)),
-        sub: cur && px.length ? (narrow ? '+' + px.length + ' proxy' : '+ ' + px.join(', ') + ' (proxy)') : ''});
+      // short label: the currencies that only borrow this rate (no free yield of their own) are marked * and listed in the legend
+      rfLbl.push({xp, txt: (cur || px.join(' · ')) + (cur && px.length ? '*' : '') + ' ' + (st.xmode === 'excess' ? '' : pct(l.rf, narrow ? 1 : 2)), sub: ''});
     });
-    ctx.setLineDash([]); ctx.font = '600 9.5px ' + FONT; ctx.textBaseline = 'alphabetic';
-    const rows_ = [[], [], []];   // up to three rows when labels would touch
+    ctx.setLineDash([]); ctx.font = '600 ' + (narrow ? 9 : 9.5) + 'px ' + FONT; ctx.textBaseline = 'alphabetic';
+    const rows_ = [[], [], [], []];   // up to four rows when labels would touch (iPad width: five rates within 4.5 points)
     rfLbl.forEach(L => {
       const full = L.txt.trim() + (L.sub ? '  ' + L.sub : ''), w = ctx.measureText(full).width;
       const x0 = Math.max(a.left, Math.min(L.xp - w / 2, a.right - w));
@@ -277,7 +277,7 @@ function renderMap(rebuild){
       type: 'scatter', data: {datasets: ds},
       options: {
         responsive: true, maintainAspectRatio: false, animation: false,
-        layout: {padding: {top: 44, right: 8}},   // room for the risk-free labels above the plot
+        layout: {padding: {top: 56, right: 8}},   // room for four rows of risk-free labels above the plot
         interaction: {mode: 'nearest', intersect: true},
         events: ['mousemove', 'mouseout', 'click', 'touchstart'],
         scales: {
@@ -334,6 +334,8 @@ function renderMap(rebuild){
   $('#sa-unplaced').innerHTML += (Object.keys(oos).length ? '<div style="margin-top:6px"><strong>Outside the scope:</strong> ' +
     Object.keys(oos).map(t => '<span class="sa-tk">' + esc(t) + '</span> ' + esc(oos[t])).join(' · ') + '.</div>' : '');
   $('#sa-lg-ghost').hidden = !st.dW;
+  const pxl = $('#sa-lg-rfpx'), pxs = Array.from(new Set([].concat(...lines.map(l => Array.from(l.proxy)))));
+  if(pxl) pxl.textContent = pxs.length ? ' · * also used for ' + pxs.join(', ') + ' (no free 10-year yield)' : '';
 }
 function bindBrush(){
   const cv = $('#sa-map'); if(!cv) return;

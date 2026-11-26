@@ -938,6 +938,8 @@ a.news-hl:hover{color:var(--gold)}
 [data-theme="dark"] .sec-creme .lrn-ci-demo-note{color:rgba(245,232,208,.4)}
 [data-theme="dark"] .sec-creme .lrn-empty-icon{color:rgba(196,149,90,.45)}
 [data-theme="dark"] .sec-creme .lrn-empty-txt{color:rgba(245,232,208,.45)}
+/* ══════ Drag to scroll sideways with a mouse ══════ */
+@media (pointer:fine){ .has-hscroll{cursor:grab} .has-hscroll.is-dragging{cursor:grabbing;user-select:none} .has-hscroll.is-dragging *{user-select:none;cursor:grabbing} }
 /* ══════ Text version of the figures (ai_layer.py) — collapsed by default ══════ */
 .ai-snap{max-width:1200px;margin:48px auto 0;padding:0 4px;font-size:12px;color:var(--muted)}
 .ai-snap summary{cursor:pointer;font-size:11.5px;letter-spacing:.3px;padding:10px 0;border-top:1px solid var(--border-lt)}
@@ -1405,6 +1407,58 @@ a.news-hl:hover{color:var(--gold)}
       try{ history.replaceState(history.state, '', location.pathname + location.search + '#' + id); }catch(_){}
       window._sainheGoTo(el, {id: id});
     });
+  })();
+  </script>
+
+  <!-- Drag to scroll sideways with a mouse — shared, persists through swipe navigation -->
+  <script>
+  (function(){
+    /* A mouse wheel only scrolls vertically: on an iPad with a mouse (and on a PC without
+       shift+wheel) the wide tables — coverage table, crisis replay — could not be moved sideways.
+       Press and drag on such a table now pans it. Mouse only: touch and trackpads keep their
+       native gestures. Controls (sliders, buttons, links, fields) are never captured, and a drag
+       does not fire the row's click. */
+    if(window._sainheDragScroll) return;
+    window._sainheDragScroll = true;
+    function scroller(el){
+      for(; el && el !== document.body && el.nodeType === 1; el = el.parentElement){
+        var ox = getComputedStyle(el).overflowX;
+        if((ox === 'auto' || ox === 'scroll') && el.scrollWidth > el.clientWidth + 2) return el;
+      }
+      return null;
+    }
+    var S = null;
+    document.addEventListener('pointerdown', function(e){
+      if(e.pointerType !== 'mouse' || e.button !== 0) return;
+      if(e.target.closest && e.target.closest('input,select,textarea,button,a,label,summary,canvas,[contenteditable],[data-no-drag]')) return;
+      var el = scroller(e.target); if(!el) return;
+      S = {el: el, x: e.clientX, left: el.scrollLeft, moved: false, id: e.pointerId};
+    });
+    document.addEventListener('pointermove', function(e){
+      if(!S || e.pointerId !== S.id) return;
+      var dx = e.clientX - S.x;
+      if(!S.moved && Math.abs(dx) < 6) return;
+      if(!S.moved){ S.moved = true; S.el.classList.add('is-dragging'); }
+      if(window.getSelection) window.getSelection().removeAllRanges();
+      S.el.scrollLeft = S.left - dx;
+    });
+    function end(){
+      if(!S) return;
+      if(S.moved){
+        var el = S.el; el.classList.remove('is-dragging');
+        var block = function(ev){ ev.stopPropagation(); ev.preventDefault(); };
+        el.addEventListener('click', block, true);
+        setTimeout(function(){ el.removeEventListener('click', block, true); }, 0);
+      }
+      S = null;
+    }
+    document.addEventListener('pointerup', end);
+    document.addEventListener('pointercancel', end);
+    /* hint: a grab cursor on tables that can move sideways */
+    document.addEventListener('mouseover', function(e){
+      var el = scroller(e.target);
+      if(el && !el.classList.contains('has-hscroll')) el.classList.add('has-hscroll');
+    }, {passive: true});
   })();
   </script>
 
