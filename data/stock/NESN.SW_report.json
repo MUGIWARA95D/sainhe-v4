@@ -1,39 +1,39 @@
 {
   "ticker": "NESN.SW",
   "cik": 0,
-  "as_of": "2026-11-25",
+  "as_of": "2026-11-26",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 86.28,
+    "prix": 87.15,
     "EPV": {
-      "epv_ev": 388026176495.13226,
-      "epv_equity": 393956176495.13226,
-      "epv_per_share": 152.933298,
+      "epv_ev": 386319497083.06256,
+      "epv_equity": 392249497083.06256,
+      "epv_per_share": 152.270768,
       "inputs": {
         "ebit_adj": 13981000000.0,
         "tax": 0.245559,
-        "wacc": 0.027183,
+        "wacc": 0.027303,
         "net_debt": -5930000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 101.577624,
-      "high": 152.007305,
+      "low": 101.137573,
+      "high": 151.348785,
       "fcf_p25": 7212500000.0,
       "fcf_p75": 10793250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 240.594554,
-      "central": 152.933298,
-      "plus_100bps": 112.422872
+      "minus_100bps": 238.940741,
+      "central": 152.270768,
+      "plus_100bps": 112.068361
     },
     "RE_valuation": {
-      "re_value_equity": 394428229379.01294,
-      "re_value_per_share": 153.116549,
+      "re_value_equity": 392300312438.62,
+      "re_value_per_share": 152.290494,
       "inputs": {
         "B0": 32810000000.0,
-        "RE": 8141114750.71552,
-        "ke": 0.027183,
+        "RE": 8137174586.668983,
+        "ke": 0.027303,
         "g": 0.0051,
         "g_sgr": 0.027865,
         "g_cap": 0.0051
@@ -41,21 +41,21 @@
     },
     "consensus": {
       "available": true,
-      "target_mean": 89.03636,
-      "target_median": 89.0,
+      "target_mean": 89.21364,
+      "target_median": 90.35,
       "target_high": 100.0,
       "target_low": 72.0,
       "n_analysts": 22,
       "warning_few_analysts": false,
-      "dispersion": 0.314478
+      "dispersion": 0.313853
     },
     "reverse_dcf": {
-      "implied_g": -0.021914,
+      "implied_g": -0.02132,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 216327280000.0,
+        "ev": 218568400000.0,
         "fcf_adj": 10859000000.0,
-        "wacc": 0.027183,
+        "wacc": 0.027303,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        145.51,
-        151.38,
-        157.86,
-        165.04,
-        173.06
+        144.87,
+        150.69,
+        157.1,
+        164.2,
+        172.12
       ],
       [
-        150.63,
-        156.73,
-        163.45,
-        170.91,
-        179.24
+        149.97,
+        156.0,
+        162.66,
+        170.04,
+        178.27
       ],
       [
-        162.34,
-        168.95,
-        176.25,
-        184.34,
-        193.37
+        161.62,
+        168.17,
+        175.39,
+        183.4,
+        192.33
       ],
       [
-        170.02,
-        176.97,
-        184.65,
-        193.16,
-        202.65
+        169.27,
+        176.16,
+        183.75,
+        192.17,
+        201.55
       ],
       [
-        182.44,
-        189.95,
-        198.22,
-        207.41,
-        217.65
+        181.64,
+        189.07,
+        197.26,
+        206.35,
+        216.47
       ]
     ]
   },
@@ -236,11 +236,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.027183,
-      "ke": 0.027183,
+      "wacc": 0.027303,
+      "ke": 0.027303,
       "kd": "N/D",
       "tax_rate": 0.245559,
-      "E": 222257280000.0,
+      "E": 224498400000.0,
       "D": 0,
       "rf": 0.0051,
       "rf_source": "FRED IRLTLT01CHM156N (OECD long-term yield, 2026-10-01)",
@@ -251,8 +251,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.582674,
-      "beta_raw": 0.377125,
+      "beta": 0.585842,
+      "beta_raw": 0.381854,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
@@ -880,9 +880,9 @@
     "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
     "listing_currency": "CHF",
     "reporting_currency": "CHF",
-    "price_listing": 86.28,
-    "price_in_reporting_currency": 86.28,
-    "price_date": "2026-11-24",
+    "price_listing": 87.15,
+    "price_in_reporting_currency": 87.15,
+    "price_date": "2026-11-25",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "NESN.SW",

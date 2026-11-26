@@ -1,42 +1,42 @@
 {
   "ticker": "TSM",
   "cik": 1046179,
-  "as_of": "2026-11-25",
+  "as_of": "2026-11-26",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 2135.0,
+    "prix": 2155.0,
     "EPV": {
-      "epv_ev": 18169145693129.395,
-      "epv_equity": 20760241893129.395,
-      "epv_per_share": 800.641985,
+      "epv_ev": 18265186342632.098,
+      "epv_equity": 20856282542632.098,
+      "epv_per_share": 804.3459,
       "inputs": {
         "ebit_adj": 1936091700000.0,
         "tax": 0.16973,
-        "wacc": 0.088473,
+        "wacc": 0.088008,
         "net_debt": -2591096200000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 195.095171,
-      "high": 490.107453,
+      "low": 195.997716,
+      "high": 492.37478,
       "fcf_p25": 243994825000.0,
       "fcf_p75": 612950500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 889.935542,
-      "central": 800.641985,
-      "plus_100bps": 729.484069
+      "minus_100bps": 894.646776,
+      "central": 804.3459,
+      "plus_100bps": 732.472306
     },
     "RE_valuation": {
-      "re_value_equity": 31447615362409.01,
-      "re_value_per_share": 1212.812516,
+      "re_value_equity": 31729410060479.258,
+      "re_value_per_share": 1223.680244,
       "inputs": {
         "B0": 5355038700000.0,
-        "RE": 1223308349806.0273,
-        "ke": 0.08857,
-        "g": 0.04918,
+        "RE": 1225812225111.9011,
+        "ke": 0.088102,
+        "g": 0.04904,
         "g_sgr": 0.211493,
-        "g_cap": 0.04918
+        "g_cap": 0.04904
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.675971
     },
     "reverse_dcf": {
-      "implied_g": 0.068203,
+      "implied_g": 0.06794,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 52768374397220.1,
+        "ev": 53286964285718.65,
         "fcf_adj": 1001319000000.0,
-        "wacc": 0.088473,
+        "wacc": 0.088008,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -79,7 +79,7 @@
       "message": "Aucun taux 10 ans TWD publié : US 10Y utilisé en substitut",
       "details": {
         "currency": "TWD",
-        "rf": 0.04918,
+        "rf": 0.04904,
         "reason": "no_source"
       }
     }
@@ -209,7 +209,7 @@
     "retained_earnings_test": {
       "ratio": 7.575535,
       "retained_5y": 3620429900000.0,
-      "delta_mcap": 27426693607948.73,
+      "delta_mcap": 27426695190351.77,
       "passes": true,
       "window": [
         2020,
@@ -317,45 +317,45 @@
     "g_axis": [
       0.0,
       0.0123,
-      0.0246,
-      0.0369,
-      0.0492
+      0.0245,
+      0.0368,
+      0.049
     ],
     "matrix": [
       [
-        528.5,
-        565.46,
-        616.63,
-        692.14,
-        814.79
+        531.3,
+        568.76,
+        620.66,
+        697.35,
+        822.18
       ],
       [
-        564.45,
-        605.54,
-        662.42,
-        746.36,
-        882.7
+        567.44,
+        609.06,
+        666.74,
+        751.96,
+        890.68
       ],
       [
-        610.34,
-        656.69,
-        720.86,
-        815.57,
-        969.39
+        613.58,
+        660.52,
+        725.56,
+        821.68,
+        978.13
       ],
       [
-        620.96,
-        668.54,
-        734.4,
-        831.59,
-        989.46
+        624.26,
+        672.43,
+        739.18,
+        837.82,
+        998.38
       ],
       [
-        711.89,
-        769.9,
-        850.21,
-        968.73,
-        1161.23
+        715.66,
+        774.38,
+        855.73,
+        975.96,
+        1171.65
       ]
     ]
   },
@@ -375,13 +375,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.088473,
-      "ke": 0.08857,
+      "wacc": 0.088008,
+      "ke": 0.088102,
       "kd": 0.069984,
       "tax_rate": 0.16973,
-      "E": 55359470597220.1,
+      "E": 55878060485718.65,
       "D": 176760200000.0,
-      "rf": 0.04918,
+      "rf": 0.04904,
       "rf_source": "PROXY : aucun taux 10 ans TWD publié → US 10Y (sainhe macro.json us_10y)",
       "rf_currency": "TWD",
       "rf_proxy": true,
@@ -390,8 +390,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.039313,
-      "beta_raw": 1.058677,
+      "beta": 1.03067,
+      "beta_raw": 1.045776,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 253 weeks"
     },
@@ -1111,9 +1111,9 @@
     "source": "SEC EDGAR 20-F",
     "listing_currency": "TWD",
     "reporting_currency": "TWD",
-    "price_listing": 2135.0,
-    "price_in_reporting_currency": 2135.0,
-    "price_date": "2026-11-25",
+    "price_listing": 2155.0,
+    "price_in_reporting_currency": 2155.0,
+    "price_date": "2026-11-26",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "2330.TW",
