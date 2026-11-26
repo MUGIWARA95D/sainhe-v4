@@ -152,8 +152,9 @@ def dashboard_tables(data: Path) -> tuple[str, list[Table]]:
                              ["Regime", rg.get("label", "") if isinstance(rg, dict) else str(rg)]]))
 
     port = (_load(data / "portfolio.json") or {}).get("data", {})
-    rows = [[x.get("ticker"), x.get("nom"), x.get("secteur"), x.get("native_devise"), _num(x.get("close")),
-             _pct(x.get("chg_pct"), 2), _pct(x.get("ret_1m")), _pct(x.get("ret_3m")), _pct(x.get("ret_1y")),
+    rows = [[x.get("ticker"), x.get("nom"), x.get("secteur"), x.get("native_devise"),
+             _num(x.get("close")) + (f" (as of {x.get('price_date')}, source stopped)" if x.get("price_stale") else ""),
+             "N/D" if x.get("price_stale") else _pct(x.get("chg_pct"), 2), _pct(x.get("ret_1m")), _pct(x.get("ret_3m")), _pct(x.get("ret_1y")),
              {1: "above", 0: "below"}.get(x.get("above_dma200"), "N/D"), (x.get("signal") or "").title()]
             for x in port.get("tickers", [])]
     tables.append(Table("Watchlist", ["Ticker", "Company", "Sector", "Currency", "Close (native)", "Day", "1 month", "3 months", "1 year",

@@ -162,6 +162,9 @@ WATCHLIST = {
     "GAZP"      : {"nom": "Gazprom",             "secteur": "Energy",              "devise": "RUB"},
 }
 
+# Un cours plus vieux que STALE_PRICE_DAYS jours calendaires par rapport au plus récent de la watchlist est
+# affiché « as of <date> » et sans variation du jour (Gazprom figé depuis le 20 nov. 2026 : certificat MOEX).
+STALE_PRICE_DAYS = 4
 # Source de prix autre que Yahoo, par ticker : "moex" = Bourse de Moscou (moex.py)
 PRICE_SOURCES = {"GAZP": "moex"}
 

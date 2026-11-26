@@ -360,9 +360,17 @@
         ndBadgeEl.textContent = nd;
         priceTd.appendChild(ndBadgeEl);
       }
-      var chgTd=tr.appendChild(mk("td",null,pct(p.chg_pct)));
+      if(p.price_stale && p.price_date){
+        /* the source stopped publishing: say how old the price is, and show no "day" move */
+        var asOf = document.createElement('span');
+        asOf.style.cssText = 'display:block;font-size:9.5px;color:var(--muted)';
+        asOf.textContent = 'as of ' + new Date(p.price_date + 'T00:00:00Z').toLocaleDateString('en-GB', {day: 'numeric', month: 'short', timeZone: 'UTC'});
+        asOf.title = 'Last price published by the source; it has not published since.';
+        priceTd.appendChild(asOf);
+      }
+      var chgTd=tr.appendChild(mk("td",null,p.price_stale ? "—" : pct(p.chg_pct)));
       chgTd.style.fontWeight="600";
-      chgTd.className=(p.chg_pct||0)>=0?"p-up":"p-dn";
+      chgTd.className=p.price_stale ? "p-flat" : ((p.chg_pct||0)>=0?"p-up":"p-dn");
       [p.ret_1m,p.ret_3m,p.ret_1y].forEach(function(v){
         var td=tr.appendChild(mk("td",null,pct(v)));
         td.className="pt-ret"+(v==null?"":(v>=0?" p-up":" p-dn"));

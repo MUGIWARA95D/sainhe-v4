@@ -52,7 +52,8 @@ def _fetch_watchlist(con: sqlite3.Connection) -> list[dict]:
             s.mfi,
             s.obv_dir,
             s.sparkline_json,
-            s.ts_update
+            s.ts_update,
+            (SELECT MAX(p.date) FROM prices p WHERE p.ticker = ti.ticker) AS price_date
         FROM ticker_info ti
         LEFT JOIN snapshot s ON s.ticker = ti.ticker
         WHERE ti.type  = 'watchlist'
@@ -73,7 +74,7 @@ def _fetch_watchlist(con: sqlite3.Connection) -> list[dict]:
         "dma_50", "dma_200", "above_dma200",
         "rvol", "rvol_dir",
         "mfi", "obv_dir",
-        "sparkline_json", "ts_update",
+        "sparkline_json", "ts_update", "price_date",
     ]
     # ticker_info keeps tickers removed from config.WATCHLIST (INSERT OR IGNORE): GAZP and SPACEX
     # were still listed with no data at all. The watchlist in config.py is the only authority.
@@ -119,6 +120,17 @@ def render(con: sqlite3.Connection, lang: str = "EN", currency: str = "USD") -> 
         reverse=TRI_DESCENDANT,
     )
 
+    # stale price: the source stopped publishing (ts_update is the time of the CALCULATION, not of the price)
+    from datetime import date
+    from config import STALE_PRICE_DAYS
+    dates = [i["price_date"] for i in items_sorted if i.get("price_date")]
+    newest = max(dates) if dates else None
+
+    def _stale(d):
+        if not d or not newest:
+            return False
+        return (date.fromisoformat(newest[:10]) - date.fromisoformat(d[:10])).days > STALE_PRICE_DAYS
+
     tickers_out = []
     for item in items_sorted:
         signal = _compute_signal(item)
@@ -145,6 +157,8 @@ def render(con: sqlite3.Connection, lang: str = "EN", currency: str = "USD") -> 
             "evidence"       : _build_evidence(item),
             "sparkline"      : item["sparkline_json"],
             "ts_update"      : item["ts_update"],
+            "price_date"     : item["price_date"],
+            "price_stale"    : _stale(item["price_date"]),
         })
 
     return {
