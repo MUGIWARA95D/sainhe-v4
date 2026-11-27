@@ -1,38 +1,38 @@
 {
   "ticker": "ROP.SW",
   "cik": 0,
-  "as_of": "2026-11-26",
+  "as_of": "2026-11-27",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 401.0,
+    "prix": 404.0,
     "EPV": {
-      "epv_ev": 517214106451.3769,
-      "epv_equity": 501054106451.3769,
-      "epv_per_share": 623.977717,
+      "epv_ev": 517279564657.68176,
+      "epv_equity": 501119564657.68176,
+      "epv_per_share": 624.059234,
       "inputs": {
         "ebit_adj": 18476000000.0,
         "tax": 0.187003,
-        "wacc": 0.029042,
+        "wacc": 0.029038,
         "net_debt": 16160000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 562.683245,
-      "high": 704.924728,
+      "low": 562.756755,
+      "high": 705.01682,
       "fcf_p25": 11016000000.0,
       "fcf_p75": 13800750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 962.231094,
-      "central": 623.977717,
-      "plus_100bps": 459.000982
+      "minus_100bps": 962.420723,
+      "central": 624.059234,
+      "plus_100bps": 459.046087
     },
     "RE_valuation": {
-      "re_value_equity": 533441622866.6958,
-      "re_value_per_share": 664.310863,
+      "re_value_equity": 533441298480.6448,
+      "re_value_per_share": 664.310459,
       "inputs": {
         "B0": 33802000000.0,
-        "RE": 11916747345.50785,
+        "RE": 11916746863.511765,
         "ke": 0.028497,
         "g": 0.0051,
         "g_sgr": 0.048016,
@@ -50,12 +50,12 @@
       "dispersion": 0.628466
     },
     "reverse_dcf": {
-      "implied_g": -0.006836,
+      "implied_g": -0.006594,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 338163000000.0,
+        "ev": 340572000000.0,
         "fcf_adj": 12216000000.0,
-        "wacc": 0.029042,
+        "wacc": 0.029038,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -236,11 +236,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.029042,
+      "wacc": 0.029038,
       "ke": 0.028497,
       "kd": 0.042546,
       "tax_rate": 0.187003,
-      "E": 322003000000.0,
+      "E": 324412000000.0,
       "D": 31636000000.0,
       "rf": 0.0051,
       "rf_source": "FRED IRLTLT01CHM156N (OECD long-term yield, 2026-10-01)",
@@ -911,9 +911,9 @@
     "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
     "listing_currency": "CHF",
     "reporting_currency": "CHF",
-    "price_listing": 401.0,
-    "price_in_reporting_currency": 401.0,
-    "price_date": "2026-11-25",
+    "price_listing": 404.0,
+    "price_in_reporting_currency": 404.0,
+    "price_date": "2026-11-26",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "ROP.SW",

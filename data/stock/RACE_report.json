@@ -1,42 +1,42 @@
 {
   "ticker": "RACE",
   "cik": 1648416,
-  "as_of": "2026-11-26",
+  "as_of": "2026-11-27",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 365.7,
+    "prix": 373.0,
     "EPV": {
-      "epv_ev": 23801391635.9819,
-      "epv_equity": 25269102635.9819,
-      "epv_per_share": 141.77999,
+      "epv_ev": 23656505021.305996,
+      "epv_equity": 25124216021.305996,
+      "epv_per_share": 140.967059,
       "inputs": {
         "ebit_adj": 2109716000.0,
         "tax": 0.224904,
-        "wacc": 0.068703,
+        "wacc": 0.069124,
         "net_debt": -1467711000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 45.272454,
-      "high": 103.610508,
+      "low": 45.012873,
+      "high": 103.016431,
       "fcf_p25": 595233500.0,
       "fcf_p75": 1362251000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 164.529144,
-      "central": 141.77999,
-      "plus_100bps": 124.81183
+      "minus_100bps": 163.416814,
+      "central": 140.967059,
+      "plus_100bps": 124.191877
     },
     "RE_valuation": {
-      "re_value_equity": 23243714817.428627,
-      "re_value_per_share": 130.415935,
+      "re_value_equity": 23102222958.301437,
+      "re_value_per_share": 129.622052,
       "inputs": {
         "B0": 3906893000.0,
-        "RE": 1328502711.481915,
-        "ke": 0.068703,
+        "RE": 1326858769.262546,
+        "ke": 0.069124,
         "g": 0.0,
         "g_sgr": "N/D",
-        "g_cap": 0.0327
+        "g_cap": 0.033
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.26118
     },
     "reverse_dcf": {
-      "implied_g": 0.038323,
+      "implied_g": 0.039323,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 63710110238.83928,
+        "ev": 65011171477.678566,
         "fcf_adj": 1864096000.0,
-        "wacc": 0.068703,
+        "wacc": 0.069124,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -243,46 +243,46 @@
     ],
     "g_axis": [
       0.0,
-      0.0082,
-      0.0163,
-      0.0245,
-      0.0327
+      0.0083,
+      0.0165,
+      0.0248,
+      0.033
     ],
     "matrix": [
       [
-        80.45,
-        86.51,
-        94.47,
-        105.36,
-        121.21
+        79.96,
+        85.99,
+        93.89,
+        104.74,
+        120.55
       ],
       [
-        98.36,
-        106.27,
-        116.66,
-        130.89,
-        151.58
+        97.76,
+        105.63,
+        115.96,
+        130.13,
+        150.79
       ],
       [
-        115.46,
-        125.15,
-        137.86,
-        155.27,
-        180.6
+        114.76,
+        124.39,
+        137.04,
+        154.4,
+        179.68
       ],
       [
-        130.52,
-        141.77,
-        156.52,
-        176.74,
-        206.14
+        129.73,
+        140.91,
+        155.6,
+        175.75,
+        205.11
       ],
       [
-        137.69,
-        149.68,
-        165.41,
-        186.96,
-        218.3
+        136.85,
+        148.78,
+        164.44,
+        185.92,
+        217.22
       ]
     ]
   },
@@ -302,13 +302,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.068703,
-      "ke": 0.068703,
+      "wacc": 0.069124,
+      "ke": 0.069124,
       "kd": "N/D",
       "tax_rate": 0.224904,
-      "E": 65177821238.83928,
+      "E": 66478882477.678566,
       "D": 0,
-      "rf": 0.0327,
+      "rf": 0.033,
       "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -317,8 +317,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.949954,
-      "beta_raw": 0.925305,
+      "beta": 0.953141,
+      "beta_raw": 0.930061,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
@@ -955,9 +955,9 @@
     "source": "SEC EDGAR 20-F",
     "listing_currency": "EUR",
     "reporting_currency": "EUR",
-    "price_listing": 365.7,
-    "price_in_reporting_currency": 365.7,
-    "price_date": "2026-11-25",
+    "price_listing": 373.0,
+    "price_in_reporting_currency": 373.0,
+    "price_date": "2026-11-26",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "RACE.MI",

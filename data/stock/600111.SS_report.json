@@ -1,39 +1,39 @@
 {
   "ticker": "600111.SS",
   "cik": 0,
-  "as_of": "2026-11-26",
+  "as_of": "2026-11-27",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 31.17,
+    "prix": 31.08,
     "EPV": {
-      "epv_ev": 87573757822.58286,
-      "epv_equity": 86895548355.36285,
-      "epv_per_share": 24.035237,
+      "epv_ev": 87815829986.02066,
+      "epv_equity": 87137620518.80066,
+      "epv_per_share": 24.102194,
       "inputs": {
         "ebit_adj": 3793866616.36,
         "tax": 0.155272,
-        "wacc": 0.036595,
+        "wacc": 0.036494,
         "net_debt": 678209467.22
       }
     },
     "EPV_confidence_range": {
-      "low": 68.627509,
-      "high": -393.388511,
+      "low": 68.818691,
+      "high": -394.484406,
       "fcf_p25": -544825692.155,
       "fcf_p75": 3123064930.75
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 33.143178,
-      "central": 24.035237,
-      "plus_100bps": 18.836679
+      "minus_100bps": 33.270086,
+      "central": 24.102194,
+      "plus_100bps": 18.877956
     },
     "RE_valuation": {
-      "re_value_equity": 85820242230.82623,
-      "re_value_per_share": 23.737808,
+      "re_value_equity": 86252379151.13222,
+      "re_value_per_share": 23.857337,
       "inputs": {
         "B0": 24660969712.52,
-        "RE": 1347280992.469201,
-        "ke": 0.036657,
+        "RE": 1349893475.443026,
+        "ke": 0.036551,
         "g": 0.01591,
         "g_sgr": 0.102769,
         "g_cap": 0.01591
@@ -50,12 +50,12 @@
       "dispersion": 0.660483
     },
     "reverse_dcf": {
-      "implied_g": 0.031485,
+      "implied_g": 0.03137,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 113368350035.78001,
+        "ev": 113042969456.65999,
         "fcf_adj": 561662295.295,
-        "wacc": 0.036595,
+        "wacc": 0.036494,
         "fcf_basis": "median_5y",
         "fcf_years": [
           2022,
@@ -202,39 +202,39 @@
     ],
     "matrix": [
       [
-        17.65,
-        18.79,
-        20.24,
-        22.17,
-        24.83
+        17.7,
+        18.85,
+        20.32,
+        22.26,
+        24.96
       ],
       [
-        19.83,
-        21.2,
-        22.95,
-        25.26,
-        28.46
+        19.88,
+        21.26,
+        23.03,
+        25.37,
+        28.6
       ],
       [
-        27.38,
-        29.54,
-        32.31,
-        35.97,
-        41.03
+        27.46,
+        29.64,
+        32.43,
+        36.12,
+        41.23
       ],
       [
-        48.23,
-        52.59,
-        58.16,
-        65.53,
-        75.72
+        48.37,
+        52.76,
+        58.38,
+        65.81,
+        76.11
       ],
       [
-        83.54,
-        91.63,
-        101.95,
-        115.6,
-        134.48
+        83.78,
+        91.92,
+        102.33,
+        116.1,
+        135.17
       ]
     ]
   },
@@ -254,11 +254,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.036595,
-      "ke": 0.036657,
+      "wacc": 0.036494,
+      "ke": 0.036551,
       "kd": 0.041916,
       "tax_rate": 0.155272,
-      "E": 112690140568.56001,
+      "E": 112364759989.43999,
       "D": 5831939592.8,
       "rf": 0.01591,
       "rf_source": "sainhe macro.json cgb_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -269,10 +269,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.547408,
-      "beta_raw": 0.324489,
+      "beta": 0.544613,
+      "beta_raw": 0.320317,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 249 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 248 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -878,9 +878,9 @@
     "edgar_filings_index": "https://finance.yahoo.com/quote/600111.SS/financials"
   },
   "score_composite": {
-    "value_0_100": 40.0,
+    "value_0_100": 40.3,
     "pillars": {
-      "valuation": 4.220321,
+      "valuation": 5.097774,
       "balance_sheet_health": 85,
       "earnings_quality": 25,
       "smart_money": 50,
@@ -899,9 +899,9 @@
     "source": "Yahoo Finance statements (secondary) — China: no public XBRL feed",
     "listing_currency": "CNY",
     "reporting_currency": "CNY",
-    "price_listing": 31.17,
-    "price_in_reporting_currency": 31.17,
-    "price_date": "2026-11-26",
+    "price_listing": 31.08,
+    "price_in_reporting_currency": 31.08,
+    "price_date": "2026-11-27",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "600111.SS",

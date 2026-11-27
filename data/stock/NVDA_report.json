@@ -1,42 +1,42 @@
 {
   "ticker": "NVDA",
   "cik": 1045810,
-  "as_of": "2026-11-26",
+  "as_of": "2026-11-27",
   "fiscal_year": 2026,
   "bloc_A_verdict": {
     "prix": 149.3,
     "EPV": {
-      "epv_ev": 968984111559.9647,
-      "epv_equity": 1023072111559.9647,
-      "epv_per_share": 41.734197,
+      "epv_ev": 973747145007.4938,
+      "epv_equity": 1027835145007.4938,
+      "epv_per_share": 41.928496,
       "inputs": {
         "ebit_adj": 130387000000.0,
         "tax": 0.15117,
-        "wacc": 0.114219,
+        "wacc": 0.11366,
         "net_debt": -54088000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 1.017239,
-      "high": 14.621529,
+      "low": 1.021975,
+      "high": 14.689601,
       "fcf_p25": 2200750000.0,
       "fcf_p75": 31633000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 45.526959,
-      "central": 41.734197,
-      "plus_100bps": 38.552093
+      "minus_100bps": 45.760443,
+      "central": 41.928496,
+      "plus_100bps": 38.716302
     },
     "RE_valuation": {
-      "re_value_equity": 1483098064396.6777,
-      "re_value_per_share": 60.500043,
+      "re_value_equity": 1486654128920.3608,
+      "re_value_per_share": 60.645106,
       "inputs": {
         "B0": 157293000000.0,
-        "RE": 102069031980.41168,
-        "ke": 0.114423,
-        "g": 0.04904,
+        "RE": 102157114319.75601,
+        "ke": 0.113863,
+        "g": 0.04848,
         "g_sgr": 0.256005,
-        "g_cap": 0.04904
+        "g_cap": 0.04848
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 1.216857
     },
     "reverse_dcf": {
-      "implied_g": 0.087001,
+      "implied_g": 0.086456,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 3605852200000.0005,
         "fcf_adj": 90290000000.0,
-        "wacc": 0.114219,
+        "wacc": 0.11366,
         "fcf_basis": "last_year",
         "fcf_years": [
           2026
@@ -319,46 +319,46 @@
     ],
     "g_axis": [
       0.0,
-      0.0123,
-      0.0245,
-      0.0368,
-      0.049
+      0.0121,
+      0.0242,
+      0.0364,
+      0.0485
     ],
     "matrix": [
       [
-        12.38,
-        12.84,
-        13.43,
-        14.21,
-        15.28
+        12.44,
+        12.91,
+        13.5,
+        14.27,
+        15.34
       ],
       [
-        18.85,
-        19.82,
-        21.05,
-        22.67,
-        24.9
+        18.95,
+        19.92,
+        21.15,
+        22.76,
+        24.98
       ],
       [
-        22.91,
-        24.19,
-        25.83,
-        27.97,
-        30.93
+        23.02,
+        24.31,
+        25.94,
+        28.08,
+        31.02
       ],
       [
-        34.12,
-        36.27,
-        39.02,
-        42.63,
-        47.59
+        34.29,
+        36.44,
+        39.18,
+        42.78,
+        47.71
       ],
       [
-        41.46,
-        44.18,
-        47.65,
-        52.22,
-        58.49
+        41.66,
+        44.39,
+        47.85,
+        52.4,
+        58.64
       ]
     ]
   },
@@ -378,13 +378,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.114219,
-      "ke": 0.114423,
+      "wacc": 0.11366,
+      "ke": 0.113863,
       "kd": 0.030586,
       "tax_rate": 0.15117,
       "E": 3659940200000.0005,
       "D": 8468000000.0,
-      "rf": 0.04904,
+      "rf": 0.04848,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -393,7 +393,7 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.72515,
+      "beta": 1.725151,
       "beta_raw": 2.082314,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"

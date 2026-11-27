@@ -1,14 +1,14 @@
 {
   "ticker": "NESN.SW",
   "cik": 0,
-  "as_of": "2026-11-26",
+  "as_of": "2026-11-27",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 87.15,
+    "prix": 87.65,
     "EPV": {
-      "epv_ev": 386319497083.06256,
-      "epv_equity": 392249497083.06256,
-      "epv_per_share": 152.270768,
+      "epv_ev": 386319469332.2966,
+      "epv_equity": 392249469332.2966,
+      "epv_per_share": 152.270757,
       "inputs": {
         "ebit_adj": 13981000000.0,
         "tax": 0.245559,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 101.137573,
-      "high": 151.348785,
+      "low": 101.137566,
+      "high": 151.348775,
       "fcf_p25": 7212500000.0,
       "fcf_p75": 10793250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 238.940741,
-      "central": 152.270768,
-      "plus_100bps": 112.068361
+      "minus_100bps": 238.940714,
+      "central": 152.270757,
+      "plus_100bps": 112.068356
     },
     "RE_valuation": {
-      "re_value_equity": 392300312438.62,
-      "re_value_per_share": 152.290494,
+      "re_value_equity": 392300277873.57996,
+      "re_value_per_share": 152.290481,
       "inputs": {
         "B0": 32810000000.0,
-        "RE": 8137174586.668983,
+        "RE": 8137174522.318508,
         "ke": 0.027303,
         "g": 0.0051,
         "g_sgr": 0.027865,
@@ -50,10 +50,10 @@
       "dispersion": 0.313853
     },
     "reverse_dcf": {
-      "implied_g": -0.02132,
+      "implied_g": -0.021048,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 218568400000.0,
+        "ev": 219856400000.0,
         "fcf_adj": 10859000000.0,
         "wacc": 0.027303,
         "fcf_basis": "last_year",
@@ -240,7 +240,7 @@
       "ke": 0.027303,
       "kd": "N/D",
       "tax_rate": 0.245559,
-      "E": 224498400000.0,
+      "E": 225786400000.0,
       "D": 0,
       "rf": 0.0051,
       "rf_source": "FRED IRLTLT01CHM156N (OECD long-term yield, 2026-10-01)",
@@ -880,9 +880,9 @@
     "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
     "listing_currency": "CHF",
     "reporting_currency": "CHF",
-    "price_listing": 87.15,
-    "price_in_reporting_currency": 87.15,
-    "price_date": "2026-11-25",
+    "price_listing": 87.65,
+    "price_in_reporting_currency": 87.65,
+    "price_date": "2026-11-26",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "NESN.SW",

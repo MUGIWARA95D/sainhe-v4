@@ -1,42 +1,42 @@
 {
   "ticker": "XOM",
   "cik": 2115436,
-  "as_of": "2026-11-26",
+  "as_of": "2026-11-27",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 158.08,
     "EPV": {
-      "epv_ev": 456529078542.142,
-      "epv_equity": 423673078542.142,
-      "epv_per_share": 98.412482,
+      "epv_ev": 460177313165.50604,
+      "epv_equity": 427321313165.50604,
+      "epv_per_share": 99.259908,
       "inputs": {
         "ebit_adj": 41871000000.0,
         "tax": 0.278763,
-        "wacc": 0.066149,
+        "wacc": 0.065624,
         "net_debt": 32856000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 24.082133,
-      "high": 142.128555,
+      "low": 24.289503,
+      "high": 143.352419,
       "fcf_p25": 5778000000.0,
       "fcf_p75": 34100750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 117.298759,
-      "central": 98.412482,
-      "plus_100bps": 84.486558
+      "minus_100bps": 118.47659,
+      "central": 99.259908,
+      "plus_100bps": 85.125358
     },
     "RE_valuation": {
-      "re_value_equity": 431005797294.9583,
-      "re_value_per_share": 100.115755,
+      "re_value_equity": 434959781879.2271,
+      "re_value_per_share": 101.034203,
       "inputs": {
         "B0": 259386000000.0,
-        "RE": 10697076237.524708,
-        "ke": 0.069961,
+        "RE": 10842337433.916157,
+        "ke": 0.069401,
         "g": 0.009673,
         "g_sgr": 0.009673,
-        "g_cap": 0.04904
+        "g_cap": 0.04848
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.287759
     },
     "reverse_dcf": {
-      "implied_g": 0.031992,
+      "implied_g": 0.031485,
       "flag_unrealistic": false,
       "inputs": {
         "ev": 713402197014.9253,
         "fcf_adj": 23612000000.0,
-        "wacc": 0.066149,
+        "wacc": 0.065624,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -195,7 +195,7 @@
     "retained_earnings_test": {
       "ratio": 3.696852,
       "retained_5y": 98575000000.0,
-      "delta_mcap": 364417223230.9435,
+      "delta_mcap": 364417190620.73145,
       "passes": true,
       "window": [
         2020,
@@ -221,46 +221,46 @@
     ],
     "g_axis": [
       0.0,
-      0.0123,
-      0.0245,
-      0.0368,
-      0.049
+      0.0121,
+      0.0242,
+      0.0364,
+      0.0485
     ],
     "matrix": [
       [
-        -108.91,
-        -136.33,
-        -178.55,
-        -251.98,
-        -411.45
+        -109.79,
+        -137.29,
+        -179.57,
+        -252.86,
+        -411.06
       ],
       [
-        33.37,
-        29.01,
-        22.3,
-        10.64,
-        -14.7
+        33.64,
+        29.34,
+        22.72,
+        11.25,
+        -13.51
       ],
       [
-        88.67,
-        93.27,
-        100.36,
-        112.7,
-        139.48
+        89.38,
+        94.09,
+        101.34,
+        113.89,
+        140.99
       ],
       [
-        109.11,
-        117.03,
-        129.22,
-        150.42,
-        196.48
+        109.99,
+        118.03,
+        130.4,
+        151.83,
+        198.11
       ],
       [
-        151.75,
-        166.58,
-        189.42,
-        229.13,
-        315.39
+        152.97,
+        167.97,
+        191.02,
+        230.99,
+        317.25
       ]
     ]
   },
@@ -280,13 +280,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.066149,
-      "ke": 0.069961,
+      "wacc": 0.065624,
+      "ke": 0.069401,
       "kd": 0.01385,
       "tax_rate": 0.278763,
       "E": 680546197014.9253,
       "D": 46196000000.0,
-      "rf": 0.04904,
+      "rf": 0.04848,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "USD",
       "rf_proxy": false,
@@ -296,7 +296,7 @@
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
       "beta": 0.552007,
-      "beta_raw": 0.331354,
+      "beta_raw": 0.331353,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
     },
