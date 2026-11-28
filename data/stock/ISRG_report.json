@@ -1,39 +1,39 @@
 {
   "ticker": "ISRG",
   "cik": 1035267,
-  "as_of": "2026-11-27",
+  "as_of": "2026-11-28",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 427.18,
+    "prix": 430.18,
     "EPV": {
-      "epv_ev": 27086245241.55174,
-      "epv_equity": 33021145241.55174,
-      "epv_per_share": 91.042584,
+      "epv_ev": 27113544801.907158,
+      "epv_equity": 33048444801.907158,
+      "epv_per_share": 91.117852,
       "inputs": {
         "ebit_adj": 2945500000.0,
         "tax": 0.131304,
-        "wacc": 0.094467,
+        "wacc": 0.094371,
         "net_debt": -5934900000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 31.098863,
-      "high": 51.700423,
+      "low": 31.124574,
+      "high": 51.743165,
       "fcf_p25": 581550000.0,
       "fcf_p75": 966800000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 99.883892,
-      "central": 91.042584,
-      "plus_100bps": 83.893935
+      "minus_100bps": 99.978047,
+      "central": 91.117852,
+      "plus_100bps": 83.955476
     },
     "RE_valuation": {
-      "re_value_equity": 37678529083.42643,
-      "re_value_per_share": 103.883455,
+      "re_value_equity": 37743894804.389534,
+      "re_value_per_share": 104.063675,
       "inputs": {
         "B0": 17824000000.0,
-        "RE": 1172228222.059971,
-        "ke": 0.094467,
+        "RE": 1173923545.545427,
+        "ke": 0.094371,
         "g": 0.043704,
         "g_sgr": 0.043704,
         "g_cap": 0.04848
@@ -50,12 +50,12 @@
       "dispersion": 0.740182
     },
     "reverse_dcf": {
-      "implied_g": 0.082103,
+      "implied_g": 0.082097,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 149003286000.0,
+        "ev": 150091386000.0,
         "fcf_adj": 1702500000.0,
-        "wacc": 0.094467,
+        "wacc": 0.094371,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -329,39 +329,39 @@
     ],
     "matrix": [
       [
-        60.61,
-        61.78,
-        63.36,
+        60.67,
+        61.85,
+        63.44,
+        65.7,
+        69.15
+      ],
+      [
+        62.41,
+        63.77,
         65.6,
-        69.03
+        68.2,
+        72.18
       ],
       [
-        62.34,
-        63.7,
-        65.52,
-        68.1,
-        72.04
+        73.52,
+        76.03,
+        79.4,
+        84.18,
+        91.48
       ],
       [
-        73.45,
-        75.94,
-        79.3,
-        84.05,
-        91.31
+        81.3,
+        84.61,
+        89.05,
+        95.36,
+        104.99
       ],
       [
-        81.22,
-        84.51,
-        88.94,
-        95.21,
-        104.79
-      ],
-      [
-        85.39,
-        89.11,
-        94.12,
-        101.2,
-        112.03
+        85.48,
+        89.21,
+        94.24,
+        101.36,
+        112.24
       ]
     ]
   },
@@ -381,11 +381,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.094467,
-      "ke": 0.094467,
+      "wacc": 0.094371,
+      "ke": 0.094371,
       "kd": "N/D",
       "tax_rate": 0.131304,
-      "E": 154938186000.0,
+      "E": 156026286000.0,
       "D": 0,
       "rf": 0.04848,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -396,10 +396,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.213365,
-      "beta_raw": 1.318456,
+      "beta": 1.210856,
+      "beta_raw": 1.31471,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -1274,9 +1274,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 427.18,
-    "price_in_reporting_currency": 427.18,
-    "price_date": "2026-11-25",
+    "price_listing": 430.18,
+    "price_in_reporting_currency": 430.18,
+    "price_date": "2026-11-27",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "ISRG",

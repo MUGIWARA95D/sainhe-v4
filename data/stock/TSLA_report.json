@@ -1,39 +1,39 @@
 {
   "ticker": "TSLA",
   "cik": 1318605,
-  "as_of": "2026-11-27",
+  "as_of": "2026-11-28",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 380.14,
+    "prix": 400.0,
     "EPV": {
-      "epv_ev": 32239284978.446545,
-      "epv_equity": 67922284978.44655,
-      "epv_per_share": 19.252348,
+      "epv_ev": 32156368700.554577,
+      "epv_equity": 67839368700.55458,
+      "epv_per_share": 19.228846,
       "inputs": {
         "ebit_adj": 4745000000.0,
         "tax": 0.26961,
-        "wacc": 0.107499,
+        "wacc": 0.107777,
         "net_debt": -35683000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": -5.663502,
-      "high": 17.121547,
+      "low": -5.656588,
+      "high": 17.100646,
       "fcf_p25": -998714000.0,
       "fcf_p75": 3019250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 20.189598,
-      "central": 19.252348,
-      "plus_100bps": 18.474632
+      "minus_100bps": 20.161035,
+      "central": 19.228846,
+      "plus_100bps": 18.454955
     },
     "RE_valuation": {
-      "re_value_equity": 13789191611.600327,
-      "re_value_per_share": 3.908501,
+      "re_value_equity": 13776663021.786125,
+      "re_value_per_share": 3.90495,
       "inputs": {
         "B0": 82137000000.0,
-        "RE": -4790433664.649305,
-        "ke": 0.107982,
+        "RE": -4811369658.270294,
+        "ke": 0.108237,
         "g": 0.04848,
         "g_sgr": 0.067443,
         "g_cap": 0.04848
@@ -50,12 +50,12 @@
       "dispersion": 1.126095
     },
     "reverse_dcf": {
-      "implied_g": 0.104627,
+      "implied_g": 0.105049,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 1305450920000.0,
+        "ev": 1375517000000.0,
         "fcf_adj": 3395000000.0,
-        "wacc": 0.107499,
+        "wacc": 0.107777,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -267,39 +267,39 @@
     ],
     "matrix": [
       [
-        7.33,
-        5.99,
-        4.26,
+        7.31,
+        5.98,
+        4.25,
         1.95,
-        -1.3
+        -1.28
       ],
       [
-        9.71,
-        8.57,
-        7.11,
-        5.14,
+        9.69,
+        8.55,
+        7.09,
+        5.13,
         2.38
       ],
       [
-        17.35,
-        16.85,
-        16.21,
-        15.35,
-        14.14
+        17.31,
+        16.81,
+        16.16,
+        15.3,
+        14.09
       ],
       [
-        26.19,
-        26.44,
-        26.75,
-        27.17,
-        27.77
+        26.13,
+        26.37,
+        26.68,
+        27.09,
+        27.66
       ],
       [
-        41.72,
-        43.26,
-        45.26,
-        47.93,
-        51.68
+        41.62,
+        43.15,
+        45.13,
+        47.77,
+        51.48
       ]
     ]
   },
@@ -319,11 +319,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.107499,
-      "ke": 0.107982,
+      "wacc": 0.107777,
+      "ke": 0.108237,
       "kd": 0.041457,
       "tax_rate": 0.26961,
-      "E": 1341133920000.0,
+      "E": 1411200000000.0,
       "D": 8376000000.0,
       "rf": 0.04848,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -334,10 +334,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.569963,
-      "beta_raw": 1.850692,
+      "beta": 1.576689,
+      "beta_raw": 1.86073,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -1339,9 +1339,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 380.14,
-    "price_in_reporting_currency": 380.14,
-    "price_date": "2026-11-25",
+    "price_listing": 400.0,
+    "price_in_reporting_currency": 400.0,
+    "price_date": "2026-11-27",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "TSLA",

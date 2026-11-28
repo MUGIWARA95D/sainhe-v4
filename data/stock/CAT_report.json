@@ -1,39 +1,39 @@
 {
   "ticker": "CAT",
   "cik": 18230,
-  "as_of": "2026-11-27",
+  "as_of": "2026-11-28",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 543.69,
+    "prix": 561.74,
     "EPV": {
-      "epv_ev": 96760413959.60344,
-      "epv_equity": 70530413959.60344,
-      "epv_per_share": 149.333928,
+      "epv_ev": 96516411495.2609,
+      "epv_equity": 70286411495.2609,
+      "epv_per_share": 148.817301,
       "inputs": {
         "ebit_adj": 11599000000.0,
         "tax": 0.239841,
-        "wacc": 0.091123,
+        "wacc": 0.091353,
         "net_debt": 26230000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 86.463976,
-      "high": 154.060268,
+      "low": 86.16485,
+      "high": 153.527291,
       "fcf_p25": 5163500000.0,
       "fcf_p75": 9200250000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 174.588285,
-      "central": 149.333928,
-      "plus_100bps": 129.074355
+      "minus_100bps": 173.936642,
+      "central": 148.817301,
+      "plus_100bps": 128.65475
     },
     "RE_valuation": {
-      "re_value_equity": 160001232812.33392,
-      "re_value_per_share": 338.770343,
+      "re_value_equity": 159207852393.89874,
+      "re_value_per_share": 337.09052,
       "inputs": {
         "B0": 21318000000.0,
-        "RE": 7279993504.438161,
-        "ke": 0.091123,
+        "RE": 7275082537.355068,
+        "ke": 0.091353,
         "g": 0.046521,
         "g_sgr": 0.046521,
         "g_cap": 0.04848
@@ -50,12 +50,12 @@
       "dispersion": 0.559918
     },
     "reverse_dcf": {
-      "implied_g": 0.057791,
+      "implied_g": 0.05896,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 283014787000.0,
+        "ev": 291539802000.0,
         "fcf_adj": 8918000000.0,
-        "wacc": 0.091123,
+        "wacc": 0.091353,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -320,39 +320,39 @@
     ],
     "matrix": [
       [
-        43.03,
-        42.8,
-        42.49,
-        42.04,
-        41.34
+        42.92,
+        42.68,
+        42.36,
+        41.89,
+        41.16
       ],
       [
-        116.62,
-        124.35,
-        134.9,
-        150.1,
-        173.95
+        116.32,
+        124.0,
+        134.45,
+        149.5,
+        173.07
       ],
       [
-        176.63,
-        190.86,
-        210.25,
-        238.22,
-        282.1
+        176.18,
+        190.31,
+        209.55,
+        237.26,
+        280.64
       ],
       [
-        194.24,
-        210.38,
-        232.37,
-        264.09,
-        313.84
+        193.75,
+        209.78,
+        231.59,
+        263.02,
+        312.22
       ],
       [
-        252.94,
-        275.43,
-        306.07,
-        350.28,
-        419.61
+        252.3,
+        274.64,
+        305.04,
+        348.85,
+        417.43
       ]
     ]
   },
@@ -372,11 +372,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.091123,
-      "ke": 0.091123,
+      "wacc": 0.091353,
+      "ke": 0.091353,
       "kd": "N/D",
       "tax_rate": 0.239841,
-      "E": 256784787000.00003,
+      "E": 265309802000.0,
       "D": 36210000000.0,
       "rf": 0.04848,
       "rf_source": "sainhe macro.json us_10y (https://sainhe.pages.dev/data/macro.json)",
@@ -387,10 +387,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.125142,
-      "beta_raw": 1.18678,
+      "beta": 1.131221,
+      "beta_raw": 1.195852,
       "mode": "Kd N/D → all-equity (prudent : WACC surestimé)",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -1292,9 +1292,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 543.69,
-    "price_in_reporting_currency": 543.69,
-    "price_date": "2026-11-25",
+    "price_listing": 561.74,
+    "price_in_reporting_currency": 561.74,
+    "price_date": "2026-11-27",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "CAT",

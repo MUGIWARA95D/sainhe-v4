@@ -1,42 +1,42 @@
 {
   "ticker": "LDO.MI",
   "cik": 0,
-  "as_of": "2026-11-27",
+  "as_of": "2026-11-28",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 50.67,
+    "prix": 52.18,
     "EPV": {
-      "epv_ev": 24658401295.225624,
-      "epv_equity": 24015401295.225624,
-      "epv_per_share": 41.637599,
+      "epv_ev": 24494970894.05604,
+      "epv_equity": 23851970894.05604,
+      "epv_per_share": 41.354246,
       "inputs": {
         "ebit_adj": 1710000000.0,
         "tax": 0.191025,
-        "wacc": 0.0561,
+        "wacc": 0.056475,
         "net_debt": 643000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 22.322064,
-      "high": 40.389606,
+      "low": 22.170158,
+      "high": 40.114745,
       "fcf_p25": 393500000.0,
       "fcf_p75": 712000000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 50.911353,
-      "central": 41.637599,
-      "plus_100bps": 35.169803
+      "minus_100bps": 50.49234,
+      "central": 41.354246,
+      "plus_100bps": 34.965494
     },
     "RE_valuation": {
-      "re_value_equity": 29945575402.385975,
-      "re_value_per_share": 51.91926,
+      "re_value_equity": 29849048242.830284,
+      "re_value_per_share": 51.751902,
       "inputs": {
         "B0": 9560000000.0,
-        "RE": 641862304.696996,
-        "ke": 0.060893,
-        "g": 0.033,
+        "RE": 639148412.270207,
+        "ke": 0.061177,
+        "g": 0.0333,
         "g_sgr": 0.115456,
-        "g_cap": 0.033
+        "g_cap": 0.0333
       }
     },
     "consensus": {
@@ -50,12 +50,12 @@
       "dispersion": 0.328281
     },
     "reverse_dcf": {
-      "implied_g": 0.03077,
+      "implied_g": 0.031836,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 29868037240.0,
+        "ev": 30738962960.0,
         "fcf_adj": 734000000.0,
-        "wacc": 0.0561,
+        "wacc": 0.056475,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -178,45 +178,45 @@
     "g_axis": [
       0.0,
       0.0083,
-      0.0165,
-      0.0248,
-      0.033
+      0.0167,
+      0.025,
+      0.0333
     ],
     "matrix": [
       [
-        30.0,
-        31.66,
-        33.94,
-        37.25,
-        42.54
+        29.86,
+        31.51,
+        33.78,
+        37.09,
+        42.37
       ],
       [
-        30.72,
-        32.47,
-        34.87,
-        38.37,
-        43.94
+        30.58,
+        32.32,
+        34.71,
+        38.2,
+        43.77
       ],
       [
-        32.48,
-        34.45,
-        37.15,
-        41.08,
-        47.34
+        32.33,
+        34.29,
+        36.98,
+        40.9,
+        47.17
       ],
       [
-        36.09,
-        38.5,
-        41.82,
-        46.64,
-        54.32
+        35.92,
+        38.33,
+        41.63,
+        46.45,
+        54.15
       ],
       [
-        42.68,
-        45.92,
-        50.35,
-        56.8,
-        67.07
+        42.49,
+        45.71,
+        50.13,
+        56.58,
+        66.9
       ]
     ]
   },
@@ -236,13 +236,13 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.0561,
-      "ke": 0.060893,
+      "wacc": 0.056475,
+      "ke": 0.061177,
       "kd": 0.024736,
       "tax_rate": 0.191025,
-      "E": 29225037240.0,
+      "E": 30095962960.0,
       "D": 3881000000.0,
-      "rf": 0.033,
+      "rf": 0.0333,
       "rf_source": "sainhe macro.json bund_10y (https://sainhe.pages.dev/data/macro.json)",
       "rf_currency": "EUR",
       "rf_proxy": false,
@@ -251,10 +251,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.735965,
-      "beta_raw": 0.605918,
+      "beta": 0.735539,
+      "beta_raw": 0.605283,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -841,9 +841,9 @@
     }
   },
   "score_composite": {
-    "value_0_100": 52.1,
+    "value_0_100": 50.3,
     "pillars": {
-      "valuation": 14.348131,
+      "valuation": 8.506115,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,
@@ -862,9 +862,9 @@
     "source": "Yahoo Finance statements (secondary) — ESEF 2024 incomplete (ebit, ocf, capex, pretax_income not tagged)",
     "listing_currency": "EUR",
     "reporting_currency": "EUR",
-    "price_listing": 50.67,
-    "price_in_reporting_currency": 50.67,
-    "price_date": "2026-11-26",
+    "price_listing": 52.18,
+    "price_in_reporting_currency": 52.18,
+    "price_date": "2026-11-27",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "LDO.MI",

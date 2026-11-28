@@ -1,39 +1,39 @@
 {
   "ticker": "TSM",
   "cik": 1046179,
-  "as_of": "2026-11-27",
+  "as_of": "2026-11-28",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 2170.0,
+    "prix": 2180.0,
     "EPV": {
-      "epv_ev": 18360971610241.59,
-      "epv_equity": 20952067810241.59,
-      "epv_per_share": 808.039967,
+      "epv_ev": 18340136690712.973,
+      "epv_equity": 20931232890712.973,
+      "epv_per_share": 807.236445,
       "inputs": {
         "ebit_adj": 1936091700000.0,
         "tax": 0.16973,
-        "wacc": 0.087549,
+        "wacc": 0.087648,
         "net_debt": -2591096200000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 196.897862,
-      "high": 494.636077,
+      "low": 196.702065,
+      "high": 494.144206,
       "fcf_p25": 243994825000.0,
       "fcf_p75": 612950500000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 899.351812,
-      "central": 808.039967,
-      "plus_100bps": 735.449406
+      "minus_100bps": 898.327848,
+      "central": 807.236445,
+      "plus_100bps": 734.802108
     },
     "RE_valuation": {
-      "re_value_equity": 31768001528262.875,
-      "re_value_per_share": 1225.168567,
+      "re_value_equity": 31690835266943.42,
+      "re_value_per_share": 1222.192564,
       "inputs": {
         "B0": 5355038700000.0,
-        "RE": 1228282044509.8616,
-        "ke": 0.087641,
+        "RE": 1227750050627.7148,
+        "ke": 0.087741,
         "g": 0.04848,
         "g_sgr": 0.211493,
         "g_cap": 0.04848
@@ -50,12 +50,12 @@
       "dispersion": 0.673105
     },
     "reverse_dcf": {
-      "implied_g": 0.067632,
+      "implied_g": 0.067824,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 53675906702092.56,
+        "ev": 53935201646341.836,
         "fcf_adj": 1001319000000.0,
-        "wacc": 0.087549,
+        "wacc": 0.087648,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -207,9 +207,9 @@
     "ocf_ni": 1.34011,
     "accruals_pct_rev": -0.151579,
     "retained_earnings_test": {
-      "ratio": 7.575536,
+      "ratio": 7.575535,
       "retained_5y": 3620429900000.0,
-      "delta_mcap": 27426697563956.33,
+      "delta_mcap": 27426692816747.21,
       "passes": true,
       "window": [
         2020,
@@ -323,39 +323,39 @@
     ],
     "matrix": [
       [
-        534.1,
-        571.67,
-        623.6,
-        700.07,
-        823.89
+        533.5,
+        570.93,
+        622.66,
+        698.78,
+        821.91
       ],
       [
-        570.43,
-        612.16,
-        669.85,
-        754.81,
-        892.35
+        569.78,
+        611.37,
+        668.84,
+        753.41,
+        890.21
       ],
       [
-        616.8,
-        663.86,
-        728.9,
-        824.68,
-        979.75
+        616.11,
+        663.0,
+        727.79,
+        823.15,
+        977.39
       ],
       [
-        627.54,
-        675.83,
-        742.57,
-        840.86,
-        999.99
+        626.83,
+        674.95,
+        741.44,
+        839.3,
+        997.58
       ],
       [
-        719.43,
-        778.25,
-        859.56,
-        979.3,
-        1173.17
+        718.62,
+        777.24,
+        858.25,
+        977.48,
+        1170.32
       ]
     ]
   },
@@ -375,11 +375,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.087549,
-      "ke": 0.087641,
+      "wacc": 0.087648,
+      "ke": 0.087741,
       "kd": 0.069984,
       "tax_rate": 0.16973,
-      "E": 56267002902092.56,
+      "E": 56526297846341.836,
       "D": 176760200000.0,
       "rf": 0.04848,
       "rf_source": "PROXY : aucun taux 10 ans TWD publié → US 10Y (sainhe macro.json us_10y)",
@@ -390,8 +390,8 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 1.033277,
-      "beta_raw": 1.049667,
+      "beta": 1.035898,
+      "beta_raw": 1.053579,
       "mode": "complet",
       "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 252 weeks"
     },
@@ -1111,8 +1111,8 @@
     "source": "SEC EDGAR 20-F",
     "listing_currency": "TWD",
     "reporting_currency": "TWD",
-    "price_listing": 2170.0,
-    "price_in_reporting_currency": 2170.0,
+    "price_listing": 2180.0,
+    "price_in_reporting_currency": 2180.0,
     "price_date": "2026-11-27",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,

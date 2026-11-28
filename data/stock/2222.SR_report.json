@@ -1,13 +1,13 @@
 {
   "ticker": "2222.SR",
   "cik": 0,
-  "as_of": "2026-11-27",
+  "as_of": "2026-11-28",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
     "prix": 26.38,
     "EPV": {
-      "epv_ev": 5874556748204.832,
-      "epv_equity": 5867213748204.832,
+      "epv_ev": 5874556589444.558,
+      "epv_equity": 5867213589444.558,
       "epv_per_share": 24.256512,
       "inputs": {
         "ebit_adj": 739247000000.0,
@@ -17,22 +17,22 @@
       }
     },
     "EPV_confidence_range": {
-      "low": 24.236296,
-      "high": 38.814459,
+      "low": 24.236295,
+      "high": 38.814458,
       "fcf_p25": 320087000000.0,
       "fcf_p75": 512619750000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 28.864943,
+      "minus_100bps": 28.864942,
       "central": 24.256512,
       "plus_100bps": 20.915859
     },
     "RE_valuation": {
-      "re_value_equity": 12136302239142.531,
+      "re_value_equity": 12136302058524.914,
       "re_value_per_share": 50.174474,
       "inputs": {
         "B0": 1491996000000.0,
-        "RE": 251449128497.2788,
+        "RE": 251449125851.92914,
         "ke": 0.064741,
         "g": 0.044741,
         "g_sgr": 0.054099,
@@ -888,7 +888,7 @@
   "score_composite": {
     "value_0_100": 57.9,
     "pillars": {
-      "valuation": 33.900777,
+      "valuation": 33.900772,
       "balance_sheet_health": 85,
       "earnings_quality": 70,
       "smart_money": 50,

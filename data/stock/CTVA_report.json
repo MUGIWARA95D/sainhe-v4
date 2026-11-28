@@ -1,10 +1,10 @@
 {
   "ticker": "CTVA",
   "cik": 1755672,
-  "as_of": "2026-11-27",
+  "as_of": "2026-11-28",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 8.23,
+    "prix": 8.26,
     "EPV": {
       "value": "N/D",
       "note": "N/D — comptes antérieurs à une opération sur titres (spin-off)"
@@ -191,7 +191,7 @@
     "retained_earnings_test": {
       "ratio": 0.783098,
       "retained_5y": 3455000000.0,
-      "delta_mcap": 2705602214.622498,
+      "delta_mcap": 2705602572.822571,
       "passes": false,
       "window": [
         2020,
@@ -308,8 +308,8 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.079182,
-      "ke": 0.079182,
+      "wacc": 0.079128,
+      "ke": 0.079128,
       "kd": 0.069767,
       "tax_rate": 0.28673,
       "E": "N/D",
@@ -323,10 +323,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.810081,
-      "beta_raw": 0.716538,
+      "beta": 0.808652,
+      "beta_raw": 0.714406,
       "mode": "fallback all-equity (prix ou shares indisponible)",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -1247,9 +1247,9 @@
     "source": "SEC EDGAR 10-K",
     "listing_currency": "USD",
     "reporting_currency": "USD",
-    "price_listing": 8.23,
-    "price_in_reporting_currency": 8.23,
-    "price_date": "2026-11-25",
+    "price_listing": 8.26,
+    "price_in_reporting_currency": 8.26,
+    "price_date": "2026-11-27",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "CTVA",

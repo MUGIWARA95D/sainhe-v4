@@ -1,39 +1,39 @@
 {
   "ticker": "GEBN.SW",
   "cik": 0,
-  "as_of": "2026-11-27",
+  "as_of": "2026-11-28",
   "fiscal_year": 2025,
   "bloc_A_verdict": {
-    "prix": 592.8,
+    "prix": 591.4,
     "EPV": {
-      "epv_ev": 15385963011.297865,
-      "epv_equity": 14673963011.297865,
-      "epv_per_share": 442.760335,
+      "epv_ev": 15345582935.37479,
+      "epv_equity": 14633582935.37479,
+      "epv_per_share": 441.541939,
       "inputs": {
         "ebit_adj": 767200000.0,
         "tax": 0.186224,
-        "wacc": 0.040578,
+        "wacc": 0.040685,
         "net_debt": 712000000.0
       }
     },
     "EPV_confidence_range": {
-      "low": 377.639246,
-      "high": 436.263994,
+      "low": 376.600051,
+      "high": 435.063474,
       "fcf_p25": 598750000.0,
       "fcf_p75": 691700000.0
     },
     "EPV_wacc_sensitivity": {
-      "minus_100bps": 594.583907,
-      "central": 442.760335,
-      "plus_100bps": 350.972375
+      "minus_100bps": 592.440127,
+      "central": 441.541939,
+      "plus_100bps": 350.187734
     },
     "RE_valuation": {
-      "re_value_equity": 15680690956.069613,
-      "re_value_per_share": 473.136532,
+      "re_value_equity": 15631235642.141161,
+      "re_value_per_share": 471.644308,
       "inputs": {
         "B0": 1517100000.0,
-        "RE": 533926053.408824,
-        "ke": 0.042103,
+        "RE": 533747861.780547,
+        "ke": 0.04222,
         "g": 0.0051,
         "g_sgr": 0.012875,
         "g_cap": 0.0051
@@ -50,12 +50,12 @@
       "dispersion": 0.292441
     },
     "reverse_dcf": {
-      "implied_g": 0.005893,
+      "implied_g": 0.005919,
       "flag_unrealistic": false,
       "inputs": {
-        "ev": 20358577600.0,
+        "ev": 20312178800.0,
         "fcf_adj": 702000000.0,
-        "wacc": 0.040578,
+        "wacc": 0.040685,
         "fcf_basis": "last_year",
         "fcf_years": [
           2025
@@ -184,39 +184,39 @@
     ],
     "matrix": [
       [
-        444.56,
-        455.12,
-        466.36,
-        478.35,
-        491.17
+        443.33,
+        453.82,
+        464.98,
+        476.89,
+        489.62
       ],
       [
-        447.43,
-        458.07,
-        469.39,
-        481.46,
-        494.37
+        446.19,
+        456.75,
+        468.0,
+        479.99,
+        492.81
       ],
       [
-        461.5,
-        472.5,
-        484.22,
-        496.72,
-        510.08
+        460.21,
+        471.15,
+        482.79,
+        495.21,
+        508.47
       ],
       [
-        475.41,
-        486.78,
-        498.89,
-        511.81,
-        525.62
+        474.08,
+        485.39,
+        497.42,
+        510.25,
+        523.96
       ],
       [
-        486.56,
-        498.23,
-        510.66,
-        523.91,
-        538.08
+        485.21,
+        496.81,
+        509.15,
+        522.31,
+        536.38
       ]
     ]
   },
@@ -236,11 +236,11 @@
   },
   "drill_down": {
     "wacc_detail": {
-      "wacc": 0.040578,
-      "ke": 0.042103,
+      "wacc": 0.040685,
+      "ke": 0.04222,
       "kd": 0.021498,
       "tax_rate": 0.186224,
-      "E": 19646577600.0,
+      "E": 19600178800.0,
       "D": 1297800000.0,
       "rf": 0.0051,
       "rf_source": "FRED IRLTLT01CHM156N (OECD long-term yield, 2026-10-01)",
@@ -251,10 +251,10 @@
       "erp_source": "Damodaran implied ERP (trailing 12-month cash yield, S&P 500)",
       "erp_date": "2026-11-01",
       "erp_url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPbymonth.xlsx",
-      "beta": 0.976324,
-      "beta_raw": 0.964662,
+      "beta": 0.979423,
+      "beta_raw": 0.969287,
       "mode": "complet",
-      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 261 weeks"
+      "beta_source": "weekly returns in USD vs MSCI World (iShares URTH ETF), 260 weeks"
     },
     "adjustments": {
       "fy": 2025,
@@ -833,9 +833,9 @@
     "source": "Yahoo Finance statements (secondary) — Switzerland: no ESEF, no SEC filing",
     "listing_currency": "CHF",
     "reporting_currency": "CHF",
-    "price_listing": 592.8,
-    "price_in_reporting_currency": 592.8,
-    "price_date": "2026-11-26",
+    "price_listing": 591.4,
+    "price_in_reporting_currency": 591.4,
+    "price_date": "2026-11-27",
     "fx_listing_to_reporting": 1.0,
     "adr_ratio": 1.0,
     "quote_ticker": "GEBN.SW",
